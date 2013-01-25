@@ -1,4 +1,4 @@
-Math-Game
+Math Game
 =========
 
-A math game Java program 
+A math game Java GUI program made with Java Swing
