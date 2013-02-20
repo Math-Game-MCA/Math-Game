@@ -716,7 +716,9 @@ public class MathGame extends JApplet implements ActionListener
 		//randomize();
 	}
 	
-	//Gets the difficulty
+	/**
+	 * Gets the difficulty of the game
+	 */
 	public int getDifficulty(){
 		System.out.println("DIFFICULTY FROM MAIN GET: " + difficulty);
 		return difficulty;
