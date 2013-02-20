@@ -9,10 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-//static because when creating an object of it in main, you won't have to make an object of the outer class (SQLProject) first
+
 public class MySQLAccess{
 	//for release, host should be 127...., for testing, it should be egarcia.org
-	private String host = "egarcia.org";//"127.0.0.1";//"egarcia.org";
+	private String host = "mathgames.egarcia.org";//"127.0.0.1";//"egarcia.org";
 	private String db = "egarciao_MathGame";
 	private final String user = "egarciao_root1";//"egarciao@localhost";
 	private final String pass = "Password1";//"oL20wC06xd";

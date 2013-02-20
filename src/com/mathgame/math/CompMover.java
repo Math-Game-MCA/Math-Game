@@ -11,6 +11,18 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
+/**
+ * @author Hima
+ * 
+ * The adapter class used for moving components such as the JLabels around on the screen.
+ * It is used as a mouse adapter and a mouse motion adapter, so to use, set the component's 
+ * add mouseListener and mouseMotionListener parameters to the object which has been created from this class.
+ * i.e. CompMover mover = new CompMover(MathGame.this);
+ * jlabel.addMouseListener(mover);
+ * jlabel.addMouseMotionListener(mover); 
+ * 
+ *
+ */
 public class CompMover extends MouseInputAdapter
 {
 	 	Component selectedComponent;
@@ -28,6 +40,11 @@ public class CompMover extends MouseInputAdapter
         
         
  
+    	/**
+    	 * The constructor which is only able to be called using the MathGame class.
+    	 * 
+    	 * @param view MathGame.this
+    	 */
         public CompMover(MathGame view){        
             dragging = false;
             this.view = view;

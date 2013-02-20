@@ -9,7 +9,11 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 
 
-
+/**
+ * 
+ * @author Hima
+ *The side panel on the right side of the GUI which contains accessory functions
+ */
 public class SidePanel extends JPanel implements ActionListener{
 	JPanel pane;
 	
@@ -162,11 +166,17 @@ public class SidePanel extends JPanel implements ActionListener{
 		
 	}
 	
+	/**
+	 * Increments the number of questions that were answered correctly.
+	 */
 	public void updateCorrect()
 	{
 		correct++;
 		pass.setText("Correct: " + correct);
 	}
+	/**
+	 * Increments the number of questions that were answered incorrectly.
+	 */
 	public void updateWrong()
 	{
 		wrong++;

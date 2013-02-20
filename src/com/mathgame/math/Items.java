@@ -10,7 +10,12 @@ import javax.swing.border.LineBorder;
 
 import com.mathgame.database.MySQLAccess;
 
-
+/**
+ * @author Hima
+ * Adapter class which is used as an item listener.
+ * It listens for the state of components being changed, such as checkboxes being clicked.
+ *
+ */
 public class Items implements ItemListener
 {
 	MathGame mathGame;
@@ -22,7 +27,10 @@ public class Items implements ItemListener
 	Double check;
 	MySQLAccess sql;
 	
-	
+	/**
+	 * Constructor for Items
+	 * @param view MathGame.this
+	 */
 	public Items(MathGame view){
 		this.mathGame = view;
 		correct = view.correct;
@@ -35,6 +43,9 @@ public class Items implements ItemListener
 		
 	}
 
+	/**
+	 * Handles the state of checkboxes and other items 
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		Object source = e.getItemSelectable();

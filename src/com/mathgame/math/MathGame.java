@@ -18,13 +18,17 @@ import java.util.Arrays;
 
 
 
-
+/**
+ * 
+ * @author Hima
+ *The main class of the program
+ */
 public class MathGame extends JApplet implements ActionListener
 {
 
 	int appWidth=900;//1300 or 900
 	int appHeight=620;//
-	float scale = .7f;
+	//float scale = .7f;
 	static int difficulty = 2;//from 2-5 represents how many cards to use
 	//GhostGlassPane glassPane;
 	JLayeredPane layer;
@@ -111,7 +115,7 @@ public class MathGame extends JApplet implements ActionListener
 	JLabel[] places = new JLabel[12];//{add1, add2, sub1, sub2, mult1, mult2, div1, div2, opSpace1,2,3,4};
 	String[] operations = {"+", "-", "*", "/"};
 	
-	
+	@Override
 	public void init(){
 	 
 		setSize(appWidth, appHeight);
@@ -387,7 +391,8 @@ public class MathGame extends JApplet implements ActionListener
 		opParen1.setFont(big);
 		//panel.setBorder(b2);
 		Dimension d = card1.getPreferredSize(); 
-		int width = d.width + 100;
+		System.out.println(""+d);
+		int width = d.width+ 100;
 		int height = d.height + 50;
 	
 		add1.setPreferredSize(new Dimension(width, height));
@@ -414,14 +419,16 @@ public class MathGame extends JApplet implements ActionListener
 		
 		//panel2a.add(Box.createRigidArea(new Dimension(10,0)));
 		
-		width=(int)(width*scale);
-		height= (int)(height*scale);
+		//width=(int)(width);//width=(int)(width*scale);
+		//height= (int)(height);
 		
 		//System.out.println("card1: " + card1.getX() + " " + card1.getY() + " " + card1.getWidth() + " " + card1.getHeight());
-		if(scale == .7f)
+		//if(scale == .7f)
+		width = 73;
+		height = 38;
 			card1.setBounds(75, 40, width, height);
-		else
-			card1.setBounds(150, 40, width, height);
+	//	else
+		//	card1.setBounds(150, 40, width, height);
 		card2.setBounds((int) (card1.getX()+width*1.5), card1.getY(), width, height);
 		card3.setBounds((int) (card2.getX()+width*1.5), card1.getY(), width, height);
 		card4.setBounds((int) (card3.getX()+width*1.5), card1.getY(), width, height);
@@ -607,10 +614,11 @@ public class MathGame extends JApplet implements ActionListener
 	database.addItemListener(itemListener);
 	freeStyle.addItemListener(itemListener);
 	
+	
 	}
 
 	
-
+	@Override
 	public void actionPerformed(ActionEvent evt)
 	{
 		if(evt.getSource() == enter1)
@@ -693,18 +701,28 @@ public class MathGame extends JApplet implements ActionListener
 	
 	}
 	
-	
+	/**
+	 * Sets the difficulty of the game.
+	 * 
+	 * Difficulty increases based on the number of cards used. If 5 cards are used, it will be much harder
+	 * to figure out the right order to use the cards.
+	 * 
+	 * @param diff Number from 2- #of cards in game 
+	 */
 	public void setDifficulty(int diff){
 		difficulty = diff;
 		System.out.println("DIFFICULTY FROM MAIN SET: " + difficulty);
 		calc.randomize();
 		//randomize();
 	}
+	
+	//Gets the difficulty
 	public int getDifficulty(){
 		System.out.println("DIFFICULTY FROM MAIN GET: " + difficulty);
 		return difficulty;
 		//randomize();
 	}
+	
 	/**
 	 * Booleans are immutable, so the value of practice can't be set by referencing it in the Items class
 	 * @param prac Whether practice mode should be enabled or not
@@ -717,6 +735,10 @@ public class MathGame extends JApplet implements ActionListener
 	public void setCheck(Double tCheck){
 		check = tCheck;
 	}
+	/**
+	 * Specifies whether or not to use the database
+	 * @param database true or false
+	 */
 	public void setDatabase(boolean database){
 		useDatabase = database;
 		System.out.println("SET DATABASE " + useDatabase);
@@ -726,12 +748,15 @@ public class MathGame extends JApplet implements ActionListener
 		return useDatabase;
 	}
 	
+	/*
 	public Container getCompParent(int i){
 		return cards[i].getParent();
 	}
+	
 	public JLabel getComps(int i){
 		return cards[i];
 	}
+	*/
 	
 //	public void error(){
 	//	sidePanel.error.setText(sql.sqlError);
