@@ -1,6 +1,9 @@
 package com.mathgame.database;
 
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -12,7 +15,7 @@ import java.sql.Statement;
 
 public class MySQLAccess{
 	//for release, host should be 127...., for testing, it should be egarcia.org
-	private String host = "mathgames.egarcia.org";//"127.0.0.1";//"egarcia.org";
+	private String host = "localhost";//"127.0.0.1";//"egarcia.org";
 	private String db = "egarciao_MathGame";
 	private final String user = "egarciao_root1";//"egarciao@localhost";
 	private final String pass = "Password1";//"oL20wC06xd";
@@ -118,6 +121,17 @@ public class MySQLAccess{
 		}
 		catch (Exception e){
 			System.out.println("SQLException: " + e.getMessage());
+			File file = new File("SQLOut.txt");
+			if(!file.exists())
+				file.createNewFile();
+			
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+			bw.write("HI"+e.getMessage());
+			bw.flush();
+			
+			bw.close();
+			
+					
 			throw e;
 			
 		   // System.out.println("SQLState: " + e.getSQLState());
