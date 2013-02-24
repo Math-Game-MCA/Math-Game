@@ -11,7 +11,7 @@ import java.util.Calendar;
 
 /**
  * 
- * @author Hima
+ * 
  *The side panel on the right side of the GUI which contains accessory functions
  */
 public class SidePanel extends JPanel implements ActionListener{
@@ -35,6 +35,7 @@ public class SidePanel extends JPanel implements ActionListener{
 	
 	int correct =0;
 	int wrong =0;
+	int points=0;
 	
 	Timer timer;
 	//StopWatch stopWatch;
@@ -45,6 +46,7 @@ public class SidePanel extends JPanel implements ActionListener{
 	long endTime =0;
 		
 	Insets insets = getInsets(); //insets for the side panel for layout purposes
+	int diff=2;
 	
 	public void init()
 	{
@@ -72,8 +74,8 @@ public class SidePanel extends JPanel implements ActionListener{
 		//pane.add(pass);
 		//pane.add(fail);
 		//pane.add(diffInfo);
-		//pane.add(setDiff);
-		//pane.add(updateDiff);
+		add(setDiff);
+		add(updateDiff);
 		
 		//pane.add(error);
 		
@@ -105,6 +107,9 @@ public class SidePanel extends JPanel implements ActionListener{
 		exit.setBounds(760 + insets.left, 580 + insets.top, 130, 30);
 		//exit.setFont(sansSerif36);
 		exit.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		setDiff.setPreferredSize(new Dimension(130, 30));
+		
 		updateDiff.addActionListener(this);
 		
 		//error = new JTextArea("Text");
@@ -151,11 +156,14 @@ public class SidePanel extends JPanel implements ActionListener{
 			if(setDiff == null)
 				System.out.println("NULL difficulty from sidepanel ");
 			
-			System.out.println("difficulty from sidepanel: " + Integer.valueOf(setDiff.getText()));
-			//if(bob == null)
-				//System.out.println("NULL bob ");
+			if(!(setDiff.getText() == ""))
+			{
+				diff = Integer.valueOf(setDiff.getText());
+				System.out.println("difficulty from sidepanel: " + Integer.valueOf(setDiff.getText()));
 			
-			mathGame.setDifficulty( Integer.valueOf(setDiff.getText()) );
+				mathGame.setDifficulty( Integer.valueOf(setDiff.getText()) );
+			}
+			
 			setDiff.setText("");
 			
 			
@@ -215,8 +223,11 @@ public class SidePanel extends JPanel implements ActionListener{
 	 */
 	public void updateCorrect()
 	{
+		//TODO: Prevent the user from continually pressing the enter button to get points
 		correct++;
 		pass.setText("Correct: " + correct);
+		points += diff*5;
+		score.setText(String.valueOf(points));
 	}
 	/**
 	 * Increments the number of questions that were answered incorrectly.
@@ -225,6 +236,8 @@ public class SidePanel extends JPanel implements ActionListener{
 	{
 		wrong++;
 		fail.setText("Wrong: " + wrong);
+		points -= diff*5;
+		score.setText(String.valueOf(points));
 	}
 	
 }
