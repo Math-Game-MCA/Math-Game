@@ -127,8 +127,12 @@ public class MathGame extends JApplet implements ActionListener
 		layer.setLayout(null);
 		layer.setBounds(5, 0, getSize().width, getSize().height);
 		
-		add(layer);
+		sidePanel = new SidePanel();//control bar
+		sidePanel.setBounds(750, 0, 150, 620);//x, y, width, height
+		sidePanel.init();
 		
+		add(layer);
+		add(sidePanel);
 		
 		
 		
@@ -147,7 +151,7 @@ public class MathGame extends JApplet implements ActionListener
 	
 		//biggest panel that contains all the other ones (except for the layered pane of course)
 		JPanel bigPanel = new JPanel(new GridBagLayout());
-		bigPanel.setBounds(0, 0, getSize().width-100, getSize().height);
+		bigPanel.setBounds(0, 0, getSize().width-150, getSize().height);
 		bigPanel.setBorder(BorderFactory.createEtchedBorder(Color.blue, Color.pink));
 		layer.add(bigPanel, new Integer(0));
 		
@@ -180,9 +184,6 @@ public class MathGame extends JApplet implements ActionListener
 		//contains panel3 
 		JPanel panel5 = new JPanel(new BorderLayout());
 		//panel.setSize(200, 200);
-		
-		sidePanel = new SidePanel();
-		sidePanel.init();
 		
 		textFieldA = new JTextField();
 		textFieldA.setHorizontalAlignment(JTextField.CENTER);
@@ -589,7 +590,7 @@ public class MathGame extends JApplet implements ActionListener
 		c.gridy=0;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 3;
-		bigPanel.add(sidePanel, c);
+		//TODO: bigPanel.add(sidePanel, c);
 		
 		//layer.setVisible(false);
 		//add(panel4);

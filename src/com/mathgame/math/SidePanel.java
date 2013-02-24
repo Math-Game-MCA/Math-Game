@@ -3,7 +3,7 @@ package com.mathgame.math;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -15,15 +15,19 @@ import java.util.Calendar;
  *The side panel on the right side of the GUI which contains accessory functions
  */
 public class SidePanel extends JPanel implements ActionListener{
-	JPanel pane;
-	
 	JLabel clock;
 	JLabel pass;//count how many you get right
 	JLabel fail;//how many you got wrong
+	JLabel score;//TODO: calculation to be determined
 	
 	JLabel diffInfo;
 	JTextField setDiff;
 	JButton updateDiff;
+	
+	JButton help;
+	JButton exit;
+	
+	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
 	
 	//JTextArea error;
 	
@@ -39,17 +43,17 @@ public class SidePanel extends JPanel implements ActionListener{
 	
 	long startTime =0;
 	long endTime =0;
-	
+		
+	Insets insets = getInsets(); //insets for the side panel for layout purposes
 	
 	public void init()
 	{
-		pane = new JPanel();
-		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-		
+		//instantiate controls
 		clock = new JLabel("00:00");
-		
 		toggle = new JButton("Start/Stop");
-		toggle.addActionListener(this);
+		score = new JLabel("0");
+		help = new JButton("Help");
+		exit = new JButton("Back");
 		
 		pass = new JLabel("Correct: " + correct);
 		fail = new JLabel("Wrong: " + wrong);
@@ -57,19 +61,54 @@ public class SidePanel extends JPanel implements ActionListener{
 		diffInfo = new JLabel("Select difficulty (2-5)");
 		setDiff = new JTextField("");
 		updateDiff = new JButton("Update Difficulty");
+		
+		//TEMPORARILY DISABLING CONTROLS TO TEST PANEL
+		//TODO: Change controls to match end specifications
+		add(clock);
+		add(toggle);
+		add(score);
+		add(help);
+		add(exit);
+		//pane.add(pass);
+		//pane.add(fail);
+		//pane.add(diffInfo);
+		//pane.add(setDiff);
+		//pane.add(updateDiff);
+		
+		//pane.add(error);
+		
+		//define properties of controls
+		clock.setPreferredSize(new Dimension(130, 60));
+		clock.setBounds(760 + insets.left, 10 + insets.top, 130, 60);
+		clock.setFont(sansSerif36);
+		clock.setHorizontalAlignment(SwingConstants.CENTER);
+		clock.setBorder(new LineBorder(Color.BLACK));
+		
+		toggle.setPreferredSize(new Dimension(130, 30));
+		toggle.addActionListener(this);
+		
+		score.setPreferredSize(new Dimension(130, 60));
+		score.setBounds(760 + insets.left, 80 + insets.top, 130, 60);
+		score.setFont(sansSerif36);
+		score.setHorizontalAlignment(SwingConstants.CENTER);
+		score.setBorder(new LineBorder(Color.BLACK));
+
+		help.setPreferredSize(new Dimension(130, 30));
+		help.setLocation(760, 540);
+		help.setBounds(760 + insets.left, 540 + insets.top, 130, 30);
+		//help.setFont(sansSerif36);
+		help.setHorizontalAlignment(SwingConstants.CENTER);
+		help.addActionListener(this);
+		
+		exit.setPreferredSize(new Dimension(130, 30));
+		exit.setLocation(760, 580);
+		exit.setBounds(760 + insets.left, 580 + insets.top, 130, 30);
+		//exit.setFont(sansSerif36);
+		exit.setHorizontalAlignment(SwingConstants.CENTER);
 		updateDiff.addActionListener(this);
 		
 		//error = new JTextArea("Text");
 		
-		
-		pane.add(clock);
-		pane.add(toggle);
-		pane.add(pass);
-		pane.add(fail);
-		pane.add(diffInfo);
-		pane.add(setDiff);
-		pane.add(updateDiff);
-		//pane.add(error);
 		
 		
 		timer = new Timer(1000, this);
@@ -79,7 +118,7 @@ public class SidePanel extends JPanel implements ActionListener{
 		
 		
 		this.setBorder(new LineBorder(Color.CYAN));
-		this.add(pane);
+		//this.add(pane);
 		
 	}
 	
@@ -121,6 +160,11 @@ public class SidePanel extends JPanel implements ActionListener{
 			
 			
 			
+		}
+		if(e.getSource() == help)	{//TODO: Decide function of button
+			JOptionPane.showMessageDialog(this, "Instructions go here");
+			//perhaps link to a help webpage on the website?
+			//maybe turn into a hint button?
 		}
 			
 				
