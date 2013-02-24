@@ -1,6 +1,5 @@
 bin/
 src/extra/
 META-INF/
-servlet-api.jar
 src/com/mathgame/database/ServletAccess.java
 
