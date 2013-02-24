@@ -3,6 +3,10 @@ package com.mathgame.math;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -92,6 +96,24 @@ public class Items implements ItemListener
 					//use this for debugging server connection
 					//correction.setText("Db err: " + sql.sqlError);
 					//mathGame.error();
+					File file = new File("SQLOut.txt");
+					
+					
+					BufferedWriter bw;
+					try {
+						if(!file.exists())
+							file.createNewFile();
+						bw = new BufferedWriter(new FileWriter(file));
+						bw.write("HI"+e1.getMessage());
+						bw.flush();
+						
+						bw.close();
+						
+					} catch (IOException e2) {
+						
+						e2.printStackTrace();
+					}
+					
 					e1.printStackTrace();
 					mathGame.setDatabase(false);
 

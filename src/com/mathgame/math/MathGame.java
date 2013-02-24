@@ -286,7 +286,7 @@ public class MathGame extends JApplet implements ActionListener
 		opSpace4 = new JLabel("", JLabel.CENTER);
 		opSpace4.setBorder(opBorder);
 		
-	
+	 
 		
 		places[0] = add1;
 		places[1] = add2;
