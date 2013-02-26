@@ -1,6 +1,7 @@
+package com.mathgame.math;
+
 import java.awt.Container;
 import java.awt.Dimension;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
