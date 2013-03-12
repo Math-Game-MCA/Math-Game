@@ -14,7 +14,11 @@ import javax.swing.border.LineBorder;
 
 import com.mathgame.database.MySQLAccess;
 
-
+/**
+ * 
+ * The class that calculates using order of operations
+ *
+ */
 public class Calc {
 	private String[] operators = {"+", "-", "*", "/"};
 	private static MathGame mathGame;

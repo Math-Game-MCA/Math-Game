@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
 /**
- * @author Hima
+ * 
  * 
  * The adapter class used for moving components such as the JLabels around on the screen.
  * It is used as a mouse adapter and a mouse motion adapter, so to use, set the component's 
@@ -51,6 +51,13 @@ public class CompMover extends MouseInputAdapter
             setViews();
         }
         
+        
+        public CompMover(){        
+            dragging = false;
+           
+            //setViews();
+        }
+        
         private void setViews(){
         	layer = view.layer;
         	panel2a = view.panel2a;
@@ -70,26 +77,31 @@ public class CompMover extends MouseInputAdapter
             
            // System.out.println(selectedComponent.getParent());
             //have to reset the text if the card was on another place card (add1,2...)
-        
-           if(selectedComponent.getParent().equals(view.panel2a))
-           {
-        	   panel2a.remove(selectedComponent);
-        	   panel2a.revalidate();
-        	   layer.add(selectedComponent, new Integer(1));
-        	   layer.revalidate();
-        	   selectedComponent.setBounds(cardHomes[1]);
-        	   selectedComponent.setSize(cardHomes[1].getSize());
-        	   selectedComponent.setLocation(MouseInfo.getPointerInfo().getLocation());
-           }
-           if(selectedComponent.getParent().equals(panel2b))
-           {
-        	   panel2b.remove(selectedComponent);
-        	   panel2b.revalidate();
-        	   layer.add(selectedComponent, new Integer(1));
-        	  // repaint();
-        	   selectedComponent.setSize(cardHomes[1].getSize());
-        	   selectedComponent.setLocation(MouseInfo.getPointerInfo().getLocation());
-           }
+
+            try{           
+	           if(selectedComponent.getParent().equals(view.panel2a))
+	           {
+	        	   panel2a.remove(selectedComponent);
+	        	   panel2a.revalidate();
+	        	   layer.add(selectedComponent, new Integer(1));
+	        	   layer.revalidate();
+	        	   selectedComponent.setBounds(cardHomes[1]);
+	        	   selectedComponent.setSize(cardHomes[1].getSize());
+	        	   selectedComponent.setLocation(MouseInfo.getPointerInfo().getLocation());
+	           }
+	           
+	           if(selectedComponent.getParent().equals(panel2b))
+	           {
+	        	   panel2b.remove(selectedComponent);
+	        	   panel2b.revalidate();
+	        	   layer.add(selectedComponent, new Integer(1));
+	        	  // repaint();
+	        	   selectedComponent.setSize(cardHomes[1].getSize());
+	        	   selectedComponent.setLocation(MouseInfo.getPointerInfo().getLocation());
+	           }
+            } catch(Exception ex){//do nothing, just to prevent errors
+            }
+           
            
         	   
           
@@ -103,9 +115,12 @@ public class CompMover extends MouseInputAdapter
             Rectangle box1 = new Rectangle(), box2 = new Rectangle(), box3 = new Rectangle();
             box1.setBounds(selectedComponent.getLocationOnScreen().x, selectedComponent.getLocationOnScreen().y, selectedComponent.getWidth(), selectedComponent.getHeight() );
             
+            try{
             box2.setBounds(panel2a.getLocationOnScreen().x, panel2a.getLocationOnScreen().y, panel2a.getWidth(), panel2a.getHeight());
             box3.setBounds(panel2b.getLocationOnScreen().x, panel2b.getLocationOnScreen().y, panel2b.getWidth(), panel2b.getHeight());
-        
+            } catch(Exception ex){ //do nothing
+            }
+            
             if(box1.intersects(box2) )
             {
             	panel2a.add(selectedComponent);

@@ -14,8 +14,10 @@ public class OperationPanel extends JPanel
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args)
 	{
+		CompMover mover = new CompMover();
+		
 		JFrame frame = new JFrame();
-		frame.setSize(750,90);
+		frame.setSize(750,200);
 		ImageIcon addicon = new ImageIcon("add.png");
 		JLabel add = new JLabel("");//This will be changed to a label once the image is created
 		add.setPreferredSize(new Dimension(40,40));
@@ -26,6 +28,8 @@ public class OperationPanel extends JPanel
 		subtract.setPreferredSize(new Dimension(40,40));
 		subtract.setIcon(subtracticon);
 		
+		
+		
 		ImageIcon multiplyicon = new ImageIcon("multiply.png");
 		JLabel multiplication = new JLabel("multiply.png");//This will be changed to a label once the image is created
 		multiplication.setPreferredSize(new Dimension(40,40));
@@ -35,7 +39,17 @@ public class OperationPanel extends JPanel
 		JLabel division = new JLabel("divide.png");//This will be changed to a label once the image is created
 		division.setPreferredSize(new Dimension(40,40));
 		division.setIcon(divideicon);
-				
+		
+		add.addMouseListener(mover);
+		add.addMouseMotionListener(mover);
+		subtract.addMouseListener(mover);
+		subtract.addMouseMotionListener(mover);
+		multiplication.addMouseListener(mover);
+		multiplication.addMouseMotionListener(mover);
+		division.addMouseListener(mover);
+		division.addMouseMotionListener(mover);
+		
+		
 		JPanel operation_panel = new JPanel();
 		Dimension panelsize = new Dimension(750,60);
 		operation_panel.setPreferredSize(panelsize);
