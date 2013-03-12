@@ -20,7 +20,7 @@ import java.util.Arrays;
 
 /**
  * 
- * @author Hima
+ * 
  *The main class of the program
  */
 public class MathGame extends JApplet implements ActionListener
