@@ -535,6 +535,7 @@ public class MathGame extends JApplet implements ActionListener
 		layer.add(card3, new Integer(1));
 		layer.add(card4, new Integer(1));
 		layer.add(card5, new Integer(1));
+		//layer.add(opPanel, new Integer(1));
 		
 		layer.add(opA, new Integer(1));
 		layer.add(opS, new Integer(1));
