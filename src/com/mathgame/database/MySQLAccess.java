@@ -15,9 +15,9 @@ import java.sql.Statement;
 
 public class MySQLAccess{
 	//for release, host should be 127...., for testing, it should be egarcia.org
-	private String host = "localhost";//"127.0.0.1";//"egarcia.org";
-	private String db = "egarciao_MathGame";
-	private final String user = "egarciao_root1";//"egarciao@localhost";
+	private String host = "localhost";//"davidmelvin.me";//"localhost";//"127.0.0.1";//"egarcia.org";
+	private String db = "davidmel_MathGame";
+	private final String user = "davidmel_user";//"egarciao@localhost";
 	private final String pass = "Password1";//"oL20wC06xd";
 	private Connection connect = null;
 	private Statement statement = null;
@@ -86,7 +86,7 @@ public class MySQLAccess{
 	{
 		try{
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("select * from egarciao_MathGame.values");
+			resultSet = statement.executeQuery("select * from davidmel_MathGame.values");
 			
 			resultSet.relative((int) (Math.random()*98)+1);
 			
