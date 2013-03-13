@@ -10,6 +10,9 @@ public class OperationCard extends JLabel{
 	private final int height=40;
 	String operation;
 	
+	public OperationCard(){
+	}
+	
 	public OperationCard(String op, int position){
 		this.setText(op);
 		operation = op;
@@ -18,10 +21,14 @@ public class OperationCard extends JLabel{
 	}
 	
 	public OperationCard(String imageFile){
-		ImageIcon icon = new ImageIcon(imageFile);
+		ImageIcon icon = new ImageIcon("images/"+imageFile);
 		this.setIcon(icon);
 		
 		this.setPreferredSize(new Dimension(width,height));
+		this.setHorizontalAlignment(CENTER);
+		
+		
+		
 	}
 	
 
