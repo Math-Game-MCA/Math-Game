@@ -38,7 +38,8 @@ public class MathGame extends JApplet implements ActionListener
 	JPanel panel2;
 	JPanel panel2a;
 	JPanel panel2b;
-	SidePanel sidePanel;
+	SidePanel sidePanel;//control panel on the side
+	OperationPanel opPanel;//panel that holds operations + - / *
 	
 	JTextField textFieldA;
 	JTextField textFieldS;
@@ -131,9 +132,13 @@ public class MathGame extends JApplet implements ActionListener
 		sidePanel.setBounds(750, 0, 150, 620);//x, y, width, height
 		sidePanel.init();
 		
+		opPanel = new OperationPanel();//operation panel
+		opPanel.setBounds(0, 150, 750, 60);
+		opPanel.init();
+		
 		add(layer);
 		add(sidePanel);
-		
+		add(opPanel);//TODO: Make visible by adding all the other panels and deleting panel "layer"
 		
 		
 		enter1 = new JButton("Enter 1");
@@ -590,7 +595,6 @@ public class MathGame extends JApplet implements ActionListener
 		c.gridy=0;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridheight = 3;
-		//TODO: bigPanel.add(sidePanel, c);
 		
 		//layer.setVisible(false);
 		//add(panel4);
