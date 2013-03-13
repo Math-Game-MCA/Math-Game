@@ -38,7 +38,7 @@ public class Calc {
 	private static JLabel[] cards = new JLabel[11];//card1, card2..opA,S...
 	private Rectangle[] cardHomes = new Rectangle[11];//home1, home2...opA,S...
 	private static String[] cardVals = new String[11];
-	private JLabel[] places = new JLabel[12];//{add1, add2, sub1, sub2, mult1, mult2, div1, div2, opSpace1,2,3,4};
+	
 	
 	private int answerA;
 	private int answerS;
@@ -77,7 +77,7 @@ public class Calc {
 		this.cardHomes = game.cardHomes;
 		this.cards = game.cards;
 		this.cardVals = game.cardVals;
-		this.places = game.places;	
+			
 		
 		this.opA = game.opA;
 		this.opS = game.opS;
@@ -735,8 +735,6 @@ public class Calc {
 		correct.setBorder(new LineBorder(Color.black));
 		correction.setText("");
 		
-		for(int i=0;i<places.length;i++)
-			places[i].setText("");
 	}
 	
 		

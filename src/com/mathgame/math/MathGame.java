@@ -59,19 +59,6 @@ public class MathGame extends JApplet implements ActionListener
 	Rectangle home5;
 	
 	
-	JLabel add1;
-	JLabel add2;
-	JLabel sub1;
-	JLabel sub2;
-	JLabel mult1;
-	JLabel mult2;
-	JLabel div1;
-	JLabel div2;
-	
-	JLabel opSpace1;
-	JLabel opSpace2;
-	JLabel opSpace3;
-	JLabel opSpace4;
 	
 	Point[] placesHomes = new Point[12];
 	
@@ -116,7 +103,7 @@ public class MathGame extends JApplet implements ActionListener
 	Rectangle[] cardHomes = new Rectangle[11];//home1, home2...opA,S...
 	String[] cardVals = new String[11];
 	
-	JLabel[] places = new JLabel[12];//{add1, add2, sub1, sub2, mult1, mult2, div1, div2, opSpace1,2,3,4};
+	
 	String[] operations = {"+", "-", "*", "/"};
 	
 	@Override
@@ -258,57 +245,6 @@ public class MathGame extends JApplet implements ActionListener
 		card5.setBorder(b2);
 		
 		
-		add1 = new JLabel("", JLabel.CENTER);
-		
-		add1.setBorder(b2);
-		add2 = new JLabel("", JLabel.CENTER);
-		//add2.setTransferHandler(transfer);
-		add2.setBorder(b2);
-		
-		sub1 = new JLabel("", JLabel.CENTER);
-		//sub1.setTransferHandler(transfer);
-		sub1.setBorder(b2);
-		sub2 = new JLabel("", JLabel.CENTER);
-		//sub2.setTransferHandler(transfer);
-		sub2.setBorder(b2);
-		
-		mult1 = new JLabel("", JLabel.CENTER);
-		//mult1.setTransferHandler(transfer);
-		mult1.setBorder(b2);
-		mult2 = new JLabel("", JLabel.CENTER);
-		//mult2.setTransferHandler(transfer);
-		mult2.setBorder(b2);
-		
-		div1 = new JLabel("", JLabel.CENTER);
-		//div1.setTransferHandler(transfer);
-		div1.setBorder(b2);
-		div2 = new JLabel("", JLabel.CENTER);
-		//div2.setTransferHandler(transfer);
-		div2.setBorder(b2);
-		
-		opSpace1 = new JLabel("", JLabel.CENTER);
-		opSpace1.setBorder(opBorder);
-		opSpace2 = new JLabel("", JLabel.CENTER);
-		opSpace2.setBorder(opBorder);
-		opSpace3 = new JLabel("", JLabel.CENTER);
-		opSpace3.setBorder(opBorder);
-		opSpace4 = new JLabel("", JLabel.CENTER);
-		opSpace4.setBorder(opBorder);
-		
-	 
-		
-		places[0] = add1;
-		places[1] = add2;
-		places[2] = sub1;
-		places[3] = sub2;
-		places[4] = mult1;
-		places[5] = mult2;
-		places[6] = div1;
-		places[7] = div2;
-		places[8] = opSpace1;
-		places[9] = opSpace2;
-		places[10] = opSpace3;
-		places[11] = opSpace4;
 		
 		
 		correct = new JLabel("Answer", JLabel.CENTER);
@@ -406,18 +342,6 @@ public class MathGame extends JApplet implements ActionListener
 		int width = d.width+ 100;
 		int height = d.height + 50;
 	
-		add1.setPreferredSize(new Dimension(width, height));
-		add2.setPreferredSize(new Dimension(width, height));
-		sub1.setPreferredSize(new Dimension(width, height));
-		sub2.setPreferredSize(new Dimension(width, height));
-		mult1.setPreferredSize(new Dimension(width, height));
-		mult2.setPreferredSize(new Dimension(width, height));
-		div1.setPreferredSize(new Dimension(width, height));
-		div2.setPreferredSize(new Dimension(width, height));
-		opSpace1.setPreferredSize(new Dimension(width, height));
-		opSpace2.setPreferredSize(new Dimension(width, height));
-		opSpace3.setPreferredSize(new Dimension(width, height));
-		opSpace4.setPreferredSize(new Dimension(width, height));
 		correct.setPreferredSize(new Dimension(width, height));
 		textFieldA.setPreferredSize(new Dimension(width, height));
 		textFieldS.setPreferredSize(new Dimension(width, height));
