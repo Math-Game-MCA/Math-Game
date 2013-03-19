@@ -15,7 +15,7 @@ import java.sql.Statement;
 
 public class MySQLAccess{
 	//for release, host should be 127...., for testing, it should be egarcia.org
-	private String host = "localhost";//"davidmelvin.me";//"localhost";//"127.0.0.1";//"egarcia.org";
+	private String host = "davidmelvin.me";//"localhost";//"127.0.0.1";//"egarcia.org";
 	private String db = "davidmel_MathGame";
 	private final String user = "davidmel_user";//"egarciao@localhost";
 	private final String pass = "Password1";//"oL20wC06xd";
