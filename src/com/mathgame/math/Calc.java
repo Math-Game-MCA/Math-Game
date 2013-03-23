@@ -19,6 +19,7 @@ import com.mathgame.database.MySQLAccess;
  * The class that calculates using order of operations
  *
  */
+//TODO: Continue to integrate new card format into class
 public class Calc {
 	private String[] operators = {"+", "-", "*", "/"};
 	private static MathGame mathGame;
@@ -58,6 +59,7 @@ public class Calc {
 	private static JLabel card3;
 	private static JLabel card4;
 	private static JLabel card5;
+	private static JLabel card6;
 	
 	
 	public Calc(MathGame game){
@@ -79,27 +81,24 @@ public class Calc {
 		this.cardVals = game.cardVals;
 			
 		
-		this.opA = game.opA;
-		this.opS = game.opS;
-		this.opM = game.opM;
-		this.opD = game.opD;
+		this.opA = game.opPanel.add;
+		this.opS = game.opPanel.subtract;
+		this.opM = game.opPanel.multiply;
+		this.opD = game.opPanel.divide;
 		this.opParen0 = game.opParen0;
 		this.opParen1 = game.opParen1;
-		
-		
 		
 		this.answerA = game.answerA;
 		this.answerS = game.answerS;
 		this.answerM = game.answerM;
 		this.answerD = game.answerD;
 		
-		this.card1 = game.card1;
-		this.card2 = game.card2;
-		this.card3 = game.card3;
-		this.card4 = game.card4;
-		this.card5 = game.card5;
-		
-		
+		this.card1 = game.cardPanel.card1;
+		this.card2 = game.cardPanel.card2;
+		this.card3 = game.cardPanel.card3;
+		this.card4 = game.cardPanel.card4;
+		this.card5 = game.cardPanel.card5;
+		this.card6 = game.cardPanel.card6;
 		
 		/*for(int i=0; i<cards.length;i++)
 			System.out.println("Construct: " + cards[i].getParent().getName());
@@ -113,11 +112,12 @@ public class Calc {
 			System.out.println(cardVals[j]);
 		this.cardVals = mathGame.cardVals;
 		
-		this.card1 = mathGame.card1;
-		this.card2 = mathGame.card2;
-		this.card3 = mathGame.card3;
-		this.card4 = mathGame.card4;
-		this.card5 = mathGame.card5;
+		this.card1 = mathGame.cardPanel.card1;
+		this.card2 = mathGame.cardPanel.card2;
+		this.card3 = mathGame.cardPanel.card3;
+		this.card4 = mathGame.cardPanel.card4;
+		this.card5 = mathGame.cardPanel.card5;
+		this.card6 = mathGame.cardPanel.card6;
 	}
 	//for SidePanel, which only needs to call randomize;
 	public Calc(){}
@@ -505,7 +505,7 @@ public class Calc {
 		if(useDatabase == false)
 		{
 		
-			for(int k=0;k<5;k++)
+			for(int k=0;k<6;k++)
 			{
 				
 				int tempNum = (int)(Math.random()*20);
@@ -538,7 +538,7 @@ public class Calc {
 				
 				System.out.println("temp arrayList: " + temp);
 				
-				for(int i=0;i<5;i++)
+				for(int i=0;i<6;i++)
 				{
 					int length = temp.size();
 					int index = (int) (Math.random()*length);
@@ -591,12 +591,12 @@ public class Calc {
 		answerD = answersD.get(answerPick);*/
 		
 		//card1 = mathGame.card1;
-		cardVals[5] = opA.getText();
-		cardVals[6] = opS.getText();
-		cardVals[7] = opM.getText();
-		cardVals[8] = opD.getText();
-		cardVals[9] = opParen0.getText();
-		cardVals[10] = opParen1.getText();
+		cardVals[6] = opA.getText();
+		cardVals[7] = opS.getText();
+		cardVals[8] = opM.getText();
+		cardVals[9] = opD.getText();
+		/*cardVals[9] = opParen0.getText();
+		cardVals[10] = opParen1.getText();*/
 		
 		card1.setText( String.valueOf(num.get(0)) );
 		card2.setText( String.valueOf(num.get(1)) );
