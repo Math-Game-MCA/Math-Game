@@ -69,7 +69,9 @@ public class CompMover extends MouseInputAdapter
         @Override
         public void mousePressed(MouseEvent e)
         {
+        	
             selectedComponent = (Component)e.getSource();
+            Point tempPoint = selectedComponent.getLocation();
             offset = e.getPoint();
             dragging = true;
             
@@ -86,7 +88,13 @@ public class CompMover extends MouseInputAdapter
   	        	 
   	        	   //offset = selectedComponent.getLocationOnScreen();
   	        	   //selectedComponent.setBounds(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, cardHomes[1].getSize().width, cardHomes[1].getSize().height);
-  	        	   selectedComponent.setBounds(cardHomes[1]);
+  	        	   //selectedComponent.setLocation(MouseInfo.getPointerInfo().getLocation());
+  	        	   /*System.out.println(MouseInfo.getPointerInfo().getLocation());
+  	        	   System.out.println(selectedComponent.getLocation());
+  	        	   System.out.println(selectedComponent.getLocationOnScreen());
+  	        	   System.out.println(tempPoint);*/
+  	        	   selectedComponent.setLocation(-200, -200);
+  	        	   
   	        	   
  	        	  // selectedComponent.setSize(cardHomes[1].getSize().width, cardHomes[1].getSize().height);
  	     

@@ -29,5 +29,13 @@ public class OperationCard extends JLabel{
 		
 	}
 	
+	@Override
+	public int getWidth(){
+		return width;
+	}
 
+	@Override
+	public int getHeight(){
+		return height;
+	}
 }
