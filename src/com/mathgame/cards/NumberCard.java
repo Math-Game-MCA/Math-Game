@@ -26,6 +26,7 @@ public class NumberCard extends JLabel{
 		this.setText(String.valueOf(n));
 		this.setFont(sansSerif36);
 		this.setHorizontalAlignment(JLabel.CENTER);
+		this.setPreferredSize(new Dimension(width, height));
 	}
 
 	/**
