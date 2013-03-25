@@ -22,7 +22,7 @@ public class NumberCard extends JLabel{
 	}
 	
 	public NumberCard(int n){
-		value = n;
+		//value = n;
 		this.setText(String.valueOf(n));
 		this.setFont(sansSerif36);
 		this.setHorizontalAlignment(JLabel.CENTER);
@@ -31,46 +31,46 @@ public class NumberCard extends JLabel{
 	/**
 	 * @return the value
 	 */
-	public int getValue() {
+	/*public int getValue() {
 		return value;
-	}
+	}*/
 
 	/**
 	 * @param value the value to set
 	 */
-	public void setValue(int value) {
+	/*public void setValue(int value) {
 		this.value = value;
-	}
+	}*/
 	 
 	/**
 	 * @return the width
 	 */
-	public int getWidth() {
+	/*public int getWidth() {
 		return width;
-	}
+	}*/
 
 	/**
 	 * @param width the width to set
 	 */
-	public void setWidth(int width) {
+	/*public void setWidth(int width) {
 		this.width = width;
 		this.setPreferredSize(new Dimension(width,height));
-	}
+	}*/
 
 	/**
 	 * @return the height
 	 */
-	public int getHeight() {
+	/*public int getHeight() {
 		return height;
-	}
+	}*/
 
 	/**
 	 * @param height the height to set
 	 */
-	public void setHeight(int height) {
+	/*public void setHeight(int height) {
 		this.height = height;
 		this.setPreferredSize(new Dimension(width,height));
-	}
+	}*/
 
 	public void paintComponent(Graphics g)	{
 		g.setColor(new Color(255, 255, 255));

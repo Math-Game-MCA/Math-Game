@@ -2,8 +2,11 @@ package com.mathgame.math;
 
 import java.awt.Color;
 import java.awt.Dimension;
+
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import com.mathgame.cards.OperationCard;
 
@@ -21,7 +24,8 @@ public class OperationPanel extends JPanel
 	public void init()
 	{
 		setLayout(null);
-		this.setBorder(new LineBorder(Color.BLACK));
+		//TitledBorder opBorder = BorderFactory.createTitledBorder("Operation Panel");
+		this.setBorder(new LineBorder(Color.black));
 		
 		add = new OperationCard("add.png");
 		subtract = new OperationCard("subtract.png");

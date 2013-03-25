@@ -5,8 +5,12 @@ package com.mathgame.math;
 
 import java.awt.Color;
 import java.awt.Dimension;
+
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+
 import com.mathgame.cards.*;
 
 public class CardPanel extends JPanel{
@@ -14,7 +18,7 @@ public class CardPanel extends JPanel{
 	/** 
 	 * The purpose of this class is to create a panel that will be used at the top of the screen
 	 * to hold 6 cards that will be used as the starting numbers in the game
-	 * @author Ian
+	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 		NumberCard card1;
@@ -31,9 +35,8 @@ public class CardPanel extends JPanel{
 		size.height = 150;
 		setPreferredSize(size);
 		setLayout(null);
-		this.setBorder(new LineBorder(Color.BLACK));//currently for visibility; may need to be removed later
-		
-		CompMover mover = new CompMover();
+		TitledBorder cardBorder = BorderFactory.createTitledBorder("My Cards");
+		this.setBorder(cardBorder);//currently for visibility; may need to be removed later
 		
 		card1 = new NumberCard(1);
 		card2 = new NumberCard(2);
@@ -56,7 +59,7 @@ public class CardPanel extends JPanel{
 		this.add(card3);
 		this.add(card4);
 		this.add(card5);
-		this.add(card6);
+		//this.add(card6);
 		this.add(ans);
 	}
 	

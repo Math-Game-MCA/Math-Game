@@ -6,8 +6,10 @@ package com.mathgame.math;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 /**
  * @author Roland
@@ -17,7 +19,8 @@ public class HoldPanel extends JPanel {
 
 	public void init()	{
 
-		this.setBorder(new LineBorder(Color.BLACK));
+		TitledBorder holdBorder = BorderFactory.createTitledBorder("Holding Space");
+		this.setBorder(holdBorder);
 
 		Dimension size = getPreferredSize();
 		size.width = 750;

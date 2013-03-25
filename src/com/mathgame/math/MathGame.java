@@ -56,6 +56,7 @@ public class MathGame extends JApplet implements ActionListener
 	NumberCard card3;
 	NumberCard card4;
 	NumberCard card5;
+	
 	Rectangle home1;
 	Rectangle home2;
 	Rectangle home3;
@@ -124,17 +125,18 @@ public class MathGame extends JApplet implements ActionListener
 		sidePanel.setBounds(750, 0, 150, 620);//x, y, width, height
 		sidePanel.init();
 		
-		opPanel = new OperationPanel();//operation panel
-		opPanel.setBounds(0, 150, 750, 60);
-		opPanel.init();
-		
 		cardPanel = new CardPanel();//top card panel
 		cardPanel.setBounds(0, 0, 750, 150);
 		cardPanel.init();
 		
+		opPanel = new OperationPanel();//operation panel
+		opPanel.setBounds(0, 150, 750, 60);
+		opPanel.init();
+		
 		workPanel = new WorkspacePanel();
 		workPanel.setBounds(0, 210, 750, 260);
 		workPanel.init();
+
 		
 		holdPanel = new HoldPanel();
 		holdPanel.setBounds(0, 470, 750, 150);
@@ -308,8 +310,20 @@ public class MathGame extends JApplet implements ActionListener
 		cardHomes[7] = opPanel.subtract.getBounds();
 		cardHomes[8] = opPanel.multiply.getBounds();
 		cardHomes[9] = opPanel.divide.getBounds();
+		
 		//cardHomes[10] = opParen1.getBounds();
-
+		
+		cards[0] = cardPanel.card1;
+		cards[1] = cardPanel.card2;
+		cards[2] = cardPanel.card3;
+		cards[3] = cardPanel.card4;
+		cards[4] = cardPanel.card5;
+		cards[5] = cardPanel.card6;
+		cards[6] = opPanel.add;
+		cards[7] = opPanel.subtract;
+		cards[8] = opPanel.multiply;
+		cards[9] = opPanel.divide;
+		
 		//panel1.setBorder(cardBorder);
 
 		cardPanel.card1.setTransferHandler(new TransferHandler("text"));
@@ -420,6 +434,7 @@ public class MathGame extends JApplet implements ActionListener
 		
 		//layer.setVisible(false);
 		//add(panel4);
+		
 
 		//ACTION LISTENERS
 		CompMover mover = new CompMover(this);
@@ -431,12 +446,15 @@ public class MathGame extends JApplet implements ActionListener
 		cardPanel.card5.addMouseListener(mover);
 		cardPanel.card6.addMouseListener(mover);
 		
+		
 		cardPanel.card1.addMouseMotionListener(mover);
 		cardPanel.card2.addMouseMotionListener(mover);
 		cardPanel.card3.addMouseMotionListener(mover);
 		cardPanel.card4.addMouseMotionListener(mover);
 		cardPanel.card5.addMouseMotionListener(mover);
 		cardPanel.card6.addMouseMotionListener(mover);
+		
+		
 		//handles 4 operations
 		opPanel.add.addMouseListener(mover);
 		opPanel.subtract.addMouseListener(mover);
@@ -454,6 +472,7 @@ public class MathGame extends JApplet implements ActionListener
 		layer.add(cardPanel.card4, new Integer(1));
 		layer.add(cardPanel.card5, new Integer(1));
 		layer.add(cardPanel.card6, new Integer(1));
+		
 		layer.add(cardPanel.ans);//holds the answer		
 		layer.add(opPanel.add, new Integer(1));
 		layer.add(opPanel.subtract, new Integer(1));

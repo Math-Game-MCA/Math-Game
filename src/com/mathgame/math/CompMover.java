@@ -33,11 +33,10 @@ public class CompMover extends MouseInputAdapter
         MathGame view;
         //components from the main class
         JLayeredPane layer;
-        JPanel panel2a;
-        JPanel panel2b;
         JLabel[] cards = new JLabel[11];//card1, card2..opA,S...
     	Rectangle[] cardHomes = new Rectangle[11];//home1, home2...opA,S...
         
+    	JPanel workPanel;
         
  
     	/**
@@ -60,10 +59,10 @@ public class CompMover extends MouseInputAdapter
         
         private void setViews(){
         	layer = view.layer;
-        	panel2a = view.panel2a;
-        	panel2b = view.panel2b;
         	cards = view.cards;
         	cardHomes = view.cardHomes;
+        	workPanel = view.workPanel;
+        	
         }
         
         	
@@ -74,32 +73,29 @@ public class CompMover extends MouseInputAdapter
             offset = e.getPoint();
             dragging = true;
             
-            
-           // System.out.println(selectedComponent.getParent());
-            //have to reset the text if the card was on another place card (add1,2...)
-
-            try{           
-	           if(selectedComponent.getParent().equals(view.panel2a))
-	           {
-	        	   panel2a.remove(selectedComponent);
-	        	   panel2a.revalidate();
-	        	   layer.add(selectedComponent, new Integer(1));
-	        	   layer.revalidate();
-	        	   selectedComponent.setBounds(cardHomes[1]);
-	        	   selectedComponent.setSize(cardHomes[1].getSize());
-	        	   selectedComponent.setLocation(MouseInfo.getPointerInfo().getLocation());
-	           }
+            //System.out.println(selectedComponent.getParent());
+          
+            try{       
+            	 if(selectedComponent.getParent().equals(workPanel))
+  	           {
+  	        	   view.workPanel.remove(selectedComponent);
+  	        	   view.workPanel.revalidate();
+  	        	   view.layer.add(selectedComponent, new Integer(1));
+  	        	   view.layer.revalidate();
+  	        	   layer.repaint();
+  	        	 
+  	        	   //offset = selectedComponent.getLocationOnScreen();
+  	        	   //selectedComponent.setBounds(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, cardHomes[1].getSize().width, cardHomes[1].getSize().height);
+  	        	   selectedComponent.setBounds(cardHomes[1]);
+  	        	   
+ 	        	  // selectedComponent.setSize(cardHomes[1].getSize().width, cardHomes[1].getSize().height);
+ 	     
+  	           }
+	        
 	           
-	           if(selectedComponent.getParent().equals(panel2b))
-	           {
-	        	   panel2b.remove(selectedComponent);
-	        	   panel2b.revalidate();
-	        	   layer.add(selectedComponent, new Integer(1));
-	        	  // repaint();
-	        	   selectedComponent.setSize(cardHomes[1].getSize());
-	        	   selectedComponent.setLocation(MouseInfo.getPointerInfo().getLocation());
-	           }
-            } catch(Exception ex){//do nothing, just to prevent errors
+	          
+            } catch(Exception ex){
+            	System.out.println("error removing from panel");
             }
            
            
@@ -113,50 +109,50 @@ public class CompMover extends MouseInputAdapter
         {
             dragging = false;
             Rectangle box1 = new Rectangle(), box2 = new Rectangle(), box3 = new Rectangle();
-            box1.setBounds(selectedComponent.getLocationOnScreen().x, selectedComponent.getLocationOnScreen().y, selectedComponent.getWidth(), selectedComponent.getHeight() );
+            box1.setBounds(selectedComponent.getLocation().x, selectedComponent.getLocation().y, selectedComponent.getWidth(), selectedComponent.getHeight() );
             
             try{
-            box2.setBounds(panel2a.getLocationOnScreen().x, panel2a.getLocationOnScreen().y, panel2a.getWidth(), panel2a.getHeight());
-            box3.setBounds(panel2b.getLocationOnScreen().x, panel2b.getLocationOnScreen().y, panel2b.getWidth(), panel2b.getHeight());
-            } catch(Exception ex){ //do nothing
-            }
+            	box2.setBounds(view.workPanel.getBounds());
             
-            if(box1.intersects(box2) )
-            {
-            	panel2a.add(selectedComponent);
-   
-            	panel2a.revalidate();
-            	selectedComponent.setSize(cards[1].getSize());
-            	//panel2a.repaint();
-            	layer.repaint();
+            } catch(Exception ex){ 
+            	System.out.println("Bounds could not be set");
             	
             }
-            else if(box1.intersects(box3))
+            
+        
+            if(box1.intersects(box2))
             {
-            	panel2b.add(selectedComponent);
-            	panel2b.revalidate();
+            	layer.remove(selectedComponent);
+            	layer.revalidate();
+            	view.workPanel.add(selectedComponent);
+            	view.workPanel.revalidate();
             	//panel2b.repaint();
-            	layer.repaint();
+            	selectedComponent.setSize(cardHomes[1].getSize());
+            	 
+            	view.layer.repaint();
             }
             else 
             {
             	for(int i=0;i<cards.length;i++)
+            	{
+            		//System.out.println(selectedComponent);
 	            		if(selectedComponent.equals(cards[i]))
 	            		{
-		            		selectedComponent.setLocation(cardHomes[i].getLocation());
+	            		
+	            			selectedComponent.setBounds(cardHomes[i]);
 		            		break;
 	            		}
+            	}
+            	
             	
             }
-            
-            
-            
             
         }
  
         @Override
         public void mouseDragged(MouseEvent e)
         {
+        	//System.out.println(e.getLocationOnScreen());
             if(dragging)
             {
                 Rectangle r = selectedComponent.getBounds();
@@ -164,7 +160,16 @@ public class CompMover extends MouseInputAdapter
             	r.x += e.getX() - offset.x;
             	r.y += e.getY() - offset.y;
             	selectedComponent.setBounds(r);
+            	
+	        	
+            	/*if(selectedComponent.getLocationOnScreen() != e.getLocationOnScreen())
+ 	        	{
+ 	        		//System.out.println("not");
+ 	        		selectedComponent.setLocation(MouseInfo.getPointerInfo().getLocation().x-38, MouseInfo.getPointerInfo().getLocation().y-100);
+ 	        	}*/
+            	
             
+            	//System.out.println(selectedComponent.getParent());
                 
             }
         }
