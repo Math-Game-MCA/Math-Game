@@ -50,6 +50,8 @@ public class SidePanel extends JPanel implements ActionListener{
 	
 	public void init()
 	{
+		this.setBorder(new LineBorder(Color.BLACK));
+		this.setBounds(755, 0, 145, 620);//shifted 5 px to right due to unexplained overlap...
 		//instantiate controls
 		clock = new JLabel("00:00");
 		toggle = new JButton("Start/Stop");
@@ -120,9 +122,6 @@ public class SidePanel extends JPanel implements ActionListener{
 		timer.setRepeats(true);
 		
 		//stopWatch = new StopWatch();
-		
-		
-		this.setBorder(new LineBorder(Color.CYAN));
 		//this.add(pane);
 		
 	}

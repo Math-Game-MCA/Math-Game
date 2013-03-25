@@ -27,9 +27,15 @@ public class OperationCard extends JLabel{
 		this.setPreferredSize(new Dimension(width,height));
 		this.setHorizontalAlignment(CENTER);
 		
-		
-		
 	}
 	
+	@Override
+	public int getWidth(){
+		return width;
+	}
 
+	@Override
+	public int getHeight(){
+		return height;
+	}
 }

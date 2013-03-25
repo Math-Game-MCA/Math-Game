@@ -1,14 +1,12 @@
 package com.mathgame.math;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import com.mathgame.cards.OperationCard;
 
@@ -18,50 +16,32 @@ public class OperationPanel extends JPanel
 	/**
 	 * 
 	 */
+	OperationCard add;
+	OperationCard subtract;
+	OperationCard multiply;
+	OperationCard divide;
 	
 	public void init()
 	{
-		CompMover mover = new CompMover();
+		setLayout(null);
+		//TitledBorder opBorder = BorderFactory.createTitledBorder("Operation Panel");
+		this.setBorder(new LineBorder(Color.black));
 		
-		//JFrame frame = new JFrame();
-		//frame.setSize(750,200);
+		add = new OperationCard("add.png");
+		subtract = new OperationCard("subtract.png");
+		multiply = new OperationCard("multiply.png");
+		divide = new OperationCard("divide.png");
 		
-		this.setBorder(new LineBorder(Color.BLACK));
-		
-		OperationCard add = new OperationCard("add.png");
-		
-		OperationCard subtract = new OperationCard("subtract.png");
-		
-		OperationCard multiply = new OperationCard("multiply.png");
-		
-		OperationCard divide = new OperationCard("divide.png");
-		
-		add.addMouseListener(mover);
-		add.addMouseMotionListener(mover);
-		subtract.addMouseListener(mover);
-		subtract.addMouseMotionListener(mover);
-		multiply.addMouseListener(mover);
-		multiply.addMouseMotionListener(mover);
-		divide.addMouseListener(mover);
-		divide.addMouseMotionListener(mover);
-		
-		/*JPanel operation_panel = new JPanel();
-		Dimension panelsize = new Dimension(750,60);
-		operation_panel.setPreferredSize(panelsize);
-		operation_panel.add(add);
-		operation_panel.add(subtract);
-		operation_panel.add(multiplication);
-		operation_panel.add(division);*/
+		add.setBounds(10, 160, 40, 40);
+		subtract.setBounds(70, 160, 40, 40);
+		multiply.setBounds(130, 160, 40, 40);
+		divide.setBounds(190, 160, 40, 40);
 		
 		Dimension panelsize = new Dimension(750,60);
 		this.setPreferredSize(panelsize);
 		this.add(add);
 		this.add(subtract);
 		this.add(multiply);
-		this.add(divide);		
-		
-		/*Container c = frame.getContentPane();
-		c.add(operation_panel);
-		frame.show();*/
+		this.add(divide);
 	}
 }
