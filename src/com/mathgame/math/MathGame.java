@@ -136,7 +136,6 @@ public class MathGame extends JApplet implements ActionListener
 		workPanel = new WorkspacePanel();
 		workPanel.setBounds(0, 210, 750, 260);
 		workPanel.init();
-
 		
 		holdPanel = new HoldPanel();
 		holdPanel.setBounds(0, 470, 750, 150);
@@ -473,7 +472,7 @@ public class MathGame extends JApplet implements ActionListener
 		layer.add(cardPanel.card5, new Integer(1));
 		layer.add(cardPanel.card6, new Integer(1));
 		
-		layer.add(cardPanel.ans);//holds the answer		
+		layer.add(cardPanel.ans, new Integer(1));//holds the answer		
 		layer.add(opPanel.add, new Integer(1));
 		layer.add(opPanel.subtract, new Integer(1));
 		layer.add(opPanel.multiply, new Integer(1));
