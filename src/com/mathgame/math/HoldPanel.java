@@ -17,6 +17,8 @@ import javax.swing.border.TitledBorder;
  */
 public class HoldPanel extends JPanel {
 
+	final String imageFile = "card holder.jpg";
+	
 	public void init()	{
 
 		TitledBorder holdBorder = BorderFactory.createTitledBorder("Holding Space");

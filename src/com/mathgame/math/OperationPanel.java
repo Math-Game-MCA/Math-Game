@@ -20,6 +20,8 @@ public class OperationPanel extends JPanel
 	OperationCard subtract;
 	OperationCard multiply;
 	OperationCard divide;
+
+	final String imageFile = "Operation bar.png";
 	
 	public void init()
 	{

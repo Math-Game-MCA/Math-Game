@@ -3,10 +3,10 @@
  */
 package com.mathgame.math;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -28,6 +28,8 @@ public class CardPanel extends JPanel{
 		NumberCard card5;
 		NumberCard card6;
 		NumberCard ans;
+		final String imageFile = "Card Bar.jpg";
+		
 	public void init() {
 		
 		Dimension size = getPreferredSize();
@@ -62,5 +64,5 @@ public class CardPanel extends JPanel{
 		//this.add(card6);
 		this.add(ans);
 	}
-	
+
 }

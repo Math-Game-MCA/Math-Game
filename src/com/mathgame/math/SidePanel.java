@@ -28,6 +28,8 @@ public class SidePanel extends JPanel implements ActionListener{
 	JButton exit;
 	
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
+
+	final String imageFile = "control bar.png";
 	
 	//JTextArea error;
 	
