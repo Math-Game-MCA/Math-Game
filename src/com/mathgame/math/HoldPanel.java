@@ -5,19 +5,25 @@ package com.mathgame.math;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 /**
- * @author Roland
+ * The panel where the cards that have been made can be stored for later use
  *
  */
 public class HoldPanel extends JPanel {
 
-	final String imageFile = "card holder.jpg";
+	final String imageFile = "images/card holder.jpg";
+	BufferedImage background;
 	
 	public void init()	{
 
@@ -28,5 +34,19 @@ public class HoldPanel extends JPanel {
 		size.width = 750;
 		size.height = 150;
 		setPreferredSize(size);
+		
+		try {
+			background = ImageIO.read(new File(imageFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void paintComponent(Graphics g){
+		super.paintComponents(g);
+		g.drawImage(background, 0, 0, null);
+
+		
 	}
 }

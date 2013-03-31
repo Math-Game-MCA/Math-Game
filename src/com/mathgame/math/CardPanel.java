@@ -4,7 +4,12 @@
 package com.mathgame.math;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -28,7 +33,8 @@ public class CardPanel extends JPanel{
 		NumberCard card5;
 		NumberCard card6;
 		NumberCard ans;
-		final String imageFile = "Card Bar.jpg";
+		final String imageFile = "images/Card Bar.jpg";
+		BufferedImage background;
 		
 	public void init() {
 		
@@ -63,6 +69,18 @@ public class CardPanel extends JPanel{
 		this.add(card5);
 		//this.add(card6);
 		this.add(ans);
+		
+		try {
+			background = ImageIO.read(new File(imageFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void paintComponent(Graphics g){
+		super.paintComponents(g);
+		g.drawImage(background, 0, 0, null);
 	}
 
 }

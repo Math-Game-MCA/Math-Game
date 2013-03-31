@@ -1,11 +1,15 @@
 package com.mathgame.math;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 
 
@@ -29,7 +33,8 @@ public class SidePanel extends JPanel implements ActionListener{
 	
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
 
-	final String imageFile = "control bar.png";
+	final String imageFile = "images/control bar.png";
+	BufferedImage background;
 	
 	//JTextArea error;
 	
@@ -67,6 +72,12 @@ public class SidePanel extends JPanel implements ActionListener{
 		diffInfo = new JLabel("Select difficulty (2-5)");
 		setDiff = new JTextField("");
 		updateDiff = new JButton("Update Difficulty");
+		
+		try {
+			background = ImageIO.read(new File(imageFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		//TEMPORARILY DISABLING CONTROLS TO TEST PANEL
 		//TODO: Change controls to match end specifications
@@ -125,6 +136,15 @@ public class SidePanel extends JPanel implements ActionListener{
 		
 		//stopWatch = new StopWatch();
 		//this.add(pane);
+		
+		
+	}
+	
+	@Override
+	public void paintComponent(Graphics g){
+		super.paintComponents(g);
+		g.drawImage(background, 0, 0, null);
+
 		
 	}
 	
