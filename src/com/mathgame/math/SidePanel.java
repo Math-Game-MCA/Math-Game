@@ -59,6 +59,9 @@ public class SidePanel extends JPanel implements ActionListener{
 	{
 		this.setBorder(new LineBorder(Color.BLACK));
 		this.setBounds(755, 0, 145, 620);//shifted 5 px to right due to unexplained overlap...
+		
+		this.setLayout(null);
+		
 		//instantiate controls
 		clock = new JLabel("00:00");
 		toggle = new JButton("Start/Stop");
@@ -95,36 +98,31 @@ public class SidePanel extends JPanel implements ActionListener{
 		//pane.add(error);
 		
 		//define properties of controls
-		clock.setPreferredSize(new Dimension(130, 60));
-		clock.setBounds(760 + insets.left, 10 + insets.top, 130, 60);
+		clock.setBounds(10, 10, 130, 60);
 		clock.setFont(sansSerif36);
 		clock.setHorizontalAlignment(SwingConstants.CENTER);
-		clock.setBorder(new LineBorder(Color.BLACK));
+		//clock.setBorder(new LineBorder(Color.BLACK));
 		
-		toggle.setPreferredSize(new Dimension(130, 30));
-		toggle.addActionListener(this);
-		
-		score.setPreferredSize(new Dimension(130, 60));
-		score.setBounds(760 + insets.left, 80 + insets.top, 130, 60);
+		score.setBounds(10, 80, 130, 60);
 		score.setFont(sansSerif36);
 		score.setHorizontalAlignment(SwingConstants.CENTER);
-		score.setBorder(new LineBorder(Color.BLACK));
+		//score.setBorder(new LineBorder(Color.BLACK));
+		
+		toggle.setBounds(10, 150, 130, 30);
+		toggle.addActionListener(this);
 
-		help.setPreferredSize(new Dimension(130, 30));
-		help.setLocation(760, 540);
-		help.setBounds(760 + insets.left, 540 + insets.top, 130, 30);
+		help.setBounds(10, 540, 130, 30);
 		//help.setFont(sansSerif36);
 		help.setHorizontalAlignment(SwingConstants.CENTER);
 		help.addActionListener(this);
 		
-		exit.setPreferredSize(new Dimension(130, 30));
-		exit.setLocation(760, 580);
-		exit.setBounds(760 + insets.left, 580 + insets.top, 130, 30);
+		exit.setBounds(10, 580, 130, 30);
 		//exit.setFont(sansSerif36);
 		exit.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		setDiff.setPreferredSize(new Dimension(130, 30));
+		setDiff.setBounds(10, 190, 130, 30);
 		
+		updateDiff.setBounds(10, 230, 130, 30);
 		updateDiff.addActionListener(this);
 		
 		//error = new JTextArea("Text");
