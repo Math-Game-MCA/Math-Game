@@ -33,7 +33,7 @@ public class CardPanel extends JPanel{
 		NumberCard card5;
 		NumberCard card6;
 		NumberCard ans;
-		final String imageFile = "images/Card Bar.jpg";
+		final String imageFile = "images/Card Bar.png";
 		BufferedImage background;
 		
 	public void init() {
@@ -43,8 +43,8 @@ public class CardPanel extends JPanel{
 		size.height = 150;
 		setPreferredSize(size);
 		setLayout(null);
-		TitledBorder cardBorder = BorderFactory.createTitledBorder("My Cards");
-		this.setBorder(cardBorder);//currently for visibility; may need to be removed later
+		//TitledBorder cardBorder = BorderFactory.createTitledBorder("My Cards");
+		//this.setBorder(cardBorder);//currently for visibility; may need to be removed later
 		
 		card1 = new NumberCard(1);
 		card2 = new NumberCard(2);
@@ -54,13 +54,13 @@ public class CardPanel extends JPanel{
 		card6 = new NumberCard(6);
 		ans = new NumberCard(0);
 		
-		card1.setBounds(10, 15, 80, 120);
-		card2.setBounds(100, 15, 80, 120);
-		card3.setBounds(190, 15, 80, 120);
-		card4.setBounds(280, 15, 80, 120);
-		card5.setBounds(370, 15, 80, 120);
-		card6.setBounds(460, 15, 80, 120);
-		ans.setBounds(660, 15, 80, 120);
+		card1.setBounds(20, 15, 80, 120);
+		card2.setBounds(110, 15, 80, 120);
+		card3.setBounds(200, 15, 80, 120);
+		card4.setBounds(290, 15, 80, 120);
+		card5.setBounds(380, 15, 80, 120);
+		card6.setBounds(470, 15, 80, 120);
+		ans.setBounds(650, 15, 80, 120);
 		
 		this.add(card1);
 		this.add(card2);
