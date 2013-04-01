@@ -14,13 +14,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 /**
  * The panel where the cards will be dragged in order to combine and use them
  *
  */
-
 
 public class WorkspacePanel extends JPanel{
 	
@@ -29,7 +29,9 @@ public class WorkspacePanel extends JPanel{
 	
 	public void init()	{
 		this.setLayout(new FlowLayout());
-		TitledBorder workBorder = BorderFactory.createTitledBorder("Workspace");
+		Border empty = BorderFactory.createEmptyBorder();
+		TitledBorder workBorder = BorderFactory.createTitledBorder(empty, " ");
+		//used as spacer so cards are placed in right position; if removed, cards will have to snap at different location
 		this.setBorder(workBorder);
 
 		Dimension size = getPreferredSize();

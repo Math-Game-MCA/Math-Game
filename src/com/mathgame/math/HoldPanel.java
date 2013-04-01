@@ -22,13 +22,13 @@ import javax.swing.border.TitledBorder;
  */
 public class HoldPanel extends JPanel {
 
-	final String imageFile = "images/card holder.jpg";
+	final String imageFile = "images/card holder.png";
 	BufferedImage background;
 	
 	public void init()	{
 
 		TitledBorder holdBorder = BorderFactory.createTitledBorder("Holding Space");
-		this.setBorder(holdBorder);
+		//this.setBorder(holdBorder);
 
 		Dimension size = getPreferredSize();
 		size.width = 750;
