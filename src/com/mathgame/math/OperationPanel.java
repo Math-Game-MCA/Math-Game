@@ -27,7 +27,7 @@ public class OperationPanel extends JPanel
 	OperationCard multiply;
 	OperationCard divide;
 
-	final String imageFile = "images/Operation bar.png";
+	final String imageFile = "images/Operation Bar.png";
 	BufferedImage background;
 	
 	
@@ -35,17 +35,17 @@ public class OperationPanel extends JPanel
 	{
 		setLayout(null);
 		//TitledBorder opBorder = BorderFactory.createTitledBorder("Operation Panel");
-		this.setBorder(new LineBorder(Color.black));
+		//this.setBorder(new LineBorder(Color.black));
 		
 		add = new OperationCard("add.png");
 		subtract = new OperationCard("subtract.png");
 		multiply = new OperationCard("multiply.png");
 		divide = new OperationCard("divide.png");
 		
-		add.setBounds(10, 160, 40, 40);
-		subtract.setBounds(70, 160, 40, 40);
-		multiply.setBounds(130, 160, 40, 40);
-		divide.setBounds(190, 160, 40, 40);
+		add.setBounds(20, 160, 40, 40);
+		subtract.setBounds(80, 160, 40, 40);
+		multiply.setBounds(140, 160, 40, 40);
+		divide.setBounds(200, 160, 40, 40);
 		
 		Dimension panelsize = new Dimension(750,60);
 		this.setPreferredSize(panelsize);

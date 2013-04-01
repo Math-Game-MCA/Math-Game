@@ -57,7 +57,7 @@ public class SidePanel extends JPanel implements ActionListener{
 	
 	public void init()
 	{
-		this.setBorder(new LineBorder(Color.BLACK));
+		//this.setBorder(new LineBorder(Color.BLACK));
 		this.setBounds(755, 0, 145, 620);//shifted 5 px to right due to unexplained overlap...
 		
 		this.setLayout(null);
