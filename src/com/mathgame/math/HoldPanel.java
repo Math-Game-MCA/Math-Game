@@ -5,6 +5,7 @@ package com.mathgame.math;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -27,6 +28,7 @@ public class HoldPanel extends JPanel {
 	
 	public void init()	{
 
+		this.setLayout(new FlowLayout());
 		TitledBorder holdBorder = BorderFactory.createTitledBorder("Holding Space");
 		//this.setBorder(holdBorder);
 

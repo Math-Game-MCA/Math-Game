@@ -30,13 +30,14 @@ public class CompMover extends MouseInputAdapter
         boolean dragging;
         boolean moved = false;
         
-        MathGame view;
+        static MathGame view;
         //components from the main class
-        JLayeredPane layer;
+        static JLayeredPane layer;
         JLabel[] cards = new JLabel[11];//card1, card2..opA,S...
     	Rectangle[] cardHomes = new Rectangle[11];//home1, home2...opA,S...
         
-    	JPanel workPanel;
+    	static JPanel workPanel;
+    	static JPanel holdPanel;
         
  
     	/**
@@ -62,6 +63,7 @@ public class CompMover extends MouseInputAdapter
         	cards = view.cards;
         	cardHomes = view.cardHomes;
         	workPanel = view.workPanel;
+        	holdPanel = view.holdPanel;
         	
         }
         
@@ -79,31 +81,50 @@ public class CompMover extends MouseInputAdapter
           
             try{       
             	 if(selectedComponent.getParent().equals(workPanel))
-  	           {
-  	        	   view.workPanel.remove(selectedComponent);
-  	        	   view.workPanel.revalidate();
-  	        	   view.layer.add(selectedComponent, new Integer(1));
-  	        	   view.layer.revalidate();
-  	        	   layer.repaint();
-  	        	 
-  	        	   //offset = selectedComponent.getLocationOnScreen();
-  	        	   //selectedComponent.setBounds(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, cardHomes[1].getSize().width, cardHomes[1].getSize().height);
-  	        	   //selectedComponent.setLocation(MouseInfo.getPointerInfo().getLocation());
-  	        	   /*System.out.println(MouseInfo.getPointerInfo().getLocation());
-  	        	   System.out.println(selectedComponent.getLocation());
-  	        	   System.out.println(selectedComponent.getLocationOnScreen());
-  	        	   System.out.println(tempPoint);*/
-  	        	   selectedComponent.setLocation(-200, -200);
-  	        	   
-  	        	   
- 	        	  // selectedComponent.setSize(cardHomes[1].getSize().width, cardHomes[1].getSize().height);
- 	     
-  	           }
+	  	           {
+	            		 
+	  	        	   view.workPanel.remove(selectedComponent);
+	  	        	   view.workPanel.revalidate();
+	  	        	   view.layer.add(selectedComponent, new Integer(1));
+	  	        	   view.layer.revalidate();
+	  	        	   layer.repaint();
+	  	        	 
+	  	        	   //offset = selectedComponent.getLocationOnScreen();
+	  	        	   //selectedComponent.setBounds(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y, cardHomes[1].getSize().width, cardHomes[1].getSize().height);
+	  	        	   //selectedComponent.setLocation(MouseInfo.getPointerInfo().getLocation());
+	  	        	   /*System.out.println(MouseInfo.getPointerInfo().getLocation());
+	  	        	   System.out.println(selectedComponent.getLocation());
+	  	        	   System.out.println(selectedComponent.getLocationOnScreen());
+	  	        	   System.out.println(tempPoint);*/
+	  	        	   selectedComponent.setLocation(-200, -200);
+	  	        	   
+	  	        	   
+	 	        	  // selectedComponent.setSize(cardHomes[1].getSize().width, cardHomes[1].getSize().height);
+	 	     
+	  	           }
+            	 else if(selectedComponent.getParent().equals(holdPanel))
+            	 {
+            		 int tempX = selectedComponent.getX();
+            		 int tempY = selectedComponent.getLocationOnScreen().y;
+            		 view.holdPanel.remove(selectedComponent);
+            		 view.holdPanel.revalidate();
+            		 view.layer.add(selectedComponent, new Integer(1));
+            		 view.layer.revalidate();
+            		 layer.repaint();
+            		 
+            		 selectedComponent.setLocation(tempX, tempY);
+            	 }
+            /*	 else
+            	 {
+            		 System.out.println("normal workpanel:"+workPanel);
+            		 System.out.println("parent:"+selectedComponent.getParent());
+            	 }*/
 	        
 	           
 	          
             } catch(Exception ex){
             	System.out.println("error removing from panel");
+            	ex.printStackTrace();
             }
            
            
@@ -121,6 +142,7 @@ public class CompMover extends MouseInputAdapter
             
             try{
             	box2.setBounds(view.workPanel.getBounds());
+            	box3.setBounds(view.holdPanel.getBounds());
             
             } catch(Exception ex){ 
             	System.out.println("Bounds could not be set");
@@ -135,8 +157,16 @@ public class CompMover extends MouseInputAdapter
             	view.workPanel.add(selectedComponent);
             	view.workPanel.revalidate();
             	//panel2b.repaint();
-            	selectedComponent.setSize(cardHomes[1].getSize());
+            	//selectedComponent.setSize(cardHomes[1].getSize());
             	 
+            	view.layer.repaint();
+            }
+            else if(box1.intersects(box3))
+            {
+            	layer.remove(selectedComponent);
+            	layer.revalidate();
+            	view.holdPanel.add(selectedComponent);
+            	view.holdPanel.revalidate();
             	view.layer.repaint();
             }
             else 
@@ -151,6 +181,15 @@ public class CompMover extends MouseInputAdapter
 		            		break;
 	            		}
             	}
+            	if(selectedComponent.getName().equals(("Answer")))
+            	{
+            		layer.remove(selectedComponent);
+                	layer.revalidate();
+                	view.holdPanel.add(selectedComponent);
+                	view.holdPanel.revalidate();
+                	view.layer.repaint();
+            	}
+            		
             	
             	
             }

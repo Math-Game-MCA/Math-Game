@@ -37,10 +37,10 @@ public class OperationPanel extends JPanel
 		//TitledBorder opBorder = BorderFactory.createTitledBorder("Operation Panel");
 		//this.setBorder(new LineBorder(Color.black));
 		
-		add = new OperationCard("add.png");
-		subtract = new OperationCard("subtract.png");
-		multiply = new OperationCard("multiply.png");
-		divide = new OperationCard("divide.png");
+		add = new OperationCard("add");
+		subtract = new OperationCard("subtract");
+		multiply = new OperationCard("multiply");
+		divide = new OperationCard("divide");
 		
 		add.setBounds(20, 160, 40, 40);
 		subtract.setBounds(80, 160, 40, 40);

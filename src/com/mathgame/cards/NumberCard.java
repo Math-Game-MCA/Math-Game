@@ -11,17 +11,18 @@ import javax.swing.border.LineBorder;
 
 public class NumberCard extends JLabel{
 	
-	private int value;
+	private double value;
 	private int width = 80;
 	private int height = 120;
-	final Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
+	final Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 24);
 	//sizes can be overridden with setWidth and setHeight methods
+	public String type = "none";
 	
 	public NumberCard(){
 		
 	}
 	
-	public NumberCard(int n){
+	public NumberCard(double n){
 		value = n;
 		this.setText(String.valueOf(n));
 		this.setFont(sansSerif36);
@@ -32,14 +33,14 @@ public class NumberCard extends JLabel{
 	/**
 	 * @return the value
 	 */
-	public int getValue() {
+	public double getValue() {
 		return value;
 	}
 
 	/**
 	 * @param value the value to set
 	 */
-	public void setValue(int value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
 	 
@@ -71,6 +72,14 @@ public class NumberCard extends JLabel{
 	public void setHeight(int height) {
 		this.height = height;
 		this.setPreferredSize(new Dimension(width,height));
+	}
+	
+	/**
+	 * 
+	 * @param type What kind of number card this is (i.e. answer card)
+	 */
+	public void setType(String type){
+		this.type = type;
 	}
 
 	public void paintComponent(Graphics g)	{
