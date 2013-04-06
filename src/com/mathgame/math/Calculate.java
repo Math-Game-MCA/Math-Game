@@ -32,7 +32,7 @@ public class Calculate {
 			String op = operation.operation;
 			double answer= -1;
 			
-			switch(op){
+			/*switch(op){
 			case "add":
 				answer = num1+num2;
 				break;
@@ -46,6 +46,21 @@ public class Calculate {
 				answer = num1/num2;
 				break;
 			}
+			return answer;*/
+			//not sure why I can't compile the switch statement...
+			if(op == "add")	{
+				answer = num1+num2;
+			}
+			else if(op == "subtract")	{
+				answer = num1-num2;
+			}
+			else if(op == "multiply")	{
+				answer = num1*num2;
+			}
+			else if(op == "divide")	{
+				answer = num1/num2;
+			}
+			
 			return answer;
 		}
 			
