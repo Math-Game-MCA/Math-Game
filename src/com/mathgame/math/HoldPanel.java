@@ -14,6 +14,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
@@ -29,9 +30,10 @@ public class HoldPanel extends JPanel {
 	public void init()	{
 
 		this.setLayout(new FlowLayout());
-		TitledBorder holdBorder = BorderFactory.createTitledBorder("Holding Space");
-		//this.setBorder(holdBorder);
-
+		Border empty = BorderFactory.createEmptyBorder(10,10,10,10);
+		this.setBorder(empty);
+		//used as spacer so cards are placed in right position; if removed, cards will have to snap at different location
+		
 		Dimension size = getPreferredSize();
 		size.width = 750;
 		size.height = 150;

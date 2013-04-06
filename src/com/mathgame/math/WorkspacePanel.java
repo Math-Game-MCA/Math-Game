@@ -34,10 +34,10 @@ public class WorkspacePanel extends JPanel{
 	
 	public void init()	{
 		this.setLayout(new FlowLayout());
-		Border empty = BorderFactory.createEmptyBorder();
-		TitledBorder workBorder = BorderFactory.createTitledBorder(empty, " ");
+
+		Border empty = BorderFactory.createEmptyBorder(70,70,70,70);
+		this.setBorder(empty);
 		//used as spacer so cards are placed in right position; if removed, cards will have to snap at different location
-		this.setBorder(workBorder);
 
 		Dimension size = getPreferredSize();
 		size.width = 750;
