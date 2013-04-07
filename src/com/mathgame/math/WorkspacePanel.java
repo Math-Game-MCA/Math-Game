@@ -4,6 +4,7 @@
 package com.mathgame.math;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -19,6 +20,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import com.mathgame.cards.NumberCard;
+import com.mathgame.cards.OperationCard;
 /**
  * The panel where the cards will be dragged in order to combine and use them
  *
@@ -26,13 +28,14 @@ import com.mathgame.cards.NumberCard;
 
 public class WorkspacePanel extends JPanel{
 	
+	MathGame game;//holds the game so it can reference all the other panels (hehehe...)
 	final String imageFile = "images/Workspace.png";
 	BufferedImage background;
 	
 	Calculate calc;
 	CompMover mover;
 	
-	public void init()	{
+	public void init(MathGame game)	{
 		this.setLayout(new FlowLayout());
 
 		Border empty = BorderFactory.createEmptyBorder(70,70,70,70);
@@ -52,6 +55,7 @@ public class WorkspacePanel extends JPanel{
 		
 		calc = new Calculate();
 		mover = new CompMover();
+		this.game = game;
 	}
 	
 	public void calcCheck(){
@@ -59,7 +63,11 @@ public class WorkspacePanel extends JPanel{
 		System.out.println(count);
 		double answer= -1;
 		if(count == 3)
-			answer = calc.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2));
+		{
+			answer = calc.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2), game);
+			//String restoreOperator = new String(currentOperation());
+			//game.opPanel.addOperator(restoreOperator);
+		}
 		
 		if(answer != -1)
 		{
@@ -69,12 +77,32 @@ public class WorkspacePanel extends JPanel{
 			answerCard.addMouseMotionListener(mover);
 			answerCard.setName("Answer");
 			
+			String restoreOperator = new String(currentOperation());
+			game.opPanel.addOperator(restoreOperator);
+			
+			//not sure why changing 0 to 1 and then commenting out one of these works...
+			//but it does. Hima can u explain? ~Roland
+			this.remove(1);
 			this.remove(0);
-			this.remove(0);
-			this.remove(0);
+			//this.remove(0);
 			add(answerCard);
+			
 			//System.out.println(answerCard.getParent());
+		}	
+	}
+	
+	public String currentOperation()	{
+		String op;
+		Component opComp = this.getComponent(1);
+		OperationCard opCard;
+		if(opComp instanceof OperationCard)	{//ensure the second component is an operation
+			opCard = (OperationCard) opComp;
+			op = opCard.getOperation();
 		}
+		else
+			op = "error";
+		System.out.println("CURRENT OP: "+op);
+		return op;//returns add, subtract, multiply, divide etc.
 	}
 
 	@Override

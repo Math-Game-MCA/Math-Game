@@ -108,6 +108,8 @@ public class MathGame extends JApplet implements ActionListener
 	
 	String[] operations = {"+", "-", "*", "/"};
 	
+	CompMover mover;
+	
 	@Override
 	public void init(){
 	 
@@ -131,11 +133,11 @@ public class MathGame extends JApplet implements ActionListener
 		
 		opPanel = new OperationPanel();//operation panel
 		opPanel.setBounds(0, 150, 750, 60);
-		opPanel.init();
+		opPanel.init(layer, mover);
 		
 		workPanel = new WorkspacePanel();
 		workPanel.setBounds(0, 210, 750, 260);
-		workPanel.init();
+		workPanel.init(this);
 		
 		holdPanel = new HoldPanel();
 		holdPanel.setBounds(0, 470, 750, 150);
@@ -441,7 +443,7 @@ public class MathGame extends JApplet implements ActionListener
 		
 
 		//ACTION LISTENERS
-		CompMover mover = new CompMover(this);
+		mover = new CompMover(this);
 		//handles 6 cards
 		cardPanel.card1.addMouseListener(mover);
 		cardPanel.card2.addMouseListener(mover);

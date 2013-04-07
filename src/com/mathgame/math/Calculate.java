@@ -12,7 +12,7 @@ import com.mathgame.cards.OperationCard;
  */
 public class Calculate {
 	
-	public double calculate(Component c1, Component oper, Component c2){
+	public double calculate(Component c1, Component oper, Component c2, MathGame game){
 		NumberCard card1=null;
 		NumberCard card2=null;
 		OperationCard operation=null;

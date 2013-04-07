@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -30,8 +31,9 @@ public class OperationPanel extends JPanel
 	final String imageFile = "images/Operation Bar.png";
 	BufferedImage background;
 	
+	JLayeredPane masterLayer;
 	
-	public void init()
+	public void init(JLayeredPane layer, CompMover mover)//pass layeredpane layer so to regen operations
 	{
 		setLayout(null);
 		//TitledBorder opBorder = BorderFactory.createTitledBorder("Operation Panel");
@@ -54,10 +56,31 @@ public class OperationPanel extends JPanel
 		this.add(multiply);
 		this.add(divide);
 		
+		masterLayer = layer;//layered pane passed over
+		
 		try {
 			background = ImageIO.read(new File(imageFile));
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void addOperator(String op)	{//primarily to regen operator after use
+		if(op.contentEquals("add"))	{
+			add.setBounds(20, 160, 40, 40);
+			masterLayer.add(add, new Integer(1));
+		}
+		else if(op.contentEquals("subtract"))	{
+			subtract.setBounds(80, 160, 40, 40);
+			masterLayer.add(subtract, new Integer(1));
+		}
+		else if(op.contentEquals("multiply"))	{
+			multiply.setBounds(140, 160, 40, 40);
+			masterLayer.add(multiply, new Integer(1));
+		}
+		else if(op.contentEquals("divide"))	{
+			divide.setBounds(200, 160, 40, 40);
+			masterLayer.add(divide, new Integer(1));
 		}
 	}
 	

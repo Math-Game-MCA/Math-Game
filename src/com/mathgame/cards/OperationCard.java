@@ -20,6 +20,20 @@ public class OperationCard extends JLabel{
 		this.setHorizontalAlignment(position);
 	}
 	
+	/**
+	 * @return the operation
+	 */
+	public String getOperation() {
+		return operation;
+	}
+
+	/**
+	 * @param operation the operation to set
+	 */
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+
 	public OperationCard(String operation){
 		String imageFile=null;
 		if(operation.equals("add"))
