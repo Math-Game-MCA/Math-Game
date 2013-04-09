@@ -67,6 +67,7 @@ public class WorkspacePanel extends JPanel{
 			answer = calc.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2), game);
 			//String restoreOperator = new String(currentOperation());
 			//game.opPanel.addOperator(restoreOperator);
+			System.out.println("NUM1:"+this.getComponentCount());
 		}
 		
 		if(answer != -1)
@@ -82,8 +83,10 @@ public class WorkspacePanel extends JPanel{
 			
 			//not sure why changing 0 to 1 and then commenting out one of these works...
 			//but it does. Hima can u explain? ~Roland
-			this.remove(1);
+			System.out.println("NUM:"+this.getComponentCount());
 			this.remove(0);
+			this.remove(0);
+			
 			//this.remove(0);
 			add(answerCard);
 			
