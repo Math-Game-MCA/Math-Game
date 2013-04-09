@@ -14,7 +14,7 @@ public class NumberCard extends JLabel{
 	private double value;
 	private int width = 80;
 	private int height = 120;
-	final Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 24);
+	final Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 22);
 	//sizes can be overridden with setWidth and setHeight methods
 	public String type = "none";
 	
