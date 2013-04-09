@@ -12,6 +12,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import com.mathgame.cards.NumberCard;
 import com.mathgame.database.MySQLAccess;
 
 /**
@@ -40,7 +41,6 @@ public class Calc {
 	private Rectangle[] cardHomes = new Rectangle[11];//home1, home2...opA,S...
 	private static String[] cardVals = new String[11];
 	
-	
 	private int answerA;
 	private int answerS;
 	private int answerM;
@@ -53,13 +53,14 @@ public class Calc {
 	private JLabel opParen0;
 	private JLabel opParen1;
 	
+	//TODO: Make cards match with new version of cards for randomizing numbers
 	//static because Items also needs the values already stored there
-	private static JLabel card1;
-	private static JLabel card2;
-	private static JLabel card3;
-	private static JLabel card4;
-	private static JLabel card5;
-	private static JLabel card6;
+	private static NumberCard card1;
+	private static NumberCard card2;
+	private static NumberCard card3;
+	private static NumberCard card4;
+	private static NumberCard card5;
+	private static NumberCard card6;
 	
 	
 	public Calc(MathGame game){
@@ -603,7 +604,7 @@ public class Calc {
 		card3.setText( String.valueOf(num.get(2)) );
 		card4.setText( String.valueOf(num.get(3)) );
 		card5.setText( String.valueOf(num.get(4)) );
-		
+		card6.setText( String.valueOf(num.get(5)) );
 		
 		
 		//cards = mathGame.getComps();

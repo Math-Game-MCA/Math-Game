@@ -486,13 +486,14 @@ public class MathGame extends JApplet implements ActionListener
 		layer.add(opPanel.multiply, new Integer(1));
 		layer.add(opPanel.divide, new Integer(1));
 		
-	/*calc = new Calc(MathGame.this);
+		//TODO: GET CARDS TO RANDOMIZE
+	calc = new Calc(MathGame.this);
 	//////////////////////////////////////
 	calc.randomize();
 	/////////////////////////////////////
 	Items itemListener = new Items(this);
 	database.addItemListener(itemListener);
-	freeStyle.addItemListener(itemListener);*/
+	freeStyle.addItemListener(itemListener);
 	}
 
 	
