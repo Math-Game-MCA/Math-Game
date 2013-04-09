@@ -130,6 +130,7 @@ public class MathGame extends JApplet implements ActionListener
 		cardPanel = new CardPanel();//top card panel
 		cardPanel.setBounds(0, 0, 750, 150);
 		cardPanel.init();
+		cardPanel.randomize();
 		
 		opPanel = new OperationPanel();//operation panel
 		opPanel.setBounds(0, 150, 750, 60);

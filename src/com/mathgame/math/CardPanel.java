@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -75,6 +76,16 @@ public class CardPanel extends JPanel{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void randomize(){
+		Random generator = new Random();
+		card1.setText(""+generator.nextInt(21));
+		card2.setText(""+generator.nextInt(21));
+		card3.setText(""+generator.nextInt(21));
+		card4.setText(""+generator.nextInt(21));
+		card5.setText(""+generator.nextInt(21));
+		card6.setText(""+generator.nextInt(21));
 	}
 	
 	@Override
