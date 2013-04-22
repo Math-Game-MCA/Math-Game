@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -36,6 +37,9 @@ public class CardPanel extends JPanel{
 		NumberCard ans;
 		final String imageFile = "images/Card Bar.png";
 		BufferedImage background;
+		
+		Calculate calc;
+		ArrayList<String> values;
 		
 	public void init() {
 		
@@ -68,7 +72,7 @@ public class CardPanel extends JPanel{
 		this.add(card3);
 		this.add(card4);
 		this.add(card5);
-		//this.add(card6);
+		this.add(card6);
 		this.add(ans);
 		
 		try {
@@ -76,6 +80,19 @@ public class CardPanel extends JPanel{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		values = new ArrayList<String>();
+		
+		values.add(card1.getText());
+		values.add(card2.getText());
+		values.add(card3.getText());
+		values.add(card4.getText());
+		values.add(card5.getText());
+		values.add(card6.getText());
+		
+		calc = new Calculate();
+		
+		
 	}
 	
 	public void randomize(){
@@ -86,6 +103,14 @@ public class CardPanel extends JPanel{
 		card4.setText(""+generator.nextInt(21));
 		card5.setText(""+generator.nextInt(21));
 		card6.setText(""+generator.nextInt(21));
+		
+		values.set(0, card1.getText());
+		values.set(1, card2.getText());
+		values.set(2, card3.getText());
+		values.set(3, card4.getText());
+		values.set(4, card5.getText());
+		values.set(5, card6.getText());
+		ans.setText(""+calc.getAnswer(values));
 	}
 	
 	@Override

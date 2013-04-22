@@ -15,7 +15,7 @@ import javax.swing.border.LineBorder;
 import com.mathgame.database.MySQLAccess;
 
 /**
- * 
+ * OLD CLASS
  * The class that calculates using order of operations
  *
  */

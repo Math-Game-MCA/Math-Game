@@ -181,13 +181,17 @@ public class CompMover extends MouseInputAdapter
 		            		break;
 	            		}
             	}
-            	if(selectedComponent.getName().equals(("Answer")))
-            	{
-            		layer.remove(selectedComponent);
-                	layer.revalidate();
-                	view.holdPanel.add(selectedComponent);
-                	view.holdPanel.revalidate();
-                	view.layer.repaint();
+            	try{
+	            	if(selectedComponent.getName().equals(("Answer")))
+	            	{
+	            		layer.remove(selectedComponent);
+	                	layer.revalidate();
+	                	view.holdPanel.add(selectedComponent);
+	                	view.holdPanel.revalidate();
+	                	view.layer.repaint();
+	            	}
+            	} catch(Exception ex) {
+            		System.err.println("can't get selectedComponent name");
             	}
             		
             	
