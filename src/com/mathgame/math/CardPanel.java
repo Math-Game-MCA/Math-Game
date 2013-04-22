@@ -92,7 +92,6 @@ public class CardPanel extends JPanel{
 		
 		calc = new Calculate();
 		
-		
 	}
 	
 	public void randomize(){
@@ -111,6 +110,14 @@ public class CardPanel extends JPanel{
 		values.set(4, card5.getText());
 		values.set(5, card6.getText());
 		ans.setText(""+calc.getAnswer(values));
+		
+		card1.setValue(Double.parseDouble(card1.getText()));
+		card2.setValue(Double.parseDouble(card2.getText()));
+		card3.setValue(Double.parseDouble(card3.getText()));
+		card4.setValue(Double.parseDouble(card4.getText()));
+		card5.setValue(Double.parseDouble(card5.getText()));
+		card6.setValue(Double.parseDouble(card6.getText()));
+		ans.setValue(Double.parseDouble(ans.getText()));
 	}
 	
 	@Override

@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import com.mathgame.cards.NumberCard;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +21,8 @@ import java.util.Calendar;
  *The side panel on the right side of the GUI which contains accessory functions
  */
 public class SidePanel extends JPanel implements ActionListener{
+	MathGame mathgame;
+	
 	JLabel clock;
 	JLabel pass;//count how many you get right
 	JLabel fail;//how many you got wrong
@@ -30,6 +34,7 @@ public class SidePanel extends JPanel implements ActionListener{
 	
 	JButton help;
 	JButton exit;
+	JButton checkAns;
 	
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
 
@@ -55,8 +60,10 @@ public class SidePanel extends JPanel implements ActionListener{
 	Insets insets = getInsets(); //insets for the side panel for layout purposes
 	int diff=2;
 	
-	public void init()
+	public void init(MathGame mathgame)
 	{
+		this.mathgame = mathgame;
+		
 		//this.setBorder(new LineBorder(Color.BLACK));
 		this.setBounds(755, 0, 145, 620);//shifted 5 px to right due to unexplained overlap...
 		
@@ -68,6 +75,7 @@ public class SidePanel extends JPanel implements ActionListener{
 		score = new JLabel("0");
 		help = new JButton("Help");
 		exit = new JButton("Back");
+		checkAns = new JButton("Check Answer");
 		
 		pass = new JLabel("Correct: " + correct);
 		fail = new JLabel("Wrong: " + wrong);
@@ -89,6 +97,7 @@ public class SidePanel extends JPanel implements ActionListener{
 		add(score);
 		add(help);
 		add(exit);
+		add(checkAns);
 		//pane.add(pass);
 		//pane.add(fail);
 		//pane.add(diffInfo);
@@ -119,6 +128,9 @@ public class SidePanel extends JPanel implements ActionListener{
 		exit.setBounds(10, 580, 130, 30);
 		//exit.setFont(sansSerif36);
 		exit.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		checkAns.setBounds(10, 270, 130, 30);
+		checkAns.addActionListener(this);
 		
 		setDiff.setBounds(10, 190, 130, 30);
 		
@@ -194,15 +206,38 @@ public class SidePanel extends JPanel implements ActionListener{
 			//maybe turn into a hint button?
 		}
 			
-				
-			
-			if(timer.isRunning())
-			{
-				endTime = System.currentTimeMillis();
-				
-				clock.setText(timeFormat((int)(endTime-startTime)));
-			
+		if(e.getSource() == checkAns)	{
+				//System.out.println("SCORE: "+Double.parseDouble(score.getText()));
+			if(mathgame.workPanel.getComponentCount() == 1)	{
+				NumberCard finalAnsCard;
+				Component finalAnsComp = mathgame.workPanel.getComponent(0);
+				double computedAns;//answer user got
+				double actualAns;//actual answer to compare to
+				if(finalAnsComp instanceof NumberCard)	{
+					finalAnsCard = (NumberCard) finalAnsComp;
+					actualAns = mathgame.cardPanel.ans.getValue();
+					computedAns = finalAnsCard.getValue();
+					if(actualAns == computedAns)	{
+						JOptionPane.showMessageDialog(this, "Congratulations!  Victory is yours!");
+						score.setText(Double.toString(Double.parseDouble(score.getText()) + 20));
+					}
+				}
 			}
+			else
+			{
+				JOptionPane.showMessageDialog(this, "Error.  Cannot evaluate answer");
+				System.out.println("ERROR.. cannot check answer for this");
+			}
+			
+		}
+			
+		if(timer.isRunning())
+		{
+			endTime = System.currentTimeMillis();
+			
+			clock.setText(timeFormat((int)(endTime-startTime)));
+		
+		}
 		
 	}
 	
