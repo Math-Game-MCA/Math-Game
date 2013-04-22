@@ -15,7 +15,7 @@ import javax.swing.border.LineBorder;
 import com.mathgame.database.MySQLAccess;
 
 /**
- * @author Hima
+ * 
  * Adapter class which is used as an item listener.
  * It listens for the state of components being changed, such as checkboxes being clicked.
  *

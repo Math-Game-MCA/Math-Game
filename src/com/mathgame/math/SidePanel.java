@@ -1,11 +1,17 @@
 package com.mathgame.math;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+
+import com.mathgame.cards.NumberCard;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 
 
@@ -15,6 +21,8 @@ import java.util.Calendar;
  *The side panel on the right side of the GUI which contains accessory functions
  */
 public class SidePanel extends JPanel implements ActionListener{
+	MathGame mathgame;
+	
 	JLabel clock;
 	JLabel pass;//count how many you get right
 	JLabel fail;//how many you got wrong
@@ -26,8 +34,12 @@ public class SidePanel extends JPanel implements ActionListener{
 	
 	JButton help;
 	JButton exit;
+	JButton checkAns;
 	
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
+
+	final String imageFile = "images/control bar.png";
+	BufferedImage background;
 	
 	//JTextArea error;
 	
@@ -48,14 +60,22 @@ public class SidePanel extends JPanel implements ActionListener{
 	Insets insets = getInsets(); //insets for the side panel for layout purposes
 	int diff=2;
 	
-	public void init()
+	public void init(MathGame mathgame)
 	{
+		this.mathgame = mathgame;
+		
+		//this.setBorder(new LineBorder(Color.BLACK));
+		this.setBounds(755, 0, 145, 620);//shifted 5 px to right due to unexplained overlap...
+		
+		this.setLayout(null);
+		
 		//instantiate controls
 		clock = new JLabel("00:00");
 		toggle = new JButton("Start/Stop");
 		score = new JLabel("0");
 		help = new JButton("Help");
 		exit = new JButton("Back");
+		checkAns = new JButton("Check Answer");
 		
 		pass = new JLabel("Correct: " + correct);
 		fail = new JLabel("Wrong: " + wrong);
@@ -64,6 +84,12 @@ public class SidePanel extends JPanel implements ActionListener{
 		setDiff = new JTextField("");
 		updateDiff = new JButton("Update Difficulty");
 		
+		try {
+			background = ImageIO.read(new File(imageFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		//TEMPORARILY DISABLING CONTROLS TO TEST PANEL
 		//TODO: Change controls to match end specifications
 		add(clock);
@@ -71,6 +97,7 @@ public class SidePanel extends JPanel implements ActionListener{
 		add(score);
 		add(help);
 		add(exit);
+		add(checkAns);
 		//pane.add(pass);
 		//pane.add(fail);
 		//pane.add(diffInfo);
@@ -80,36 +107,34 @@ public class SidePanel extends JPanel implements ActionListener{
 		//pane.add(error);
 		
 		//define properties of controls
-		clock.setPreferredSize(new Dimension(130, 60));
-		clock.setBounds(760 + insets.left, 10 + insets.top, 130, 60);
+		clock.setBounds(10, 10, 130, 60);
 		clock.setFont(sansSerif36);
 		clock.setHorizontalAlignment(SwingConstants.CENTER);
-		clock.setBorder(new LineBorder(Color.BLACK));
+		//clock.setBorder(new LineBorder(Color.BLACK));
 		
-		toggle.setPreferredSize(new Dimension(130, 30));
-		toggle.addActionListener(this);
-		
-		score.setPreferredSize(new Dimension(130, 60));
-		score.setBounds(760 + insets.left, 80 + insets.top, 130, 60);
+		score.setBounds(10, 80, 130, 60);
 		score.setFont(sansSerif36);
 		score.setHorizontalAlignment(SwingConstants.CENTER);
-		score.setBorder(new LineBorder(Color.BLACK));
+		//score.setBorder(new LineBorder(Color.BLACK));
+		
+		toggle.setBounds(10, 150, 130, 30);
+		toggle.addActionListener(this);
 
-		help.setPreferredSize(new Dimension(130, 30));
-		help.setLocation(760, 540);
-		help.setBounds(760 + insets.left, 540 + insets.top, 130, 30);
+		help.setBounds(10, 540, 130, 30);
 		//help.setFont(sansSerif36);
 		help.setHorizontalAlignment(SwingConstants.CENTER);
 		help.addActionListener(this);
 		
-		exit.setPreferredSize(new Dimension(130, 30));
-		exit.setLocation(760, 580);
-		exit.setBounds(760 + insets.left, 580 + insets.top, 130, 30);
+		exit.setBounds(10, 580, 130, 30);
 		//exit.setFont(sansSerif36);
 		exit.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		setDiff.setPreferredSize(new Dimension(130, 30));
+		checkAns.setBounds(10, 270, 130, 30);
+		checkAns.addActionListener(this);
 		
+		setDiff.setBounds(10, 190, 130, 30);
+		
+		updateDiff.setBounds(10, 230, 130, 30);
 		updateDiff.addActionListener(this);
 		
 		//error = new JTextArea("Text");
@@ -120,10 +145,16 @@ public class SidePanel extends JPanel implements ActionListener{
 		timer.setRepeats(true);
 		
 		//stopWatch = new StopWatch();
-		
-		
-		this.setBorder(new LineBorder(Color.CYAN));
 		//this.add(pane);
+		
+		
+	}
+	
+	@Override
+	public void paintComponent(Graphics g){
+		super.paintComponents(g);
+		g.drawImage(background, 0, 0, null);
+
 		
 	}
 	
@@ -175,15 +206,38 @@ public class SidePanel extends JPanel implements ActionListener{
 			//maybe turn into a hint button?
 		}
 			
-				
-			
-			if(timer.isRunning())
-			{
-				endTime = System.currentTimeMillis();
-				
-				clock.setText(timeFormat((int)(endTime-startTime)));
-			
+		if(e.getSource() == checkAns)	{
+				//System.out.println("SCORE: "+Double.parseDouble(score.getText()));
+			if(mathgame.workPanel.getComponentCount() == 1)	{
+				NumberCard finalAnsCard;
+				Component finalAnsComp = mathgame.workPanel.getComponent(0);
+				double computedAns;//answer user got
+				double actualAns;//actual answer to compare to
+				if(finalAnsComp instanceof NumberCard)	{
+					finalAnsCard = (NumberCard) finalAnsComp;
+					actualAns = mathgame.cardPanel.ans.getValue();
+					computedAns = finalAnsCard.getValue();
+					if(actualAns == computedAns)	{
+						JOptionPane.showMessageDialog(this, "Congratulations!  Victory is yours!");
+						score.setText(Double.toString(Double.parseDouble(score.getText()) + 20));
+					}
+				}
 			}
+			else
+			{
+				JOptionPane.showMessageDialog(this, "Error.  Cannot evaluate answer");
+				System.out.println("ERROR.. cannot check answer for this");
+			}
+			
+		}
+			
+		if(timer.isRunning())
+		{
+			endTime = System.currentTimeMillis();
+			
+			clock.setText(timeFormat((int)(endTime-startTime)));
+		
+		}
 		
 	}
 	
