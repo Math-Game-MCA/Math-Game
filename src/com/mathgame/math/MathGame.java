@@ -27,10 +27,8 @@ public class MathGame extends JApplet implements ActionListener
 {
 
 	int appWidth=900;//1300 or 900
-	int appHeight=620;//
-	//float scale = .7f;
+	int appHeight=620;
 	static int difficulty = 2;//from 2-5 represents how many cards to use
-	//GhostGlassPane glassPane;
 	
 	static Calc calc;
 	
@@ -47,15 +45,6 @@ public class MathGame extends JApplet implements ActionListener
 	HoldPanel holdPanel;//holds intermediate sums, differences, products, and quotients
 	
 	//TODO: Delete extra variables, notably the cards
-	JTextField textFieldA;
-	JTextField textFieldS;
-	JTextField textFieldM;
-	JTextField textFieldD;
-	NumberCard card1;
-	NumberCard card2;
-	NumberCard card3;
-	NumberCard card4;
-	NumberCard card5;
 	
 	Rectangle home1;
 	Rectangle home2;
@@ -63,12 +52,6 @@ public class MathGame extends JApplet implements ActionListener
 	Rectangle home4;
 	Rectangle home5;
 	Rectangle home6;
-	OperationCard opA;
-	OperationCard opS;
-	OperationCard opM;
-	OperationCard opD;
-	OperationCard opParen0;
-	OperationCard opParen1;
 	
 	Point[] placesHomes = new Point[12];
 	
@@ -77,10 +60,6 @@ public class MathGame extends JApplet implements ActionListener
 	int answerS;
 	int answerM;
 	float answerD;
-	
-	
-	JButton enter1;
-	JButton enter2;
 	
 	int enterAction;//0-3
 	JButton random;
@@ -157,8 +136,6 @@ public class MathGame extends JApplet implements ActionListener
 		 * Move necessary buttons, such as "practice mode" to sidebar - can pass values from class into main
 		 * ~Roland
 		 */
-		enter1 = new JButton("Enter 1");
-		enter2 = new JButton("Enter 2");
 		
 		database = new JCheckBox("Use Database");
 		database.setMnemonic(KeyEvent.VK_D);
@@ -167,21 +144,13 @@ public class MathGame extends JApplet implements ActionListener
 		
 		freeStyle = new JCheckBox("Practice Mode");
 		freeStyle.setMnemonic(KeyEvent.VK_P);
-		
-		enter1.addActionListener(this);
-		enter2.addActionListener(this);
-		
-		enter1.setMargin(null);
-		enter2.setMargin(null);
 	
-		random = new JButton("Randomize");
+		//TODO Turn this into a reset button of some sort
+		/*random = new JButton("Randomize");
 		random.addActionListener(this);
 		
 		clear = new JButton("Clear");
-		clear.addActionListener(this);
-		
-		enter1.setPreferredSize(new Dimension(95, 20));
-		enter2.setPreferredSize(new Dimension(95, 20));
+		clear.addActionListener(this);*/
 		
 		home1 = new Rectangle(cardPanel.card1.getBounds());
 		home2 = new Rectangle(cardPanel.card2.getBounds());
@@ -202,8 +171,6 @@ public class MathGame extends JApplet implements ActionListener
 		cardHomes[9] = opPanel.multiply.getBounds();
 		cardHomes[10] = opPanel.divide.getBounds();
 		
-		//cardHomes[10] = opParen1.getBounds();
-		
 		cards[0] = cardPanel.card1;
 		cards[1] = cardPanel.card2;
 		cards[2] = cardPanel.card3;
@@ -215,9 +182,6 @@ public class MathGame extends JApplet implements ActionListener
 		cards[8] = opPanel.subtract;
 		cards[9] = opPanel.multiply;
 		cards[10] = opPanel.divide;
-		
-		
-		//panel1.setBorder(cardBorder);
 
 		cardPanel.card1.setTransferHandler(new TransferHandler("text"));
 		cardPanel.card2.setTransferHandler(new TransferHandler("text"));
@@ -247,7 +211,6 @@ public class MathGame extends JApplet implements ActionListener
 		cardPanel.card5.addMouseListener(mover);
 		cardPanel.card6.addMouseListener(mover);
 		cardPanel.ans.addMouseListener(mover);
-		
 		
 		cardPanel.card1.addMouseMotionListener(mover);
 		cardPanel.card2.addMouseMotionListener(mover);
@@ -285,22 +248,13 @@ public class MathGame extends JApplet implements ActionListener
 		Items itemListener = new Items(this);
 		database.addItemListener(itemListener);
 		freeStyle.addItemListener(itemListener);
-		
-		//TODO: GET CARDS TO RANDOMIZE
-	/*calc = new Calc(MathGame.this);
-	//////////////////////////////////////
-	calc.randomize();
-	/////////////////////////////////////
-	Items itemListener = new Items(this);
-	database.addItemListener(itemListener);
-	freeStyle.addItemListener(itemListener);*/
 	}
 
 	
 	@Override
 	public void actionPerformed(ActionEvent evt)
 	{
-		if(evt.getSource() == enter1)
+		/*if(evt.getSource() == enter1)
 		{
 			ArrayList<String> temp = new ArrayList<String>();
 			for(int r=0;r<panel2a.getComponentCount();r++)
@@ -372,8 +326,8 @@ public class MathGame extends JApplet implements ActionListener
 				}
 			}
 			
-		}
-		else if(evt.getSource() == random)
+		}*/
+		if(evt.getSource() == random)
 			calc.randomize();
 		else if(evt.getSource() == clear)
 			calc.clear();
@@ -392,7 +346,6 @@ public class MathGame extends JApplet implements ActionListener
 		difficulty = diff;
 		System.out.println("DIFFICULTY FROM MAIN SET: " + difficulty);
 		calc.randomize();
-		//randomize();
 	}
 	
 	/**
@@ -401,7 +354,6 @@ public class MathGame extends JApplet implements ActionListener
 	public int getDifficulty(){
 		System.out.println("DIFFICULTY FROM MAIN GET: " + difficulty);
 		return difficulty;
-		//randomize();
 	}
 	
 	/**

@@ -25,8 +25,6 @@ public class Calc {
 	private static MathGame mathGame;
 	
 	private static JLayeredPane layer;
-	private static JPanel panel2a;
-	private static JPanel panel2b;
 	private static JLabel correct;
 	private static JLabel correction;
 	private static boolean useDatabase;
@@ -85,8 +83,6 @@ public class Calc {
 		this.opS = game.opPanel.subtract;
 		this.opM = game.opPanel.multiply;
 		this.opD = game.opPanel.divide;
-		this.opParen0 = game.opParen0;
-		this.opParen1 = game.opParen1;
 		
 		this.answerA = game.answerA;
 		this.answerS = game.answerS;
