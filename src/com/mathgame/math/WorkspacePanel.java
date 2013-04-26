@@ -61,12 +61,10 @@ public class WorkspacePanel extends JPanel{
 	public void calcCheck(){
 		int count = this.getComponentCount();
 		System.out.println(count);
-		double answer= -1;
+		double answer= -1; //TODO HIMA!!! What if the answer actually is -1???
 		if(count == 3)
 		{
 			answer = calc.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2), game);
-			//String restoreOperator = new String(currentOperation());
-			//game.opPanel.addOperator(restoreOperator);
 			System.out.println("NUM1:"+this.getComponentCount());
 		}
 		
@@ -74,9 +72,21 @@ public class WorkspacePanel extends JPanel{
 		{
 			System.out.println("answer:"+answer);
 			NumberCard answerCard = new NumberCard(answer);
+			answerCard.setValue(answer);
 			answerCard.addMouseListener(mover);
 			answerCard.addMouseMotionListener(mover);
 			answerCard.setName("Answer");
+			answerCard.setHome("hold");//the hold panel will be it's original location
+			
+			if(this.getComponent(0) instanceof NumberCard && this.getComponent(1) instanceof OperationCard &&
+					this.getComponent(2) instanceof NumberCard)	{
+				NumberCard card1 = (NumberCard) this.getComponent(0);
+				NumberCard card2 = (NumberCard) this.getComponent(2);
+				OperationCard op = (OperationCard) this.getComponent(1);
+				System.out.println("Registering new Move");
+				game.sidePanel.undo.registerNewMove(card1, op, card2, answerCard);
+				//when cards collide... it becomes a new move!
+			}
 			
 			String restoreOperator = new String(currentOperation());
 			game.opPanel.addOperator(restoreOperator);
@@ -87,7 +97,6 @@ public class WorkspacePanel extends JPanel{
 			this.remove(0);
 			this.remove(0);
 			
-			//this.remove(0);
 			add(answerCard);
 			
 			//System.out.println(answerCard.getParent());

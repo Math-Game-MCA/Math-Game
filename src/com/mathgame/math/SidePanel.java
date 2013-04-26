@@ -5,6 +5,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import com.mathgame.cards.NumberCard;
+import com.mathgame.cards.OperationCard;
+import com.mathgame.cardmanager.UndoButton;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -35,6 +37,7 @@ public class SidePanel extends JPanel implements ActionListener{
 	JButton help;
 	JButton exit;
 	JButton checkAns;
+	UndoButton undo;
 	
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
 
@@ -76,6 +79,7 @@ public class SidePanel extends JPanel implements ActionListener{
 		help = new JButton("Help");
 		exit = new JButton("Back");
 		checkAns = new JButton("Check Answer");
+		undo = new UndoButton("Undo Move", mathgame);
 		
 		pass = new JLabel("Correct: " + correct);
 		fail = new JLabel("Wrong: " + wrong);
@@ -90,76 +94,56 @@ public class SidePanel extends JPanel implements ActionListener{
 			e.printStackTrace();
 		}
 		
-		//TEMPORARILY DISABLING CONTROLS TO TEST PANEL
-		//TODO: Change controls to match end specifications
 		add(clock);
 		add(toggle);
 		add(score);
 		add(help);
 		add(exit);
 		add(checkAns);
-		//pane.add(pass);
-		//pane.add(fail);
-		//pane.add(diffInfo);
+		add(undo);
 		add(setDiff);
 		add(updateDiff);
-		
-		//pane.add(error);
 		
 		//define properties of controls
 		clock.setBounds(10, 10, 130, 60);
 		clock.setFont(sansSerif36);
 		clock.setHorizontalAlignment(SwingConstants.CENTER);
-		//clock.setBorder(new LineBorder(Color.BLACK));
 		
 		score.setBounds(10, 80, 130, 60);
 		score.setFont(sansSerif36);
 		score.setHorizontalAlignment(SwingConstants.CENTER);
-		//score.setBorder(new LineBorder(Color.BLACK));
 		
 		toggle.setBounds(10, 150, 130, 30);
 		toggle.addActionListener(this);
 
 		help.setBounds(10, 540, 130, 30);
-		//help.setFont(sansSerif36);
 		help.setHorizontalAlignment(SwingConstants.CENTER);
 		help.addActionListener(this);
 		
 		exit.setBounds(10, 580, 130, 30);
-		//exit.setFont(sansSerif36);
 		exit.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		checkAns.setBounds(10, 270, 130, 30);
 		checkAns.addActionListener(this);
+		
+		undo.setBounds(10, 310, 130, 30);
+		undo.addActionListener(this);
 		
 		setDiff.setBounds(10, 190, 130, 30);
 		
 		updateDiff.setBounds(10, 230, 130, 30);
 		updateDiff.addActionListener(this);
 		
-		//error = new JTextArea("Text");
-		
-		
-		
 		timer = new Timer(1000, this);
 		timer.setRepeats(true);
-		
-		//stopWatch = new StopWatch();
-		//this.add(pane);
-		
-		
 	}
 	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
 		g.drawImage(background, 0, 0, null);
-
-		
 	}
 	
-	long cur;
-	long end;
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == toggle)
@@ -219,6 +203,7 @@ public class SidePanel extends JPanel implements ActionListener{
 					computedAns = finalAnsCard.getValue();
 					if(actualAns == computedAns)	{
 						JOptionPane.showMessageDialog(this, "Congratulations!  Victory is yours!");
+						//later on change to something else... victory song? who knows...
 						score.setText(Double.toString(Double.parseDouble(score.getText()) + 20));
 					}
 				}
@@ -229,6 +214,35 @@ public class SidePanel extends JPanel implements ActionListener{
 				System.out.println("ERROR.. cannot check answer for this");
 			}
 			
+		}
+
+		if(e.getSource() == undo)	{
+			
+			NumberCard tempnum1 = undo.getPrevNum1();
+			NumberCard tempnum2 = undo.getPrevNum2();
+			
+			//no need to restore the operator b/c it is automatically regenerated
+		
+			if(tempnum1.getHome() == "home")	{//originally in card panel
+				System.out.println("restore card1");
+				mathgame.cardPanel.restoreCard(tempnum1.getValue());
+			}
+			else if(tempnum1.getHome() == "hold")	{//new card in holding area
+				mathgame.holdPanel.add(tempnum1);
+			}
+			
+			if(tempnum2.getHome() == "home")	{
+				System.out.println("restore card2");
+				mathgame.cardPanel.restoreCard(tempnum2.getValue());
+			}
+			else if(tempnum2.getHome() == "hold")	{
+				mathgame.holdPanel.add(tempnum2);
+			}
+			
+			mathgame.workPanel.remove(0);
+			mathgame.workPanel.revalidate();
+			mathgame.workPanel.repaint();
+			mathgame.cardPanel.revalidate();
 		}
 			
 		if(timer.isRunning())

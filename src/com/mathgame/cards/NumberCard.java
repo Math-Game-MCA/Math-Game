@@ -17,11 +17,26 @@ public class NumberCard extends JLabel{
 	final Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 22);
 	//sizes can be overridden with setWidth and setHeight methods
 	public String type = "none";
-	
+	public String home;//hold or home (i.e. was it a created card or a new card?)
+
 	public NumberCard(){
 		
 	}
 	
+	/**
+	 * @return the home
+	 */
+	public String getHome() {
+		return home;
+	}
+
+	/**
+	 * @param home the home to set
+	 */
+	public void setHome(String home) {
+		this.home = home;
+	}
+
 	public NumberCard(double n){
 		value = n;
 		this.setText(String.valueOf(n));

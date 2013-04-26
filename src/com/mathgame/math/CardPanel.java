@@ -14,6 +14,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -38,16 +39,19 @@ public class CardPanel extends JPanel{
 		final String imageFile = "images/Card Bar.png";
 		BufferedImage background;
 		
+		JLayeredPane masterLayer;
+		
 		Calculate calc;
 		ArrayList<String> values;
 		
-	public void init() {
+	public void init(JLayeredPane masterLayer) {
 		
 		Dimension size = getPreferredSize();
 		size.width = 750;
 		size.height = 150;
 		setPreferredSize(size);
 		setLayout(null);
+		this.masterLayer = masterLayer;
 		//TitledBorder cardBorder = BorderFactory.createTitledBorder("My Cards");
 		//this.setBorder(cardBorder);//currently for visibility; may need to be removed later
 		
@@ -118,6 +122,45 @@ public class CardPanel extends JPanel{
 		card5.setValue(Double.parseDouble(card5.getText()));
 		card6.setValue(Double.parseDouble(card6.getText()));
 		ans.setValue(Double.parseDouble(ans.getText()));
+		
+		//tag each card with "home" (cardpanel) being original location
+		card1.setHome("home");
+		card2.setHome("home");
+		card3.setHome("home");
+		card4.setHome("home");
+		card5.setHome("home");
+		card6.setHome("home");
+		ans.setHome("home");
+	}
+	
+	public void restoreCard(double cardvalue)	{
+		//restores a card deleted during calculation; must ensure card exists first!
+
+		if(cardvalue == Double.parseDouble(values.get(0)))	{
+			card1.setBounds(20, 15, 80, 120);
+			System.out.println("card1 restored");
+			masterLayer.add(card1, new Integer(1));
+		}
+		else if(cardvalue == Double.parseDouble(values.get(1)))	{
+			card2.setBounds(110, 15, 80, 120);
+			masterLayer.add(card2, new Integer(1));
+		}
+		else if(cardvalue == Double.parseDouble(values.get(2)))	{
+			card3.setBounds(200, 15, 80, 120);
+			masterLayer.add(card3, new Integer(1));
+		}
+		else if(cardvalue == Double.parseDouble(values.get(3)))	{
+			card4.setBounds(290, 15, 80, 120);
+			masterLayer.add(card4, new Integer(1));
+		}
+		else if(cardvalue == Double.parseDouble(values.get(4)))	{
+			card5.setBounds(380, 15, 80, 120);
+			masterLayer.add(card5, new Integer(1));
+		}
+		else if(cardvalue == Double.parseDouble(values.get(5)))	{
+			card6.setBounds(470, 15, 80, 120);
+			masterLayer.add(card6, new Integer(1));
+		}
 	}
 	
 	@Override
