@@ -78,14 +78,20 @@ public class WorkspacePanel extends JPanel{
 			answerCard.setName("Answer");
 			answerCard.setHome("hold");//the hold panel will be it's original location
 			
-			if(this.getComponent(0) instanceof NumberCard && this.getComponent(1) instanceof OperationCard &&
-					this.getComponent(2) instanceof NumberCard)	{
-				NumberCard card1 = (NumberCard) this.getComponent(0);
-				NumberCard card2 = (NumberCard) this.getComponent(2);
-				OperationCard op = (OperationCard) this.getComponent(1);
-				System.out.println("Registering new Move");
-				game.sidePanel.undo.registerNewMove(card1, op, card2, answerCard);
-				//when cards collide... it becomes a new move!
+			//for undo; covers scenario in which player leaves cards in workspace
+			if(this.getComponentCount() == 3)	{
+				if(this.getComponent(0) instanceof NumberCard && this.getComponent(1) instanceof OperationCard &&
+						this.getComponent(2) instanceof NumberCard)	{
+					NumberCard card1 = (NumberCard) this.getComponent(0);
+					NumberCard card2 = (NumberCard) this.getComponent(2);
+					OperationCard op = (OperationCard) this.getComponent(1);
+					System.out.println("Registering new Move");
+					game.sidePanel.undo.registerNewMove(card1, op, card2, answerCard);
+					//when cards collide... it becomes a new move!
+				}
+			}
+			else	{	//covers scenario in which player moves cards to hold
+				//TODO Work on Multiple Undo Capability
 			}
 			
 			String restoreOperator = new String(currentOperation());
