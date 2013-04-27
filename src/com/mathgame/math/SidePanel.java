@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -239,9 +240,41 @@ public class SidePanel extends JPanel implements ActionListener{
 				mathgame.holdPanel.add(tempnum2);
 			}
 			
-			mathgame.workPanel.remove(0);
+			//covers scenario in which the previously created card was put in hold
+			if(mathgame.workPanel.getComponentCount() == 0)	{
+				NumberCard prevAns = undo.getPrevNewNum();//holds the previously calculated answer
+				NumberCard temp;
+				//cycle through cards in hold
+				for(int i = 0; i < mathgame.holdPanel.getComponentCount(); i++)	{
+					temp = (NumberCard) mathgame.holdPanel.getComponent(i);
+					//note: cast (NumberCard) assumes that only NumberCards will be in holdpanel
+					if(temp.getValue() == prevAns.getValue())	{//check to see if the checked card is the previous answer
+						mathgame.holdPanel.remove(i);
+						i = mathgame.holdPanel.getComponentCount() + 1;//so we can exit this loop
+					}
+				}
+			}
+			//covers scenario in which previously created card is still in workpanel
+			else	{
+				NumberCard prevAns = undo.getPrevNewNum();//holds the previously calculated answer
+				NumberCard temp;
+				//cycle through cards in workspace
+				for(int i = 0; i < mathgame.workPanel.getComponentCount(); i++)	{
+					if(mathgame.workPanel.getComponent(i) instanceof NumberCard)	{
+						temp = (NumberCard) mathgame.workPanel.getComponent(i);
+						if(temp.getValue() == prevAns.getValue())	{//check to see if the checked card is the previous answer
+							mathgame.workPanel.remove(i);
+							i = mathgame.workPanel.getComponentCount() + 1;//so we can exit this loop
+						}	
+					}
+				}
+			}
+			
+			undo.completeUndo();
 			mathgame.workPanel.revalidate();
 			mathgame.workPanel.repaint();
+			mathgame.holdPanel.revalidate();
+			mathgame.holdPanel.repaint();
 			mathgame.cardPanel.revalidate();
 		}
 			

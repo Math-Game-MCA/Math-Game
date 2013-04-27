@@ -135,31 +135,49 @@ public class CardPanel extends JPanel{
 	
 	public void restoreCard(double cardvalue)	{
 		//restores a card deleted during calculation; must ensure card exists first!
-
+		int count = 0;//when count equals 2, stop filling in cards!!!
 		if(cardvalue == Double.parseDouble(values.get(0)))	{
 			card1.setBounds(20, 15, 80, 120);
 			System.out.println("card1 restored");
 			masterLayer.add(card1, new Integer(1));
+			if(count == 2)	{
+				return;
+			}
 		}
-		else if(cardvalue == Double.parseDouble(values.get(1)))	{
+		if(cardvalue == Double.parseDouble(values.get(1)))	{
 			card2.setBounds(110, 15, 80, 120);
 			masterLayer.add(card2, new Integer(1));
+			if(count == 2)	{
+				return;
+			}
 		}
-		else if(cardvalue == Double.parseDouble(values.get(2)))	{
+		if(cardvalue == Double.parseDouble(values.get(2)))	{
 			card3.setBounds(200, 15, 80, 120);
 			masterLayer.add(card3, new Integer(1));
+			if(count == 2)	{
+				return;
+			}
 		}
-		else if(cardvalue == Double.parseDouble(values.get(3)))	{
+		if(cardvalue == Double.parseDouble(values.get(3)))	{
 			card4.setBounds(290, 15, 80, 120);
 			masterLayer.add(card4, new Integer(1));
+			if(count == 2)	{
+				return;
+			}
 		}
-		else if(cardvalue == Double.parseDouble(values.get(4)))	{
+		if(cardvalue == Double.parseDouble(values.get(4)))	{
 			card5.setBounds(380, 15, 80, 120);
 			masterLayer.add(card5, new Integer(1));
+			if(count == 2)	{
+				return;
+			}
 		}
-		else if(cardvalue == Double.parseDouble(values.get(5)))	{
+		if(cardvalue == Double.parseDouble(values.get(5)))	{
 			card6.setBounds(470, 15, 80, 120);
 			masterLayer.add(card6, new Integer(1));
+			if(count == 2)	{
+				return;
+			}
 		}
 	}
 	

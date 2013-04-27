@@ -72,5 +72,13 @@ public class UndoButton extends JButton{
 	public OperationCard getPrevOperation()	{
 		return tracker.getPreviousMove().getOp();
 	}
+	
+	/**
+	 * Returns the final answer of previous move
+	 * @return NumberCard
+	 */
+	public NumberCard getPrevNewNum()	{
+		return tracker.getPreviousMove().getNewNum();
+	}
 
 }
