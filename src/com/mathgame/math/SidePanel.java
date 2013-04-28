@@ -232,6 +232,10 @@ public class SidePanel extends JPanel implements ActionListener{
 				mathgame.cardPanel.restoreCard(tempnum1.getValue());
 			}
 			else if(tempnum1.getHome() == "hold")	{//new card in holding area
+				NumberCard temp = (NumberCard) mathgame.holdPanel.getComponent(0);
+				if ( temp.getHome() == "home" )		{
+					mathgame.cardPanel.restoreCard(temp.getValue());
+				}
 				mathgame.holdPanel.add(tempnum1);
 			}
 			
