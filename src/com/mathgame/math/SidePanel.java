@@ -243,6 +243,8 @@ public class SidePanel extends JPanel implements ActionListener{
 				mathgame.holdPanel.add(tempnum2);
 			}
 			
+			//TODO Note that if user puts a different card in the workspace than the previous answer the undo fails to delete previous answer in hold
+			
 			//covers scenario in which the previously created card was put in hold
 			if(mathgame.workPanel.getComponentCount() == 0)	{
 				NumberCard prevAns = undo.getPrevNewNum();//holds the previously calculated answer
@@ -252,6 +254,7 @@ public class SidePanel extends JPanel implements ActionListener{
 					temp = (NumberCard) mathgame.holdPanel.getComponent(i);
 					//note: cast (NumberCard) assumes that only NumberCards will be in holdpanel
 					if(temp.getValue() == prevAns.getValue())	{//check to see if the checked card is the previous answer
+						System.out.println("Deleting card in hold");
 						mathgame.holdPanel.remove(i);
 						i = mathgame.holdPanel.getComponentCount() + 1;//so we can exit this loop
 					}
