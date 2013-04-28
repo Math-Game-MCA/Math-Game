@@ -64,6 +64,10 @@ public class MoveTracker {
 	 */
 	public Moves getPreviousMove()	{//primarily for the purpose of undoing a move
 		System.out.println("index: "+indexNum);
+		if(indexNum <= 0)	{//protect against too many undos
+			System.out.println("Too many undos!");
+			return null;
+		}
 		Moves prevMove = moves.get(indexNum - 1);
 		
 		/* Note: if redo capability is added,

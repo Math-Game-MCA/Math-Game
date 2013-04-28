@@ -223,7 +223,10 @@ public class SidePanel extends JPanel implements ActionListener{
 			NumberCard tempnum2 = undo.getPrevNum2();
 			
 			//no need to restore the operator b/c it is automatically regenerated
-		
+			
+			if(tempnum1 == null || tempnum2 == null)	{//there's no more moves... too many undos!
+				return;
+			}
 			if(tempnum1.getHome() == "home")	{//originally in card panel
 				System.out.println("restore card1");
 				mathgame.cardPanel.restoreCard(tempnum1.getValue());

@@ -50,35 +50,59 @@ public class UndoButton extends JButton{
 	}
 	
 	/**
-	 * Returns previous first card
+	 * Returns previous first card.  Returns null if none exist.
 	 * @return NumberCard
 	 */
 	public NumberCard getPrevNum1()	{
-		return tracker.getPreviousMove().getNum1();
+		try	{
+			NumberCard temp = tracker.getPreviousMove().getNum1();
+			return temp;
+		}
+		catch(NullPointerException e)	{
+			return null;
+		}
 	}
 	
 	/**
-	 * Returns previous second card
+	 * Returns previous second card.  Returns null if none exist.
 	 * @return NumberCard
 	 */
 	public NumberCard getPrevNum2()	{
-		return tracker.getPreviousMove().getNum2();
+		try	{
+			NumberCard temp = tracker.getPreviousMove().getNum2();
+			return temp;
+		}
+		catch(NullPointerException e)	{
+			return null;
+		}
 	}
 	
 	/**
-	 * Returns previous operation
+	 * Returns previous operation.  Returns null if none exist.
 	 * @return OperationCard
 	 */
 	public OperationCard getPrevOperation()	{
-		return tracker.getPreviousMove().getOp();
+		try	{
+			OperationCard temp = tracker.getPreviousMove().getOp();
+			return temp;
+		}
+		catch(NullPointerException e)	{
+			return null;
+		}
 	}
 	
 	/**
-	 * Returns the final answer of previous move
+	 * Returns the final answer of previous move.   Returns null if none exist.
 	 * @return NumberCard
 	 */
 	public NumberCard getPrevNewNum()	{
-		return tracker.getPreviousMove().getNewNum();
+		try	{
+			NumberCard temp = tracker.getPreviousMove().getNewNum();
+			return temp;
+		}
+		catch(NullPointerException e)	{
+			return null;
+		}
 	}
 
 }
