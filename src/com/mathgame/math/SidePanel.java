@@ -39,6 +39,7 @@ public class SidePanel extends JPanel implements ActionListener{
 	JButton exit;
 	JButton checkAns;
 	UndoButton undo;
+	JButton reset;
 	
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
 
@@ -81,6 +82,7 @@ public class SidePanel extends JPanel implements ActionListener{
 		exit = new JButton("Back");
 		checkAns = new JButton("Check Answer");
 		undo = new UndoButton("Undo Move", mathgame);
+		reset = new JButton("Reset");
 		
 		pass = new JLabel("Correct: " + correct);
 		fail = new JLabel("Wrong: " + wrong);
@@ -102,6 +104,7 @@ public class SidePanel extends JPanel implements ActionListener{
 		add(exit);
 		add(checkAns);
 		add(undo);
+		add(reset);
 		add(setDiff);
 		add(updateDiff);
 		
@@ -127,8 +130,11 @@ public class SidePanel extends JPanel implements ActionListener{
 		checkAns.setBounds(10, 270, 130, 30);
 		checkAns.addActionListener(this);
 		
-		undo.setBounds(10, 310, 130, 30);
+		undo.setBounds(10, 300, 130, 30);
 		undo.addActionListener(this);
+		
+		reset.setBounds(10, 330, 130, 30);
+		reset.addActionListener(this);
 		
 		setDiff.setBounds(10, 190, 130, 30);
 		
@@ -288,7 +294,9 @@ public class SidePanel extends JPanel implements ActionListener{
 			mathgame.holdPanel.repaint();
 			mathgame.cardPanel.revalidate();
 		}
-			
+		if(e.getSource() == reset) {
+			mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
+		}
 		if(timer.isRunning())
 		{
 			endTime = System.currentTimeMillis();

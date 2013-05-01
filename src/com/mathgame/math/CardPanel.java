@@ -98,14 +98,22 @@ public class CardPanel extends JPanel{
 		
 	}
 	
-	public void randomize(){
+	public ArrayList<Integer> randomValues() {
 		Random generator = new Random();
-		card1.setText(""+generator.nextInt(21));
-		card2.setText(""+generator.nextInt(21));
-		card3.setText(""+generator.nextInt(21));
-		card4.setText(""+generator.nextInt(21));
-		card5.setText(""+generator.nextInt(21));
-		card6.setText(""+generator.nextInt(21));
+		ArrayList<Integer> cardValues = new ArrayList<Integer>();
+		for (int x = 0; x < 6; x++) {
+			cardValues.add(generator.nextInt(21));
+		}
+		return cardValues;
+	} //generate a random arraylist of integers to be added to the cards; may be replaced in the future
+	
+	public void randomize( ArrayList<Integer> newValues ){ //receives an arraylist (can be changed in the future...) and (re)assigns the values
+		card1.setText(""+newValues.get(0));
+		card2.setText(""+newValues.get(1));
+		card3.setText(""+newValues.get(2));
+		card4.setText(""+newValues.get(3));
+		card5.setText(""+newValues.get(4));
+		card6.setText(""+newValues.get(5));
 		
 		values.set(0, card1.getText());
 		values.set(1, card2.getText());
