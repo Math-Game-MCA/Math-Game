@@ -224,79 +224,17 @@ public class SidePanel extends JPanel implements ActionListener{
 		}
 
 		if(e.getSource() == undo)	{
-			
-			NumberCard tempnum1 = undo.getPrevNum1();
-			NumberCard tempnum2 = undo.getPrevNum2();
-			
-			//no need to restore the operator b/c it is automatically regenerated
-			
-			if(tempnum1 == null || tempnum2 == null)	{//there's no more moves... too many undos!
-				return;
-			}
-			if(tempnum1.getHome() == "home")	{//originally in card panel
-				System.out.println("restore card1");
-				mathgame.cardPanel.restoreCard(tempnum1.getValue());
-			}
-			else if(tempnum1.getHome() == "hold")	{//new card in holding area
-				for ( int x = 0; x < mathgame.holdPanel.getComponentCount(); x++ ) {
-					NumberCard temp = (NumberCard) mathgame.holdPanel.getComponent(0);
-					if ( temp.getHome() == "home" )		{
-						mathgame.cardPanel.restoreCard(temp.getValue());
-					} //check for cards that were dragged from home into workspace and restores them
-				}
-				mathgame.holdPanel.add(tempnum1);
-			}
-			
-			if(tempnum2.getHome() == "home")	{
-				System.out.println("restore card2");
-				mathgame.cardPanel.restoreCard(tempnum2.getValue());
-			}
-			else if(tempnum2.getHome() == "hold")	{
-				mathgame.holdPanel.add(tempnum2);
-			}
-			
-			
-			//covers scenario in which the previously created card was put in hold
-			if(mathgame.workPanel.getComponentCount() == 0)	{
-				NumberCard prevAns = undo.getPrevNewNum();//holds the previously calculated answer
-				NumberCard temp;
-				//cycle through cards in hold
-				for(int i = 0; i < mathgame.holdPanel.getComponentCount(); i++)	{
-					temp = (NumberCard) mathgame.holdPanel.getComponent(i);
-					//note: cast (NumberCard) assumes that only NumberCards will be in holdpanel
-					if(temp.getValue() == prevAns.getValue())	{//check to see if the checked card is the previous answer
-						System.out.println("Deleting card in hold");
-						mathgame.holdPanel.remove(i);
-						i = mathgame.holdPanel.getComponentCount() + 1;//so we can exit this loop
-					}
-				}
-			}
-			//covers scenario in which previously created card is still in workpanel
-			else	{
-				NumberCard prevAns = undo.getPrevNewNum();//holds the previously calculated answer
-				NumberCard temp;
-				//cycle through cards in workspace
-				for(int i = 0; i < mathgame.workPanel.getComponentCount(); i++)	{
-					if(mathgame.workPanel.getComponent(i) instanceof NumberCard)	{
-						temp = (NumberCard) mathgame.workPanel.getComponent(i);
-						if(temp.getValue() == prevAns.getValue())	{//check to see if the checked card is the previous answer
-							mathgame.workPanel.remove(i);
-							i = mathgame.workPanel.getComponentCount() + 1;//so we can exit this loop
-						}	
-					}
-				}
-			}
-			
-			undo.completeUndo();
-			mathgame.workPanel.revalidate();
-			mathgame.workPanel.repaint();
-			mathgame.holdPanel.revalidate();
-			mathgame.holdPanel.repaint();
-			mathgame.cardPanel.revalidate();
+			undoFunction();
 		}
 		if(e.getSource() == reset) {
 			mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
+			while ( undo.getIndex() > 0 ) {
+				undoFunction();
+			}
 		}
+		/*TODO a card left in the workspace panel will not be restored to the card-panel if there is nothing to undo
+		 * (i.e. there are no cards from the hold-panel to be "undo-ed"
+		 */
 		if(timer.isRunning())
 		{
 			endTime = System.currentTimeMillis();
@@ -359,6 +297,85 @@ public class SidePanel extends JPanel implements ActionListener{
 		points -= diff*5;
 		score.setText(String.valueOf(points));
 	}
-	
+	/**
+	 * Carries out the undo function
+	 */
+	private void undoFunction()
+	{
+		NumberCard tempnum1 = undo.getPrevNum1();
+		NumberCard tempnum2 = undo.getPrevNum2();
+		
+		//no need to restore the operator b/c it is automatically regenerated
+		
+		if(tempnum1 == null || tempnum2 == null)	{//there's no more moves... too many undos!
+			return;
+		}
+		if(tempnum1.getHome() == "home")	{//originally in card panel
+			System.out.println("restore card1");
+			mathgame.cardPanel.restoreCard(tempnum1.getValue());
+		}
+		else if(tempnum1.getHome() == "hold")	{//new card in holding area
+			for ( int x = 0; x < mathgame.holdPanel.getComponentCount(); x++ ) {
+				NumberCard temp = (NumberCard) mathgame.holdPanel.getComponent(0);
+				if ( temp.getHome() == "home" )		{
+					mathgame.cardPanel.restoreCard(temp.getValue());;
+				} //check for cards that were dragged from home into workspace and restores them
+			}
+			mathgame.holdPanel.add(tempnum1);
+		}
+		
+		if(tempnum2.getHome() == "home")	{
+			System.out.println("restore card2");
+			mathgame.cardPanel.restoreCard(tempnum2.getValue());
+		}
+		else if(tempnum2.getHome() == "hold")	{
+			for ( int x = 0; x < mathgame.holdPanel.getComponentCount(); x++ ) {
+				NumberCard temp = (NumberCard) mathgame.holdPanel.getComponent(0);
+				if ( temp.getHome() == "home" )		{
+					mathgame.cardPanel.restoreCard(temp.getValue());
+				}
+			}
+			mathgame.holdPanel.add(tempnum2);
+		}
+		
+		
+		//covers scenario in which the previously created card was put in hold
+		if(mathgame.workPanel.getComponentCount() == 0)	{
+			NumberCard prevAns = undo.getPrevNewNum();//holds the previously calculated answer
+			NumberCard temp;
+			//cycle through cards in hold
+			for(int i = 0; i < mathgame.holdPanel.getComponentCount(); i++)	{
+				temp = (NumberCard) mathgame.holdPanel.getComponent(i);
+				//note: cast (NumberCard) assumes that only NumberCards will be in holdpanel
+				if(temp.getValue() == prevAns.getValue())	{//check to see if the checked card is the previous answer
+					System.out.println("Deleting card in hold");
+					mathgame.holdPanel.remove(i);
+					i = mathgame.holdPanel.getComponentCount() + 1;//so we can exit this loop
+				}
+			}
+		}
+		//covers scenario in which previously created card is still in workpanel
+		else	{
+			NumberCard prevAns = undo.getPrevNewNum();//holds the previously calculated answer
+			NumberCard temp;
+			//cycle through cards in workspace
+			for(int i = 0; i < mathgame.workPanel.getComponentCount(); i++)	{
+				if(mathgame.workPanel.getComponent(i) instanceof NumberCard)	{
+					temp = (NumberCard) mathgame.workPanel.getComponent(i);
+					if(temp.getValue() == prevAns.getValue())	{//check to see if the checked card is the previous answer
+						mathgame.workPanel.remove(i);
+						i = mathgame.workPanel.getComponentCount() + 1;//so we can exit this loop
+					}	
+				}
+			}
+		}
+		
+		undo.completeUndo();
+		mathgame.workPanel.revalidate();
+		mathgame.workPanel.repaint();
+		mathgame.holdPanel.revalidate();
+		mathgame.holdPanel.repaint();
+		mathgame.cardPanel.revalidate();
+	}
 }
 
