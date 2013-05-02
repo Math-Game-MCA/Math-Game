@@ -97,7 +97,10 @@ public class CardPanel extends JPanel{
 		calc = new Calculate();
 		
 	}
-	
+	/**
+	 * Returns an ArrayList of randomly-generated values (may be replaced in future versions when the database is completed
+	 * @return
+	 */
 	public ArrayList<Integer> randomValues() {
 		Random generator = new Random();
 		ArrayList<Integer> cardValues = new ArrayList<Integer>();
@@ -106,8 +109,11 @@ public class CardPanel extends JPanel{
 		}
 		return cardValues;
 	} //generate a random arraylist of integers to be added to the cards; may be replaced in the future
-	
-	public void randomize( ArrayList<Integer> newValues ){ //receives an arraylist (can be changed in the future...) and (re)assigns the values
+	/**
+	 * Takes in an ArrayList of integers (can be changed..) and assigns them to the cards
+	 * @param newValues
+	 */
+	public void randomize( ArrayList<Integer> newValues ){
 		card1.setText(""+newValues.get(0));
 		card2.setText(""+newValues.get(1));
 		card3.setText(""+newValues.get(2));

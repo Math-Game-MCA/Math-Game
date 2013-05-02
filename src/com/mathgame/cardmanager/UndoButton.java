@@ -104,5 +104,11 @@ public class UndoButton extends JButton{
 			return null;
 		}
 	}
-
+	/**
+	 * Returns the index of tracker.
+	 * @return int
+	 */
+	public int getIndex()	{
+		return tracker.indexNum;
+	}
 }
