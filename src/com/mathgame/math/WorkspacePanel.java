@@ -61,14 +61,14 @@ public class WorkspacePanel extends JPanel{
 	public void calcCheck(){
 		int count = this.getComponentCount();
 		System.out.println(count);
-		double answer= -1; //TODO HIMA!!! What if the answer actually is -1???
+		Double answer= null;
 		if(count == 3)
 		{
 			answer = calc.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2), game);
 			System.out.println("NUM1:"+this.getComponentCount());
 		}
 		
-		if(answer != -1)
+		if(answer != null)
 		{
 			System.out.println("answer:"+answer);
 			NumberCard answerCard = new NumberCard(answer);
@@ -94,8 +94,6 @@ public class WorkspacePanel extends JPanel{
 			String restoreOperator = new String(currentOperation());
 			game.opPanel.addOperator(restoreOperator);
 			
-			//not sure why changing 0 to 1 and then commenting out one of these works...
-			//but it does. Hima can u explain? ~Roland
 			System.out.println("NUM:"+this.getComponentCount());
 			this.remove(0);
 			this.remove(0);
