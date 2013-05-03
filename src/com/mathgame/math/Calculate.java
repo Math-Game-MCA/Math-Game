@@ -19,7 +19,7 @@ public class Calculate {
 	
 	String[] ops = {"+", "-", "*", "/"};
 	
-	public double calculate(Component c1, Component oper, Component c2, MathGame game){
+	public Double calculate(Component c1, Component oper, Component c2, MathGame game){
 		NumberCard card1=null;
 		NumberCard card2=null;
 		OperationCard operation=null;
@@ -55,7 +55,7 @@ public class Calculate {
 			return answer;
 		}
 			
-		return -1;
+		return null;
 	}
 	
 	public Double getAnswer(ArrayList<String> container)
