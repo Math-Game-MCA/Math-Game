@@ -231,6 +231,20 @@ public class SidePanel extends JPanel implements ActionListener{
 			while ( undo.getIndex() > 0 ) {
 				undoFunction();
 			}
+			if( mathgame.workPanel.getComponentCount() > 0 ) {
+				NumberCard temp;
+				OperationCard temp2;
+				for( int x = 0; x < getComponentCount(); x++ )	{
+					if ( mathgame.workPanel.getComponent(0) instanceof NumberCard )	{
+						temp = (NumberCard) mathgame.workPanel.getComponent(0);
+						mathgame.cardPanel.restoreCard(temp.getValue());
+					}
+					else if ( mathgame.workPanel.getComponent(0) instanceof OperationCard )	{
+						temp2 = (OperationCard) mathgame.workPanel.getComponent(0);
+						mathgame.opPanel.addOperator(temp2.getOperation());
+					}
+				}
+			} // TODO please check if this code above is valid (without bugs)...
 		}
 		/*TODO a card left in the workspace panel will not be restored to the card-panel if there is nothing to undo
 		 * (i.e. there are no cards from the hold-panel to be "undo-ed"

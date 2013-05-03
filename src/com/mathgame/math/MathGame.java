@@ -1,3 +1,7 @@
+/*
+ * TODO when two numbers are put immediately next to each other without an operator between them, the program bugs and will display "-1.0." While this can then be modified with another number and operator, this bug reduces user-friendliness and makes the game have to be restarted in order to actually be able to solve the problem.
+ *  */
+
 package com.mathgame.math;
 
 import javax.swing.*;
