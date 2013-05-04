@@ -14,6 +14,7 @@ public class NumberCard extends JLabel{
 	private double value;
 	private int width = 80;
 	private int height = 120;
+	public int numberTag;
 	final Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 22);
 	//sizes can be overridden with setWidth and setHeight methods
 	public String type = "none";
@@ -95,6 +96,20 @@ public class NumberCard extends JLabel{
 	 */
 	public void setType(String type){
 		this.type = type;
+	}
+
+	/**
+	 * @return the numberTag
+	 */
+	public int getNumberTag() {
+		return numberTag;
+	}
+
+	/**
+	 * @param numberTag the numberTag to set
+	 */
+	public void setNumberTag(int numberTag) {
+		this.numberTag = numberTag;
 	}
 
 	public void paintComponent(Graphics g)	{

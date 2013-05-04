@@ -193,7 +193,7 @@ public class MathGame extends JApplet implements ActionListener
 		cardPanel.card4.setTransferHandler(new TransferHandler("text"));
 		cardPanel.card5.setTransferHandler(new TransferHandler("text"));
 		cardPanel.card6.setTransferHandler(new TransferHandler("text"));
-		cardPanel.ans.setTransferHandler(new TransferHandler("text"));
+		//cardPanel.ans.setTransferHandler(new TransferHandler("text"));
 		
 		DropTarget dt = new DropTarget();
 		dt.setActive(false);
@@ -203,7 +203,7 @@ public class MathGame extends JApplet implements ActionListener
 		cardPanel.card4.setDropTarget(dt);
 		cardPanel.card5.setDropTarget(dt);
 		cardPanel.card6.setDropTarget(dt);
-		cardPanel.ans.setDropTarget(dt);
+		//cardPanel.ans.setDropTarget(dt);
 
 		//ACTION LISTENERS
 		mover = new CompMover(this);
@@ -214,7 +214,7 @@ public class MathGame extends JApplet implements ActionListener
 		cardPanel.card4.addMouseListener(mover);
 		cardPanel.card5.addMouseListener(mover);
 		cardPanel.card6.addMouseListener(mover);
-		cardPanel.ans.addMouseListener(mover);
+		//cardPanel.ans.addMouseListener(mover);
 		
 		cardPanel.card1.addMouseMotionListener(mover);
 		cardPanel.card2.addMouseMotionListener(mover);
@@ -222,7 +222,7 @@ public class MathGame extends JApplet implements ActionListener
 		cardPanel.card4.addMouseMotionListener(mover);
 		cardPanel.card5.addMouseMotionListener(mover);
 		cardPanel.card6.addMouseMotionListener(mover);
-		cardPanel.ans.addMouseMotionListener(mover);
+		//cardPanel.ans.addMouseMotionListener(mover);
 		
 		//handles 4 operations
 		opPanel.add.addMouseListener(mover);
