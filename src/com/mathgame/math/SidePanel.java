@@ -211,6 +211,7 @@ public class SidePanel extends JPanel implements ActionListener{
 					if(actualAns == computedAns)	{
 						JOptionPane.showMessageDialog(this, "Congratulations!  Victory is yours!");
 						//later on change to something else... victory song? who knows...
+						resetFunction();
 						score.setText(Double.toString(Double.parseDouble(score.getText()) + 20));
 					}
 				}
@@ -227,34 +228,24 @@ public class SidePanel extends JPanel implements ActionListener{
 			undoFunction();
 		}
 		if(e.getSource() == reset) {
-			mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
-			while ( undo.getIndex() > 0 ) {
-				undoFunction();
-			}
-			if( mathgame.workPanel.getComponentCount() > 0 ) {
-				NumberCard temp;
-				OperationCard temp2;
-				for( int x = 0; x < getComponentCount(); x++ )	{
-					if ( mathgame.workPanel.getComponent(0) instanceof NumberCard )	{
-						temp = (NumberCard) mathgame.workPanel.getComponent(0);
-						mathgame.cardPanel.restoreCard(temp.getValue());
-					}
-					else if ( mathgame.workPanel.getComponent(0) instanceof OperationCard )	{
-						temp2 = (OperationCard) mathgame.workPanel.getComponent(0);
-						mathgame.opPanel.addOperator(temp2.getOperation());
-					}
-				}
-			} // TODO please check if this code above is valid (without bugs)...
-		}
-		/*TODO a card left in the workspace panel will not be restored to the card-panel if there is nothing to undo
-		 * (i.e. there are no cards from the hold-panel to be "undo-ed"
-		 */
-		if(timer.isRunning())
-		{
-			endTime = System.currentTimeMillis();
+			//mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
+			//while ( undo.getIndex() > 0 ) {
+			//	undoFunction();
 			
-			clock.setText(timeFormat((int)(endTime-startTime)));
-		
+			resetFunction();
+				
+			
+	
+			/*TODO a card left in the workspace panel will not be restored to the card-panel if there is nothing to undo
+			 * (i.e. there are no cards from the hold-panel to be "undo-ed"
+			 */
+			if(timer.isRunning())
+			{
+				endTime = System.currentTimeMillis();
+				
+				clock.setText(timeFormat((int)(endTime-startTime)));
+			
+			}
 		}
 		
 	}
@@ -390,6 +381,33 @@ public class SidePanel extends JPanel implements ActionListener{
 		mathgame.holdPanel.revalidate();
 		mathgame.holdPanel.repaint();
 		mathgame.cardPanel.revalidate();
+	}
+	
+	private void resetFunction()
+	
+	{
+		
+		mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
+		while ( undo.getIndex() > 0 ) {
+			undoFunction();
+		
+		}
+
+			if( mathgame.workPanel.getComponentCount() > 0 ) {
+				NumberCard temp;
+				OperationCard temp2;
+				for( int x = 0; x < getComponentCount(); x++ )	{
+					if ( mathgame.workPanel.getComponent(0) instanceof NumberCard )	{
+						temp = (NumberCard) mathgame.workPanel.getComponent(0);
+						mathgame.cardPanel.restoreCard(temp.getValue());
+					}
+					else if ( mathgame.workPanel.getComponent(0) instanceof OperationCard )	{
+						temp2 = (OperationCard) mathgame.workPanel.getComponent(0);
+						mathgame.opPanel.addOperator(temp2.getOperation());
+					}
+				}
+			} // TODO please check if this code above is valid (without bugs)...
+	
 	}
 }
 
