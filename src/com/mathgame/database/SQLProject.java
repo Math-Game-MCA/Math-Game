@@ -1,6 +1,10 @@
 package com.mathgame.database;
 
-
+/**
+ * For database testing
+ * @author Hima
+ *
+ */
 public class SQLProject
 {
 	

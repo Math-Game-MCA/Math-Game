@@ -12,7 +12,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
+/**
+ * The access class that connects to the MySQL database
+ * @author Hima
+ *
+ */
 public class MySQLAccess{
 	//for release, host should be 127...., for testing, it should be egarcia.org
 	private String host = "davidmelvin.me";//"localhost";//"127.0.0.1";//"egarcia.org";

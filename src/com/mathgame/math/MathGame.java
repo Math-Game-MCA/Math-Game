@@ -34,8 +34,6 @@ public class MathGame extends JApplet implements ActionListener
 	int appHeight=620;
 	static int difficulty = 2;//from 2-5 represents how many cards to use
 	
-	static Calc calc;
-	
 	JPanel panel2;
 	JPanel panel2a;
 	JPanel panel2b;
@@ -135,11 +133,6 @@ public class MathGame extends JApplet implements ActionListener
 		layer.add(workPanel);
 		layer.add(holdPanel);
 		
-		/*TODO: Delete extra buttons
-		 * Database should automatically be called... or can be checked if available
-		 * Move necessary buttons, such as "practice mode" to sidebar - can pass values from class into main
-		 * ~Roland
-		 */
 		
 		database = new JCheckBox("Use Database");
 		database.setMnemonic(KeyEvent.VK_D);
@@ -149,13 +142,6 @@ public class MathGame extends JApplet implements ActionListener
 		freeStyle = new JCheckBox("Practice Mode");
 		freeStyle.setMnemonic(KeyEvent.VK_P);
 	
-		//TODO Turn this into a reset button of some sort
-		/*random = new JButton("Randomize");
-		random.addActionListener(this);
-		
-		clear = new JButton("Clear");
-		clear.addActionListener(this);*/
-		
 		home1 = new Rectangle(cardPanel.card1.getBounds());
 		home2 = new Rectangle(cardPanel.card2.getBounds());
 		home3 = new Rectangle(cardPanel.card3.getBounds());
@@ -258,84 +244,7 @@ public class MathGame extends JApplet implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent evt)
 	{
-		/*if(evt.getSource() == enter1)
-		{
-			ArrayList<String> temp = new ArrayList<String>();
-			for(int r=0;r<panel2a.getComponentCount();r++)
-			{
-				temp.add( ( (JLabel) panel2a.getComponent(r)).getText() );
-			}
-			
-			Double output = calc.calculate(temp);
-			if(output != null)
-			{
-				if(practice == true)
-				{
-					correct.setText(String.valueOf(output));
-					correct.setBorder(new LineBorder(Color.blue));
-					correction.setText("");
-				}
-				else
-				{
-					if(output.equals(check) )
-					{
-						correct.setText("Congratulations!");
-						correct.setBorder(new LineBorder(Color.blue));
-						correction.setText(output + " is equal to " + check);
-						sidePanel.updateCorrect();
-					}
-					else
-					{
-						correct.setText("Try Again!!");
-						correct.setBorder(new LineBorder(Color.red));
-						correction.setText(output + " is NOT equal to " + check);
-						sidePanel.updateWrong();
-					}
-				}
-			}
-		}
-		else if(evt.getSource() == enter2)
-		{
-			ArrayList<String> temp = new ArrayList<String>();
-			for(int r=0;r<panel2b.getComponentCount();r++)
-			{
-				temp.add( ( (JLabel) panel2b.getComponent(r)).getText() );
-			}
-			
-			Double output = calc.calculate(temp);
-			if(output != null)
-			{
-				if(practice == true)
-				{
-					correct.setText(String.valueOf(output));
-					correct.setBorder(new LineBorder(Color.blue));
-					correction.setText("");
-				}
-				else
-				{
-					if(output.equals(check) )
-					{
-						correct.setText("Congratulations!");
-						correct.setBorder(new LineBorder(Color.blue));
-						correction.setText(output + " is equal to " + check);
-						sidePanel.updateCorrect();
-					}
-					else
-					{
-						correct.setText("Try Again!!");
-						correct.setBorder(new LineBorder(Color.red));
-						correction.setText(output + " is NOT equal to " + check);
-						sidePanel.updateWrong();
-					}
-				}
-			}
-			
-		}*/
-		if(evt.getSource() == random)
-			calc.randomize();
-		else if(evt.getSource() == clear)
-			calc.clear();
-	
+		
 	}
 	
 	/**
@@ -349,7 +258,6 @@ public class MathGame extends JApplet implements ActionListener
 	public void setDifficulty(int diff){
 		difficulty = diff;
 		System.out.println("DIFFICULTY FROM MAIN SET: " + difficulty);
-		calc.randomize();
 	}
 	
 	/**

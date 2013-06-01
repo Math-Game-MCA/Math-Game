@@ -2,6 +2,11 @@ package com.mathgame.database;
 
 import java.io.*;
 
+/**
+ * Only for database testing
+ * @author Hima
+ *
+ */
 public class Values
 {
 	

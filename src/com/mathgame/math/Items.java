@@ -81,8 +81,6 @@ public class Items implements ItemListener
 					{
 						sql.connect();
 						mathGame.setDatabase(useDatabase);
-						Calc calc = new Calc(mathGame);
-						calc.randomize();
 						correction.setText("Connected to database");
 					}
 					//else
