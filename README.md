@@ -7,3 +7,4 @@ This program is meant to encourage learning math by presenting math problems in 
 
 ----------------------------------------------------
 Created by students at the Middlesex County Academy for Science, Mathematics, and Engineering Technologies
+Located in Edison, NJ

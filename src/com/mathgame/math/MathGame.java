@@ -238,6 +238,14 @@ public class MathGame extends JApplet implements ActionListener
 		Items itemListener = new Items(this);
 		database.addItemListener(itemListener);
 		freeStyle.addItemListener(itemListener);
+		
+		Toolkit toolkit = getToolkit();
+		Image cursorImage = toolkit.getImage("images/epsilon.png");
+		Point cursorHotSpot = new Point(25, 25);
+		Cursor imageCursor = toolkit.createCustomCursor(cursorImage, cursorHotSpot, "customCursor");
+
+		//setCursor(lightPenCursor);
+		layer.setCursor(imageCursor);
 	}
 
 	
