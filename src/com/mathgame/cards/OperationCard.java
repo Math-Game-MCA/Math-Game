@@ -5,6 +5,11 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+/**
+ * 
+ * Card class for holding operations
+ *
+ */
 public class OperationCard extends JLabel{
 	private final int width=40;
 	private final int height=40;

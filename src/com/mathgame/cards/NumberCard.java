@@ -9,6 +9,12 @@ import java.awt.Graphics;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
+/**
+ * 
+ * Card class for holding numbers
+ *
+ */
+
 public class NumberCard extends JLabel{
 	
 	private double value;
