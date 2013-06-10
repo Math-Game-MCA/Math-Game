@@ -245,7 +245,7 @@ public class MathGame extends JApplet implements ActionListener
 		Cursor imageCursor = toolkit.createCustomCursor(cursorImage, cursorHotSpot, "customCursor");
 
 		//setCursor(lightPenCursor);
-		layer.setCursor(imageCursor);
+		//layer.setCursor(imageCursor);
 	}
 
 	
