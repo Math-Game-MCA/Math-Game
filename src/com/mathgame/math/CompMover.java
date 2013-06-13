@@ -188,6 +188,29 @@ public class CompMover extends MouseInputAdapter
             }
             else if(box1.intersects(box3))
             {
+            	if(selectedComponent instanceof NumberCard)	{
+            		NumberCard temp = (NumberCard) selectedComponent;
+            		if(temp.getHome() == "home")	{//originated from cardPanel
+            			if(temp.getNumberTag() == view.cardPanel.card1.getNumberTag())	{
+            				view.cardPanel.changeCardExistence(0, false);
+            			}
+            			else if(temp.getNumberTag() == view.cardPanel.card2.getNumberTag())	{
+            				view.cardPanel.changeCardExistence(1, false);
+            			}
+            			else if(temp.getNumberTag() == view.cardPanel.card3.getNumberTag())	{
+            				view.cardPanel.changeCardExistence(2, false);
+            			}
+            			else if(temp.getNumberTag() == view.cardPanel.card4.getNumberTag())	{
+            				view.cardPanel.changeCardExistence(3, false);
+            			}
+            			else if(temp.getNumberTag() == view.cardPanel.card5.getNumberTag())	{
+            				view.cardPanel.changeCardExistence(4, false);
+            			}
+            			else if(temp.getNumberTag() == view.cardPanel.card6.getNumberTag())	{
+            				view.cardPanel.changeCardExistence(5, false);
+            			}
+            		}
+            	}
             	layer.remove(selectedComponent);
             	layer.revalidate();
             	view.holdPanel.add(selectedComponent);
