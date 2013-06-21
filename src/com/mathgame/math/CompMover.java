@@ -53,13 +53,18 @@ public class CompMover extends MouseInputAdapter
             setViews();
         }
         
-        
+        /**
+         * Initializes an instance of compMover
+         */
         public CompMover(){        
             dragging = false;
            
             //setViews();
         }
         
+        /**
+         * Sets the view of the panels
+         */
         private void setViews(){
         	layer = view.layer;
         	cards = view.cards;

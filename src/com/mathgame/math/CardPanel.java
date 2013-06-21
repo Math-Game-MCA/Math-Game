@@ -29,22 +29,26 @@ public class CardPanel extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-		NumberCard card1;
-		NumberCard card2;
-		NumberCard card3;
-		NumberCard card4;
-		NumberCard card5;
-		NumberCard card6;
-		NumberCard ans;
-		final String imageFile = "images/Card Bar.png";
-		BufferedImage background;
+	NumberCard card1;
+	NumberCard card2;
+	NumberCard card3;
+	NumberCard card4;
+	NumberCard card5;
+	NumberCard card6;
+	NumberCard ans;
+	final String imageFile = "images/Card Bar.png";
+	BufferedImage background;
+	
+	JLayeredPane masterLayer;
+	
+	Calculate calc;
+	ArrayList<String> values;
+	ArrayList<Boolean>	cardExists;
 		
-		JLayeredPane masterLayer;
-		
-		Calculate calc;
-		ArrayList<String> values;
-		ArrayList<Boolean>	cardExists;
-		
+	/**
+	 * Initializes a card panel
+	 * @param masterLayer
+	 */
 	public void init(JLayeredPane masterLayer) {
 		
 		Dimension size = getPreferredSize();
@@ -109,6 +113,7 @@ public class CardPanel extends JPanel{
 		calc = new Calculate();
 		
 	}
+	
 	/**
 	 * Returns an ArrayList of randomly-generated values (may be replaced in future versions when the database is completed
 	 * @return
@@ -121,6 +126,7 @@ public class CardPanel extends JPanel{
 		}
 		return cardValues;
 	} //generate a random arraylist of integers to be added to the cards; may be replaced in the future
+	
 	/**
 	 * Takes in an ArrayList of integers (can be changed..) and assigns them to the cards
 	 * @param newValues

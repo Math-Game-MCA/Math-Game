@@ -296,6 +296,7 @@ public class MathGame extends JApplet implements ActionListener
 		useDatabase = database;
 		System.out.println("SET DATABASE " + useDatabase);
 	}
+	
 	public boolean getDatabase(){
 		System.out.println("GET DATABASE " + useDatabase);
 		return useDatabase;
