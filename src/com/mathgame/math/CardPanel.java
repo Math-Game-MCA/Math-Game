@@ -12,12 +12,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 
 import com.mathgame.cards.*;
 

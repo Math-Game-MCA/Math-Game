@@ -3,7 +3,6 @@
  */
 package com.mathgame.math;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -15,8 +14,6 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 
 /**
  * The panel where the cards that have been made can be stored for later use
@@ -24,6 +21,10 @@ import javax.swing.border.TitledBorder;
  */
 public class HoldPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2013522168342802483L;
 	final String imageFile = "images/card holder.png";
 	BufferedImage background;
 	

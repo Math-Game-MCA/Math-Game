@@ -2,7 +2,6 @@ package com.mathgame.math;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
 import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
@@ -14,8 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
 
 
 /**
@@ -24,12 +21,17 @@ import java.util.Calendar;
  *The side panel on the right side of the GUI which contains accessory functions
  */
 public class SidePanel extends JPanel implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1209424284690306920L;
+
 	MathGame mathgame;
 	
 	JLabel clock;
 	JLabel pass;//count how many you get right
 	JLabel fail;//how many you got wrong
-	JLabel score;//TODO: calculation to be determined
+	JLabel score;//TODO: Determine how to calculate the score!
 	
 	JLabel diffInfo;
 	JTextField setDiff;
@@ -191,7 +193,7 @@ public class SidePanel extends JPanel implements ActionListener{
 			
 			
 		}
-		if(e.getSource() == help)	{//TODO: Decide function of button
+		if(e.getSource() == help)	{//TODO: Decide function of Help (on website or in game?)
 			JOptionPane.showMessageDialog(this, "Instructions go here");
 			//perhaps link to a help webpage on the website?
 			//maybe turn into a hint button?
@@ -281,7 +283,6 @@ public class SidePanel extends JPanel implements ActionListener{
 	 */
 	public void updateCorrect()
 	{
-		//TODO: Prevent the user from continually pressing the enter button to get points
 		correct++;
 		pass.setText("Correct: " + correct);
 		points += diff*5;

@@ -1,7 +1,6 @@
 package com.mathgame.cards;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -17,6 +16,10 @@ import javax.swing.border.LineBorder;
 
 public class NumberCard extends JLabel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4999587614115223052L;
 	private double value;
 	private int width = 80;
 	private int height = 120;

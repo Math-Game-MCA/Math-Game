@@ -1,7 +1,6 @@
 package com.mathgame.math;
 
 import java.awt.Component;
-import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -80,7 +79,7 @@ public class CompMover extends MouseInputAdapter
         {
         	
             selectedComponent = (Component)e.getSource();
-            Point tempPoint = selectedComponent.getLocation();
+            //Point tempPoint = selectedComponent.getLocation();
             offset = e.getPoint();
             dragging = true;
             

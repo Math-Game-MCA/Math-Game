@@ -1,11 +1,8 @@
 package com.mathgame.math;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Random;
-
-import javax.swing.border.LineBorder;
 
 import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;

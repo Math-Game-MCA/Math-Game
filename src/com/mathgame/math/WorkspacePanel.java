@@ -3,7 +3,6 @@
  */
 package com.mathgame.math;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -16,8 +15,6 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 
 import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
@@ -28,6 +25,10 @@ import com.mathgame.cards.OperationCard;
 
 public class WorkspacePanel extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7408931441173570326L;
 	MathGame game;//holds the game so it can reference all the other panels (hehehe...)
 	final String imageFile = "images/Workspace.png";
 	BufferedImage background;

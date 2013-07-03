@@ -11,6 +11,10 @@ import javax.swing.JLabel;
  *
  */
 public class OperationCard extends JLabel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4826556166618968363L;
 	private final int width=40;
 	private final int height=40;
 	public String operation;
