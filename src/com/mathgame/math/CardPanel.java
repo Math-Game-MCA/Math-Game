@@ -4,6 +4,7 @@
 package com.mathgame.math;
 
 import java.awt.Dimension;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -16,6 +17,14 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import com.mathgame.cards.*;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.*;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Iterator;
 
 public class CardPanel extends JPanel{
 
@@ -40,6 +49,14 @@ public class CardPanel extends JPanel{
 	Calculate calc;
 	ArrayList<String> values;
 	ArrayList<Boolean>	cardExists;
+	
+	FileInputStream cardValueInput;
+	XSSFWorkbook cardValueWorkbook;
+	final String cardValueFile = "values.xlsx";
+	XSSFSheet currentSheet;
+	int rowCount;
+	int currentRowNumber;
+	XSSFRow currentRow;
 		
 	/**
 	 * Initializes a card panel
@@ -97,6 +114,25 @@ public class CardPanel extends JPanel{
 			e.printStackTrace();
 		}
 		
+		try {
+			cardValueInput = new FileInputStream(cardValueFile);
+			cardValueWorkbook = new XSSFWorkbook(cardValueInput);
+			
+			currentSheet = cardValueWorkbook.getSheetAt(0);
+			Iterator<Row> rowIter = currentSheet.rowIterator();
+			rowCount = 0;
+			while(rowIter.hasNext()) {
+				rowCount++;
+				rowIter.next();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		values = new ArrayList<String>();
 		
 		values.add(card1.getText());
@@ -116,10 +152,22 @@ public class CardPanel extends JPanel{
 	 */
 	public ArrayList<Integer> randomValues() {
 		Random generator = new Random();
+		currentRowNumber = (int) ( generator.nextFloat()*rowCount );
+		System.out.println("Current row: " + (currentRowNumber + 1));
+		currentRow = currentSheet.getRow(currentRowNumber);
 		ArrayList<Integer> cardValues = new ArrayList<Integer>();
 		for (int x = 0; x < 6; x++) {
 			cardValues.add(generator.nextInt(21));
 		}
+		int RandomInsert1 = (int) ( generator.nextFloat()*6 );
+		int RandomInsert2;
+		do {
+			RandomInsert2 = (int) ( generator.nextFloat()*6 );
+		} while (RandomInsert2 == RandomInsert1 );
+		
+		cardValues.set(RandomInsert1, (int) currentRow.getCell(1).getNumericCellValue() );
+		cardValues.set(RandomInsert2, (int) currentRow.getCell(3).getNumericCellValue() );
+		
 		return cardValues;
 	} //generate a random arraylist of integers to be added to the cards; may be replaced in the future
 	
@@ -141,7 +189,7 @@ public class CardPanel extends JPanel{
 		values.set(3, card4.getText());
 		values.set(4, card5.getText());
 		values.set(5, card6.getText());
-		ans.setText(""+calc.getAnswer(values));
+		ans.setText(""+currentRow.getCell(4).getNumericCellValue());
 		
 		card1.setValue(Double.parseDouble(card1.getText()));
 		card2.setValue(Double.parseDouble(card2.getText()));
