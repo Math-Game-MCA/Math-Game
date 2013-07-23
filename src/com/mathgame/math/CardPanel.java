@@ -5,6 +5,8 @@ package com.mathgame.math;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
@@ -25,6 +28,8 @@ public class CardPanel extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	MathGame mathGame;
+	
 	NumberCard card1;
 	NumberCard card2;
 	NumberCard card3;
@@ -33,13 +38,18 @@ public class CardPanel extends JPanel{
 	NumberCard card6;
 	NumberCard ans;
 	final String imageFile = "images/Card Bar.png";
-	BufferedImage background;
+	Image background;
 	
 	JLayeredPane masterLayer;
 	
 	Calculate calc;
 	ArrayList<String> values;
 	ArrayList<Boolean>	cardExists;
+	
+	public CardPanel(MathGame mathGame){
+		this.mathGame = mathGame;
+	}
+	                                 
 		
 	/**
 	 * Initializes a card panel
@@ -91,11 +101,12 @@ public class CardPanel extends JPanel{
 		this.add(card6);
 		this.add(ans);
 		
-		try {
-			background = ImageIO.read(new File(imageFile));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		//background = ImageIO.read(new File(imageFile));
+		//background = applet.getImage(applet.getDocumentBase(), imageFile);
+		//ImageIcon backIcon = new ImageIcon(this.getClass().getResource(imageFile));
+		//background = backIcon.getImage();
+		background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		
 		
 		values = new ArrayList<String>();
 		
@@ -213,7 +224,9 @@ public class CardPanel extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		g.drawImage(background, 0, 0, null);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.drawImage(background, 0, 0, null);
+		//g.drawImage(background, 0, 0, null);
 	}
 
 }

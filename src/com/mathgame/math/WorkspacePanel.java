@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -29,14 +30,14 @@ public class WorkspacePanel extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 7408931441173570326L;
-	MathGame game;//holds the game so it can reference all the other panels (hehehe...)
+	MathGame mathGame;//holds the game so it can reference all the other panels
 	final String imageFile = "images/Workspace.png";
-	BufferedImage background;
+	Image background;
 	
 	Calculate calc;
 	CompMover mover;
 	
-	public void init(MathGame game)	{
+	public void init(MathGame mathGame)	{
 		this.setLayout(new FlowLayout());
 
 		Border empty = BorderFactory.createEmptyBorder(70,70,70,70);
@@ -48,15 +49,13 @@ public class WorkspacePanel extends JPanel{
 		size.height = 260;
 		setPreferredSize(size);
 		
-		try {
-			background = ImageIO.read(new File(imageFile));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+		background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		
 		
 		calc = new Calculate();
 		mover = new CompMover();
-		this.game = game;
+		this.mathGame = mathGame;
 	}
 	
 	public void calcCheck(){
@@ -65,7 +64,7 @@ public class WorkspacePanel extends JPanel{
 		Double answer= null;
 		if(count == 3)
 		{
-			answer = calc.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2), game);
+			answer = calc.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2), mathGame);
 			System.out.println("NUM1:"+this.getComponentCount());
 		}
 		
@@ -87,13 +86,13 @@ public class WorkspacePanel extends JPanel{
 					NumberCard card2 = (NumberCard) this.getComponent(2);
 					OperationCard op = (OperationCard) this.getComponent(1);
 					System.out.println("Registering new Move");
-					game.sidePanel.undo.registerNewMove(card1, op, card2, answerCard);
+					mathGame.sidePanel.undo.registerNewMove(card1, op, card2, answerCard);
 					//when cards collide... it becomes a new move!
 				}
 			}
 			
 			String restoreOperator = new String(currentOperation());
-			game.opPanel.addOperator(restoreOperator);
+			mathGame.opPanel.addOperator(restoreOperator);
 			
 			System.out.println("NUM:"+this.getComponentCount());
 			this.remove(0);

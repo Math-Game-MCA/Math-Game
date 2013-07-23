@@ -11,6 +11,7 @@ import com.mathgame.database.*;
 import java.awt.*;
 import java.awt.dnd.DropTarget;
 import java.awt.event.*;
+import java.net.URL;
 
 
 /**
@@ -95,18 +96,19 @@ public class MathGame extends JApplet implements ActionListener
 		layer.setLayout(null);
 		layer.setBounds(5, 0, getSize().width, getSize().height);
 		
+		
 		sidePanel = new SidePanel();//control bar
 		sidePanel.setBounds(750, 0, 150, 620);//x, y, width, height
 		sidePanel.init(this);
 		
-		cardPanel = new CardPanel();//top card panel
+		cardPanel = new CardPanel(this);//top card panel
 		cardPanel.setBounds(0, 0, 750, 150);
 		cardPanel.init(layer);
 		cardPanel.randomize( cardPanel.randomValues() );
 		
 		opPanel = new OperationPanel();//operation panel
 		opPanel.setBounds(0, 150, 750, 60);
-		opPanel.init(layer, mover);
+		opPanel.init(this, mover);
 		
 		workPanel = new WorkspacePanel();
 		workPanel.setBounds(0, 210, 750, 260);
@@ -114,7 +116,7 @@ public class MathGame extends JApplet implements ActionListener
 		
 		holdPanel = new HoldPanel();
 		holdPanel.setBounds(0, 470, 750, 150);
-		holdPanel.init();
+		holdPanel.init(this);
 		
 		//adding panels to the game
 		add(layer);
@@ -291,6 +293,11 @@ public class MathGame extends JApplet implements ActionListener
 	public boolean getDatabase(){
 		System.out.println("GET DATABASE " + useDatabase);
 		return useDatabase;
+	}
+	
+	
+	public URL getDocBase(){
+		return getDocumentBase();
 	}
 	
 	/*

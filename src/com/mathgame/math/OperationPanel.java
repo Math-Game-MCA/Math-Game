@@ -2,6 +2,7 @@ package com.mathgame.math;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -27,21 +28,21 @@ public class OperationPanel extends JPanel
 	OperationCard multiply;
 	OperationCard divide;
 
-	final String imageFile = "images/Operation Bar.png";
-	BufferedImage background;
+	final String imageFile = "images/Operation bar.png";
+	Image background;
 	
 	JLayeredPane masterLayer;
 	
-	public void init(JLayeredPane layer, CompMover mover)//pass layeredpane layer so to regen operations
+	public void init(MathGame mathGame, CompMover mover)//pass layeredpane layer so to regen operations
 	{
 		setLayout(null);
 		//TitledBorder opBorder = BorderFactory.createTitledBorder("Operation Panel");
 		//this.setBorder(new LineBorder(Color.black));
 		
-		add = new OperationCard("add");
-		subtract = new OperationCard("subtract");
-		multiply = new OperationCard("multiply");
-		divide = new OperationCard("divide");
+		add = new OperationCard(mathGame, "add");
+		subtract = new OperationCard(mathGame, "subtract");
+		multiply = new OperationCard(mathGame, "multiply");
+		divide = new OperationCard(mathGame, "divide");
 		
 		add.setBounds(20, 160, 40, 40);
 		subtract.setBounds(80, 160, 40, 40);
@@ -55,13 +56,9 @@ public class OperationPanel extends JPanel
 		this.add(multiply);
 		this.add(divide);
 		
-		masterLayer = layer;//layered pane passed over
+		masterLayer = mathGame.layer;//layered pane passed over
 		
-		try {
-			background = ImageIO.read(new File(imageFile));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
 	}
 
 	public void addOperator(String op)	{//primarily to regen operator after use
@@ -85,7 +82,7 @@ public class OperationPanel extends JPanel
 	
 	@Override
 	public void paintComponent(Graphics g){
-		super.paintComponents(g);
+		super.paintComponent(g);
 		g.drawImage(background, 0, 0, null);
 
 		
