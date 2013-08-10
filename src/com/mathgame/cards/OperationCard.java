@@ -1,9 +1,12 @@
 package com.mathgame.cards;
 
 import java.awt.Dimension;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+
+import com.mathgame.math.MathGame;
 
 /**
  * 
@@ -43,7 +46,7 @@ public class OperationCard extends JLabel{
 		this.operation = operation;
 	}
 
-	public OperationCard(String operation){
+	public OperationCard(MathGame mathGame, String operation){
 		String imageFile=null;
 		if(operation.equals("add"))
 			imageFile = "add.png";
@@ -58,7 +61,8 @@ public class OperationCard extends JLabel{
 		
 		this.operation = operation;
 		
-		ImageIcon icon = new ImageIcon("images/"+imageFile);
+		Image background = mathGame.getImage(mathGame.getDocumentBase(), "images/"+imageFile);
+		ImageIcon icon = new ImageIcon(background);
 		this.setIcon(icon);
 		
 		this.setPreferredSize(new Dimension(width,height));

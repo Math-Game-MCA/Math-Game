@@ -6,6 +6,7 @@ package com.mathgame.math;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,9 +27,9 @@ public class HoldPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = -2013522168342802483L;
 	final String imageFile = "images/card holder.png";
-	BufferedImage background;
+	Image background;
 	
-	public void init()	{
+	public void init(MathGame mathGame)	{
 
 		this.setLayout(new FlowLayout());
 		Border empty = BorderFactory.createEmptyBorder(10,10,10,10);
@@ -40,11 +41,7 @@ public class HoldPanel extends JPanel {
 		size.height = 150;
 		setPreferredSize(size);
 		
-		try {
-			background = ImageIO.read(new File(imageFile));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
 	}
 	
 	@Override

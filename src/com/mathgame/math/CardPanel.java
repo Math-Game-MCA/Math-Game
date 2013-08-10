@@ -4,6 +4,7 @@
 package com.mathgame.math;
 
 import java.awt.Dimension;
+import java.awt.Image;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -24,6 +25,7 @@ import org.apache.poi.xssf.usermodel.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 
 public class CardPanel extends JPanel{
@@ -34,6 +36,8 @@ public class CardPanel extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	MathGame mathGame;
+	
 	NumberCard card1;
 	NumberCard card2;
 	NumberCard card3;
@@ -42,7 +46,7 @@ public class CardPanel extends JPanel{
 	NumberCard card6;
 	NumberCard ans;
 	final String imageFile = "images/Card Bar.png";
-	BufferedImage background;
+	Image background;
 	
 	JLayeredPane masterLayer;
 	
@@ -50,7 +54,7 @@ public class CardPanel extends JPanel{
 	ArrayList<String> values;
 	ArrayList<Boolean>	cardExists;
 	
-	FileInputStream cardValueInput;
+	InputStream cardValueInput;
 	XSSFWorkbook cardValueWorkbook;
 	final String cardValueFile = "values.xlsx";
 	XSSFSheet currentSheet;
@@ -58,6 +62,10 @@ public class CardPanel extends JPanel{
 	int currentRowNumber;
 	XSSFRow currentRow;
 		
+	public CardPanel(MathGame mathGame){
+		this.mathGame = mathGame;
+	}
+	
 	/**
 	 * Initializes a card panel
 	 * @param masterLayer
@@ -108,14 +116,13 @@ public class CardPanel extends JPanel{
 		this.add(card6);
 		this.add(ans);
 		
-		try {
-			background = ImageIO.read(new File(imageFile));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		
 		
 		try {
-			cardValueInput = new FileInputStream(cardValueFile);
+			//File excelFile = new File(cardValueFile);
+			cardValueInput = getClass().getClassLoader().getResourceAsStream("images/values.xlsx");
+			System.out.println("file size: " + cardValueInput.available());
 			cardValueWorkbook = new XSSFWorkbook(cardValueInput);
 			
 			currentSheet = cardValueWorkbook.getSheetAt(0);
@@ -126,7 +133,8 @@ public class CardPanel extends JPanel{
 				rowIter.next();
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			System.out.println("excel file not found");
+			System.out.println(new File(cardValueFile));
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
