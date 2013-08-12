@@ -24,10 +24,6 @@ public class MathGame extends JApplet implements ActionListener
 	int appHeight=620;
 	static int difficulty = 2;//from 2-5 represents how many cards to use
 	
-	JPanel panel2;
-	JPanel panel2a;
-	JPanel panel2b;
-	
 	//Panel Declarations
 	JLayeredPane layer;//Master panel - particularly for moving cards across entire screen
 	SidePanel sidePanel;//control panel on the side
@@ -35,6 +31,7 @@ public class MathGame extends JApplet implements ActionListener
 	CardPanel cardPanel;//holds cards at top
 	WorkspacePanel workPanel;//center of screen where cards are morphed together
 	HoldPanel holdPanel;//holds intermediate sums, differences, products, and quotients
+	Menu menu;
 	
 	Rectangle home1;
 	Rectangle home2;
@@ -88,6 +85,8 @@ public class MathGame extends JApplet implements ActionListener
 		//setBorder(new LineBorder(Color.yellow));
 		
 		//Initiation of panels
+		menu = new Menu();//TODO Add Menu to the game.  Will not be done until menu is completed
+		
 		layer = new JLayeredPane();
 		layer.setLayout(null);
 		layer.setBounds(5, 0, getSize().width, getSize().height);
