@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+   <meta charset="UTF-8">
+   <title>Math Game | DBTest</title>
+   <link rel="shortcut icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
+   <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
+   <link rel="stylesheet" href="CSS/style.css" type="text/css">
+   <link rel='stylesheet' media='screen and (min-width: 1230px) and (max-width: 1380px)' href='CSS/medium.css' />
+   <link rel='stylesheet' media='screen and (min-width: 0px) and (max-width: 1230px)' href='CSS/small.css' />
+   <!-- saved from url=(0014)about:internet -->
+   <!--[if lt IE 8]>
+   <link rel="stylesheet" href="CSS/ie7style.css" type="text/css">
+   <![endif]-->
+   <!--[if gte IE 8]>
+   <link rel="stylesheet" href="CSS/iestyle.css" type="text/css">
+   <link rel='stylesheet' media='screen and (min-width: 1230px) and (max-width: 1380px)' href='CSS/medium.css' />
+   <link rel='stylesheet' media='screen and (min-width: 0px) and (max-width: 1230px)' href='CSS/small.css' />
+   <![endif]-->
+   <script type="text/javascript" src="javascript/respond.src.js"></script>
+    <script src="javascript/jquery.js"></script>
+	<script src="javascript/jquery-ui.js"></script>
+	<script src="javascript/modernizr.js"></script>
+    <script>
+		if (!Modernizr.csstransitions) {
+			$(document).ready(function(){
+				$(".nav").hover(function () {
+					$(this).stop().animate({ backgroundColor: "#454545" },300)
+					}, function() {
+				$(this).stop().animate({ backgroundColor: "#FFFFFF" },300)}   
+				);
+			}); 
+		}	
+    </script>
+  </head>
+  <body>
+   <h1>Math Game</h1>
+   <hr>
+   <div id="nav">
+   <a href="index.html" class="nav">HOME</a>
+   <a href="about.html" class="nav">ABOUT</a>
+   <a href="contact.html" class="nav">CONTACT</a>
+   </div>
+   <hr>
+   <div id="game">
+	<embed id="Math Games"
+       type="application/x-java-applet"
+       width="900" height="600" 
+       archive="mathGame.jar, mysql-connector-java-5.1.21-bin.jar"
+       code="com.mathgame.math.MathGame"
+       pluginspage="http://java.com/download/"/>
+   </div>
+   <div id="instructionsbox">
+   </div>
+   <div id="instructions">
+  
+  
+   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ut nisi in velit tincidunt euismod. Mauris purus ante, tincidunt ut facilisis a, luctus et velit. Fusce auctor varius felis vel convallis. In tempor faucibus feugiat. Vivamus dapibus aliquam est, ut volutpat nunc vestibulum sed. Duis ultrices enim a nibh bibendum scelerisque. Integer consectetur turpis in justo varius dignissim. Ut pretium odio blandit orci adipiscing lobortis. <div class="title">Instructions</div>Vestibulum hendrerit bibendum lorem eget aliquam. Sed scelerisque eros augue. Vivamus erat elit, dignissim nec lacinia vitae, tristique et metus. Sed nec nunc enim, a laoreet erat. Nam nec lacus leo, vitae ultricies turpis. Suspendisse pretium nulla sed nibh congue ac hendrerit ante viverra. Sed erat tortor, gravida eu rutrum quis, euismod at quam. Donec laoreet aliquam dui, non tincidunt lacus lacinia in.
+   </div>
+  </body>
+ </html>
