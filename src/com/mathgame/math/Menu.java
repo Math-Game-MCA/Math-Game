@@ -5,6 +5,7 @@ package com.mathgame.math;
 
 import java.awt.Graphics;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -12,12 +13,11 @@ import javax.swing.JPanel;
  */
 public class Menu extends JPanel{
 	
+	JButton enter;//press to enter the game;
+	
 	//constructor
 	public Menu()	{
-		/*
-		 * For David S.
-		 * Refer to your email for my instructions to you on how to create this menu.
-		 */
+		enter = new JButton("Enter");
 	}
 	
 	@Override
