@@ -11,6 +11,7 @@ import com.mathgame.database.*;
 import java.awt.*;
 import java.awt.dnd.DropTarget;
 import java.awt.event.*;
+import java.net.URL;
 
 
 /**
@@ -91,6 +92,7 @@ public class MathGame extends JApplet implements ActionListener
 		layer = new JLayeredPane();
 		layer.setLayout(null);
 		layer.setBounds(5, 0, getSize().width, getSize().height);
+		
 		
 		sidePanel = new SidePanel();//control bar
 		sidePanel.setBounds(750, 0, 150, 620);//x, y, width, height
@@ -289,6 +291,11 @@ public class MathGame extends JApplet implements ActionListener
 	public boolean getDatabase(){
 		System.out.println("GET DATABASE " + useDatabase);
 		return useDatabase;
+	}
+	
+	
+	public URL getDocBase(){
+		return getDocumentBase();
 	}
 	
 	/*
