@@ -20,9 +20,6 @@ import java.net.URL;
 public class MathGame extends JApplet implements ActionListener
 {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 412526093812019078L;
 	int appWidth=900;//1300 or 900
 	int appHeight=620;
@@ -85,7 +82,7 @@ public class MathGame extends JApplet implements ActionListener
 	
 	@Override
 	public void init(){
-	 
+		System.out.println("initing");
 		setSize(appWidth, appHeight);
 		setLayout(null);
 		//((JComponent) getContentPane()).setBorder(new LineBorder(Color.yellow));
@@ -239,6 +236,7 @@ public class MathGame extends JApplet implements ActionListener
 		setCursor(lightPenCursor);
 		layer.setCursor(imageCursor);
 		 */
+		System.out.println("init done");
 	}
 
 	
