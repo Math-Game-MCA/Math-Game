@@ -1,31 +1,51 @@
 /**
  * Author: David Schildkraut
  * Purpose: create a menu for the Game 'Epsilon'
- * Notes: currently working on menu in separate java file. This is being done in case I have to go back to the
- * basic frame here. Will copy & paste from the file into this as I get more parts working. Email me w/any
+ * Last Date Worked On: 9/24/13
+ * Notes: currently working on menu in separate java file. Email me w/any
  * questions. Font sizes, fonts, etc. shown are not final. Feedback into the programming can be emailed to
- * me at weatherdave1@gmail.com. Thanks
+ * me at weatherdave1@gmail.com.
  */
 package com.mathgame.math;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 /**
  * Class that creates the game Menu
  */
+
 public class Menu extends JPanel {
 	
+	//public static final long serialVersionUID = ;
+	MathGame mathGame;
+	final String ImageFile = "images/background.png";
+	Image background;
+	
 	JButton enter;//press to enter the game;
+	JButton help;//press for game help
+	JButton about;//press for "stuff"
+	JButton exit;//press to leave game :(
+	JLabel epsilon;//self-explanatory
 	
 	//constructor
-	public Menu()	{
+	public void init(MathGame mathGame)	{
+		this.setLayout(new FlowLayout());
+		
+		Dimension size = getPreferredSize();
+		size.width = 900;
+		size.height = 620;
+		setPreferredSize(size);
+		
+		background = mathGame.getImage(mathGame.getDocumentBase(), ImageFile);
 		
 		Font titleFont = new Font("Times New Roman", Font.BOLD, 32);
 		Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
@@ -36,23 +56,38 @@ public class Menu extends JPanel {
 		help.setFont(buttonFont);
 		about = new JButton("About");
 		about.setFont(buttonFont);
+		exit = new JButton("Exit");
+		exit.setFont(buttonFont);
+		epsilon = new JLabel("Epsilon");
+		epsilon.setFont(titleFont);
 	
 		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
 		p1.add(enter);
 		p1.add(help);
 		p1.add(about);
+		p1.add(exit);
 		p1.setBorder(new TitledBorder("Epsilon"));
-	}
 		
+		JPanel p2 = new JPanel(new FlowLayout(FlowLayout.LEADING));
+		p2.add(epsilon);
+	}
+	
+	public void helpbox() {
+		
+	}
+	
+	public void aboutinfo() {
+		
+	}
+	
+	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
+		g.drawImage(background, 0, 0, null);
 		//Put your code to "paint" the background here!
 	}
 
-public static void main(String[] args){
-	Menu frame = new Menu();
-	frame.setVisible(true);
-}
+
 }
