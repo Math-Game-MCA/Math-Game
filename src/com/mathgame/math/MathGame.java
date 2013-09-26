@@ -86,13 +86,15 @@ public class MathGame extends JApplet implements ActionListener
 		
 		//Initiation of panels
 		menu = new Menu();//TODO Add Menu to the game.  Will not be done until menu is completed
-		
+		menu.init(this);
+		menu.setBounds(0, 0, 900, 620);
 		layer = new JLayeredPane();
 		layer.setLayout(null);
 		layer.setBounds(5, 0, getSize().width, getSize().height);
 		
+		layer.add(menu);
 		sidePanel = new SidePanel();//control bar
-		sidePanel.setBounds(750, 0, 150, 620);//x, y, width, height
+		sidePanel.setBounds(0, 0, 900, 620);//x, y, width, height
 		sidePanel.init(this);
 		
 		cardPanel = new CardPanel(this);//top card panel
@@ -113,12 +115,13 @@ public class MathGame extends JApplet implements ActionListener
 		holdPanel.init(this);
 		
 		//adding panels to the game
+		//add(menu);
 		add(layer);
-		add(sidePanel);
-		layer.add(opPanel);
-		layer.add(cardPanel);
-		layer.add(workPanel);
-		layer.add(holdPanel);
+		//add(sidePanel);
+		//layer.add(opPanel);
+		//layer.add(cardPanel);
+		//layer.add(workPanel);
+		//layer.add(holdPanel);
 		
 		database = new JCheckBox("Use Database");
 		database.setMnemonic(KeyEvent.VK_D);
@@ -207,7 +210,7 @@ public class MathGame extends JApplet implements ActionListener
 		opPanel.multiply.addMouseMotionListener(mover);
 		opPanel.divide.addMouseMotionListener(mover);
 		//adds to layered pane to facilitate movement across ALL panels
-		layer.add(cardPanel.card1, new Integer(1));//adding new integer ensures card is on top
+		/*layer.add(cardPanel.card1, new Integer(1));//adding new integer ensures card is on top
 		layer.add(cardPanel.card2, new Integer(1));
 		layer.add(cardPanel.card3, new Integer(1));
 		layer.add(cardPanel.card4, new Integer(1));
@@ -218,7 +221,7 @@ public class MathGame extends JApplet implements ActionListener
 		layer.add(opPanel.add, new Integer(1));
 		layer.add(opPanel.subtract, new Integer(1));
 		layer.add(opPanel.multiply, new Integer(1));
-		layer.add(opPanel.divide, new Integer(1));
+		layer.add(opPanel.divide, new Integer(1));*/
 		
 		Items itemListener = new Items(this);
 		database.addItemListener(itemListener);
