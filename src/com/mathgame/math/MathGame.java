@@ -85,14 +85,13 @@ public class MathGame extends JApplet implements ActionListener
 		//setBorder(new LineBorder(Color.yellow));
 		
 		//Initiation of panels
-		menu = new Menu();//TODO Add Menu to the game.  Will not be done until menu is completed
+		menu = new Menu();
 		menu.init(this);
-		menu.setBounds(0, 0, 900, 620);
+		menu.setBounds(0, 0, appWidth, appHeight);
 		layer = new JLayeredPane();
 		layer.setLayout(null);
 		layer.setBounds(5, 0, getSize().width, getSize().height);
 		
-		layer.add(menu);
 		sidePanel = new SidePanel();//control bar
 		sidePanel.setBounds(0, 0, 900, 620);//x, y, width, height
 		sidePanel.init(this);
@@ -117,11 +116,12 @@ public class MathGame extends JApplet implements ActionListener
 		//adding panels to the game
 		//add(menu);
 		add(layer);
-		//add(sidePanel);
-		//layer.add(opPanel);
-		//layer.add(cardPanel);
-		//layer.add(workPanel);
-		//layer.add(holdPanel);
+		layer.add(menu, new Integer(1));
+		layer.add(sidePanel, new Integer(0));
+		layer.add(opPanel, new Integer(0));
+		layer.add(cardPanel, new Integer(0));
+		layer.add(workPanel, new Integer(0)); 
+		layer.add(holdPanel, new Integer(0));
 		
 		database = new JCheckBox("Use Database");
 		database.setMnemonic(KeyEvent.VK_D);

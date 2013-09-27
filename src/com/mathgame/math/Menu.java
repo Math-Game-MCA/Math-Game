@@ -40,8 +40,6 @@ public class Menu extends JPanel implements ActionListener{
 	//constructor
 	public void init(MathGame mathGame)	{
 		this.setLayout(new FlowLayout());
-		JLabel test = new JLabel("hi");
-		add(test);
 		Dimension size = getPreferredSize();
 		size.width = 900;
 		size.height = 620;
@@ -65,17 +63,14 @@ public class Menu extends JPanel implements ActionListener{
 	
 		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
-		p1.add(enter);
-		p1.add(help);
-		p1.add(about);
-		p1.add(exit);
-		p1.setBorder(new TitledBorder("Epsilon"));
-		
-		//JPanel p2 = new JPanel(new FlowLayout(FlowLayout.LEADING));
-		//p2.add(epsilon);
 		add(epsilon);
-		add(p1);
-		//add(p2);
+		add(enter);
+		add(help);
+		add(about);
+		add(exit);
+		//p1.setBorder(new TitledBorder("Epsilon"));
+		
+		//add(epsilon);
 		
 		enter.addActionListener(this);
 		help.addActionListener(this);
@@ -84,9 +79,10 @@ public class Menu extends JPanel implements ActionListener{
 		JLabel helper;
 	}
 	
-	public void actionPerformed1(ActionEvent e) {
-		if(e.getSource() == enter)
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == enter)	{
 			startgame();
+		}
 		else if(e.getSource() == help)
 			helpbox();
 		else if(e.getSource() == about)
@@ -96,7 +92,9 @@ public class Menu extends JPanel implements ActionListener{
 	}
 	
 	public void startgame() {
-		epsilon.setText("Want to start game, but can't. :'(");
+		//epsilon.setText("Want to start game, but can't. :'(");
+		this.setVisible(false);
+		System.out.println("ENTER GAME");
 	}
 	
 	public void helpbox() {
@@ -115,7 +113,7 @@ public class Menu extends JPanel implements ActionListener{
 	}
 	
 	public void exit() {
-		epsilon.setText("Cant get out!");
+		
 	}
 	
 	@Override
@@ -123,12 +121,6 @@ public class Menu extends JPanel implements ActionListener{
 		super.paintComponents(g);
 		//g.drawImage(background, 0, 0, null);
 		//Put your code to "paint" the background here!
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 
