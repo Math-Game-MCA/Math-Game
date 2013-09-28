@@ -7,6 +7,7 @@
  */
 package com.mathgame.math;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -17,6 +18,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
@@ -26,8 +28,8 @@ import javax.swing.border.TitledBorder;
 
 public class Menu extends JPanel implements ActionListener{
 	
-	//public static final long serialVersionUID = ;
-	MathGame mathGame;
+	static MathGame mathGame;
+	
 	final String ImageFile = "images/background.png";
 	Image background;
 	
@@ -38,12 +40,15 @@ public class Menu extends JPanel implements ActionListener{
 	JLabel epsilon;//self-explanatory
 	
 	//constructor
-	public void init(MathGame mathGame)	{
+	public void init(MathGame mg)	{
+		
 		this.setLayout(new FlowLayout());
 		Dimension size = getPreferredSize();
 		size.width = 900;
 		size.height = 620;
 		setPreferredSize(size);
+		
+		mathGame = mg;
 		
 		background = mathGame.getImage(mathGame.getDocumentBase(), ImageFile);
 		
@@ -77,6 +82,8 @@ public class Menu extends JPanel implements ActionListener{
 		about.addActionListener(this);
 		exit.addActionListener(this);
 		JLabel helper;
+		
+		System.out.println("Menu Init Complete");
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -92,8 +99,8 @@ public class Menu extends JPanel implements ActionListener{
 	}
 	
 	public void startgame() {
-		//epsilon.setText("Want to start game, but can't. :'(");
-		this.setVisible(false);
+		//this.setVisible(false);
+		mathGame.cl.last(mathGame.cardLayoutPanels);
 		System.out.println("ENTER GAME");
 	}
 	

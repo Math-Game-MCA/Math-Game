@@ -23,6 +23,11 @@ public class MathGame extends JApplet implements ActionListener
 	int appWidth=900;//1300 or 900
 	int appHeight=620;
 	static int difficulty = 2;//from 2-5 represents how many cards to use
+
+	static final String GAME = "CardLayoutPanel Game";
+	static final String MENU = "CardLayoutPanel Menu";
+	JPanel cardLayoutPanels;//uses CardLayout to switch between menu and game
+	CardLayout cl;
 	
 	//Panel Declarations
 	JLayeredPane layer;//Master panel - particularly for moving cards across entire screen
@@ -85,9 +90,14 @@ public class MathGame extends JApplet implements ActionListener
 		//setBorder(new LineBorder(Color.yellow));
 		
 		//Initiation of panels
+
+		cardLayoutPanels = new JPanel(new CardLayout());
+		cardLayoutPanels.setBounds(0, 0, appWidth, appHeight);
+		
 		menu = new Menu();
 		menu.init(this);
 		menu.setBounds(0, 0, appWidth, appHeight);
+		
 		layer = new JLayeredPane();
 		layer.setLayout(null);
 		layer.setBounds(5, 0, getSize().width, getSize().height);
@@ -114,9 +124,14 @@ public class MathGame extends JApplet implements ActionListener
 		holdPanel.init(this);
 		
 		//adding panels to the game
-		//add(menu);
-		add(layer);
-		layer.add(menu, new Integer(1));
+		cardLayoutPanels.add(menu, MENU);
+		cardLayoutPanels.add(layer, GAME);
+		cl = (CardLayout) cardLayoutPanels.getLayout();
+		//cl.show(cardLayoutPanels, MENU);
+		add(cardLayoutPanels);
+		cl.first(cardLayoutPanels);
+		//add(layer);
+		//layer.add(menu, new Integer(2));
 		layer.add(sidePanel, new Integer(0));
 		layer.add(opPanel, new Integer(0));
 		layer.add(cardPanel, new Integer(0));
@@ -210,7 +225,7 @@ public class MathGame extends JApplet implements ActionListener
 		opPanel.multiply.addMouseMotionListener(mover);
 		opPanel.divide.addMouseMotionListener(mover);
 		//adds to layered pane to facilitate movement across ALL panels
-		/*layer.add(cardPanel.card1, new Integer(1));//adding new integer ensures card is on top
+		layer.add(cardPanel.card1, new Integer(1));//adding new integer ensures card is on top
 		layer.add(cardPanel.card2, new Integer(1));
 		layer.add(cardPanel.card3, new Integer(1));
 		layer.add(cardPanel.card4, new Integer(1));
@@ -221,7 +236,7 @@ public class MathGame extends JApplet implements ActionListener
 		layer.add(opPanel.add, new Integer(1));
 		layer.add(opPanel.subtract, new Integer(1));
 		layer.add(opPanel.multiply, new Integer(1));
-		layer.add(opPanel.divide, new Integer(1));*/
+		layer.add(opPanel.divide, new Integer(1));
 		
 		Items itemListener = new Items(this);
 		database.addItemListener(itemListener);
