@@ -13,7 +13,7 @@ import java.sql.Statement;
 
 /**
  * The access class that connects to the MySQL database
- * @author Hima the Great
+ * @author Hima
  *
  */
 public class MySQLAccess{
