@@ -73,7 +73,11 @@ public class CompMover extends MouseInputAdapter
         	
         }
         
-        	
+        /**
+         * function for when mouse is clicked & held
+         * 
+         * @param MouseEvent e
+         */
         @Override
         public void mousePressed(MouseEvent e)
         {
@@ -139,6 +143,11 @@ public class CompMover extends MouseInputAdapter
 	            
         }
  
+        /**
+         * function for when mouse is released
+         * 
+         * @param MouseEvent e
+         */
         @Override
         public void mouseReleased(MouseEvent e)
         {
@@ -252,6 +261,11 @@ public class CompMover extends MouseInputAdapter
             
         }
  
+        /**
+         * function for when mouse (having already been clicked) is dragged
+         * 
+         * @param MouseEvent e
+         */
         @Override
         public void mouseDragged(MouseEvent e)
         {

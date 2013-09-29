@@ -68,6 +68,11 @@ public class SidePanel extends JPanel implements ActionListener{
 	Insets insets = getInsets(); //insets for the side panel for layout purposes
 	int diff=2;
 	
+	/**
+	 * Initialization of side panel & side panel buttons
+	 * 
+	 * @param mathgame
+	 */
 	public void init(MathGame mathgame)
 	{
 		this.mathgame = mathgame;
@@ -153,6 +158,11 @@ public class SidePanel extends JPanel implements ActionListener{
 		
 	}
 	
+	/**
+	 * input/button presses on side panel
+	 * 
+	 * @param ActionEvent e
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == toggle)
@@ -248,6 +258,11 @@ public class SidePanel extends JPanel implements ActionListener{
 	}
 	
 	//returns time in form xx:xx
+	/**
+	 * returns time in form xx:xx
+	 * @param millis
+	 * @return time (in string)
+	 */
 	private String timeFormat(int millis)
 	{
 		//converts from millis to secs
@@ -379,6 +394,9 @@ public class SidePanel extends JPanel implements ActionListener{
 		mathgame.cardPanel.revalidate();
 	}
 	
+	/** 
+	 * reset function
+	 */
 	private void resetFunction()
 	
 	{

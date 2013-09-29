@@ -56,6 +56,9 @@ public class WorkspacePanel extends JPanel{
 		this.mathGame = mathGame;
 	}
 	
+	/** 
+	 * checks calculations in the workspace
+	 */
 	public void calcCheck(){
 		int count = this.getComponentCount();
 		System.out.println(count);

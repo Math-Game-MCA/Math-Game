@@ -15,7 +15,7 @@ import com.mathgame.math.MathGame;
  */
 public class OperationCard extends JLabel{
 	/**
-	 * 
+	 * initializing of private data members
 	 */
 	private static final long serialVersionUID = 4826556166618968363L;
 	private final int width=40;
@@ -25,6 +25,11 @@ public class OperationCard extends JLabel{
 	public OperationCard(){
 	}
 	
+	/**
+	 * 
+	 * @param op the operation
+	 * @param position of the operation
+	 */
 	public OperationCard(String op, int position){
 		this.setText(op);
 		operation = op;
@@ -46,6 +51,12 @@ public class OperationCard extends JLabel{
 		this.operation = operation;
 	}
 
+	/**
+	 * loads the proper operation & background
+	 * 
+	 * @param mathGame
+	 * @param operation the private variable operation
+	 */
 	public OperationCard(MathGame mathGame, String operation){
 		String imageFile=null;
 		if(operation.equals("add"))

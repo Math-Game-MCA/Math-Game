@@ -33,6 +33,12 @@ public class OperationPanel extends JPanel
 	
 	JLayeredPane masterLayer;
 	
+	/**
+	 * pass layeredpane layer so to regen operations
+	 * 
+	 * @param mathGame
+	 * @param mover
+	 */
 	public void init(MathGame mathGame, CompMover mover)//pass layeredpane layer so to regen operations
 	{
 		setLayout(null);
@@ -60,7 +66,12 @@ public class OperationPanel extends JPanel
 		
 		background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
 	}
-
+	
+	/**
+	 * primarily to regen operator after use
+	 * 
+	 * @param op
+	 */
 	public void addOperator(String op)	{//primarily to regen operator after use
 		if(op.contentEquals("add"))	{
 			add.setBounds(20, 160, 40, 40);

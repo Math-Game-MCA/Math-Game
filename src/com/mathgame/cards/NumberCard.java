@@ -17,7 +17,7 @@ import javax.swing.border.LineBorder;
 public class NumberCard extends JLabel{
 	
 	/**
-	 * 
+	 * initializing of private data members
 	 */
 	private static final long serialVersionUID = -4999587614115223052L;
 	private double value;
@@ -47,6 +47,12 @@ public class NumberCard extends JLabel{
 		this.home = home;
 	}
 
+	/**
+	 * 
+	 *  displays the value n on the face of a NumberCard
+	 * @param n 
+	 * 
+	 */
 	public NumberCard(double n){
 		value = n;
 		this.setText(String.valueOf(n));
@@ -121,6 +127,11 @@ public class NumberCard extends JLabel{
 		this.numberTag = numberTag;
 	}
 
+	/**
+	 * sets size, color, and border of card
+	 * 
+	 * @param Graphics g
+	 */
 	public void paintComponent(Graphics g)	{
 		g.setColor(new Color(255, 255, 255));
 		g.fillRect(0, 0, width, height);

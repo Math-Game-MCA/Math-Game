@@ -228,6 +228,11 @@ public class CardPanel extends JPanel{
 		return cardExists.get(index);
 	}
 	
+	/**
+	 * restores a card deleted during calculation; must ensure card exists first!
+	 * 
+	 * @param cardvalue
+	 */
 	public void restoreCard(double cardvalue)	{
 		//restores a card deleted during calculation; must ensure card exists first!
 		if(cardvalue == Double.parseDouble(values.get(0)) && !cardExists.get(0))	{

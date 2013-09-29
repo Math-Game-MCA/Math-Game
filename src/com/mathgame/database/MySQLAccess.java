@@ -13,7 +13,7 @@ import java.sql.Statement;
 
 /**
  * The access class that connects to the MySQL database
- * @author Hima
+ * @author Hima the Great
  *
  */
 public class MySQLAccess{
@@ -59,32 +59,60 @@ public class MySQLAccess{
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @return id
+	 */
 	public int getId()
 	{
 		//System.out.println("ID " + id);
 		return id;
 	}
+	
+	/**
+	 * 
+	 * @return num1
+	 */
 	public int getNum1()
 	{
 		//System.out.println("num1 " + num1);
 		return num1;
 	}
+	/**
+	 * 
+	 * @return op
+	 */
 	public String getOp()
 	{
 		//System.out.println("op " + op);
 		return op;
 	}
+	
+	/**
+	 * 
+	 * @return num2
+	 */
 	public int getNum2()
 	{
 		//System.out.println("num2 " + num2);
 		return num2;
 	}
+	
+	/**
+	 * 
+	 * @return answer
+	 */
 	public Double getAnswer()
 	{
 		//System.out.println("answer " + answer);
 		return answer;
 	}
 	
+	/**
+	 * gets data values from the database
+	 * 
+	 * @throws Exception
+	 */
 	public void getVals() throws Exception
 	{
 		try{
@@ -231,6 +259,13 @@ public class MySQLAccess{
 		}
 	}
 	
+	/**
+	 * 
+	 * @param n1 the 1st operand
+	 * @param op the operation
+	 * @param n2 the 2nd operand
+	 * @return the result of the operation
+	 */
 	public Double calc(int n1, String op, int n2)
 	{
 		double num1 = (double)n1;

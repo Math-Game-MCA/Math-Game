@@ -80,6 +80,9 @@ public class MathGame extends JApplet implements ActionListener
 	
 	CompMover mover;
 	
+	/**
+	 * Initializes the window & game
+	 */
 	@Override
 	public void init(){
 		System.out.println("initing");
