@@ -1,5 +1,5 @@
 /**
- * Author: David Schildkraut
+ * Authors: David Schildkraut, Roland Fong, Hima T.
  * Purpose: create a menu for the Game 'Epsilon'
  * Last Date Worked On: 9/24/13
  * Notes: working on listeners & eliminating the "double-menu" where 2 menus are seen, but only one is 
