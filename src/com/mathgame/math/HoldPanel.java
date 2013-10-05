@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -26,8 +27,8 @@ public class HoldPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -2013522168342802483L;
-	final String imageFile = "images/card holder.png";
-	Image background;
+	final String imageFile = "/images/card holder.png";
+	static ImageIcon background;
 	
 	public void init(MathGame mathGame)	{
 
@@ -41,13 +42,14 @@ public class HoldPanel extends JPanel {
 		size.height = 150;
 		setPreferredSize(size);
 		
-		background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		//background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		background = new ImageIcon(HoldPanel.class.getResource(imageFile));
 	}
 	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		g.drawImage(background, 0, 0, null);
+		g.drawImage(background.getImage(), 0, 0, HoldPanel.this);
 
 		
 	}

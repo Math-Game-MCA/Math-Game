@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
@@ -28,8 +29,8 @@ public class OperationPanel extends JPanel
 	OperationCard multiply;
 	OperationCard divide;
 
-	final String imageFile = "images/Operation bar.png";
-	Image background;
+	final String imageFile = "/images/Operation bar.png";
+	static ImageIcon background;
 	
 	JLayeredPane masterLayer;
 	
@@ -58,7 +59,8 @@ public class OperationPanel extends JPanel
 		
 		masterLayer = mathGame.layer;//layered pane passed over
 		
-		background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		//background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		background = new ImageIcon(OperationPanel.class.getResource(imageFile));
 	}
 
 	public void addOperator(String op)	{//primarily to regen operator after use
@@ -83,7 +85,7 @@ public class OperationPanel extends JPanel
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.drawImage(background, 0, 0, null);
+		g.drawImage(background.getImage(), 0, 0, OperationPanel.this);
 
 		
 	}

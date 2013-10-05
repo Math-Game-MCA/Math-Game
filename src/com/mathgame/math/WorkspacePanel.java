@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -31,8 +32,8 @@ public class WorkspacePanel extends JPanel{
 	 */
 	private static final long serialVersionUID = 7408931441173570326L;
 	MathGame mathGame;//holds the game so it can reference all the other panels
-	final String imageFile = "images/Workspace.png";
-	Image background;
+	final String imageFile = "/images/Workspace.png";
+	static ImageIcon background;
 	
 	Calculate calc;
 	CompMover mover;
@@ -49,7 +50,8 @@ public class WorkspacePanel extends JPanel{
 		size.height = 260;
 		setPreferredSize(size);
 		
-		background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		//background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		background = new ImageIcon(WorkspacePanel.class.getResource(imageFile));
 		
 		calc = new Calculate();
 		mover = new CompMover();
@@ -124,6 +126,6 @@ public class WorkspacePanel extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		g.drawImage(background, 0, 0, null);
+		g.drawImage(background.getImage(), 0, 0, WorkspacePanel.this);
 	}
 }

@@ -45,8 +45,8 @@ public class SidePanel extends JPanel implements ActionListener{
 	
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
 
-	final String imageFile = "images/control bar.png";
-	Image background;
+	final String imageFile = "/images/control bar.png";
+	static ImageIcon background;
 	
 	//JTextArea error;
 	
@@ -93,7 +93,8 @@ public class SidePanel extends JPanel implements ActionListener{
 		setDiff = new JTextField("");
 		updateDiff = new JButton("Update Difficulty");
 		
-		background = mathgame.getImage(mathgame.getDocumentBase(), imageFile);
+		//background = mathgame.getImage(mathgame.getDocumentBase(), imageFile);
+		background = new ImageIcon(SidePanel.class.getResource(imageFile));
 		
 		add(clock);
 		add(toggle);
@@ -146,7 +147,7 @@ public class SidePanel extends JPanel implements ActionListener{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		g.drawImage(background, 0, 0, null);
+		g.drawImage(background.getImage(), 0, 0, SidePanel.this);
 	}
 	
 	@Override

@@ -16,6 +16,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -30,8 +31,8 @@ public class Menu extends JPanel implements ActionListener{
 	
 	static MathGame mathGame;
 	
-	final String ImageFile = "images/background.png";
-	Image background;
+	final String imageFile = "/images/background.png";
+	static ImageIcon background;
 	
 	JButton enter;//press to enter the game;
 	JButton help;//press for game help
@@ -50,7 +51,7 @@ public class Menu extends JPanel implements ActionListener{
 		
 		mathGame = mg;
 		
-		background = mathGame.getImage(mathGame.getDocumentBase(), ImageFile);
+		//background = new ImageIcon(Menu.class.getResource(imageFile));//Uncomment when you put file in directory
 		
 		Font titleFont = new Font("Times New Roman", Font.BOLD, 32);
 		Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
@@ -126,7 +127,7 @@ public class Menu extends JPanel implements ActionListener{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		//g.drawImage(background, 0, 0, null);
+		//g.drawImage(background.getImage(), 0, 0, Menu.this);//uncomment this when you have the image
 		//Put your code to "paint" the background here!
 	}
 

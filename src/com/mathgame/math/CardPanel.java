@@ -5,7 +5,6 @@ package com.mathgame.math;
 
 import java.awt.Dimension;
 import java.awt.Image;
-
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
@@ -45,8 +45,8 @@ public class CardPanel extends JPanel{
 	NumberCard card5;
 	NumberCard card6;
 	NumberCard ans;
-	final String imageFile = "images/Card Bar.png";
-	Image background;
+	final String imageFile = "/images/Card Bar.png";
+	static ImageIcon background;
 	
 	JLayeredPane masterLayer;
 	
@@ -116,7 +116,8 @@ public class CardPanel extends JPanel{
 		this.add(card6);
 		this.add(ans);
 		
-		background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		//background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		background = new ImageIcon(CardPanel.class.getResource(imageFile));
 		
 		
 		try {
@@ -269,7 +270,7 @@ public class CardPanel extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		g.drawImage(background, 0, 0, null);
+		g.drawImage(background.getImage(), 0, 0, CardPanel.this);
 	}
 
 }
