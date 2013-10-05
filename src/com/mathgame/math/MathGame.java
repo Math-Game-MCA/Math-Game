@@ -129,7 +129,7 @@ public class MathGame extends JApplet implements ActionListener
 		cl = (CardLayout) cardLayoutPanels.getLayout();
 		//cl.show(cardLayoutPanels, MENU);
 		add(cardLayoutPanels);
-		cl.first(cardLayoutPanels);
+		cl.show(cardLayoutPanels, MENU);
 		//add(layer);
 		//layer.add(menu, new Integer(2));
 		layer.add(sidePanel, new Integer(0));

@@ -125,6 +125,7 @@ public class SidePanel extends JPanel implements ActionListener{
 		
 		exit.setBounds(10, 580, 130, 30);
 		exit.setHorizontalAlignment(SwingConstants.CENTER);
+		exit.addActionListener(this);
 		
 		checkAns.setBounds(10, 270, 130, 30);
 		checkAns.addActionListener(this);
@@ -239,6 +240,13 @@ public class SidePanel extends JPanel implements ActionListener{
 				
 				clock.setText(timeFormat((int)(endTime-startTime)));
 			
+			}
+		}
+		if(e.getSource() == exit)	{
+			if(JOptionPane.showOptionDialog(this, "Are you sure you want to exit?", "Exit", 
+					JOptionPane.YES_NO_OPTION, 
+					JOptionPane.QUESTION_MESSAGE, null, null, null) == 0)	{
+				mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.MENU);
 			}
 		}
 		

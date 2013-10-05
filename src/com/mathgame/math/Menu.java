@@ -8,6 +8,7 @@
 package com.mathgame.math;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -29,6 +30,11 @@ import javax.swing.border.TitledBorder;
 
 public class Menu extends JPanel implements ActionListener{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3036828086937465893L;
+
 	static MathGame mathGame;
 	
 	final String imageFile = "/images/background.png";
@@ -43,7 +49,7 @@ public class Menu extends JPanel implements ActionListener{
 	//constructor
 	public void init(MathGame mg)	{
 		
-		this.setLayout(new FlowLayout());
+		this.setLayout(null);
 		Dimension size = getPreferredSize();
 		size.width = 900;
 		size.height = 620;
@@ -56,18 +62,21 @@ public class Menu extends JPanel implements ActionListener{
 		Font titleFont = new Font("Times New Roman", Font.BOLD, 32);
 		Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
 		
-		enter = new JButton("Enter");
-		enter.setFont(buttonFont);
-		help = new JButton("Help");
-		help.setFont(buttonFont);
-		about = new JButton("About");
-		about.setFont(buttonFont);
-		exit = new JButton("Exit");
-		exit.setFont(buttonFont);
 		epsilon = new JLabel("Epsilon");
 		epsilon.setFont(titleFont);
-	
-		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		epsilon.setBounds(385, 205, 130, 60);
+		enter = new JButton("Enter");
+		enter.setFont(buttonFont);
+		enter.setBounds(385, 265, 130, 30);
+		help = new JButton("Help");
+		help.setFont(buttonFont);
+		help.setBounds(385, 305, 130, 30);
+		about = new JButton("About");
+		about.setFont(buttonFont);
+		about.setBounds(385, 345, 130, 30);
+		exit = new JButton("Exit");
+		exit.setFont(buttonFont);
+		exit.setBounds(385, 385, 130, 30);
 		
 		add(epsilon);
 		add(enter);
@@ -82,7 +91,6 @@ public class Menu extends JPanel implements ActionListener{
 		help.addActionListener(this);
 		about.addActionListener(this);
 		exit.addActionListener(this);
-		JLabel helper;
 		
 		System.out.println("Menu Init Complete");
 	}
@@ -101,34 +109,30 @@ public class Menu extends JPanel implements ActionListener{
 	
 	public void startgame() {
 		//this.setVisible(false);
-		mathGame.cl.last(mathGame.cardLayoutPanels);
+		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
 		System.out.println("ENTER GAME");
 	}
 	
 	public void helpbox() {
-	/*	JPanel help2 = new JPanel();
-		help2.setVisible(true);
-		
-		JLabel helper = new JLabel("to help you");
-		
-		add(helper);
-		
-		System.out.println("working");*/
+		//decide on help
 	}
 	
 	public void aboutinfo() {
-		epsilon.setText("Fun use of a preposition");
+		//Decide what to do when pressing about button
 	}
 	
 	public void exit() {
-		
+		//TODO decide on exit implementation - perhaps show an html webpage "thanks for playing" ?
 	}
 	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
 		//g.drawImage(background.getImage(), 0, 0, Menu.this);//uncomment this when you have the image
-		//Put your code to "paint" the background here!
+		//TEMPORARY; DELETE LATER! ----------
+		g.setColor(Color.white);
+		g.fillRect(0, 0, 900, 620);
+		//-----------------------------------
 	}
 
 
