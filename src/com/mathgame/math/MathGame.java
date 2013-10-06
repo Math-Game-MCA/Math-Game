@@ -251,6 +251,7 @@ public class MathGame extends JApplet implements ActionListener
 		setCursor(lightPenCursor);
 		layer.setCursor(imageCursor);
 		 */
+		
 		System.out.println("init done");
 	}
 

@@ -60,19 +60,20 @@ public class WorkspacePanel extends JPanel{
 	
 	public void calcCheck(){
 		int count = this.getComponentCount();
-		System.out.println(count);
+		System.out.println(" count is " + count);
+		
 		Double answer= null;
 		if(count == 3)
 		{
 			answer = calc.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2), mathGame);
-			System.out.println("NUM1:"+this.getComponentCount());
+			
 		}
 		
 		if(answer != null)
 		{
 			System.out.println("answer:"+answer);
 			NumberCard answerCard = new NumberCard(answer);
-			answerCard.setValue(answer);
+			answerCard.setValue(""+answer);
 			answerCard.addMouseListener(mover);
 			answerCard.addMouseMotionListener(mover);
 			answerCard.setName("Answer");

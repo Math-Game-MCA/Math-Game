@@ -199,16 +199,19 @@ public class SidePanel extends JPanel implements ActionListener{
 			
 		if(e.getSource() == checkAns)	{
 				//System.out.println("SCORE: "+Double.parseDouble(score.getText()));
+			
 			if(mathgame.workPanel.getComponentCount() == 1)	{
 				NumberCard finalAnsCard;
 				Component finalAnsComp = mathgame.workPanel.getComponent(0);
-				double computedAns;//answer user got
-				double actualAns;//actual answer to compare to
+				String computedAns;//answer user got
+				String actualAns;//actual answer to compare to
+				
 				if(finalAnsComp instanceof NumberCard)	{
+					
 					finalAnsCard = (NumberCard) finalAnsComp;
 					actualAns = mathgame.cardPanel.ans.getValue();
 					computedAns = finalAnsCard.getValue();
-					if(actualAns == computedAns)	{
+					if(actualAns.equals(computedAns))	{
 						JOptionPane.showMessageDialog(this, "Congratulations!  Victory is yours!");
 						//later on change to something else... victory song? who knows...
 						resetFunction();

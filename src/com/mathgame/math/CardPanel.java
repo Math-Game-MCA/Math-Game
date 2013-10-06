@@ -84,6 +84,7 @@ public class CardPanel extends JPanel{
 		}
 		//TitledBorder cardBorder = BorderFactory.createTitledBorder("My Cards");
 		//this.setBorder(cardBorder);//currently for visibility; may need to be removed later
+		//NumberCard testn = new NumberCard("2/3");
 		
 		card1 = new NumberCard(1);
 		card2 = new NumberCard(2);
@@ -122,7 +123,7 @@ public class CardPanel extends JPanel{
 		
 		try {
 			//File excelFile = new File(cardValueFile);
-			cardValueInput = getClass().getClassLoader().getResourceAsStream("images/values.xlsx");
+			cardValueInput = getClass().getClassLoader().getResourceAsStream("images/Fractions.xlsx");
 			System.out.println("file size: " + cardValueInput.available());
 			cardValueWorkbook = new XSSFWorkbook(cardValueInput);
 			
@@ -159,14 +160,14 @@ public class CardPanel extends JPanel{
 	 * Returns an ArrayList of randomly-generated values (may be replaced in future versions when the database is completed
 	 * @return
 	 */
-	public ArrayList<Integer> randomValues() {
+	public ArrayList<String> randomValues() {
 		Random generator = new Random();
 		currentRowNumber = (int) ( generator.nextFloat()*rowCount );
 		System.out.println("Current row: " + (currentRowNumber + 1));
 		currentRow = currentSheet.getRow(currentRowNumber);
-		ArrayList<Integer> cardValues = new ArrayList<Integer>();
+		ArrayList<String> cardValues = new ArrayList<String>();
 		for (int x = 0; x < 6; x++) {
-			cardValues.add(generator.nextInt(21));
+			cardValues.add(""+generator.nextInt(21));
 		}
 		int RandomInsert1 = (int) ( generator.nextFloat()*6 );
 		int RandomInsert2;
@@ -174,8 +175,11 @@ public class CardPanel extends JPanel{
 			RandomInsert2 = (int) ( generator.nextFloat()*6 );
 		} while (RandomInsert2 == RandomInsert1 );
 		
-		cardValues.set(RandomInsert1, (int) currentRow.getCell(1).getNumericCellValue() );
-		cardValues.set(RandomInsert2, (int) currentRow.getCell(3).getNumericCellValue() );
+		//cardValues.set(RandomInsert1, (int) currentRow.getCell(1).getNumericCellValue() );
+		//cardValues.set(RandomInsert2, (int) currentRow.getCell(3).getNumericCellValue() );
+		
+		cardValues.set(RandomInsert1, currentRow.getCell(1).getStringCellValue() );
+		cardValues.set(RandomInsert2, currentRow.getCell(3).getStringCellValue() );
 		
 		return cardValues;
 	} //generate a random arraylist of integers to be added to the cards; may be replaced in the future
@@ -184,12 +188,12 @@ public class CardPanel extends JPanel{
 	 * Takes in an ArrayList of integers (can be changed..) and assigns them to the cards
 	 * @param newValues
 	 */
-	public void randomize( ArrayList<Integer> newValues ){
-		card1.setText(""+newValues.get(0));
-		card2.setText(""+newValues.get(1));
-		card3.setText(""+newValues.get(2));
-		card4.setText(""+newValues.get(3));
-		card5.setText(""+newValues.get(4));
+	public void randomize( ArrayList<String> newValues ){
+		card1.setText(newValues.get(0));
+		card2.setText(newValues.get(1));
+		card3.setText(newValues.get(2));
+		card4.setText(newValues.get(3));
+		card5.setText(newValues.get(4));
 		card6.setText(""+newValues.get(5));
 		
 		values.set(0, card1.getText());
@@ -198,15 +202,15 @@ public class CardPanel extends JPanel{
 		values.set(3, card4.getText());
 		values.set(4, card5.getText());
 		values.set(5, card6.getText());
-		ans.setText(""+currentRow.getCell(4).getNumericCellValue());
-		
-		card1.setValue(Double.parseDouble(card1.getText()));
-		card2.setValue(Double.parseDouble(card2.getText()));
-		card3.setValue(Double.parseDouble(card3.getText()));
-		card4.setValue(Double.parseDouble(card4.getText()));
-		card5.setValue(Double.parseDouble(card5.getText()));
-		card6.setValue(Double.parseDouble(card6.getText()));
-		ans.setValue(Double.parseDouble(ans.getText()));
+		ans.setText(currentRow.getCell(4).getStringCellValue());
+		System.out.println(newValues.get(0));
+		card1.setValue(""+card1.parseNumFromText(newValues.get(0)));
+		card2.setValue(""+card1.parseNumFromText(newValues.get(1)));
+		card3.setValue(""+card1.parseNumFromText(newValues.get(2)));
+		card4.setValue(""+card1.parseNumFromText(newValues.get(3)));
+		card5.setValue(""+card1.parseNumFromText(newValues.get(4)));
+		card6.setValue(""+card1.parseNumFromText(newValues.get(5)));
+		ans.setValue(""+card1.parseNumFromText(ans.getText()));
 		
 		//tag each card with "home" (cardpanel) being original location
 		card1.setHome("home");
@@ -226,40 +230,47 @@ public class CardPanel extends JPanel{
 		return cardExists.get(index);
 	}
 	
-	public void restoreCard(double cardvalue)	{
+	public void restoreCard(String cardvalue)	{
 		//restores a card deleted during calculation; must ensure card exists first!
-		if(cardvalue == Double.parseDouble(values.get(0)) && !cardExists.get(0))	{
-			
+		for(int i=0; i<6; i++)
+			System.out.println("values from reset " + values.get(i));
+		if(cardvalue.equals(values.get(0)) && !cardExists.get(0))	{
+			System.out.println("reset 0");
 			card1.setBounds(20, 15, 80, 120);
 			masterLayer.add(card1, new Integer(1));
 			cardExists.set(0, true);
 			return;
 		}
-		if(cardvalue == Double.parseDouble(values.get(1)) && !cardExists.get(1))	{
+		if(cardvalue.equals(values.get(1)) && !cardExists.get(1))	{
+			System.out.println("reset 1");
 			card2.setBounds(110, 15, 80, 120);
 			masterLayer.add(card2, new Integer(1));
 			cardExists.set(1, true);
 			return;
 		}
-		if(cardvalue == Double.parseDouble(values.get(2)) && !cardExists.get(2))	{
+		if(cardvalue.equals(values.get(2)) && !cardExists.get(2))	{
+			System.out.println("reset 2");
 			card3.setBounds(200, 15, 80, 120);
 			masterLayer.add(card3, new Integer(1));
 			cardExists.set(2, true);
 			return;
 		}
-		if(cardvalue == Double.parseDouble(values.get(3)) && !cardExists.get(3))	{
+		if(cardvalue.equals(values.get(3)) && !cardExists.get(3))	{
+			System.out.println("reset 3");
 			card4.setBounds(290, 15, 80, 120);
 			masterLayer.add(card4, new Integer(1));
 			cardExists.set(3, true);
 			return;
 		}
-		if(cardvalue == Double.parseDouble(values.get(4)) && !cardExists.get(4))	{
+		if(cardvalue.equals(values.get(4)) && !cardExists.get(4))	{
+			System.out.println("reset 4");
 			card5.setBounds(380, 15, 80, 120);
 			masterLayer.add(card5, new Integer(1));
 			cardExists.set(4, true);
 			return;
 		}
-		if(cardvalue == Double.parseDouble(values.get(5)) && !cardExists.get(5))	{
+		if(cardvalue.equals(values.get(5)) && !cardExists.get(5))	{
+			System.out.println("reset 5");
 			card6.setBounds(470, 15, 80, 120);
 			masterLayer.add(card6, new Integer(1));
 			cardExists.set(5, true);
