@@ -57,7 +57,7 @@ public class Menu extends JPanel implements ActionListener{
 		
 		mathGame = mg;
 		
-		//background = new ImageIcon(Menu.class.getResource(imageFile));//Uncomment when you put file in directory
+		background = new ImageIcon(Menu.class.getResource(imageFile));
 		
 		Font titleFont = new Font("Times New Roman", Font.BOLD, 32);
 		Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
@@ -128,11 +128,7 @@ public class Menu extends JPanel implements ActionListener{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		//g.drawImage(background.getImage(), 0, 0, Menu.this);//uncomment this when you have the image
-		//TEMPORARY; DELETE LATER! ----------
-		g.setColor(Color.white);
-		g.fillRect(0, 0, 900, 620);
-		//-----------------------------------
+		g.drawImage(background.getImage(), 0, 0, Menu.this);
 	}
 
 
