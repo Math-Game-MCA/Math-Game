@@ -107,20 +107,32 @@ public class Menu extends JPanel implements ActionListener{
 			exit();
 	}
 	
+	/**
+	 * Starts the game
+	 */
 	public void startgame() {
 		//this.setVisible(false);
 		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
 		System.out.println("ENTER GAME");
 	}
 	
+	/**
+	 * Displays help box
+	 */
 	public void helpbox() {
 		//decide on help
 	}
 	
+	/**
+	 * Displays info about game
+	 */
 	public void aboutinfo() {
 		//Decide what to do when pressing about button
 	}
 	
+	/**
+	 * Exits game
+	 */
 	public void exit() {
 		//TODO decide on exit implementation - perhaps show an html webpage "thanks for playing" ?
 	}
