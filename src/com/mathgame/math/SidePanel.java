@@ -45,9 +45,9 @@ public class SidePanel extends JPanel implements ActionListener{
 	
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
 
-	final String imageFile = "images/control bar.png";
+	final String imageFile = "/images/control bar.png";
 
-	Image background;
+	static ImageIcon background;
 	
 	//JTextArea error;
 	
@@ -100,7 +100,7 @@ public class SidePanel extends JPanel implements ActionListener{
 		updateDiff = new JButton("Update Difficulty");
 		
 
-		background = mathgame.getImage(mathgame.getDocumentBase(), imageFile);
+		background = new ImageIcon(SidePanel.class.getResource(imageFile));
 
 		
 		add(clock);
@@ -154,7 +154,7 @@ public class SidePanel extends JPanel implements ActionListener{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		g.drawImage(background, 0, 0, null);
+		g.drawImage(background.getImage(), 0, 0, SidePanel.this);
 		
 	}
 	
@@ -214,13 +214,13 @@ public class SidePanel extends JPanel implements ActionListener{
 			if(mathgame.workPanel.getComponentCount() == 1)	{
 				NumberCard finalAnsCard;
 				Component finalAnsComp = mathgame.workPanel.getComponent(0);
-				double computedAns;//answer user got
-				double actualAns;//actual answer to compare to
+				String computedAns;//answer user got
+				String actualAns;//actual answer to compare to
 				if(finalAnsComp instanceof NumberCard)	{
 					finalAnsCard = (NumberCard) finalAnsComp;
 					actualAns = mathgame.cardPanel.ans.getValue();
 					computedAns = finalAnsCard.getValue();
-					if(actualAns == computedAns)	{
+					if(actualAns.equals(computedAns))	{
 						JOptionPane.showMessageDialog(this, "Congratulations!  Victory is yours!");
 						//later on change to something else... victory song? who knows...
 						resetFunction();
