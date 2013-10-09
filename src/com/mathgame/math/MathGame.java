@@ -24,10 +24,11 @@ public class MathGame extends JApplet implements ActionListener
 	int appWidth=900;//1300 or 900
 	int appHeight=620;
 	static int difficulty = 2;//from 2-5 represents how many cards to use
-	
-	JPanel panel2;
-	JPanel panel2a;
-	JPanel panel2b;
+
+	static final String GAME = "CardLayoutPanel Game";
+	static final String MENU = "CardLayoutPanel Menu";
+	JPanel cardLayoutPanels;//uses CardLayout to switch between menu and game
+	CardLayout cl;
 	
 	//Panel Declarations
 	JLayeredPane layer;//Master panel - particularly for moving cards across entire screen
@@ -36,6 +37,7 @@ public class MathGame extends JApplet implements ActionListener
 	CardPanel cardPanel;//holds cards at top
 	WorkspacePanel workPanel;//center of screen where cards are morphed together
 	HoldPanel holdPanel;//holds intermediate sums, differences, products, and quotients
+	Menu menu;
 	
 	Rectangle home1;
 	Rectangle home2;
@@ -92,13 +94,21 @@ public class MathGame extends JApplet implements ActionListener
 		//setBorder(new LineBorder(Color.yellow));
 		
 		//Initiation of panels
+
+		cardLayoutPanels = new JPanel(new CardLayout());
+		cardLayoutPanels.setBounds(0, 0, appWidth, appHeight);
+		
+		menu = new Menu();
+		menu.init(this);
+		menu.setBounds(0, 0, appWidth, appHeight);
+		
 		layer = new JLayeredPane();
 		layer.setLayout(null);
 		layer.setBounds(5, 0, getSize().width, getSize().height);
 		
 		
 		sidePanel = new SidePanel();//control bar
-		sidePanel.setBounds(750, 0, 150, 620);//x, y, width, height
+		sidePanel.setBounds(0, 0, 900, 620);//x, y, width, height
 		sidePanel.init(this);
 		
 		cardPanel = new CardPanel(this);//top card panel
@@ -119,12 +129,19 @@ public class MathGame extends JApplet implements ActionListener
 		holdPanel.init(this);
 		
 		//adding panels to the game
-		add(layer);
-		add(sidePanel);
-		layer.add(opPanel);
-		layer.add(cardPanel);
-		layer.add(workPanel);
-		layer.add(holdPanel);
+		cardLayoutPanels.add(menu, MENU);
+		cardLayoutPanels.add(layer, GAME);
+		cl = (CardLayout) cardLayoutPanels.getLayout();
+		//cl.show(cardLayoutPanels, MENU);
+		add(cardLayoutPanels);
+		cl.show(cardLayoutPanels, MENU);
+		//add(layer);
+		//layer.add(menu, new Integer(2));
+		layer.add(sidePanel, new Integer(0));
+		layer.add(opPanel, new Integer(0));
+		layer.add(cardPanel, new Integer(0));
+		layer.add(workPanel, new Integer(0)); 
+		layer.add(holdPanel, new Integer(0));
 		
 		database = new JCheckBox("Use Database");
 		database.setMnemonic(KeyEvent.VK_D);
@@ -239,6 +256,7 @@ public class MathGame extends JApplet implements ActionListener
 		setCursor(lightPenCursor);
 		layer.setCursor(imageCursor);
 		 */
+		
 		System.out.println("init done");
 	}
 
