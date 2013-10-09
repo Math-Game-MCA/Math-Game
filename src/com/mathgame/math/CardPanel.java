@@ -237,7 +237,10 @@ public class CardPanel extends JPanel{
 	public void restoreCard(String cardvalue)	{
 		//restores a card deleted during calculation; must ensure card exists first!
 		for(int i=0; i<6; i++)
-			System.out.println("values from reset " + values.get(i));
+		{
+			//debugging code
+			System.out.println("values from reset " + values.get(i) + " CardValue: " + cardvalue + " Exists: " + cardExists.get(i));
+		}
 		if(cardvalue.equals(values.get(0)) && !cardExists.get(0))	{
 			System.out.println("reset 0");
 			card1.setBounds(20, 15, 80, 120);

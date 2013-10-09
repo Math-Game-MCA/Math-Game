@@ -327,7 +327,7 @@ public class SidePanel extends JPanel implements ActionListener{
 			return;
 		}
 		if(tempnum1.getHome() == "home")	{//originally in card panel
-			System.out.println("restore card1");
+			System.out.println("restore card1; value: " + tempnum1.getValue());
 			mathgame.cardPanel.restoreCard(tempnum1.getValue());
 		}
 		else if(tempnum1.getHome() == "hold")	{//new card in holding area
@@ -341,7 +341,7 @@ public class SidePanel extends JPanel implements ActionListener{
 		}
 		
 		if(tempnum2.getHome() == "home")	{
-			System.out.println("restore card2");
+			System.out.println("restore card2; value: " + tempnum2.getValue());
 			mathgame.cardPanel.restoreCard(tempnum2.getValue());
 		}
 		else if(tempnum2.getHome() == "hold")	{
