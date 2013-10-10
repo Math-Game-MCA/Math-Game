@@ -203,12 +203,12 @@ public class CardPanel extends JPanel{
 		values.set(5, card6.getText());
 		ans.setText(currentRow.getCell(4).getStringCellValue());
 		System.out.println(newValues.get(0));
-		card1.setValue(""+card1.parseNumFromText(newValues.get(0)));
-		card2.setValue(""+card2.parseNumFromText(newValues.get(1)));
-		card3.setValue(""+card3.parseNumFromText(newValues.get(2)));
-		card4.setValue(""+card4.parseNumFromText(newValues.get(3)));
-		card5.setValue(""+card5.parseNumFromText(newValues.get(4)));
-		card6.setValue(""+card6.parseNumFromText(newValues.get(5)));
+		card1.setValue(newValues.get(0));
+		card2.setValue(newValues.get(1));
+		card3.setValue(newValues.get(2));
+		card4.setValue(newValues.get(3));
+		card5.setValue(newValues.get(4));
+		card6.setValue(newValues.get(5));
 		ans.setValue(""+card1.parseNumFromText(ans.getText()));
 		
 		//tag each card with "home" (cardpanel) being original location
