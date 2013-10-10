@@ -1,5 +1,13 @@
 /*
- * 
+ * Bugs found:	-when correct answer obtained, only unused cards get new values. Other cards do not restore
+ * 				-fractions are not maintained (equivalent decimal & fraction values recognized though)
+ * 				-in certain instances such as multiplication/division of fractions, program cannot comprehend result, despite correct result shown
+ * 				-this may be a result of the type of the answer obtained. The values obtained, since they can be repeating decimals, may be too long for data type
+ * 				-undo button does not work
+ * 				-when dividing by "Infinity," resulting card is "0.0"
+ * 				-0/0 = NaN
+ *		David Schildkraut
+ *		for screenshots, please email me & I will send a file with bug screenshots
  *  */
 
 package com.mathgame.math;
