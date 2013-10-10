@@ -6,8 +6,6 @@ package com.mathgame.math;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -63,7 +61,7 @@ public class CardPanel extends JPanel{
 	int rowCount;
 	int currentRowNumber;
 	XSSFRow currentRow;
-
+		
 	public CardPanel(MathGame mathGame){
 		this.mathGame = mathGame;
 	}
@@ -86,6 +84,7 @@ public class CardPanel extends JPanel{
 		}
 		//TitledBorder cardBorder = BorderFactory.createTitledBorder("My Cards");
 		//this.setBorder(cardBorder);//currently for visibility; may need to be removed later
+		//NumberCard testn = new NumberCard("2/3");
 		
 		card1 = new NumberCard(1);
 		card2 = new NumberCard(2);
@@ -118,6 +117,7 @@ public class CardPanel extends JPanel{
 		this.add(card6);
 		this.add(ans);
 		
+		//background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
 		background = new ImageIcon(CardPanel.class.getResource(imageFile));
 		
 		
@@ -177,6 +177,7 @@ public class CardPanel extends JPanel{
 		
 		//cardValues.set(RandomInsert1, (int) currentRow.getCell(1).getNumericCellValue() );
 		//cardValues.set(RandomInsert2, (int) currentRow.getCell(3).getNumericCellValue() );
+		
 		cardValues.set(RandomInsert1, currentRow.getCell(1).getStringCellValue() );
 		cardValues.set(RandomInsert2, currentRow.getCell(3).getStringCellValue() );
 		
@@ -193,7 +194,7 @@ public class CardPanel extends JPanel{
 		card3.setText(newValues.get(2));
 		card4.setText(newValues.get(3));
 		card5.setText(newValues.get(4));
-		card6.setText(newValues.get(5));
+		card6.setText(""+newValues.get(5));
 		
 		values.set(0, card1.getText());
 		values.set(1, card2.getText());
@@ -210,7 +211,7 @@ public class CardPanel extends JPanel{
 		card5.setValue(newValues.get(4));
 		card6.setValue(newValues.get(5));
 		ans.setValue(""+card1.parseNumFromText(ans.getText()));
-		
+		//card1.parseNumFromText(newValues.get(3))
 		//tag each card with "home" (cardpanel) being original location
 		card1.setHome("home");
 		card2.setHome("home");
@@ -229,18 +230,11 @@ public class CardPanel extends JPanel{
 		return cardExists.get(index);
 	}
 	
-	/**
-	 * restores a card deleted during calculation; must ensure card exists first!
-	 * 
-	 * @param cardvalue
-	 */
 	public void restoreCard(String cardvalue)	{
 		//restores a card deleted during calculation; must ensure card exists first!
 		for(int i=0; i<6; i++)
-		{
-			//debugging code
-			System.out.println("values from reset " + values.get(i) + " CardValue: " + cardvalue + " Exists: " + cardExists.get(i));
-		}
+			System.out.println("values from reset " + values.get(i));
+		System.out.println("cardValue passed " + cardvalue);
 		if(cardvalue.equals(values.get(0)) && !cardExists.get(0))	{
 			System.out.println("reset 0");
 			card1.setBounds(20, 15, 80, 120);
@@ -255,8 +249,8 @@ public class CardPanel extends JPanel{
 			cardExists.set(1, true);
 			return;
 		}
-		if(cardvalue.equals(values.get(1)) && !cardExists.get(1))	{
-			System.out.println("reset 1");
+		if(cardvalue.equals(values.get(2)) && !cardExists.get(2))	{
+			System.out.println("reset 2");
 			card3.setBounds(200, 15, 80, 120);
 			masterLayer.add(card3, new Integer(1));
 			cardExists.set(2, true);
@@ -288,9 +282,7 @@ public class CardPanel extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(background.getImage(), 0, 0, CardPanel.this);
-		//g.drawImage(background, 0, 0, null);
+		g.drawImage(background.getImage(), 0, 0, CardPanel.this);
 	}
 
 }
