@@ -64,7 +64,7 @@ public class Menu extends JPanel implements ActionListener{
 		
 		Font titleFont = new Font("Times New Roman", Font.BOLD, 40);
 		Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
-		Font infoFont = new Font("Times New Roman", Font.PLAIN, 28);
+		Font infoFont = new Font("Times New Roman", Font.PLAIN, 14);
 		
 		epsilon = new JLabel("Epsilon");
 		epsilon.setFont(titleFont);
@@ -82,8 +82,12 @@ public class Menu extends JPanel implements ActionListener{
 		exit.setFont(buttonFont);
 		exit.setBounds(185, 385, 130, 30);
 		
+		/**
+		 * TODO get the text in the label to wrap if it is longer than the label width.
+		 */
 		info = new JLabel("info");
 		info.setFont(infoFont);
+		info.setBounds(525, 75, 300, 500);
 		
 		side = new JPanel();
 		side.setBounds(500, 50, 350, 550);
@@ -132,14 +136,16 @@ public class Menu extends JPanel implements ActionListener{
 	 * Displays help box
 	 */
 	public void helpbox() {
-		JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
+		info.setText("Help goes here. We need help to get the correct text here. Thank you for helping us out. - The Math Games Team");
+		//JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
 	}
 	
 	/**
 	 * Displays info about game
 	 */
 	public void aboutinfo() {
-		JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
+		info.setText("Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
+		//JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
 	}
 	
 	/**
