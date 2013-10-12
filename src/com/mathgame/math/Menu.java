@@ -21,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
@@ -120,14 +121,14 @@ public class Menu extends JPanel implements ActionListener{
 	 * Displays help box
 	 */
 	public void helpbox() {
-		//decide on help
+		JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
 	}
 	
 	/**
 	 * Displays info about game
 	 */
 	public void aboutinfo() {
-		//Decide what to do when pressing about button
+		JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
 	}
 	
 	/**
