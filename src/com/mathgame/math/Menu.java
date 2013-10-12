@@ -46,6 +46,8 @@ public class Menu extends JPanel implements ActionListener{
 	JButton about;//press for "stuff"
 	JButton exit;//press to leave game :(
 	JLabel epsilon;//self-explanatory
+	JPanel side;
+	JLabel info;
 	
 	//constructor
 	public void init(MathGame mg)	{
@@ -60,30 +62,39 @@ public class Menu extends JPanel implements ActionListener{
 		
 		background = new ImageIcon(Menu.class.getResource(imageFile));
 		
-		Font titleFont = new Font("Times New Roman", Font.BOLD, 32);
+		Font titleFont = new Font("Times New Roman", Font.BOLD, 40);
 		Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
+		Font infoFont = new Font("Times New Roman", Font.PLAIN, 28);
 		
 		epsilon = new JLabel("Epsilon");
 		epsilon.setFont(titleFont);
-		epsilon.setBounds(385, 205, 130, 60);
+		epsilon.setBounds(185, 205, 130, 60);
 		enter = new JButton("Enter");
 		enter.setFont(buttonFont);
-		enter.setBounds(385, 265, 130, 30);
+		enter.setBounds(185, 265, 130, 30);
 		help = new JButton("Help");
 		help.setFont(buttonFont);
-		help.setBounds(385, 305, 130, 30);
+		help.setBounds(185, 305, 130, 30);
 		about = new JButton("About");
 		about.setFont(buttonFont);
-		about.setBounds(385, 345, 130, 30);
+		about.setBounds(185, 345, 130, 30);
 		exit = new JButton("Exit");
 		exit.setFont(buttonFont);
-		exit.setBounds(385, 385, 130, 30);
+		exit.setBounds(185, 385, 130, 30);
+		
+		info = new JLabel("info");
+		info.setFont(infoFont);
+		
+		side = new JPanel();
+		side.setBounds(500, 50, 350, 550);
+		side.add(info);
 		
 		add(epsilon);
 		add(enter);
 		add(help);
 		add(about);
 		add(exit);
+		add(side);
 		//p1.setBorder(new TitledBorder("Epsilon"));
 		
 		//add(epsilon);
