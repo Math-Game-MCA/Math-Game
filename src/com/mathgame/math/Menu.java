@@ -136,6 +136,7 @@ public class Menu extends JPanel implements ActionListener{
 	 */
 	public void exit() {
 		//TODO decide on exit implementation - perhaps show an html webpage "thanks for playing" ?
+		JOptionPane.showMessageDialog(this, "Game cannot exit from this button yet. Please use the x button @ top right", null, JOptionPane.WARNING_MESSAGE, null);
 	}
 	
 	@Override
