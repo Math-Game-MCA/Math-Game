@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -39,6 +40,8 @@ public class Menu extends JPanel implements ActionListener{
 	static MathGame mathGame;
 	
 	final String imageFile = "/images/background.png";
+	final int BUTTON_WIDTH = 130;
+	final int BUTTON_HEIGHT = 30;
 	static ImageIcon background;
 	
 	JButton enter;//press to enter the game;
@@ -47,7 +50,7 @@ public class Menu extends JPanel implements ActionListener{
 	JButton exit;//press to leave game :(
 	JLabel epsilon;//self-explanatory
 	JPanel side;
-	JLabel info;
+	JTextArea info;
 	
 	//constructor
 	public void init(MathGame mg)	{
@@ -71,23 +74,24 @@ public class Menu extends JPanel implements ActionListener{
 		epsilon.setBounds(185, 205, 130, 60);
 		enter = new JButton("Enter");
 		enter.setFont(buttonFont);
-		enter.setBounds(185, 265, 130, 30);
+		enter.setBounds(185, 265, BUTTON_WIDTH, BUTTON_HEIGHT);
 		help = new JButton("Help");
 		help.setFont(buttonFont);
-		help.setBounds(185, 305, 130, 30);
+		help.setBounds(185, 305,  BUTTON_WIDTH, BUTTON_HEIGHT);
 		about = new JButton("About");
 		about.setFont(buttonFont);
-		about.setBounds(185, 345, 130, 30);
+		about.setBounds(185, 345,  BUTTON_WIDTH, BUTTON_HEIGHT);
 		exit = new JButton("Exit");
 		exit.setFont(buttonFont);
-		exit.setBounds(185, 385, 130, 30);
+		exit.setBounds(185, 385,  BUTTON_WIDTH, BUTTON_HEIGHT);
 		
 		/**
 		 * TODO get the text in the label to wrap if it is longer than the label width.
 		 */
-		info = new JLabel("info");
+		info = new JTextArea("info");
 		info.setFont(infoFont);
 		info.setBounds(525, 75, 300, 500);
+		info.setLineWrap(true);
 		
 		side = new JPanel();
 		side.setBounds(500, 50, 350, 550);
