@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import com.mathgame.math.MathGame;
+import com.mathgame.math.OperationPanel;
 
 /**
  * 
@@ -67,13 +68,14 @@ public class OperationCard extends JLabel{
 			imageFile = "multiply.png";
 		else if(operation.equals("divide"))
 			imageFile = "divide.png";
-		else
+		else			
 			System.err.println("Invalid operation");
-		
+				
 		this.operation = operation;
 		
-		Image background = mathGame.getImage(mathGame.getDocumentBase(), "images/"+imageFile);
-		ImageIcon icon = new ImageIcon(background);
+		//Image background = mathGame.getImage(mathGame.getDocumentBase(), "images/"+imageFile);
+		
+		ImageIcon icon = new ImageIcon(OperationPanel.class.getResource("/images/"+imageFile));
 		this.setIcon(icon);
 		
 		this.setPreferredSize(new Dimension(width,height));
