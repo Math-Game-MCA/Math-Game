@@ -155,7 +155,19 @@ public class MathGame extends JApplet implements ActionListener
 		database.setMnemonic(KeyEvent.VK_D);
 		
 		sql = new MySQLAccess();
-		
+		/*try {
+			sql.connect();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sql.getVals();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
 		freeStyle = new JCheckBox("Practice Mode");
 		freeStyle.setMnemonic(KeyEvent.VK_P);
 	
