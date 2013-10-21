@@ -1,10 +1,15 @@
 package com.mathgame.math;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import com.mathgame.cards.NumberCard;
+
 import javax.swing.JTextField;
 
 
 
-public class ValidationBox extends JTextField{
+public class ValidationBox extends JTextField implements ActionListener{
 
 	/**
 	 * The purpose of this class is to make a textfield that will be placed below NumberCards
@@ -13,6 +18,29 @@ public class ValidationBox extends JTextField{
 	 * not match, the box or text will turn red. This will be used for testing purposes.
 	 */
 	
+	
+	
+	public ValidationBox(){
+		
+		
+	}
+	
+	public ValidationBox(String text){
+		
+		this.setText(text);
+		this.addActionListener(this);
+		
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+		this.setBackground(Color.green);
+		
+		
+	}
 	
 	
 }
