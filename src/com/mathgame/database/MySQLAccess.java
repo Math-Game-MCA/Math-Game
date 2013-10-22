@@ -18,7 +18,7 @@ import java.sql.Statement;
  */
 public class MySQLAccess{
 	//for release, host should be 127...., for testing, it should be egarcia.org
-	private String host = "mastermindmedia.info";//"localhost";//"127.0.0.1";//"egarcia.org";
+	private String host = "mysql";//"98.138.19.88";//"localhost";//"mastermindmedia.info";//"127.0.0.1";//"egarcia.org";
 	private String db = "Mathgame";
 	private final String user = "math_game";//"egarciao@localhost";
 	private final String pass = "konnect123";//"oL20wC06xd";
@@ -51,6 +51,7 @@ public class MySQLAccess{
 		}
 		catch(Exception e){
 			System.out.println("ErrorO: " + e.getMessage());
+			System.out.println("Error1: " + e.getClass().getName());
 			sqlError = e.getMessage(); 
 			//sqlError.concat(e.getCause().toString());
 			//sqlError = e.getStackTrace().toString();

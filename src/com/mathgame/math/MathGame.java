@@ -166,8 +166,8 @@ public class MathGame extends JApplet implements ActionListener
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		*/
+		}*/
+		
 		freeStyle = new JCheckBox("Practice Mode");
 		freeStyle.setMnemonic(KeyEvent.VK_P);
 	
