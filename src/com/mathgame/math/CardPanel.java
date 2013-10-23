@@ -122,7 +122,7 @@ public class CardPanel extends JPanel{
 		card3.setBounds(200, 15, 80, 100);
 		card4.setBounds(290, 15, 80, 100);
 		card5.setBounds(380, 15, 80, 100);
-		card6.setBounds(470, 15, 80, 10);
+		card6.setBounds(470, 15, 80, 100);
 		ans.setBounds(650, 15, 80, 100);
 		
 		v1.setBounds(20, 115, 80, 20);
