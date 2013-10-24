@@ -102,13 +102,13 @@ public class CardPanel extends JPanel{
 		card6 = new NumberCard(6);
 		ans = new NumberCard(0);
 		
-		v1 = new ValidationBox("Enter number");
-		v2 = new ValidationBox("Enter number");
-		v3 = new ValidationBox("Enter number");
-		v4 = new ValidationBox("Enter number");
-		v5 = new ValidationBox("Enter number");
-		v6 = new ValidationBox("Enter number");
-		v_ans = new ValidationBox("Enter number");
+		v1 = new ValidationBox("Enter number", card1);
+		v2 = new ValidationBox("Enter number", card2);
+		v3 = new ValidationBox("Enter number", card3);
+		v4 = new ValidationBox("Enter number", card4);
+		v5 = new ValidationBox("Enter number", card5);
+		v6 = new ValidationBox("Enter number", card6);
+		v_ans = new ValidationBox("Enter number", ans);
 		
 		card1.setNumberTag(0);
 		card2.setNumberTag(1);
@@ -236,6 +236,7 @@ public class CardPanel extends JPanel{
 		values.set(5, card6.getText());
 		ans.setText(currentRow.getCell(4).getStringCellValue());
 		System.out.println(newValues.get(0));
+		
 		card1.setValue(newValues.get(0));
 		card2.setValue(newValues.get(1));
 		card3.setValue(newValues.get(2));
@@ -243,6 +244,16 @@ public class CardPanel extends JPanel{
 		card5.setValue(newValues.get(4));
 		card6.setValue(newValues.get(5));
 		ans.setValue(""+card1.parseNumFromText(ans.getText()));
+
+		
+		v1.setCardValue(card1.getValue());
+		v2.setCardValue(card2.getValue());
+		v3.setCardValue(card3.getValue());
+		v4.setCardValue(card4.getValue());
+		v5.setCardValue(card5.getValue());
+		v6.setCardValue(card6.getValue());
+		v_ans.setCardValue(ans.getValue());
+		
 		//card1.parseNumFromText(newValues.get(3))
 		//tag each card with "home" (cardpanel) being original location
 		card1.setHome("home");

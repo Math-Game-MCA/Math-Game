@@ -17,7 +17,8 @@ public class ValidationBox extends JTextField implements ActionListener{
 	 * matches the number assigned to the card, the box or text will turn green. If they do
 	 * not match, the box or text will turn red. This will be used for testing purposes.
 	 */
-	
+	double cardValue;
+	NumberCard numCard;
 	
 	
 	public ValidationBox(){
@@ -25,22 +26,47 @@ public class ValidationBox extends JTextField implements ActionListener{
 		
 	}
 	
-	public ValidationBox(String text){
+	public ValidationBox(String text, NumberCard card){
 		
+		numCard = new NumberCard();
+		numCard = card;
 		this.setText(text);
 		this.addActionListener(this);
 		
+	}
+	
+	public boolean checkCard(){
+		
+		if(this.getText() == numCard.getValue()){
+			return true;
+			
+		}	
+		
+		else if (this.getText() != numCard.getValue()){
+			return false;
+		}
+		
+		
+		return false;
+	}
+	
+	public void setCardValue(String text){
+		
+		numCard.setValue(text);
 		
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
-		this.setBackground(Color.green);
-		
+		if(checkCard()){
+			this.setBackground(Color.green);
+			
+		}
+		else if(!checkCard()){
+			this.setBackground(Color.red);
+		}
 		
 	}
-	
-	
 }
