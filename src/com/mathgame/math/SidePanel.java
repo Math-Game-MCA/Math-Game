@@ -444,7 +444,7 @@ public class SidePanel extends JPanel implements ActionListener{
 				}
 			}
 			
-			mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
+			mathgame.typeManager.randomize();
 			mathgame.workPanel.revalidate();
 			mathgame.workPanel.repaint();
 			mathgame.holdPanel.revalidate();

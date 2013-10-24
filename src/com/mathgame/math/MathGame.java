@@ -85,6 +85,7 @@ public class MathGame extends JApplet implements ActionListener
 	Rectangle[] cardHomes = new Rectangle[11];//home1, home2...opA,S...
 	String[] cardVals = new String[11];
 	
+	NumberType typeManager;
 	
 	String[] operations = {"+", "-", "*", "/"};
 	
@@ -119,10 +120,14 @@ public class MathGame extends JApplet implements ActionListener
 		sidePanel.setBounds(0, 0, 900, 620);//x, y, width, height
 		sidePanel.init(this);
 		
+		typeManager = new NumberType();
+		typeManager.setType("fraction"); //TODO create typePanel to manually set type
+		
 		cardPanel = new CardPanel(this);//top card panel
 		cardPanel.setBounds(0, 0, 750, 150);
 		cardPanel.init(layer);
-		cardPanel.randomize( cardPanel.randomValues() );
+		
+		typeManager.randomize();
 		
 		opPanel = new OperationPanel();//operation panel
 		opPanel.setBounds(0, 150, 750, 60);
