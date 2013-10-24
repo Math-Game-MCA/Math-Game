@@ -36,18 +36,18 @@ public class ValidationBox extends JTextField implements ActionListener{
 	}
 	
 	public boolean checkCard(){
-		
-		if(this.getText() == numCard.getValue()){
+
+		System.out.println("this text " + this.getText());
+		System.out.println("card text " + numCard.getText());
+		if(this.getText().equals(numCard.getValue())){
+			System.out.println("true");
 			return true;
-			
-		}	
-		
-		else if (this.getText() != numCard.getValue()){
+		}			
+		else{
+			System.out.println("false");
 			return false;
 		}
 		
-		
-		return false;
 	}
 	
 	public void setCardValue(String text){
@@ -58,15 +58,11 @@ public class ValidationBox extends JTextField implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
-		if(checkCard()){
+		if(checkCard())
 			this.setBackground(Color.green);
-			
-		}
-		else if(!checkCard()){
+		else
 			this.setBackground(Color.red);
-		}
-		
+				
 	}
 }
