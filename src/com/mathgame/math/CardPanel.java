@@ -61,9 +61,12 @@ public class CardPanel extends JPanel{
 	int rowCount;
 	int currentRowNumber;
 	XSSFRow currentRow;
+	
+	NumberType typeManager;
 		
 	public CardPanel(MathGame mathGame){
 		this.mathGame = mathGame;
+		this.typeManager = mathGame.typeManager;
 	}
 	
 	/**
@@ -120,29 +123,6 @@ public class CardPanel extends JPanel{
 		//background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
 		background = new ImageIcon(CardPanel.class.getResource(imageFile));
 		
-		
-		try {
-			//File excelFile = new File(cardValueFile);
-			cardValueInput = getClass().getClassLoader().getResourceAsStream("images/Fractions.xlsx");
-			System.out.println("file size: " + cardValueInput.available());
-			cardValueWorkbook = new XSSFWorkbook(cardValueInput);
-			
-			currentSheet = cardValueWorkbook.getSheetAt(0);
-			Iterator<Row> rowIter = currentSheet.rowIterator();
-			rowCount = 0;
-			while(rowIter.hasNext()) {
-				rowCount++;
-				rowIter.next();
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("excel file not found");
-			System.out.println(new File(cardValueFile));
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		values = new ArrayList<String>();
 		
 		values.add(card1.getText());
@@ -154,72 +134,7 @@ public class CardPanel extends JPanel{
 		
 		calc = new Calculate();
 		
-	}
-	
-	/**
-	 * Returns an ArrayList of randomly-generated values (may be replaced in future versions when the database is completed
-	 * @return
-	 */
-	public ArrayList<String> randomValues() {
-		Random generator = new Random();
-		currentRowNumber = (int) ( generator.nextFloat()*rowCount );
-		System.out.println("Current row: " + (currentRowNumber + 1));
-		currentRow = currentSheet.getRow(currentRowNumber);
-		ArrayList<String> cardValues = new ArrayList<String>();
-		for (int x = 0; x < 6; x++) {
-			cardValues.add(""+generator.nextInt(21));
-		}
-		int RandomInsert1 = (int) ( generator.nextFloat()*6 );
-		int RandomInsert2;
-		do {
-			RandomInsert2 = (int) ( generator.nextFloat()*6 );
-		} while (RandomInsert2 == RandomInsert1 );
-		
-		//cardValues.set(RandomInsert1, (int) currentRow.getCell(1).getNumericCellValue() );
-		//cardValues.set(RandomInsert2, (int) currentRow.getCell(3).getNumericCellValue() );
-		
-		cardValues.set(RandomInsert1, currentRow.getCell(1).getStringCellValue() );
-		cardValues.set(RandomInsert2, currentRow.getCell(3).getStringCellValue() );
-		
-		return cardValues;
-	} //generate a random arraylist of integers to be added to the cards; may be replaced in the future
-	
-	/**
-	 * Takes in an ArrayList of integers (can be changed..) and assigns them to the cards
-	 * @param newValues
-	 */
-	public void randomize( ArrayList<String> newValues ){
-		card1.setText(newValues.get(0));
-		card2.setText(newValues.get(1));
-		card3.setText(newValues.get(2));
-		card4.setText(newValues.get(3));
-		card5.setText(newValues.get(4));
-		card6.setText(""+newValues.get(5));
-		
-		values.set(0, card1.getText());
-		values.set(1, card2.getText());
-		values.set(2, card3.getText());
-		values.set(3, card4.getText());
-		values.set(4, card5.getText());
-		values.set(5, card6.getText());
-		ans.setText(currentRow.getCell(4).getStringCellValue());
-		System.out.println(newValues.get(0));
-		card1.setValue(newValues.get(0));
-		card2.setValue(newValues.get(1));
-		card3.setValue(newValues.get(2));
-		card4.setValue(newValues.get(3));
-		card5.setValue(newValues.get(4));
-		card6.setValue(newValues.get(5));
-		ans.setValue(""+card1.parseNumFromText(ans.getText()));
-		//card1.parseNumFromText(newValues.get(3))
-		//tag each card with "home" (cardpanel) being original location
-		card1.setHome("home");
-		card2.setHome("home");
-		card3.setHome("home");
-		card4.setHome("home");
-		card5.setHome("home");
-		card6.setHome("home");
-		ans.setHome("home");
+		typeManager.init(this);
 	}
 	
 	public void changeCardExistence(int index, Boolean exists)	{
