@@ -37,6 +37,7 @@ public class WorkspacePanel extends JPanel{
 	
 	Calculate calc;
 	CompMover mover;
+	NumberType typeManager;
 	
 	public void init(MathGame mathGame)	{
 		this.setLayout(new FlowLayout());
@@ -56,6 +57,7 @@ public class WorkspacePanel extends JPanel{
 		calc = new Calculate();
 		mover = new CompMover();
 		this.mathGame = mathGame;
+		this.typeManager = mathGame.typeManager;
 	}
 	
 	/** 
@@ -76,7 +78,14 @@ public class WorkspacePanel extends JPanel{
 		{
 			System.out.println("answer:"+answer);
 			NumberCard answerCard = new NumberCard(answer);
-			answerCard.setValue(""+answer);
+			if(typeManager.getType() == "fraction") {
+				String temp = typeManager.convertDecimaltoFraction(answer);
+				answerCard.setValue(temp);
+				answerCard.setText(temp);
+				System.out.println("as fraction: " + typeManager.convertDecimaltoFraction(answer));
+			}
+			else
+				answerCard.setValue(""+answer);
 			answerCard.addMouseListener(mover);
 			answerCard.addMouseMotionListener(mover);
 			answerCard.setName("Answer");

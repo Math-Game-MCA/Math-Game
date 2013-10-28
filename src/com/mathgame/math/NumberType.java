@@ -48,7 +48,6 @@ public class NumberType {
 	XSSFRow currentRow;
 
 	public NumberType() {
-
 	}
 
 	/**
@@ -61,7 +60,11 @@ public class NumberType {
 	public void setType(String input) {
 		numberType = input;
 	}
-
+	
+	public String getType() {
+		return numberType;
+	}
+	
 	public void init(CardPanel cP) {
 		this.cP = cP;
 		this.card1 = cP.card1;
@@ -116,9 +119,11 @@ public class NumberType {
 		currentRow = currentSheet.getRow(currentRowNumber);
 
 		ArrayList<String> cardValues = new ArrayList<String>();
-
+		
+		Random fractionRand = new Random();
+		
 		for (int x = 0; x < 6; x++) {
-			cardValues.add(randomFraction());
+			cardValues.add(convertDecimaltoFraction((int)(fractionRand.nextDouble()*10)/10.0 ));
 		}
 		int RandomInsert1 = (int) ( generator.nextFloat()*6 );
 		int RandomInsert2;
@@ -132,11 +137,8 @@ public class NumberType {
 		return cardValues;
 	}
 	
-	private String randomFraction() {
-		Random fractionRand = new Random();
-		
-		BigDecimal decimal = new BigDecimal(Double.toString(
-				(int)(fractionRand.nextDouble()*10)/10.0 )); 
+	public String convertDecimaltoFraction(double input) { //TODO Zero equals one when calculating...
+		BigDecimal decimal = new BigDecimal(Double.toString(input)); 
 		decimal = decimal.setScale(16, BigDecimal.ROUND_HALF_UP);
 
 		BigDecimal integerHalf = new BigDecimal(decimal.intValue());
@@ -151,7 +153,7 @@ public class NumberType {
 		System.out.println("Integer half = " + integerHalf + " Decimal half = " + decimalHalf);
 		
 		if(decimalHalf.compareTo(cero) == 0) {
-			numerator = integerHalf;
+			return numerator+"";
 		}
 		else {
 			for(BigDecimal x = uno, z; foundFraction == false; x = x.add(uno)) {
@@ -165,7 +167,7 @@ public class NumberType {
 				}
 			}
 		}
-
+		
 		return (numerator + "/" + denominator);
 	}
 
