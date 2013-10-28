@@ -46,7 +46,11 @@ public class SidePanel extends JPanel implements ActionListener{
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
 
 	final String imageFile = "images/control bar.png";
-
+	final String enterButton = "images/enter.png";
+	
+	static ImageIcon enter;
+	
+	
 	Image background;
 	
 	//JTextArea error;
@@ -82,13 +86,26 @@ public class SidePanel extends JPanel implements ActionListener{
 		
 		this.setLayout(null);
 		
+	//	ImageIcon Enter  = new ImageIcon("images/Enter Button.png");
+		
+		
 		//instantiate controls
 		clock = new JLabel("00:00");
 		toggle = new JButton("Start/Stop");
 		score = new JLabel("0");
 		help = new JButton("Help");
 		exit = new JButton("Back");
-		checkAns = new JButton("Check Answer");
+		//(new ImageIcon("/images/enter.png"));
+		
+		
+		Image hold = mathgame.getImage(mathgame.getDocumentBase(), enterButton);
+		enter = new ImageIcon(hold);
+		checkAns = new JButton(enter);
+		checkAns.setIcon(enter);
+		//this.setPreferredSize(new Dimension(0,0));
+		//checkAns.setContentAreaFilled(false);
+		
+		
 		undo = new UndoButton("Undo Move", mathgame);
 		reset = new JButton("Reset");
 		
@@ -99,7 +116,8 @@ public class SidePanel extends JPanel implements ActionListener{
 		setDiff = new JTextField("");
 		updateDiff = new JButton("Update Difficulty");
 		
-
+		
+		 
 		background = mathgame.getImage(mathgame.getDocumentBase(), imageFile);
 
 		
@@ -133,13 +151,13 @@ public class SidePanel extends JPanel implements ActionListener{
 		exit.setBounds(10, 580, 130, 30);
 		exit.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		checkAns.setBounds(10, 270, 130, 30);
+		checkAns.setBounds(10, 270, 130, 120);
 		checkAns.addActionListener(this);
 		
-		undo.setBounds(10, 300, 130, 30);
+		undo.setBounds(10, 390, 130, 30);
 		undo.addActionListener(this);
 		
-		reset.setBounds(10, 330, 130, 30);
+		reset.setBounds(10, 420, 130, 30);
 		reset.addActionListener(this);
 		
 		setDiff.setBounds(10, 190, 130, 30);
