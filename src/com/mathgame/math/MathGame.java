@@ -35,6 +35,7 @@ public class MathGame extends JApplet implements ActionListener
 
 	static final String GAME = "CardLayoutPanel Game";
 	static final String MENU = "CardLayoutPanel Menu";
+	static final String SUBMENU = "CardLayoutPanel SubMenu";
 	JPanel cardLayoutPanels;//uses CardLayout to switch between menu and game
 	CardLayout cl;
 	
@@ -46,6 +47,7 @@ public class MathGame extends JApplet implements ActionListener
 	WorkspacePanel workPanel;//center of screen where cards are morphed together
 	HoldPanel holdPanel;//holds intermediate sums, differences, products, and quotients
 	Menu menu;
+	SubMenu submenu;
 	
 	Rectangle home1;
 	Rectangle home2;
@@ -114,6 +116,9 @@ public class MathGame extends JApplet implements ActionListener
 		layer.setLayout(null);
 		layer.setBounds(5, 0, getSize().width, getSize().height);
 		
+		submenu = new SubMenu();
+		submenu.init(this);
+		submenu.setBounds(0, 0, appWidth, appHeight);
 		
 		sidePanel = new SidePanel();//control bar
 		sidePanel.setBounds(0, 0, 900, 620);//x, y, width, height
@@ -138,6 +143,7 @@ public class MathGame extends JApplet implements ActionListener
 		
 		//adding panels to the game
 		cardLayoutPanels.add(menu, MENU);
+		cardLayoutPanels.add(submenu, SUBMENU);
 		cardLayoutPanels.add(layer, GAME);
 		cl = (CardLayout) cardLayoutPanels.getLayout();
 		//cl.show(cardLayoutPanels, MENU);
