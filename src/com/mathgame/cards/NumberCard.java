@@ -22,7 +22,7 @@ public class NumberCard extends JLabel{
 	private static final long serialVersionUID = -4999587614115223052L;
 	private String value;
 	private int width = 80;
-	private int height = 120;
+	private int height = 100;
 	public int numberTag;
 	final Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 22);
 	//sizes can be overridden with setWidth and setHeight methods
