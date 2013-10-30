@@ -48,6 +48,14 @@ public class CardPanel extends JPanel{
 	final String imageFile = "/images/Card Bar.png";
 	static ImageIcon background;
 	
+	ValidationBox v1;
+	ValidationBox v2;
+	ValidationBox v3;
+	ValidationBox v4;
+	ValidationBox v5;
+	ValidationBox v6;
+	ValidationBox v_ans;
+	
 	JLayeredPane masterLayer;
 	
 	Calculate calc;
@@ -61,9 +69,12 @@ public class CardPanel extends JPanel{
 	int rowCount;
 	int currentRowNumber;
 	XSSFRow currentRow;
+	
+	NumberType typeManager;
 		
 	public CardPanel(MathGame mathGame){
 		this.mathGame = mathGame;
+		this.typeManager = mathGame.typeManager;
 	}
 	
 	/**
@@ -94,6 +105,14 @@ public class CardPanel extends JPanel{
 		card6 = new NumberCard(6);
 		ans = new NumberCard(0);
 		
+		v1 = new ValidationBox("Enter number", card1);
+		v2 = new ValidationBox("Enter number", card2);
+		v3 = new ValidationBox("Enter number", card3);
+		v4 = new ValidationBox("Enter number", card4);
+		v5 = new ValidationBox("Enter number", card5);
+		v6 = new ValidationBox("Enter number", card6);
+		v_ans = new ValidationBox("Enter number", ans);
+		
 		card1.setNumberTag(0);
 		card2.setNumberTag(1);
 		card3.setNumberTag(2);
@@ -101,13 +120,21 @@ public class CardPanel extends JPanel{
 		card5.setNumberTag(4);
 		card6.setNumberTag(5);
 		
-		card1.setBounds(20, 15, 80, 120);
-		card2.setBounds(110, 15, 80, 120);
-		card3.setBounds(200, 15, 80, 120);
-		card4.setBounds(290, 15, 80, 120);
-		card5.setBounds(380, 15, 80, 120);
-		card6.setBounds(470, 15, 80, 120);
-		ans.setBounds(650, 15, 80, 120);
+		card1.setBounds(20, 15, 80, 100);
+		card2.setBounds(110, 15, 80, 100);
+		card3.setBounds(200, 15, 80, 100);
+		card4.setBounds(290, 15, 80, 100);
+		card5.setBounds(380, 15, 80, 100);
+		card6.setBounds(470, 15, 80, 100);
+		ans.setBounds(650, 15, 80, 100);
+		
+		v1.setBounds(20, 115, 80, 20);
+		v2.setBounds(110, 115, 80, 20);
+		v3.setBounds(200, 115, 80, 20);
+		v4.setBounds(290, 115, 80, 20);
+		v5.setBounds(380, 115, 80, 20);
+		v6.setBounds(470, 115, 80, 20);
+		v_ans.setBounds(650, 115, 80, 20);
 		
 		this.add(card1);
 		this.add(card2);
@@ -117,31 +144,16 @@ public class CardPanel extends JPanel{
 		this.add(card6);
 		this.add(ans);
 		
+		this.add(v1);
+		this.add(v2);
+		this.add(v3);
+		this.add(v4);
+		this.add(v5);
+		this.add(v6);
+		this.add(v_ans);
+		
 		//background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
 		background = new ImageIcon(CardPanel.class.getResource(imageFile));
-		
-		
-		try {
-			//File excelFile = new File(cardValueFile);
-			cardValueInput = getClass().getClassLoader().getResourceAsStream("images/Fractions.xlsx");
-			System.out.println("file size: " + cardValueInput.available());
-			cardValueWorkbook = new XSSFWorkbook(cardValueInput);
-			
-			currentSheet = cardValueWorkbook.getSheetAt(0);
-			Iterator<Row> rowIter = currentSheet.rowIterator();
-			rowCount = 0;
-			while(rowIter.hasNext()) {
-				rowCount++;
-				rowIter.next();
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("excel file not found");
-			System.out.println(new File(cardValueFile));
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		values = new ArrayList<String>();
 		
@@ -154,6 +166,7 @@ public class CardPanel extends JPanel{
 		
 		calc = new Calculate();
 		
+		typeManager.init(this);
 	}
 	
 	/**
@@ -204,6 +217,7 @@ public class CardPanel extends JPanel{
 		values.set(5, card6.getText());
 		ans.setText(currentRow.getCell(4).getStringCellValue());
 		System.out.println(newValues.get(0));
+		
 		card1.setValue(newValues.get(0));
 		card2.setValue(newValues.get(1));
 		card3.setValue(newValues.get(2));
@@ -211,6 +225,16 @@ public class CardPanel extends JPanel{
 		card5.setValue(newValues.get(4));
 		card6.setValue(newValues.get(5));
 		ans.setValue(""+card1.parseNumFromText(ans.getText()));
+
+		
+		v1.setCardValue(card1.getValue());
+		v2.setCardValue(card2.getValue());
+		v3.setCardValue(card3.getValue());
+		v4.setCardValue(card4.getValue());
+		v5.setCardValue(card5.getValue());
+		v6.setCardValue(card6.getValue());
+		v_ans.setCardValue(ans.getValue());
+		
 		//card1.parseNumFromText(newValues.get(3))
 		//tag each card with "home" (cardpanel) being original location
 		card1.setHome("home");

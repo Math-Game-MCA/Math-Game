@@ -27,6 +27,7 @@ public class SidePanel extends JPanel implements ActionListener{
 	private static final long serialVersionUID = -1209424284690306920L;
 
 	MathGame mathgame;
+	NumberType typeManager;
 	
 	JLabel clock;
 	JLabel pass;//count how many you get right
@@ -76,6 +77,7 @@ public class SidePanel extends JPanel implements ActionListener{
 	public void init(MathGame mathgame)
 	{
 		this.mathgame = mathgame;
+		this.typeManager = mathgame.typeManager;
 		
 		//this.setBorder(new LineBorder(Color.BLACK));
 		this.setBounds(755, 0, 145, 620);//shifted 5 px to right due to unexplained overlap...
@@ -188,6 +190,7 @@ public class SidePanel extends JPanel implements ActionListener{
 			MathGame mathGame = new MathGame();
 			
 			
+			
 			if(setDiff == null)
 				System.out.println("NULL difficulty from sidepanel ");
 			
@@ -220,7 +223,8 @@ public class SidePanel extends JPanel implements ActionListener{
 				if(finalAnsComp instanceof NumberCard)	{
 					finalAnsCard = (NumberCard) finalAnsComp;
 					actualAns = mathgame.cardPanel.ans.getValue();
-					computedAns = finalAnsCard.getValue();
+					computedAns = finalAnsCard.getValue(); //TODO Does NOT work for fraction values!
+					System.out.println(actualAns + " ?= " + computedAns);
 					if(actualAns.equals(computedAns))	{
 						JOptionPane.showMessageDialog(this, "Congratulations!  Victory is yours!");
 						//later on change to something else... victory song? who knows...
@@ -444,7 +448,7 @@ public class SidePanel extends JPanel implements ActionListener{
 				}
 			}
 			
-			mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
+			mathgame.typeManager.randomize();
 			mathgame.workPanel.revalidate();
 			mathgame.workPanel.repaint();
 			mathgame.holdPanel.revalidate();
