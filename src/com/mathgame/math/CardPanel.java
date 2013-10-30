@@ -45,7 +45,7 @@ public class CardPanel extends JPanel{
 	NumberCard card5;
 	NumberCard card6;
 	NumberCard ans;
-	final String imageFile = "/images/Card Bar.png";
+	final String imageFile = "/images/CardBar.png";
 	static ImageIcon background;
 	
 	ValidationBox v1;
