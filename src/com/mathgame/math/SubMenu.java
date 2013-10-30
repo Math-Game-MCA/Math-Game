@@ -262,7 +262,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	 * Displays info on integers
 	 */
 	public void integerinfo() {
-		info.setText("Choose this mode to work with intgers");
+		info.setText("Choose this mode to work with integers");
 		//JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
 	}
 	
