@@ -186,7 +186,7 @@ public class Menu extends JPanel implements ActionListener, MouseMotionListener,
 	 */
 	public void startgame() {
 		//this.setVisible(false);
-		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
+		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.SUBMENU);
 		System.out.println("ENTER GAME");
 	}
 	
