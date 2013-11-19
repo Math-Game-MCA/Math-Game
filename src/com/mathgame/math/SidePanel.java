@@ -239,31 +239,31 @@ public class SidePanel extends JPanel implements ActionListener{
 				}
 
 			}
+		}
 
-			if(e.getSource() == undo)	{
-				undoFunction();
+		if(e.getSource() == undo)	{
+			undoFunction();
+		}
+		if(e.getSource() == reset) {
+			//mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
+			//while ( undo.getIndex() > 0 ) {
+			//	undoFunction();
+
+			resetFunction();
+
+			if(timer.isRunning())
+			{
+				endTime = System.currentTimeMillis();
+
+				clock.setText(timeFormat((int)(endTime-startTime)));
+
 			}
-			if(e.getSource() == reset) {
-				//mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
-				//while ( undo.getIndex() > 0 ) {
-				//	undoFunction();
-
-				resetFunction();
-
-				if(timer.isRunning())
-				{
-					endTime = System.currentTimeMillis();
-
-					clock.setText(timeFormat((int)(endTime-startTime)));
-
-				}
-			}
-			if(e.getSource() == exit)	{
-				if(JOptionPane.showOptionDialog(this, "Are you sure you want to exit?", "Exit", 
-						JOptionPane.YES_NO_OPTION, 
-						JOptionPane.QUESTION_MESSAGE, null, null, null) == 0)	{
-					mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.MENU);
-				}
+		}
+		if(e.getSource() == exit)	{
+			if(JOptionPane.showOptionDialog(this, "Are you sure you want to exit?", "Exit", 
+					JOptionPane.YES_NO_OPTION, 
+					JOptionPane.QUESTION_MESSAGE, null, null, null) == 0)	{
+				mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.MENU);
 			}
 		}
 	}
