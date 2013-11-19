@@ -170,51 +170,51 @@ public class SidePanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == toggle)
 		{
-			
+
 			if(!pressed)
 			{
 				timer.start();
 				startTime = System.currentTimeMillis();
-				
+
 				pressed = true;
 			}
 			else
 			{
 				timer.stop();
-				
+
 				pressed = false;
 			}
 		}
 		if(e.getSource() == updateDiff)
 		{
 			MathGame mathGame = new MathGame();
-			
-			
-			
+
+
+
 			if(setDiff == null)
 				System.out.println("NULL difficulty from sidepanel ");
-			
+
 			if(!(setDiff.getText() == ""))
 			{
 				diff = Integer.valueOf(setDiff.getText());
 				System.out.println("difficulty from sidepanel: " + Integer.valueOf(setDiff.getText()));
-			
+
 				mathGame.setDifficulty( Integer.valueOf(setDiff.getText()) );
 			}
-			
+
 			setDiff.setText("");
-			
-			
-			
+
+
+
 		}
 		if(e.getSource() == help)	{//TODO: Decide function of Help (on website or in game?)
 			JOptionPane.showMessageDialog(this, "Instructions go here");
 			//perhaps link to a help webpage on the website?
 			//maybe turn into a hint button?
 		}
-			
+
 		if(e.getSource() == checkAns)	{
-				//System.out.println("SCORE: "+Double.parseDouble(score.getText()));
+			//System.out.println("SCORE: "+Double.parseDouble(score.getText()));
 			if(mathgame.workPanel.getComponentCount() == 1)	{
 				NumberCard finalAnsCard;
 				Component finalAnsComp = mathgame.workPanel.getComponent(0);
@@ -225,48 +225,47 @@ public class SidePanel extends JPanel implements ActionListener{
 					actualAns = mathgame.cardPanel.ans.getValue();
 					computedAns = finalAnsCard.getValue(); //TODO Does NOT work for fraction values!
 					System.out.println(actualAns + " ?= " + computedAns);
-					if(actualAns.equals(computedAns))	{
+					if(actualAns.equals(computedAns) || mathgame.cardPanel.ans.parseNumFromText(actualAns) == finalAnsCard.parseNumFromText(computedAns))	{
 						JOptionPane.showMessageDialog(this, "Congratulations!  Victory is yours!");
 						//later on change to something else... victory song? who knows...
 						resetFunction();
 						score.setText(Double.toString(Double.parseDouble(score.getText()) + 20));
 					}
 				}
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(this, "Error.  Cannot evaluate answer");
-				System.out.println("ERROR.. cannot check answer for this");
-			}
-			
-		}
+				else
+				{
+					JOptionPane.showMessageDialog(this, "Error.  Cannot evaluate answer");
+					System.out.println("ERROR.. cannot check answer for this");
+				}
 
-		if(e.getSource() == undo)	{
-			undoFunction();
-		}
-		if(e.getSource() == reset) {
-			//mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
-			//while ( undo.getIndex() > 0 ) {
-			//	undoFunction();
-			
-			resetFunction();
-				
-			if(timer.isRunning())
-			{
-				endTime = System.currentTimeMillis();
-				
-				clock.setText(timeFormat((int)(endTime-startTime)));
-			
+			}
+
+			if(e.getSource() == undo)	{
+				undoFunction();
+			}
+			if(e.getSource() == reset) {
+				//mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
+				//while ( undo.getIndex() > 0 ) {
+				//	undoFunction();
+
+				resetFunction();
+
+				if(timer.isRunning())
+				{
+					endTime = System.currentTimeMillis();
+
+					clock.setText(timeFormat((int)(endTime-startTime)));
+
+				}
+			}
+			if(e.getSource() == exit)	{
+				if(JOptionPane.showOptionDialog(this, "Are you sure you want to exit?", "Exit", 
+						JOptionPane.YES_NO_OPTION, 
+						JOptionPane.QUESTION_MESSAGE, null, null, null) == 0)	{
+					mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.MENU);
+				}
 			}
 		}
-		if(e.getSource() == exit)	{
-			if(JOptionPane.showOptionDialog(this, "Are you sure you want to exit?", "Exit", 
-				JOptionPane.YES_NO_OPTION, 
-				JOptionPane.QUESTION_MESSAGE, null, null, null) == 0)	{
-				mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.MENU);
-			}
-		}
-		
 	}
 	
 	//returns time in form xx:xx

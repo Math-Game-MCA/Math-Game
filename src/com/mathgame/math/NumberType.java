@@ -18,6 +18,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.mathgame.cards.NumberCard;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 public class NumberType {
 	NumberCard card1;
@@ -138,11 +140,18 @@ public class NumberType {
 	}
 	
 	public String convertDecimaltoFraction(double input) { //TODO Zero equals one when calculating...
+		boolean negative = false;
+		if (input < 0) {
+			negative = true;
+			input = 0-input;
+		}
+		
 		BigDecimal decimal = new BigDecimal(Double.toString(input)); 
-		decimal = decimal.setScale(16, BigDecimal.ROUND_HALF_UP);
+		decimal = decimal.setScale(17, BigDecimal.ROUND_HALF_UP);
 
 		BigDecimal integerHalf = new BigDecimal(decimal.intValue());
 		BigDecimal decimalHalf = decimal.subtract(integerHalf);
+		decimalHalf = decimalHalf.round(new MathContext(16, RoundingMode.HALF_UP));
 
 		final BigDecimal uno = new BigDecimal("1");
 		final BigDecimal cero = new BigDecimal("0");
@@ -153,6 +162,7 @@ public class NumberType {
 		System.out.println("Integer half = " + integerHalf + " Decimal half = " + decimalHalf);
 		
 		if(decimalHalf.compareTo(cero) == 0) {
+			System.out.println(numerator+"");
 			return numerator+"";
 		}
 		else {
@@ -168,7 +178,14 @@ public class NumberType {
 			}
 		}
 		
-		return (numerator + "/" + denominator);
+		if (negative) {
+			System.out.println("-" + numerator + "/" + denominator);
+			return ("-" + numerator + "/" + denominator);
+		}
+		else {
+			System.out.println(numerator + "/" + denominator);
+			return (numerator + "/" + denominator);
+		}
 	}
 
 	public ArrayList<Double> randomDecimalValues() {

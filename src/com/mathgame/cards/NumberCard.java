@@ -89,6 +89,8 @@ public class NumberCard extends JLabel{
 			boolean isNum = (current >= '0' && current <= '9');
 			if(!isNum)
 			{
+				if(current == '-')
+					continue;
 				if(end1 == -1)
 				{
 					end1 = i;
