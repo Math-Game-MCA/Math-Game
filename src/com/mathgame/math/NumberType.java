@@ -161,6 +161,9 @@ public class NumberType {
 
 		System.out.println("Integer half = " + integerHalf + " Decimal half = " + decimalHalf);
 		
+		if(integerHalf.compareTo(cero) == 0)
+			numerator = cero;
+		
 		if(decimalHalf.compareTo(cero) == 0) {
 			System.out.println(numerator+"");
 			return numerator+"";
