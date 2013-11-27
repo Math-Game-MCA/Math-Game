@@ -240,31 +240,7 @@ public class SidePanel extends JPanel implements ActionListener {
 			}
 		}
 
-<<<<<<< HEAD
 		if(e.getSource() == undo)	{
-			undoFunction();
-		}
-		if(e.getSource() == reset) {
-			//mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
-			//while ( undo.getIndex() > 0 ) {
-			//	undoFunction();
-
-			resetFunction();
-
-			if(timer.isRunning())
-			{
-				endTime = System.currentTimeMillis();
-
-				clock.setText(timeFormat((int)(endTime-startTime)));
-
-			}
-		}
-		if(e.getSource() == exit)	{
-			if(JOptionPane.showOptionDialog(this, "Are you sure you want to exit?", "Exit", 
-					JOptionPane.YES_NO_OPTION, 
-					JOptionPane.QUESTION_MESSAGE, null, null, null) == 0)	{
-=======
-		if (e.getSource() == undo) {
 			undoFunction();
 		}
 		if (e.getSource() == reset) {
@@ -287,7 +263,6 @@ public class SidePanel extends JPanel implements ActionListener {
 					"Are you sure you want to exit?", "Exit",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, null, null) == 0) {
->>>>>>> bbc493ad0423873c7ccf8832c38ab2d9a6ae515c
 				mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.MENU);
 			}
 		}
