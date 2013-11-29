@@ -147,7 +147,7 @@ public class NumberType {
 		}
 		
 		BigDecimal decimal = new BigDecimal(Double.toString(input)); 
-		decimal = decimal.setScale(17, BigDecimal.ROUND_HALF_UP);
+		decimal = decimal.setScale(18, BigDecimal.ROUND_HALF_UP);
 
 		BigDecimal integerHalf = new BigDecimal(decimal.intValue());
 		BigDecimal decimalHalf = decimal.subtract(integerHalf);
