@@ -15,6 +15,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -77,6 +78,48 @@ public class WorkspacePanel extends JPanel{
 		if(answer != null)
 		{
 			System.out.println("answer:"+answer);
+			if(answer.isInfinite() || answer.isNaN()) { //TODO does this fix the infinity bug?
+				JOptionPane.showMessageDialog(this, "You can't divide by zero!");
+				
+				NumberCard tempnum1 = (NumberCard)this.getComponent(0);
+				NumberCard tempnum2 = (NumberCard)this.getComponent(2);
+
+				String restoreOperator = new String(currentOperation());
+				mathGame.opPanel.addOperator(restoreOperator);
+				
+				if (tempnum1.getHome() == "home") {// originally in card panel
+					System.out.println("restore card1; value: " + tempnum1.getValue());
+					mathGame.cardPanel.restoreCard(tempnum1.getValue());
+				} else if (tempnum1.getHome() == "hold") {// new card in holding area
+					for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
+						NumberCard temp = (NumberCard) mathGame.holdPanel
+								.getComponent(0);
+						if (temp.getHome() == "home") {
+							mathGame.cardPanel.restoreCard(temp.getValue());
+							;
+						} // check for cards that were dragged from home into workspace
+							// and restores them
+					}
+					mathGame.holdPanel.add(tempnum1);
+				}
+
+				if (tempnum2.getHome() == "home") {
+					System.out.println("restore card2; value: " + tempnum2.getValue());
+					mathGame.cardPanel.restoreCard(tempnum2.getValue());
+				} else if (tempnum2.getHome() == "hold") {
+					for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
+						NumberCard temp = (NumberCard) mathGame.holdPanel
+								.getComponent(0);
+						if (temp.getHome() == "home") {
+							mathGame.cardPanel.restoreCard(temp.getValue());
+						}
+					}
+					mathGame.holdPanel.add(tempnum2);
+				}
+				
+				return;
+			}
+			
 			NumberCard answerCard = new NumberCard(answer);
 			if(typeManager.getType() == "fraction") {
 				String temp = typeManager.convertDecimaltoFraction(answer);

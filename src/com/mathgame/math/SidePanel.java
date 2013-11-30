@@ -323,7 +323,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	/**
 	 * Carries out the undo function
 	 */
-	private void undoFunction() {
+	public void undoFunction() {
 		NumberCard tempnum1 = undo.getPrevNum1();
 		NumberCard tempnum2 = undo.getPrevNum2();
 
