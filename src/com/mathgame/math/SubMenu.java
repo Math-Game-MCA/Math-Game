@@ -250,6 +250,8 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	public void choosemixed() {
 		//this.setVisible(false);
 		//code for choosing mixed
+		typeManager.setType("fraction");
+		System.out.println("Selected: mixed"); //TODO implement mixed mode
 	}
 	
 	/**
@@ -329,7 +331,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	public void mouseExited(MouseEvent e) {
 		System.out.println("Mouse Exited Button");
 		if(e.getSource() == decimal)	{
-			info.setText("Please Choose a mode");
+			info.setText("Please choose a mode");
 		}
 		else if(e.getSource() == integer)
 		{
