@@ -7,6 +7,7 @@
  * 				-when dividing by "Infinity," resulting card is "0.0"
  * 				-0/0 = NaN
  *		David Schildkraut
+ *		David Melvin
  *		for screenshots, please email me & I will send a file with bug screenshots
  *  */
 
