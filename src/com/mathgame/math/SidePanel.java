@@ -411,6 +411,7 @@ public class SidePanel extends JPanel implements ActionListener{
 	private void resetFunction()
 	
 	{
+		mathgame.cardPanel.resetValidationBoxes();
 		
 		while ( undo.getIndex() > 0 ) {
 			undoFunction();
@@ -453,6 +454,8 @@ public class SidePanel extends JPanel implements ActionListener{
 			mathgame.holdPanel.revalidate();
 			mathgame.holdPanel.repaint();
 			mathgame.cardPanel.revalidate();
+			
+			
 	
 	}
 }

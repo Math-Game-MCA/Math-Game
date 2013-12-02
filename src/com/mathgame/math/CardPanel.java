@@ -303,6 +303,15 @@ public class CardPanel extends JPanel{
 		}
 	}
 	
+	public void resetValidationBoxes(){
+		v1.reset();
+		v2.reset();
+		v3.reset();
+		v4.reset();
+		v5.reset();
+		v6.reset();
+	}
+	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);

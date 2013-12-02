@@ -19,6 +19,7 @@ public class ValidationBox extends JTextField implements ActionListener{
 	 */
 	double cardValue;
 	NumberCard numCard;
+	final String DEFAULT_TEXT = "Enter number";
 	
 	
 	public ValidationBox(){
@@ -49,6 +50,12 @@ public class ValidationBox extends JTextField implements ActionListener{
 		}
 		
 	}
+	
+	public void reset(){
+		this.setBackground(Color.white);
+		this.setText(DEFAULT_TEXT);
+	}
+	
 	
 	public void setCardValue(String text){
 		
