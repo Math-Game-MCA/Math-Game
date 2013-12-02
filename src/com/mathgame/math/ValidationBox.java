@@ -3,13 +3,18 @@ package com.mathgame.math;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 import com.mathgame.cards.NumberCard;
 
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 
 
-public class ValidationBox extends JTextField implements ActionListener{
+public class ValidationBox extends JTextField implements FocusListener{
 
 	/**
 	 * The purpose of this class is to make a textfield that will be placed below NumberCards
@@ -27,12 +32,44 @@ public class ValidationBox extends JTextField implements ActionListener{
 		
 	}
 	
-	public ValidationBox(String text, NumberCard card){
+	public ValidationBox(NumberCard card){
 		
 		numCard = new NumberCard();
 		numCard = card;
-		this.setText(text);
-		this.addActionListener(this);
+		this.setText(DEFAULT_TEXT);
+		this.addFocusListener(this);
+		
+		this.getDocument().addDocumentListener(new DocumentListener(){
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				System.out.println("change update");
+				
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				System.out.println("insert update");
+				if(checkCard())
+					setBackground(Color.green);
+				else
+					setBackground(Color.red);
+				
+				
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				System.out.println("delete update");
+				if(checkCard())
+					setBackground(Color.green);
+				else
+					setBackground(Color.red);
+				
+				
+			}
+			
+		});
 		
 	}
 	
@@ -40,7 +77,7 @@ public class ValidationBox extends JTextField implements ActionListener{
 
 		System.out.println("this text " + this.getText());
 		System.out.println("card text " + numCard.getText());
-		if(this.getText().equals(numCard.getValue())){
+		if(this.getText().equals(numCard.getText())){//numCard.getValue()
 			System.out.println("true");
 			return true;
 		}			
@@ -63,7 +100,7 @@ public class ValidationBox extends JTextField implements ActionListener{
 		
 	}
 	
-	@Override
+	/*@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if(checkCard())
@@ -71,5 +108,21 @@ public class ValidationBox extends JTextField implements ActionListener{
 		else
 			this.setBackground(Color.red);
 				
+	}*/
+
+	@Override
+	public void focusGained(FocusEvent f) {
+		if(this.getText().equals(DEFAULT_TEXT))
+			this.setText("");
+	}
+
+	@Override
+	public void focusLost(FocusEvent f) {
+		if(this.getText().equals(""))
+		{
+			this.setText(DEFAULT_TEXT);
+			this.setBackground(Color.white);
+		}
+		
 	}
 }

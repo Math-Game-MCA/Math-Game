@@ -105,13 +105,13 @@ public class CardPanel extends JPanel{
 		card6 = new NumberCard(6);
 		ans = new NumberCard(0);
 		
-		v1 = new ValidationBox("Enter number", card1);
-		v2 = new ValidationBox("Enter number", card2);
-		v3 = new ValidationBox("Enter number", card3);
-		v4 = new ValidationBox("Enter number", card4);
-		v5 = new ValidationBox("Enter number", card5);
-		v6 = new ValidationBox("Enter number", card6);
-		v_ans = new ValidationBox("Enter number", ans);
+		v1 = new ValidationBox(card1);
+		v2 = new ValidationBox(card2);
+		v3 = new ValidationBox(card3);
+		v4 = new ValidationBox(card4);
+		v5 = new ValidationBox(card5);
+		v6 = new ValidationBox(card6);
+		v_ans = new ValidationBox(ans);
 		
 		card1.setNumberTag(0);
 		card2.setNumberTag(1);
@@ -310,6 +310,7 @@ public class CardPanel extends JPanel{
 		v4.reset();
 		v5.reset();
 		v6.reset();
+		v_ans.reset();
 	}
 	
 	@Override
