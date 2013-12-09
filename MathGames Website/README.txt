@@ -25,7 +25,7 @@ If it is an issue/bug, please supply me with the following information:
 3. OS
 4. Monitor resolution
 5. What you did to get the error
-6. Anything else you think may be relevant or important.
+6. Anything else you think may be relevant or important
 
 ===================================================================
 
