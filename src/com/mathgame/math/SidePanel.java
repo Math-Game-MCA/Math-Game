@@ -47,7 +47,15 @@ public class SidePanel extends JPanel implements ActionListener {
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
 
 	final String imageFile = "/images/control bar.png";
+	
+	final String buttonImageFile = "/images/DefaultButtonImage1.png";
+	final String buttonRollOverImageFile = "/images/DefaultButtonImage2.png";
+	final String buttonPressedImageFile = "/images/DefaultButtonImage3.png";
 
+	static ImageIcon buttonImage;
+	static ImageIcon buttonRollOverImage;
+	static ImageIcon buttonPressedImage;
+	
 	static ImageIcon background;
 
 	// JTextArea error;
@@ -103,6 +111,9 @@ public class SidePanel extends JPanel implements ActionListener {
 		updateDiff = new JButton("Update Difficulty");
 
 		background = new ImageIcon(SidePanel.class.getResource(imageFile));
+		buttonImage = new ImageIcon(Menu.class.getResource(buttonImageFile));
+		buttonRollOverImage = new ImageIcon(Menu.class.getResource(buttonRollOverImageFile));
+		buttonPressedImage = new ImageIcon(Menu.class.getResource(buttonPressedImageFile));
 
 		add(clock);
 		add(toggle);
@@ -126,31 +137,78 @@ public class SidePanel extends JPanel implements ActionListener {
 
 		toggle.setBounds(10, 150, 130, 30);
 		toggle.addActionListener(this);
+	    toggle.setHorizontalTextPosition(JButton.CENTER);
+	    toggle.setVerticalTextPosition(JButton.CENTER);
+		toggle.setBorderPainted(false);
 
 		help.setBounds(10, 540, 130, 30);
 		help.setHorizontalAlignment(SwingConstants.CENTER);
 		help.addActionListener(this);
+	    help.setHorizontalTextPosition(JButton.CENTER);
+	    help.setVerticalTextPosition(JButton.CENTER);
+		help.setBorderPainted(false);
 
 		exit.setBounds(10, 580, 130, 30);
 		exit.setHorizontalAlignment(SwingConstants.CENTER);
 		exit.addActionListener(this);
+	    exit.setHorizontalTextPosition(JButton.CENTER);
+	    exit.setVerticalTextPosition(JButton.CENTER);
+		exit.setBorderPainted(false);
 
 		checkAns.setBounds(10, 270, 130, 30);
 		checkAns.addActionListener(this);
+	    checkAns.setHorizontalTextPosition(JButton.CENTER);
+	    checkAns.setVerticalTextPosition(JButton.CENTER);
+		checkAns.setBorderPainted(false);
 
 		undo.setBounds(10, 300, 130, 30);
 		undo.addActionListener(this);
+	    undo.setHorizontalTextPosition(JButton.CENTER);
+	    undo.setVerticalTextPosition(JButton.CENTER);
+		undo.setBorderPainted(false);
 
 		reset.setBounds(10, 330, 130, 30);
 		reset.addActionListener(this);
+	    reset.setHorizontalTextPosition(JButton.CENTER);
+	    reset.setVerticalTextPosition(JButton.CENTER);
+		reset.setBorderPainted(false);
 
 		setDiff.setBounds(10, 190, 130, 30);
 
 		updateDiff.setBounds(10, 230, 130, 30);
 		updateDiff.addActionListener(this);
+	    updateDiff.setHorizontalTextPosition(JButton.CENTER);
+	    updateDiff.setVerticalTextPosition(JButton.CENTER);
+		updateDiff.setBorderPainted(false);
 
 		timer = new Timer(1000, this);
 		timer.setRepeats(true);
+
+		try {
+		    toggle.setIcon(buttonImage);
+		    toggle.setRolloverIcon(buttonRollOverImage);
+		    toggle.setPressedIcon(buttonPressedImage);
+		    help.setIcon(buttonImage);
+		    help.setRolloverIcon(buttonRollOverImage);
+		    help.setPressedIcon(buttonRollOverImage);
+		    undo.setIcon(buttonImage);
+		    undo.setRolloverIcon(buttonRollOverImage);
+		    undo.setPressedIcon(buttonRollOverImage);
+		    reset.setIcon(buttonImage);
+		    reset.setRolloverIcon(buttonRollOverImage);
+		    reset.setPressedIcon(buttonRollOverImage);
+		    checkAns.setIcon(buttonImage);
+		    checkAns.setRolloverIcon(buttonRollOverImage);
+		    checkAns.setPressedIcon(buttonRollOverImage);
+		    updateDiff.setIcon(buttonImage);
+		    updateDiff.setRolloverIcon(buttonRollOverImage);
+		    updateDiff.setPressedIcon(buttonPressedImage);
+		    exit.setIcon(buttonImage);
+		    exit.setRolloverIcon(buttonRollOverImage);
+		    exit.setPressedIcon(buttonPressedImage);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	@Override
@@ -229,7 +287,7 @@ public class SidePanel extends JPanel implements ActionListener {
 						// who knows...
 						resetFunction();
 						score.setText(Double.toString(Double.parseDouble(score
-								.getText()) + 20));
+								.getText()) + 20));//TODO determine scoring algorithm
 					}
 				} else {
 					JOptionPane.showMessageDialog(this,
@@ -264,6 +322,7 @@ public class SidePanel extends JPanel implements ActionListener {
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, null, null) == 0) {
 				mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.MENU);
+				score.setText("0.0");
 			}
 		}
 	}
