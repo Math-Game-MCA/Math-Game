@@ -82,8 +82,7 @@ public class SidePanel extends JPanel implements ActionListener {
 		this.typeManager = mathgame.typeManager;
 
 		// this.setBorder(new LineBorder(Color.BLACK));
-		this.setBounds(755, 0, 145, 620);// shifted 5 px to right due to
-											// unexplained overlap...
+		this.setBounds(755, 0, 145, 620);// shifted 5 px to right due to unexplained overlap...
 
 		this.setLayout(null);
 
@@ -212,11 +211,9 @@ public class SidePanel extends JPanel implements ActionListener {
 				pressed = false;
 			}
 		}
-		if (e.getSource() == help) {// TODO: Decide function of Help (on website
-									// or in game?)
+		if (e.getSource() == help) {// TODO: Decide function of Help (on website or in game?)
 			JOptionPane.showMessageDialog(this, "Instructions go here");
-			// perhaps link to a help webpage on the website?
-			// maybe turn into a hint button?
+			// perhaps link to a help webpage on the website? maybe turn into a hint button?
 		}
 
 		if (e.getSource() == checkAns) {
@@ -229,9 +226,7 @@ public class SidePanel extends JPanel implements ActionListener {
 				if (finalAnsComp instanceof NumberCard) {
 					finalAnsCard = (NumberCard) finalAnsComp;
 					actualAns = mathgame.cardPanel.ans.getValue();
-					computedAns = finalAnsCard.getValue(); // TODO Does NOT work
-															// for fraction
-															// values!
+					computedAns = finalAnsCard.getValue(); // TODO Does NOT work for fraction values!
 					System.out.println(actualAns + " ?= " + computedAns);
 					if (actualAns.equals(computedAns)
 							|| mathgame.cardPanel.ans
@@ -239,8 +234,7 @@ public class SidePanel extends JPanel implements ActionListener {
 									.parseNumFromText(computedAns)) {
 						JOptionPane.showMessageDialog(this,
 								"Congratulations!  Victory is yours!");
-						// later on change to something else... victory song?
-						// who knows...
+						// later on change to something else... victory song? who knows...
 						resetFunction();
 						score.setText(Double.toString(Double.parseDouble(score
 								.getText()) + 20));//TODO determine scoring algorithm
@@ -258,8 +252,7 @@ public class SidePanel extends JPanel implements ActionListener {
 			undoFunction();
 		}
 		if (e.getSource() == reset) {
-			// mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues()
-			// );
+			// mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
 			// while ( undo.getIndex() > 0 ) {
 			// undoFunction();
 
@@ -325,8 +318,7 @@ public class SidePanel extends JPanel implements ActionListener {
 
 		// no need to restore the operator b/c it is automatically regenerated
 
-		if (tempnum1 == null || tempnum2 == null) {// there's no more moves...
-													// too many undos!
+		if (tempnum1 == null || tempnum2 == null) {// there's no more moves... too many undos!
 			return;
 		}
 		if (tempnum1.getHome() == "home") {// originally in card panel
@@ -367,42 +359,25 @@ public class SidePanel extends JPanel implements ActionListener {
 			// cycle through cards in hold
 			for (int i = 0; i < mathgame.holdPanel.getComponentCount(); i++) {
 				temp = (NumberCard) mathgame.holdPanel.getComponent(i);
-				// note: cast (NumberCard) assumes that only NumberCards will be
-				// in holdpanel
-				if (temp.getValue() == prevAns.getValue()) {// check to see if
-															// the checked card
-															// is the previous
-															// answer
+				// note: cast (NumberCard) assumes that only NumberCards will be in holdpanel
+				if (temp.getValue() == prevAns.getValue()) {// check to see if the checked card is the previous answer
 					System.out.println("Deleting card in hold");
 					mathgame.holdPanel.remove(i);
-					i = mathgame.holdPanel.getComponentCount() + 1;// so we can
-																	// exit this
-																	// loop
+					i = mathgame.holdPanel.getComponentCount() + 1;// so we can exit this loop
 				}
 			}
 		}
-		// covers scenario in which previously created card is still in
-		// workpanel
+		// covers scenario in which previously created card is still in workpanel
 		else {
-			NumberCard prevAns = undo.getPrevNewNum();// holds the previously
-														// calculated answer
+			NumberCard prevAns = undo.getPrevNewNum();// holds the previously calculated answer
 			NumberCard temp;
 			// cycle through cards in workspace
 			for (int i = 0; i < mathgame.workPanel.getComponentCount(); i++) {
 				if (mathgame.workPanel.getComponent(i) instanceof NumberCard) {
 					temp = (NumberCard) mathgame.workPanel.getComponent(i);
-					if (temp.getValue() == prevAns.getValue()) {// check to see
-																// if the
-																// checked card
-																// is the
-																// previous
-																// answer
+					if (temp.getValue() == prevAns.getValue()) {// check to see if the checked card is the previous answer
 						mathgame.workPanel.remove(i);
-						i = mathgame.workPanel.getComponentCount() + 1;// so we
-																		// can
-																		// exit
-																		// this
-																		// loop
+						i = mathgame.workPanel.getComponentCount() + 1;// so we can exit this loop
 					}
 				}
 			}
@@ -466,5 +441,6 @@ public class SidePanel extends JPanel implements ActionListener {
 		mathgame.cardPanel.revalidate();
 		
 		timer.start();
+		startTime = System.currentTimeMillis();
 	}
 }
