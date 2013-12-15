@@ -61,23 +61,6 @@ public class NumberType {
 	 */
 	public void setType(String input) {
 		numberType = input;
-	}
-	
-	public String getType() {
-		return numberType;
-	}
-	
-	public void init(CardPanel cP) {
-		this.cP = cP;
-		this.card1 = cP.card1;
-		this.card2 = cP.card2;
-		this.card3 = cP.card3;
-		this.card4 = cP.card4;
-		this.card5 = cP.card5;
-		this.card6 = cP.card6;
-		this.ans = cP.ans;
-
-		this.values = cP.values;
 
 		try {
 			//File excelFile = new File(cardValueFile);
@@ -111,6 +94,26 @@ public class NumberType {
 			e.printStackTrace();
 		}
 	}
+	
+	public String getType() {
+		return numberType;
+	}
+	
+	public void init(CardPanel cP) {
+		this.cP = cP;
+		this.card1 = cP.card1;
+		this.card2 = cP.card2;
+		this.card3 = cP.card3;
+		this.card4 = cP.card4;
+		this.card5 = cP.card5;
+		this.card6 = cP.card6;
+		this.ans = cP.ans;
+
+		this.values = cP.values;
+
+	}
+	
+	
 
 	//generate a random arrayList of fractions, decimals, integers, etc. to be added to the cards; may be replaced in the future
 	

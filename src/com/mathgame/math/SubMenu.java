@@ -183,21 +183,24 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == fraction )	{
-			choosefraction();
+			mathGame.typeManager.setType("fraction");
+			mathGame.typeManager.randomize();
 			startgame();
 		}
 		
 		else if(e.getSource() == integer){
-			chooseinteger();
+			mathGame.typeManager.setType("integer");
+			mathGame.typeManager.randomize();
 			startgame();
 		}
 		
 		else if(e.getSource() == decimal){
-			choosedecimal();
+			mathGame.typeManager.setType("decimal");
+			mathGame.typeManager.randomize();
 			startgame();
 		}
 		else if(e.getSource() == mixed)
-			choosemixed();
+			//choosemixed();
 			startgame();
 	}
 	
@@ -210,37 +213,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 		System.out.println("ENTER GAME");
 	}
 	
-	/**
-	 * When you choose a fraction
-	 */
-	public void choosefraction() {
-		//this.setVisible(false);
-		//code for choosing fraction
-	}
-	
-	/**
-	 * When you choose decimal option
-	 */ 
-	public void choosedecimal() {
-		//this.setVisible(false);
-		//code for choosing decimal
-	}
-	
-	/**
-	 * When you choose integer option
-	 */
-	public void chooseinteger() {
-		//this.setVisible(false);
-		//code for choosing integer
-	}
-	
-	/**
-	 * When you choose mixed option
-	 */
-	public void choosemixed() {
-		//this.setVisible(false);
-		//code for choosing mixed
-	}
+
 	
 	/**
 	 * Displays info on fractions
