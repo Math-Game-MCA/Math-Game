@@ -41,7 +41,8 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	 */
 	private static final long serialVersionUID = -3036828086937465893L;
 
-	static MathGame mathGame;
+	private MathGame mathGame;
+	private NumberType typeManager;
 	
 	final String imageFile = "/images/background.png";
 	final String buttonImageFile = "/images/MenuButtonImg1.png";
@@ -67,7 +68,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	JTextArea info;
 	
 	//constructor
-	public void init(MathGame mg)	{
+	public void init(MathGame mg, NumberType nt)	{
 		
 		this.setLayout(null);
 		Dimension size = getPreferredSize();
@@ -76,6 +77,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 		setPreferredSize(size);
 		
 		mathGame = mg;
+		typeManager = nt;
 		
 		background = new ImageIcon(SubMenu.class.getResource(imageFile));
 		buttonImage = new ImageIcon(SubMenu.class.getResource(buttonImageFile));
@@ -211,10 +213,11 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 		//this.setVisible(false);
 		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
 		System.out.println("ENTER GAME");
+		typeManager.init(mathGame.cardPanel);
+		typeManager.randomize();
 	}
 	
 
-	
 	/**
 	 * Displays info on fractions
 	 */
@@ -292,7 +295,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	public void mouseExited(MouseEvent e) {
 		System.out.println("Mouse Exited Button");
 		if(e.getSource() == decimal)	{
-			info.setText("Please Choose a mode");
+			info.setText("Please choose a mode");
 		}
 		else if(e.getSource() == integer)
 		{

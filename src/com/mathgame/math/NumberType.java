@@ -150,7 +150,7 @@ public class NumberType {
 		}
 		
 		BigDecimal decimal = new BigDecimal(Double.toString(input)); 
-		decimal = decimal.setScale(17, BigDecimal.ROUND_HALF_UP);
+		decimal = decimal.setScale(18, BigDecimal.ROUND_HALF_UP);
 
 		BigDecimal integerHalf = new BigDecimal(decimal.intValue());
 		BigDecimal decimalHalf = decimal.subtract(integerHalf);
@@ -163,6 +163,9 @@ public class NumberType {
 		boolean foundFraction = false;
 
 		System.out.println("Integer half = " + integerHalf + " Decimal half = " + decimalHalf);
+		
+		if(integerHalf.compareTo(cero) == 0)
+			numerator = cero;
 		
 		if(decimalHalf.compareTo(cero) == 0) {
 			System.out.println(numerator+"");

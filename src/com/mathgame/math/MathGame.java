@@ -7,6 +7,7 @@
  * 				-when dividing by "Infinity," resulting card is "0.0"
  * 				-0/0 = NaN
  *		David Schildkraut
+ *		David Melvin
  *		for screenshots, please email me & I will send a file with bug screenshots
  *  */
 
@@ -117,22 +118,19 @@ public class MathGame extends JApplet implements ActionListener
 		layer.setLayout(null);
 		layer.setBounds(5, 0, getSize().width, getSize().height);
 		
+		typeManager = new NumberType();
+		
 		submenu = new SubMenu();
-		submenu.init(this);
+		submenu.init(this, typeManager);
 		submenu.setBounds(0, 0, appWidth, appHeight);
 		
 		sidePanel = new SidePanel();//control bar
 		sidePanel.setBounds(0, 0, 900, 620);//x, y, width, height
 		sidePanel.init(this);
 		
-		typeManager = new NumberType();
-		typeManager.setType("fraction"); //TODO create typePanel to manually set type
-		
 		cardPanel = new CardPanel(this);//top card panel
 		cardPanel.setBounds(0, 0, 750, 150);
 		cardPanel.init(layer);
-		
-		typeManager.randomize();
 		
 		opPanel = new OperationPanel();//operation panel
 		opPanel.setBounds(0, 150, 750, 60);
