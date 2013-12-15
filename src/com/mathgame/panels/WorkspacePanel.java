@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mathgame.math;
+package com.mathgame.panels;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -21,6 +21,10 @@ import javax.swing.border.Border;
 
 import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
+import com.mathgame.math.Calculate;
+import com.mathgame.math.CompMover;
+import com.mathgame.math.MathGame;
+import com.mathgame.math.NumberType;
 /**
  * The panel where the cards will be dragged in order to combine and use them
  *

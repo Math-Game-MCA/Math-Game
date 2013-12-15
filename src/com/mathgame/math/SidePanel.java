@@ -41,7 +41,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	JButton help;
 	JButton exit;
 	JButton checkAns;
-	UndoButton undo;
+	public UndoButton undo;
 	JButton reset;
 
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);

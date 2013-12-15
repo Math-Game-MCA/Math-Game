@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mathgame.math;
+package com.mathgame.panels;
 
 import java.awt.Dimension;
 import java.awt.Image;
@@ -18,6 +18,9 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import com.mathgame.cards.*;
+import com.mathgame.math.Calculate;
+import com.mathgame.math.MathGame;
+import com.mathgame.math.NumberType;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.*;
@@ -38,13 +41,13 @@ public class CardPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	MathGame mathGame;
 	
-	NumberCard card1;
-	NumberCard card2;
-	NumberCard card3;
-	NumberCard card4;
-	NumberCard card5;
-	NumberCard card6;
-	NumberCard ans;
+	public NumberCard card1;
+	public NumberCard card2;
+	public NumberCard card3;
+	public NumberCard card4;
+	public NumberCard card5;
+	public NumberCard card6;
+	public NumberCard ans;
 	final String imageFile = "/images/CardBar.png";
 	static ImageIcon background;
 	
@@ -59,7 +62,7 @@ public class CardPanel extends JPanel{
 	JLayeredPane masterLayer;
 	
 	Calculate calc;
-	ArrayList<String> values;
+	public ArrayList<String> values;
 	ArrayList<Boolean>	cardExists;
 	
 	InputStream cardValueInput;

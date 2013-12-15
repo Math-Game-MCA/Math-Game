@@ -16,6 +16,10 @@ package com.mathgame.math;
 import javax.swing.*;
 
 import com.mathgame.database.*;
+import com.mathgame.panels.CardPanel;
+import com.mathgame.panels.HoldPanel;
+import com.mathgame.panels.OperationPanel;
+import com.mathgame.panels.WorkspacePanel;
 
 import java.awt.*;
 import java.awt.dnd.DropTarget;
@@ -41,12 +45,12 @@ public class MathGame extends JApplet implements ActionListener
 	CardLayout cl;
 	
 	//Panel Declarations
-	JLayeredPane layer;//Master panel - particularly for moving cards across entire screen
-	SidePanel sidePanel;//control panel on the side
-	OperationPanel opPanel;//panel that holds operations + - / *
-	CardPanel cardPanel;//holds cards at top
-	WorkspacePanel workPanel;//center of screen where cards are morphed together
-	HoldPanel holdPanel;//holds intermediate sums, differences, products, and quotients
+	public JLayeredPane layer;//Master panel - particularly for moving cards across entire screen
+	public SidePanel sidePanel;//control panel on the side
+	public OperationPanel opPanel;//panel that holds operations + - / *
+	public CardPanel cardPanel;//holds cards at top
+	public WorkspacePanel workPanel;//center of screen where cards are morphed together
+	public HoldPanel holdPanel;//holds intermediate sums, differences, products, and quotients
 	Menu menu;
 	SubMenu submenu;
 	
@@ -88,7 +92,7 @@ public class MathGame extends JApplet implements ActionListener
 	Rectangle[] cardHomes = new Rectangle[11];//home1, home2...opA,S...
 	String[] cardVals = new String[11];
 	
-	NumberType typeManager;
+	public NumberType typeManager;
 	
 	String[] operations = {"+", "-", "*", "/"};
 	

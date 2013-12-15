@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mathgame.math;
+package com.mathgame.panels;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -16,6 +16,8 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+
+import com.mathgame.math.MathGame;
 
 /**
  * The panel where the cards that have been made can be stored for later use

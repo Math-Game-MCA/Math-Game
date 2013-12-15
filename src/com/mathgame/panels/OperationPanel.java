@@ -1,4 +1,4 @@
-package com.mathgame.math;
+package com.mathgame.panels;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -13,6 +13,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import com.mathgame.cards.OperationCard;
+import com.mathgame.math.CompMover;
+import com.mathgame.math.MathGame;
 
 
 public class OperationPanel extends JPanel
@@ -24,10 +26,10 @@ public class OperationPanel extends JPanel
 	/**
 	 * The panel that holds the operations that you can use
 	 */
-	OperationCard add;
-	OperationCard subtract;
-	OperationCard multiply;
-	OperationCard divide;
+	public OperationCard add;
+	public OperationCard subtract;
+	public OperationCard multiply;
+	public OperationCard divide;
 
 	final String imageFile = "/images/Operation bar.png";
 	static ImageIcon background;

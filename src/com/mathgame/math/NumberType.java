@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.mathgame.cards.NumberCard;
+import com.mathgame.panels.CardPanel;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

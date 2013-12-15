@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import com.mathgame.math.MathGame;
-import com.mathgame.math.OperationPanel;
+import com.mathgame.panels.OperationPanel;
 
 /**
  * 
