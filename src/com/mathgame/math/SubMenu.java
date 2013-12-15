@@ -44,7 +44,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	private MathGame mathGame;
 	private NumberType typeManager;
 	
-	final String imageFile = "/images/background.png";
+	final String imageFile = "/images/backa.png";
 	final String buttonImageFile = "/images/MenuButtonImg1.png";
 	final String buttonRollOverImageFile = "/images/MenuButtonImg2.png";
 	final String buttonPressedImageFile = "/images/MenuButtonImg3.png";
@@ -63,9 +63,15 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	JButton decimal;//press for game help
 	JButton integer;//press for "stuff"
 	JButton mixed;//press to leave game :(
-	JLabel mode;//self-explanatory
-	JPanel side;
-	JTextArea info;
+//	JLabel mode;//self-explanatory
+	JPanel carda;
+	JPanel cardb;
+	JPanel cardc;
+	JPanel cardd;
+	JTextArea infoa;
+	JTextArea infob;
+	JTextArea infoc;
+	JTextArea infod;
 	
 	//constructor
 	public void init(MathGame mg, NumberType nt)	{
@@ -87,29 +93,29 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 		
 		Font titleFont = new Font("Arial", Font.BOLD, 36);
 		Font buttonFont = new Font("Arial", Font.PLAIN, 20);
-		Font infoFont = new Font("Arial", Font.PLAIN, 20);
+		Font infoFont = new Font("Arial", Font.BOLD, 12);
 		
-		mode = new JLabel("Mode");
-		mode.setFont(titleFont);
-		mode.setBounds(185, 205, 130, 60);
+//		mode = new JLabel("Mode");
+//		mode.setFont(titleFont);
+//		mode.setBounds(185, 205, 130, 60);
 		
 		fraction = new JButton("Fraction");
 		fraction.setFont(buttonFont);
-		fraction.setBounds(185, 265, BUTTON_WIDTH, BUTTON_HEIGHT);
+		fraction.setBounds(105, 335, BUTTON_WIDTH, BUTTON_HEIGHT);
 	    fraction.setHorizontalTextPosition(JButton.CENTER);
 	    fraction.setVerticalTextPosition(JButton.CENTER);
 	    fraction.setBorderPainted(false);
 	    
 		decimal = new JButton("Decimal");
 		decimal.setFont(buttonFont);
-		decimal.setBounds(185, 305,  BUTTON_WIDTH, BUTTON_HEIGHT);
+		decimal.setBounds(295, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
 	    decimal.setHorizontalTextPosition(JButton.CENTER);
 	    decimal.setVerticalTextPosition(JButton.CENTER);
 	    decimal.setBorderPainted(false);
 	    
 		integer = new JButton("Integer");
 		integer.setFont(buttonFont);
-		integer.setBounds(185, 345,  BUTTON_WIDTH, BUTTON_HEIGHT);
+		integer.setBounds(490, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
 	    integer.setHorizontalTextPosition(JButton.CENTER);
 	    integer.setVerticalTextPosition(JButton.CENTER);
 	    integer.setBorderPainted(false);
@@ -117,7 +123,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	    
 		mixed = new JButton("Mixed");
 		mixed.setFont(buttonFont);
-		mixed.setBounds(185, 385,  BUTTON_WIDTH, BUTTON_HEIGHT);
+		mixed.setBounds(672, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
 	    mixed.setHorizontalTextPosition(JButton.CENTER);
 	    mixed.setVerticalTextPosition(JButton.CENTER);
 	    mixed.setBorderPainted(false);
@@ -146,23 +152,67 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 		/**
 		 * TODO get the text in the label to wrap if it is longer than the label width.
 		 */
-		info = new JTextArea("Please choose a mode");
-		info.setFont(infoFont);
-		info.setBounds(525, 75, 300, 500);
-		info.setLineWrap(true);//sets word wrap
-		info.setWrapStyleWord(true);//wraps at end of word
-		info.setEditable(false);
-		
-		side = new JPanel();
-		side.setBounds(500, 50, 350, 550);
-		side.add(info);
-		
-		add(mode);
+//Info Box for Enter Box
+		infoa = new JTextArea("Choose this mode to work with fractions");
+		infoa.setFont(infoFont);
+		infoa.setBounds(95, 525, 90, 130);
+		infoa.setLineWrap(true);//sets word wrap
+		infoa.setWrapStyleWord(true);//wraps at end of word
+		infoa.setEditable(false);
+
+		carda = new JPanel();
+		carda.setBounds(120, 409, 100, 140);
+		carda.add(infoa);
+		carda.setVisible(false);
+				
+//Info Box for Help Button		
+		infob = new JTextArea("Choose this mode to work with decimals");
+		infob.setFont(infoFont);
+		infob.setBounds(295, 525, 90, 130);
+		infob.setLineWrap(true);//sets word wrap
+		infob.setWrapStyleWord(true);//wraps at end of word
+		infob.setEditable(false);
+				
+		cardb = new JPanel();
+		cardb.setBounds(310, 409, 100, 140);
+		cardb.add(infob);
+		cardb.setVisible(false);
+				
+//Info Box for Help Button		
+		infoc = new JTextArea("Choose this mode to work with integers");
+		infoc.setFont(infoFont);
+		infoc.setBounds(490, 525, 90, 130);
+		infoc.setLineWrap(true);//sets word wrap
+		infoc.setWrapStyleWord(true);//wraps at end of word
+		infoc.setEditable(false);
+				
+		cardc = new JPanel();
+		cardc.setBounds(505, 409, 100, 140);
+		cardc.add(infoc);
+		cardc.setVisible(false);
+				
+//Info Box for Exit Button		
+		infod = new JTextArea("Choose this mode to work with all types");
+		infod.setFont(infoFont);
+		infod.setBounds(680, 525, 90, 130);
+		infod.setLineWrap(true);//sets word wrap
+		infod.setWrapStyleWord(true);//wraps at end of word
+		infod.setEditable(false);
+					
+		cardd = new JPanel();
+		cardd.setBounds(690, 409, 100, 140);
+		cardd.add(infod);
+		cardd.setVisible(false);
+						
+//		add(mode);
 		add(fraction);
 		add(decimal);
 		add(integer);
 		add(mixed);
-		add(side);
+		add(carda);
+		add(cardb);
+		add(cardc);
+		add(cardd);
 		//p1.setBorder(new TitledBorder("Epsilon"));
 		
 		//add(epsilon);
@@ -258,7 +308,11 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	 * Displays info on fractions
 	 */
 	public void fractioninfo() {
-		info.setText("Choose this mode to work with fractions");
+//		info.setText("Choose this mode to work with fractions");
+		carda.setVisible(true);
+		cardb.setVisible(false);
+		cardc.setVisible(false);
+		cardd.setVisible(false);
 		//JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
 	}
 	
@@ -266,7 +320,11 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	 * Displays info on decimals
 	 */
 	public void decimalinfo() {
-		info.setText("Choose this mode to work with decimals");
+		carda.setVisible(false);
+		cardb.setVisible(true);
+		cardc.setVisible(false);
+		cardd.setVisible(false);
+//		info.setText("Choose this mode to work with decimals");
 		//JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
 	}
 	
@@ -274,7 +332,11 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	 * Displays info on integers
 	 */
 	public void integerinfo() {
-		info.setText("Choose this mode to work with integers");
+		carda.setVisible(false);
+		cardb.setVisible(false);
+		cardc.setVisible(true);
+		cardd.setVisible(false);
+//		info.setText("Choose this mode to work with integers");
 		//JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
 	}
 	
@@ -282,7 +344,11 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	 * Displays info on mixed
 	 */
 	public void mixedinfo() {
-		info.setText("Choose this mode to work with all of the types");
+		carda.setVisible(false);
+		cardb.setVisible(false);
+		cardc.setVisible(false);
+		cardd.setVisible(true);
+//		info.setText("Choose this mode to work with all of the types");
 		//JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
 	}
 	
@@ -331,19 +397,19 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	public void mouseExited(MouseEvent e) {
 		System.out.println("Mouse Exited Button");
 		if(e.getSource() == decimal)	{
-			info.setText("Please choose a mode");
+//			info.setText("Please choose a mode");
 		}
 		else if(e.getSource() == integer)
 		{
-			info.setText("Please choose a mode");
+//			info.setText("Please choose a mode");
 		}
 		else if(e.getSource() == fraction)
 		{
-			info.setText("Please choose a mode");
+//			info.setText("Please choose a mode");
 		}
 		else if(e.getSource() == mixed)
 		{
-			info.setText("Please choose a mode");
+//			info.setText("Please choose a mode");
 		}
 	}
 
