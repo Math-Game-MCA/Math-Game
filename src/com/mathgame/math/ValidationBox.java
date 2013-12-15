@@ -89,8 +89,9 @@ public class ValidationBox extends JTextField implements FocusListener{
 	}
 	
 	public void reset(){
-		this.setBackground(Color.white);
+		
 		this.setText(DEFAULT_TEXT);
+		this.setBackground(Color.white);
 	}
 	
 	
