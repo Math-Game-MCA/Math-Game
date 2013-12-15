@@ -1,4 +1,4 @@
-package com.mathgame.math;
+package com.mathgame.panels;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -6,6 +6,9 @@ import javax.swing.*;
 import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
 import com.mathgame.cardmanager.UndoButton;
+import com.mathgame.math.MathGame;
+import com.mathgame.math.Menu;
+import com.mathgame.math.NumberType;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

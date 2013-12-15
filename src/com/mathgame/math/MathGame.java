@@ -19,6 +19,7 @@ import com.mathgame.database.*;
 import com.mathgame.panels.CardPanel;
 import com.mathgame.panels.HoldPanel;
 import com.mathgame.panels.OperationPanel;
+import com.mathgame.panels.SidePanel;
 import com.mathgame.panels.WorkspacePanel;
 
 import java.awt.*;
@@ -38,10 +39,10 @@ public class MathGame extends JApplet implements ActionListener
 	int appHeight=620;
 
 	static final String GAME = "CardLayoutPanel Game";
-	static final String MENU = "CardLayoutPanel Menu";
+	public static final String MENU = "CardLayoutPanel Menu";
 	static final String SUBMENU = "CardLayoutPanel SubMenu";
-	JPanel cardLayoutPanels;//uses CardLayout to switch between menu and game
-	CardLayout cl;
+	public JPanel cardLayoutPanels;//uses CardLayout to switch between menu and game
+	public CardLayout cl;
 	
 	//Panel Declarations
 	public JLayeredPane layer;//Master panel - particularly for moving cards across entire screen
