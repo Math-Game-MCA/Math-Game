@@ -34,10 +34,6 @@ public class SidePanel extends JPanel implements ActionListener {
 	JLabel fail;// how many you got wrong
 	JLabel score;// TODO: Determine how to calculate the score!
 
-	JLabel diffInfo;
-	JTextField setDiff;
-	JButton updateDiff;
-
 	JButton help;
 	JButton exit;
 	JButton checkAns;
@@ -69,14 +65,12 @@ public class SidePanel extends JPanel implements ActionListener {
 	Timer timer;
 	// StopWatch stopWatch;
 
-	boolean pressed = false;
+	boolean pressed = true;//timer starts automatically
 
 	long startTime = 0;
 	long endTime = 0;
 
-	Insets insets = getInsets(); // insets for the side panel for layout
-									// purposes
-	int diff = 2;
+	Insets insets = getInsets(); // insets for the side panel for layout purposes
 
 	/**
 	 * Initialization of side panel & side panel buttons
@@ -88,8 +82,7 @@ public class SidePanel extends JPanel implements ActionListener {
 		this.typeManager = mathgame.typeManager;
 
 		// this.setBorder(new LineBorder(Color.BLACK));
-		this.setBounds(755, 0, 145, 620);// shifted 5 px to right due to
-											// unexplained overlap...
+		this.setBounds(755, 0, 145, 620);// shifted 5 px to right due to unexplained overlap...
 
 		this.setLayout(null);
 
@@ -106,10 +99,6 @@ public class SidePanel extends JPanel implements ActionListener {
 		pass = new JLabel("Correct: " + correct);
 		fail = new JLabel("Wrong: " + wrong);
 
-		diffInfo = new JLabel("Select difficulty (2-5)");
-		setDiff = new JTextField("");
-		updateDiff = new JButton("Update Difficulty");
-
 		background = new ImageIcon(SidePanel.class.getResource(imageFile));
 		buttonImage = new ImageIcon(Menu.class.getResource(buttonImageFile));
 		buttonRollOverImage = new ImageIcon(Menu.class.getResource(buttonRollOverImageFile));
@@ -123,8 +112,6 @@ public class SidePanel extends JPanel implements ActionListener {
 		add(checkAns);
 		add(undo);
 		add(reset);
-		add(setDiff);
-		add(updateDiff);
 
 		// define properties of controls
 		clock.setBounds(10, 10, 130, 60);
@@ -141,6 +128,24 @@ public class SidePanel extends JPanel implements ActionListener {
 	    toggle.setVerticalTextPosition(JButton.CENTER);
 		toggle.setBorderPainted(false);
 
+		undo.setBounds(10, 190, 130, 30);
+		undo.addActionListener(this);
+	    undo.setHorizontalTextPosition(JButton.CENTER);
+	    undo.setVerticalTextPosition(JButton.CENTER);
+		undo.setBorderPainted(false);
+
+		reset.setBounds(10, 230, 130, 30);
+		reset.addActionListener(this);
+	    reset.setHorizontalTextPosition(JButton.CENTER);
+	    reset.setVerticalTextPosition(JButton.CENTER);
+		reset.setBorderPainted(false);
+
+		checkAns.setBounds(10, 270, 130, 30);
+		checkAns.addActionListener(this);
+	    checkAns.setHorizontalTextPosition(JButton.CENTER);
+	    checkAns.setVerticalTextPosition(JButton.CENTER);
+		checkAns.setBorderPainted(false);
+
 		help.setBounds(10, 540, 130, 30);
 		help.setHorizontalAlignment(SwingConstants.CENTER);
 		help.addActionListener(this);
@@ -155,32 +160,6 @@ public class SidePanel extends JPanel implements ActionListener {
 	    exit.setVerticalTextPosition(JButton.CENTER);
 		exit.setBorderPainted(false);
 
-		checkAns.setBounds(10, 270, 130, 30);
-		checkAns.addActionListener(this);
-	    checkAns.setHorizontalTextPosition(JButton.CENTER);
-	    checkAns.setVerticalTextPosition(JButton.CENTER);
-		checkAns.setBorderPainted(false);
-
-		undo.setBounds(10, 300, 130, 30);
-		undo.addActionListener(this);
-	    undo.setHorizontalTextPosition(JButton.CENTER);
-	    undo.setVerticalTextPosition(JButton.CENTER);
-		undo.setBorderPainted(false);
-
-		reset.setBounds(10, 330, 130, 30);
-		reset.addActionListener(this);
-	    reset.setHorizontalTextPosition(JButton.CENTER);
-	    reset.setVerticalTextPosition(JButton.CENTER);
-		reset.setBorderPainted(false);
-
-		setDiff.setBounds(10, 190, 130, 30);
-
-		updateDiff.setBounds(10, 230, 130, 30);
-		updateDiff.addActionListener(this);
-	    updateDiff.setHorizontalTextPosition(JButton.CENTER);
-	    updateDiff.setVerticalTextPosition(JButton.CENTER);
-		updateDiff.setBorderPainted(false);
-
 		timer = new Timer(1000, this);
 		timer.setRepeats(true);
 
@@ -190,19 +169,16 @@ public class SidePanel extends JPanel implements ActionListener {
 		    toggle.setPressedIcon(buttonPressedImage);
 		    help.setIcon(buttonImage);
 		    help.setRolloverIcon(buttonRollOverImage);
-		    help.setPressedIcon(buttonRollOverImage);
+		    help.setPressedIcon(buttonPressedImage);
 		    undo.setIcon(buttonImage);
 		    undo.setRolloverIcon(buttonRollOverImage);
-		    undo.setPressedIcon(buttonRollOverImage);
+		    undo.setPressedIcon(buttonPressedImage);
 		    reset.setIcon(buttonImage);
 		    reset.setRolloverIcon(buttonRollOverImage);
-		    reset.setPressedIcon(buttonRollOverImage);
+		    reset.setPressedIcon(buttonPressedImage);
 		    checkAns.setIcon(buttonImage);
 		    checkAns.setRolloverIcon(buttonRollOverImage);
-		    checkAns.setPressedIcon(buttonRollOverImage);
-		    updateDiff.setIcon(buttonImage);
-		    updateDiff.setRolloverIcon(buttonRollOverImage);
-		    updateDiff.setPressedIcon(buttonPressedImage);
+		    checkAns.setPressedIcon(buttonPressedImage);
 		    exit.setIcon(buttonImage);
 		    exit.setRolloverIcon(buttonRollOverImage);
 		    exit.setPressedIcon(buttonPressedImage);
@@ -215,14 +191,12 @@ public class SidePanel extends JPanel implements ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponents(g);
 		g.drawImage(background.getImage(), 0, 0, SidePanel.this);
-
 	}
 
 	/**
 	 * input/button presses on side panel
 	 * 
-	 * @param ActionEvent
-	 *            e
+	 * @param ActionEvent e
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -231,36 +205,15 @@ public class SidePanel extends JPanel implements ActionListener {
 			if (!pressed) {
 				timer.start();
 				startTime = System.currentTimeMillis();
-
 				pressed = true;
 			} else {
 				timer.stop();
-
 				pressed = false;
 			}
 		}
-		if (e.getSource() == updateDiff) {
-			MathGame mathGame = new MathGame();
-
-			if (setDiff == null)
-				System.out.println("NULL difficulty from sidepanel ");
-
-			if (!(setDiff.getText() == "")) {
-				diff = Integer.valueOf(setDiff.getText());
-				System.out.println("difficulty from sidepanel: "
-						+ Integer.valueOf(setDiff.getText()));
-
-				mathGame.setDifficulty(Integer.valueOf(setDiff.getText()));
-			}
-
-			setDiff.setText("");
-
-		}
-		if (e.getSource() == help) {// TODO: Decide function of Help (on website
-									// or in game?)
+		if (e.getSource() == help) {// TODO: Decide function of Help (on website or in game?)
 			JOptionPane.showMessageDialog(this, "Instructions go here");
-			// perhaps link to a help webpage on the website?
-			// maybe turn into a hint button?
+			// perhaps link to a help webpage on the website? maybe turn into a hint button?
 		}
 
 		if (e.getSource() == checkAns) {
@@ -273,9 +226,7 @@ public class SidePanel extends JPanel implements ActionListener {
 				if (finalAnsComp instanceof NumberCard) {
 					finalAnsCard = (NumberCard) finalAnsComp;
 					actualAns = mathgame.cardPanel.ans.getValue();
-					computedAns = finalAnsCard.getValue(); // TODO Does NOT work
-															// for fraction
-															// values!
+					computedAns = finalAnsCard.getValue(); // TODO Does NOT work for fraction values!
 					System.out.println(actualAns + " ?= " + computedAns);
 					if (actualAns.equals(computedAns)
 							|| mathgame.cardPanel.ans
@@ -283,8 +234,7 @@ public class SidePanel extends JPanel implements ActionListener {
 									.parseNumFromText(computedAns)) {
 						JOptionPane.showMessageDialog(this,
 								"Congratulations!  Victory is yours!");
-						// later on change to something else... victory song?
-						// who knows...
+						// later on change to something else... victory song? who knows...
 						resetFunction();
 						score.setText(Double.toString(Double.parseDouble(score
 								.getText()) + 20));//TODO determine scoring algorithm
@@ -302,20 +252,20 @@ public class SidePanel extends JPanel implements ActionListener {
 			undoFunction();
 		}
 		if (e.getSource() == reset) {
-			// mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues()
-			// );
+			// mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
 			// while ( undo.getIndex() > 0 ) {
 			// undoFunction();
 
 			resetFunction();
-
-			if (timer.isRunning()) {
-				endTime = System.currentTimeMillis();
-
-				clock.setText(timeFormat((int) (endTime - startTime)));
-
-			}
 		}
+
+		if (timer.isRunning()) {
+			endTime = System.currentTimeMillis();
+
+			clock.setText(timeFormat((int) (endTime - startTime)));
+
+		}
+		
 		if (e.getSource() == exit) {
 			if (JOptionPane.showOptionDialog(this,
 					"Are you sure you want to exit?", "Exit",
@@ -360,26 +310,6 @@ public class SidePanel extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * Increments the number of questions that were answered correctly.
-	 */
-	public void updateCorrect() {
-		correct++;
-		pass.setText("Correct: " + correct);
-		points += diff * 5;
-		score.setText(String.valueOf(points));
-	}
-
-	/**
-	 * Increments the number of questions that were answered incorrectly.
-	 */
-	public void updateWrong() {
-		wrong++;
-		fail.setText("Wrong: " + wrong);
-		points -= diff * 5;
-		score.setText(String.valueOf(points));
-	}
-
-	/**
 	 * Carries out the undo function
 	 */
 	public void undoFunction() {
@@ -388,8 +318,7 @@ public class SidePanel extends JPanel implements ActionListener {
 
 		// no need to restore the operator b/c it is automatically regenerated
 
-		if (tempnum1 == null || tempnum2 == null) {// there's no more moves...
-													// too many undos!
+		if (tempnum1 == null || tempnum2 == null) {// there's no more moves... too many undos!
 			return;
 		}
 		if (tempnum1.getHome() == "home") {// originally in card panel
@@ -430,42 +359,25 @@ public class SidePanel extends JPanel implements ActionListener {
 			// cycle through cards in hold
 			for (int i = 0; i < mathgame.holdPanel.getComponentCount(); i++) {
 				temp = (NumberCard) mathgame.holdPanel.getComponent(i);
-				// note: cast (NumberCard) assumes that only NumberCards will be
-				// in holdpanel
-				if (temp.getValue() == prevAns.getValue()) {// check to see if
-															// the checked card
-															// is the previous
-															// answer
+				// note: cast (NumberCard) assumes that only NumberCards will be in holdpanel
+				if (temp.getValue() == prevAns.getValue()) {// check to see if the checked card is the previous answer
 					System.out.println("Deleting card in hold");
 					mathgame.holdPanel.remove(i);
-					i = mathgame.holdPanel.getComponentCount() + 1;// so we can
-																	// exit this
-																	// loop
+					i = mathgame.holdPanel.getComponentCount() + 1;// so we can exit this loop
 				}
 			}
 		}
-		// covers scenario in which previously created card is still in
-		// workpanel
+		// covers scenario in which previously created card is still in workpanel
 		else {
-			NumberCard prevAns = undo.getPrevNewNum();// holds the previously
-														// calculated answer
+			NumberCard prevAns = undo.getPrevNewNum();// holds the previously calculated answer
 			NumberCard temp;
 			// cycle through cards in workspace
 			for (int i = 0; i < mathgame.workPanel.getComponentCount(); i++) {
 				if (mathgame.workPanel.getComponent(i) instanceof NumberCard) {
 					temp = (NumberCard) mathgame.workPanel.getComponent(i);
-					if (temp.getValue() == prevAns.getValue()) {// check to see
-																// if the
-																// checked card
-																// is the
-																// previous
-																// answer
+					if (temp.getValue() == prevAns.getValue()) {// check to see if the checked card is the previous answer
 						mathgame.workPanel.remove(i);
-						i = mathgame.workPanel.getComponentCount() + 1;// so we
-																		// can
-																		// exit
-																		// this
-																		// loop
+						i = mathgame.workPanel.getComponentCount() + 1;// so we can exit this loop
 					}
 				}
 			}
@@ -482,9 +394,10 @@ public class SidePanel extends JPanel implements ActionListener {
 	/**
 	 * reset function
 	 */
-	private void resetFunction()
-
-	{
+	private void resetFunction()	{
+		
+		timer.stop();
+		
 		mathgame.cardPanel.resetValidationBoxes();
 		
 		while ( undo.getIndex() > 0 ) {
@@ -526,5 +439,8 @@ public class SidePanel extends JPanel implements ActionListener {
 		mathgame.holdPanel.revalidate();
 		mathgame.holdPanel.repaint();
 		mathgame.cardPanel.revalidate();
+		
+		timer.start();
+		startTime = System.currentTimeMillis();
 	}
 }
