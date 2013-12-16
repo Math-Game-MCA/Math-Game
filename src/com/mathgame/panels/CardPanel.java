@@ -172,7 +172,7 @@ public class CardPanel extends JPanel{
 	 * Returns an ArrayList of randomly-generated values (may be replaced in future versions when the database is completed
 	 * @return
 	 */
-	public ArrayList<String> randomValues() {
+	/*public ArrayList<String> randomValues() {
 		Random generator = new Random();
 		currentRowNumber = (int) ( generator.nextFloat()*rowCount );
 		System.out.println("Current row: " + (currentRowNumber + 1));
@@ -194,13 +194,13 @@ public class CardPanel extends JPanel{
 		cardValues.set(RandomInsert2, currentRow.getCell(3).getStringCellValue() );
 		
 		return cardValues;
-	} //generate a random arraylist of integers to be added to the cards; may be replaced in the future
+	} //generate a random arraylist of integers to be added to the cards; may be replaced in the future*/
 	
 	/**
 	 * Takes in an ArrayList of integers (can be changed..) and assigns them to the cards
 	 * @param newValues
 	 */
-	public void randomize( ArrayList<String> newValues ){
+	/*public void randomize( ArrayList<String> newValues ){
 		card1.setText(newValues.get(0));
 		card2.setText(newValues.get(1));
 		card3.setText(newValues.get(2));
@@ -243,7 +243,7 @@ public class CardPanel extends JPanel{
 		card5.setHome("home");
 		card6.setHome("home");
 		ans.setHome("home");
-	}
+	}*/
 	
 	public void changeCardExistence(int index, Boolean exists)	{
 		cardExists.set(index, exists);

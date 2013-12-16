@@ -19,6 +19,7 @@ import com.mathgame.cards.NumberCard;
 import com.mathgame.panels.CardPanel;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
@@ -144,7 +145,7 @@ public class NumberType {
 	}
 	
 	public String convertDecimaltoFraction(double input) { //TODO Zero equals one when calculating...
-		boolean negative = false;
+		/*boolean negative = false;
 		if (input < 0) {
 			negative = true;
 			input = 0-input;
@@ -192,6 +193,57 @@ public class NumberType {
 		else {
 			System.out.println(numerator + "/" + denominator);
 			return (numerator + "/" + denominator);
+		}*/
+		
+		BigDecimal x = new BigDecimal(Double.toString(input));
+		boolean isNegative = false;
+		if (x.compareTo(BigDecimal.ZERO) < 0) {
+			isNegative = true;
+			x = x.abs();
+		}
+		
+		BigDecimal error = new BigDecimal("0.000001"); // TODO This number deterines the precision/accuracy of the conversion
+		x = x.setScale(error.scale(), RoundingMode.HALF_UP);
+		
+		BigDecimal n = (new BigDecimal(x.toBigInteger())).setScale(error.scale());
+		x = x.subtract(n);
+		
+		if (x.compareTo(error) < 0) {
+			if(isNegative)
+				return ("-" + n.toBigInteger());
+			else
+				return ("" + n.toBigInteger());
+		} else if ((BigDecimal.ONE.subtract(error)).compareTo(x) < 0) {
+			return (n.add(BigDecimal.ONE) + "/" + 1);
+		}
+		
+		BigInteger lower_n = BigInteger.ZERO;
+		BigInteger lower_d = BigInteger.ONE;
+		BigInteger upper_n = BigInteger.ONE;
+		BigInteger upper_d = BigInteger.ONE;
+		
+		BigInteger middle_n;
+		BigInteger middle_d;
+		
+		while (true) {
+			middle_n = lower_n.add(upper_n);
+			middle_d = lower_d.add(upper_d);
+			
+			BigDecimal step1 = (new BigDecimal(middle_d)).multiply(x.add(error));
+			BigDecimal step2 = (new BigDecimal(middle_d)).multiply(x.subtract(error));
+			
+			if (step1.compareTo(new BigDecimal(middle_n)) < 0) {
+				upper_n = middle_n;
+				upper_d = middle_d;
+			} else if (step2.compareTo(new BigDecimal(middle_n)) > 0) {
+				lower_n = middle_n;
+				lower_d = middle_d;
+			} else {
+				if (isNegative)
+					return ("-" + (middle_d.multiply(n.toBigInteger())).add(middle_n) + "/" + middle_d);
+				else
+					return ((middle_d.multiply(n.toBigInteger())).add(middle_n) + "/" + middle_d);
+			}
 		}
 	}
 
