@@ -121,11 +121,11 @@ public class MathGame extends JApplet implements ActionListener
 		submenu.setBounds(0, 0, appWidth, appHeight);
 		
 		sidePanel = new SidePanel();//control bar
-		sidePanel.setBounds(0, 0, 900, 620);//x, y, width, height
+		//sidePanel.setBounds(750, 0, 900, 620);//x, y, width, height
 		sidePanel.init(this);
 		
 		cardPanel = new CardPanel(this);//top card panel
-		cardPanel.setBounds(0, 0, 750, 150);
+		//cardPanel.setBounds(0, 0, 750, 150);
 		cardPanel.init(layer);
 		
 		opPanel = new OperationPanel();//operation panel

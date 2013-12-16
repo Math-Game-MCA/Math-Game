@@ -85,11 +85,7 @@ public class CardPanel extends JPanel{
 	 * @param masterLayer
 	 */
 	public void init(JLayeredPane masterLayer) {
-		
-		Dimension size = getPreferredSize();
-		size.width = 750;
-		size.height = 150;
-		setPreferredSize(size);
+		this.setBounds(0, 0, 750, 150);
 		setLayout(null);
 		this.masterLayer = masterLayer;
 		cardExists = new ArrayList<Boolean>();

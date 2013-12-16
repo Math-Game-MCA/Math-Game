@@ -85,7 +85,7 @@ public class SidePanel extends JPanel implements ActionListener {
 		this.typeManager = mathgame.typeManager;
 
 		// this.setBorder(new LineBorder(Color.BLACK));
-		this.setBounds(755, 0, 145, 620);// shifted 5 px to right due to unexplained overlap...
+		this.setBounds(750, 0, 150, 620);
 
 		this.setLayout(null);
 
