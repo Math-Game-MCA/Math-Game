@@ -274,8 +274,16 @@ public class SidePanel extends JPanel implements ActionListener {
 					"Are you sure you want to exit?", "Exit",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, null, null) == 0) {
-				mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.MENU);
-				score.setText("0.0");
+				mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.MENU);//open the menu
+				score.setText("0.0");//reset the score
+				//reset data validation boxes
+				mathgame.cardPanel.v1.reset();
+				mathgame.cardPanel.v2.reset();
+				mathgame.cardPanel.v3.reset();
+				mathgame.cardPanel.v4.reset();
+				mathgame.cardPanel.v5.reset();
+				mathgame.cardPanel.v6.reset();
+				mathgame.cardPanel.v_ans.reset();
 			}
 		}
 	}

@@ -1,8 +1,6 @@
 package com.mathgame.cards;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -26,8 +24,8 @@ public class ValidationBox extends JTextField implements FocusListener{
 	
 	
 	public ValidationBox(){
-		
-		
+		this.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		this.setHorizontalAlignment(JTextField.CENTER);
 	}
 	
 	public ValidationBox(NumberCard card){
@@ -36,6 +34,8 @@ public class ValidationBox extends JTextField implements FocusListener{
 		numCard = card;
 		this.setText(DEFAULT_TEXT);
 		this.addFocusListener(this);
+		this.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		this.setHorizontalAlignment(JTextField.CENTER);
 		
 		this.getDocument().addDocumentListener(new DocumentListener(){
 
