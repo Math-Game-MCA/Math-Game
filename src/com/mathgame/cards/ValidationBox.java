@@ -74,8 +74,11 @@ public class ValidationBox extends JTextField implements FocusListener{
 	public boolean checkCard(){
 
 		System.out.println("this text " + this.getText());
-		System.out.println("card text " + numCard.getText());
-		if(this.getText().equals(numCard.getText())){//numCard.getValue()
+		System.out.println("card text " + numCard.getValue());
+		String ans = numCard.getValue();
+		
+		//second condition removes 0 in front of decimals (0.6 -> .6)
+		if( this.getText().equals(ans) || this.getText().equals(ans.substring(1,ans.length()))){
 			System.out.println("true");
 			return true;
 		}			

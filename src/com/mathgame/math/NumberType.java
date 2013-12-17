@@ -119,18 +119,18 @@ public class NumberType {
 
 	//generate a random arrayList of fractions, decimals, integers, etc. to be added to the cards; may be replaced in the future
 	
-	public ArrayList<String> randomFractionValues() {
+	public ArrayList<Double> randomFractionValues() {
 		Random generator = new Random();
 		currentRowNumber = (int) ( generator.nextFloat()*rowCount );
 		System.out.println("Current row: " + (currentRowNumber + 1));
 		currentRow = currentSheet.getRow(currentRowNumber);
 
-		ArrayList<String> cardValues = new ArrayList<String>();
+		ArrayList<Double> cardValues = new ArrayList<Double>();
 		
 		Random fractionRand = new Random();
 		
 		for (int x = 0; x < 6; x++) {
-			cardValues.add(convertDecimaltoFraction((int)(fractionRand.nextDouble()*10)/10.0 ));
+			cardValues.add((int)(fractionRand.nextDouble()*10)/10.0 );
 		}
 		int RandomInsert1 = (int) ( generator.nextFloat()*6 );
 		int RandomInsert2;
@@ -138,10 +138,24 @@ public class NumberType {
 			RandomInsert2 = (int) ( generator.nextFloat()*6 );
 		} while (RandomInsert2 == RandomInsert1 );
 
-		cardValues.set(RandomInsert1, currentRow.getCell(1).getStringCellValue() );
-		cardValues.set(RandomInsert2, currentRow.getCell(3).getStringCellValue() );
+		cardValues.set(RandomInsert1, convertFractiontoDecimal(currentRow.getCell(1).getStringCellValue()) );
+		cardValues.set(RandomInsert2, convertFractiontoDecimal(currentRow.getCell(3).getStringCellValue()) );
 
 		return cardValues;
+	}
+	
+	public Double convertFractiontoDecimal(String input){
+		Double ans= -1.0;
+		
+		int split = input.indexOf("/");
+		String p1 = input.substring(0, split);
+		String p2 = input.substring(split+1, input.length());
+		
+		ans = Double.valueOf(p1)/Double.valueOf(p2); 
+		
+		
+		return ans;
+		
 	}
 	
 	public String convertDecimaltoFraction(double input) { //TODO Zero equals one when calculating...
@@ -303,14 +317,14 @@ public class NumberType {
 	 */
 	public void randomize() {
 		if(numberType == "fraction") {
-			ArrayList<String> newValues = randomFractionValues();
+			ArrayList<Double> newValues = randomFractionValues();
 
-			card1.setText(newValues.get(0));
-			card2.setText(newValues.get(1));
-			card3.setText(newValues.get(2));
-			card4.setText(newValues.get(3));
-			card5.setText(newValues.get(4));
-			card6.setText(""+newValues.get(5));
+			card1.setText(convertDecimaltoFraction(newValues.get(0)));
+			card2.setText(convertDecimaltoFraction(newValues.get(1)));
+			card3.setText(convertDecimaltoFraction(newValues.get(2)));
+			card4.setText(convertDecimaltoFraction(newValues.get(3)));
+			card5.setText(convertDecimaltoFraction(+newValues.get(4)));
+			card6.setText(convertDecimaltoFraction(newValues.get(5)));
 
 			values.set(0, card1.getText());
 			values.set(1, card2.getText());
@@ -320,12 +334,14 @@ public class NumberType {
 			values.set(5, card6.getText());
 			ans.setText(currentRow.getCell(4).getStringCellValue());
 			System.out.println(newValues.get(0));
-			card1.setValue(newValues.get(0));
-			card2.setValue(newValues.get(1));
-			card3.setValue(newValues.get(2));
-			card4.setValue(newValues.get(3));
-			card5.setValue(newValues.get(4));
-			card6.setValue(newValues.get(5));
+			
+			
+			card1.setValue(""+newValues.get(0));
+			card2.setValue(""+newValues.get(1));
+			card3.setValue(""+newValues.get(2));
+			card4.setValue(""+newValues.get(3));
+			card5.setValue(""+newValues.get(4));
+			card6.setValue(""+newValues.get(5));
 			ans.setValue(""+card1.parseNumFromText(ans.getText()));
 			//card1.parseNumFromText(newValues.get(3))
 			
@@ -349,6 +365,8 @@ public class NumberType {
 			values.set(5, card6.getText());
 			ans.setText(""+currentRow.getCell(4).getNumericCellValue());
 			System.out.println(newValues.get(0));
+			
+			
 			card1.setValue(""+newValues.get(0));
 			card2.setValue(""+newValues.get(1));
 			card3.setValue(""+newValues.get(2));
@@ -376,6 +394,8 @@ public class NumberType {
 			values.set(5, card6.getText());
 			ans.setText(""+currentRow.getCell(4).getNumericCellValue());
 			System.out.println(newValues.get(0));
+			
+			
 			card1.setValue(""+newValues.get(0));
 			card2.setValue(""+newValues.get(1));
 			card3.setValue(""+newValues.get(2));
