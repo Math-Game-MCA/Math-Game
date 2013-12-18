@@ -83,6 +83,8 @@ public class WorkspacePanel extends JPanel{
 		{
 			System.out.println("answer:"+answer);
 			if(answer.isInfinite() || answer.isNaN()) { //TODO does this fix the infinity bug?
+				//Yes, it fixes it, but with a caveat - using getText instead of getValue... may need to '
+				//update code to support getValue instead of getText
 				JOptionPane.showMessageDialog(this, "You can't divide by zero!");
 				
 				NumberCard tempnum1 = (NumberCard)this.getComponent(0);
@@ -92,14 +94,14 @@ public class WorkspacePanel extends JPanel{
 				mathGame.opPanel.addOperator(restoreOperator);
 				
 				if (tempnum1.getHome() == "home") {// originally in card panel
-					System.out.println("restore card1; value: " + tempnum1.getValue());
-					mathGame.cardPanel.restoreCard(tempnum1.getValue());
+					System.out.println("restore card1; value: " + tempnum1.getText());
+					mathGame.cardPanel.restoreCard(tempnum1.getText());
 				} else if (tempnum1.getHome() == "hold") {// new card in holding area
 					for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
 						NumberCard temp = (NumberCard) mathGame.holdPanel
 								.getComponent(0);
 						if (temp.getHome() == "home") {
-							mathGame.cardPanel.restoreCard(temp.getValue());
+							mathGame.cardPanel.restoreCard(temp.getText());
 							;
 						} // check for cards that were dragged from home into workspace
 							// and restores them
@@ -108,18 +110,26 @@ public class WorkspacePanel extends JPanel{
 				}
 
 				if (tempnum2.getHome() == "home") {
-					System.out.println("restore card2; value: " + tempnum2.getValue());
-					mathGame.cardPanel.restoreCard(tempnum2.getValue());
+					System.out.println("restore card2; value: " + tempnum2.getText());
+					mathGame.cardPanel.restoreCard(tempnum2.getText());
 				} else if (tempnum2.getHome() == "hold") {
 					for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
 						NumberCard temp = (NumberCard) mathGame.holdPanel
 								.getComponent(0);
 						if (temp.getHome() == "home") {
-							mathGame.cardPanel.restoreCard(temp.getValue());
+							mathGame.cardPanel.restoreCard(temp.getText());
 						}
 					}
 					mathGame.holdPanel.add(tempnum2);
 				}
+				
+				this.removeAll();
+
+				mathGame.workPanel.revalidate();
+				mathGame.workPanel.repaint();
+				mathGame.holdPanel.revalidate();
+				mathGame.holdPanel.repaint();
+				mathGame.cardPanel.revalidate();
 				
 				return;
 			}
