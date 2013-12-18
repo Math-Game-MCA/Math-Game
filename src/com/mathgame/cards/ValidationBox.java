@@ -21,6 +21,7 @@ public class ValidationBox extends JTextField implements FocusListener{
 	double cardValue;
 	NumberCard numCard;
 	final String DEFAULT_TEXT = "Enter number";
+	private final double epsilon = 0.001;//maximum error of user input to actual value; i.e. 3 decimal places
 	
 	
 	public ValidationBox(){
@@ -77,7 +78,23 @@ public class ValidationBox extends JTextField implements FocusListener{
 		System.out.println("card text " + numCard.getValue());
 		String ans = numCard.getValue();
 		
-		//second condition removes 0 in front of decimals (0.6 -> .6)
+		//alternative method of verifying value:
+		try
+		{
+			if(Math.abs(Double.parseDouble(this.getText()) - Double.parseDouble(ans)) < epsilon)	{
+				System.out.println("true");
+				return true;
+			}
+			else
+			{
+				System.out.println("false");
+				return false;
+			}
+		}catch(NumberFormatException e)	{
+			System.out.println("false");
+			return false;
+		}
+		/*//second condition removes 0 in front of decimals (0.6 -> .6)
 		if( this.getText().equals(ans) || this.getText().equals(ans.substring(1,ans.length()))){
 			System.out.println("true");
 			return true;
@@ -85,7 +102,7 @@ public class ValidationBox extends JTextField implements FocusListener{
 		else{
 			System.out.println("false");
 			return false;
-		}
+		}*/
 		
 	}
 	
