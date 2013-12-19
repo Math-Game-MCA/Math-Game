@@ -41,8 +41,8 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	 */
 	private static final long serialVersionUID = -3036828086937465893L;
 
-	private MathGame mathGame;
-	private NumberType typeManager;
+	static private MathGame mathGame;
+	static private NumberType typeManager;
 	
 	final String imageFile = "/images/backa.png";
 	final String buttonImageFile = "/images/MenuButtonImg1.png";
@@ -263,6 +263,13 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 		//this.setVisible(false);
 		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
 		System.out.println("ENTER GAME");
+		
+		//HORRIBLE programming practice... anyone find away around this?
+		mathGame.sidePanel.timer.start();
+		mathGame.sidePanel.startTime = System.currentTimeMillis();
+		mathGame.sidePanel.scorekeeper.setTimeStart(mathGame.sidePanel.startTime);
+		//need to somehow get the timer to start when teh game starts...
+		
 		typeManager.init(mathGame.cardPanel);
 		typeManager.randomize();
 	}

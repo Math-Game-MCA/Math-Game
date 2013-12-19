@@ -9,6 +9,7 @@ import com.mathgame.cardmanager.UndoButton;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.Menu;
 import com.mathgame.math.NumberType;
+import com.mathgame.math.ScoringSystem;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -31,7 +32,8 @@ public class SidePanel extends JPanel implements ActionListener {
 
 	MathGame mathgame;
 	NumberType typeManager;
-
+	public ScoringSystem scorekeeper;
+	
 	JLabel clock;
 	JLabel pass;// count how many you get right
 	JLabel fail;// how many you got wrong
@@ -65,12 +67,12 @@ public class SidePanel extends JPanel implements ActionListener {
 	int wrong = 0;
 	int points = 0;
 
-	Timer timer;
+	public Timer timer;//declared public so that it could be accessed by SubMenu.java to be started at right time
 	// StopWatch stopWatch;
 
-	boolean pressed = true;//timer starts automatically
+	private boolean pressed = true;
 
-	long startTime = 0;
+	public long startTime = 0;
 	long endTime = 0;
 
 	Insets insets = getInsets(); // insets for the side panel for layout purposes
@@ -83,6 +85,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	public void init(MathGame mathgame) {
 		this.mathgame = mathgame;
 		this.typeManager = mathgame.typeManager;
+		this.scorekeeper = new ScoringSystem();
 
 		// this.setBorder(new LineBorder(Color.BLACK));
 		this.setBounds(750, 0, 150, 620);
@@ -208,6 +211,7 @@ public class SidePanel extends JPanel implements ActionListener {
 			if (!pressed) {
 				timer.start();
 				startTime = System.currentTimeMillis();
+				scorekeeper.setTimeStart(startTime);
 				pressed = true;
 			} else {
 				timer.stop();
@@ -238,9 +242,13 @@ public class SidePanel extends JPanel implements ActionListener {
 						JOptionPane.showMessageDialog(this,
 								"Congratulations!  Victory is yours!");
 						// later on change to something else... victory song? who knows...
+						scorekeeper.uponWinning(System.currentTimeMillis());
 						resetFunction();
-						score.setText(Double.toString(Double.parseDouble(score
-								.getText()) + 20));//TODO determine scoring algorithm
+						//score.setText(Double.toString(Double.parseDouble(score.getText()) + 20));//determine scoring algorithm
+						score.setText(Double.toString(scorekeeper.getTotalScore()));
+					}
+					else {
+						scorekeeper.uponDeduction(1);
 					}
 				} else {
 					JOptionPane.showMessageDialog(this,
@@ -413,9 +421,10 @@ public class SidePanel extends JPanel implements ActionListener {
 		
 		while ( undo.getIndex() > 0 ) {
 			undoFunction();
-
 		}
 
+		scorekeeper.setTimeStart(System.currentTimeMillis());
+		
 		if (mathgame.workPanel.getComponentCount() > 0) {
 			NumberCard temp;
 			OperationCard temp2;
