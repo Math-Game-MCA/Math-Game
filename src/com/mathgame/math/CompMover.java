@@ -190,13 +190,24 @@ public class CompMover extends MouseInputAdapter
             				view.cardPanel.changeCardExistence(5, false);
             			}
             		}
-	            	//Code below is temporarily moved inside this statement
-	            	layer.remove(selectedComponent);
-	            	layer.revalidate();
-	            	view.workPanel.add(selectedComponent);
-	            	view.workPanel.revalidate();
-	            	view.layer.repaint();
-	            	//*****************************************************
+            		if(view.workPanel.getComponentCount() == 1 && 
+            				view.workPanel.getComponent(0) instanceof OperationCard)	{//force card to be placed BEFORE operator
+            			OperationCard tempOpCard = (OperationCard) view.workPanel.getComponent(0);
+            			view.workPanel.remove(0);//temporarily take out operation card
+            			layer.remove(selectedComponent);
+            			layer.revalidate();
+            			view.workPanel.add(selectedComponent);//put numbercard
+            			view.workPanel.add(tempOpCard);//put back operation AFTER numbercard
+            			view.workPanel.revalidate();
+            			view.layer.repaint();
+            		}
+            		else	{
+		            	layer.remove(selectedComponent);
+		            	layer.revalidate();
+		            	view.workPanel.add(selectedComponent);
+		            	view.workPanel.revalidate();
+		            	view.layer.repaint();
+            		}
             	}
             	else if(selectedComponent instanceof OperationCard)	{//now attempt to put operation card inbetween if necessary
             		if(view.workPanel.getComponentCount() == 0)	{//nothing in workpanel... do not put operation

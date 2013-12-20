@@ -46,6 +46,8 @@ public class SidePanel extends JPanel implements ActionListener {
 	JButton reset;
 
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
+	Font eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
+	Font eurostile16 = new Font("Eurostile", Font.PLAIN, 16);
 
 	final String imageFile = "/images/control bar.png";
 	
@@ -121,35 +123,39 @@ public class SidePanel extends JPanel implements ActionListener {
 
 		// define properties of controls
 		clock.setBounds(10, 10, 130, 60);
-		clock.setFont(sansSerif36);
+		clock.setFont(eurostile36);
 		clock.setHorizontalAlignment(SwingConstants.CENTER);
 
 		score.setBounds(10, 80, 130, 60);
-		score.setFont(sansSerif36);
+		score.setFont(eurostile36);
 		score.setHorizontalAlignment(SwingConstants.CENTER);
 
 		toggle.setBounds(10, 150, 130, 30);
 		toggle.addActionListener(this);
 	    toggle.setHorizontalTextPosition(JButton.CENTER);
 	    toggle.setVerticalTextPosition(JButton.CENTER);
+	    toggle.setFont(eurostile16);
 		toggle.setBorderPainted(false);
 
 		undo.setBounds(10, 190, 130, 30);
 		undo.addActionListener(this);
 	    undo.setHorizontalTextPosition(JButton.CENTER);
 	    undo.setVerticalTextPosition(JButton.CENTER);
+	    undo.setFont(eurostile16);
 		undo.setBorderPainted(false);
 
 		reset.setBounds(10, 230, 130, 30);
 		reset.addActionListener(this);
 	    reset.setHorizontalTextPosition(JButton.CENTER);
 	    reset.setVerticalTextPosition(JButton.CENTER);
+	    reset.setFont(eurostile16);
 		reset.setBorderPainted(false);
 
 		checkAns.setBounds(10, 270, 130, 30);
 		checkAns.addActionListener(this);
 	    checkAns.setHorizontalTextPosition(JButton.CENTER);
 	    checkAns.setVerticalTextPosition(JButton.CENTER);
+	    checkAns.setFont(eurostile16);
 		checkAns.setBorderPainted(false);
 
 		help.setBounds(10, 540, 130, 30);
@@ -157,6 +163,7 @@ public class SidePanel extends JPanel implements ActionListener {
 		help.addActionListener(this);
 	    help.setHorizontalTextPosition(JButton.CENTER);
 	    help.setVerticalTextPosition(JButton.CENTER);
+	    help.setFont(eurostile16);
 		help.setBorderPainted(false);
 
 		exit.setBounds(10, 580, 130, 30);
@@ -164,6 +171,7 @@ public class SidePanel extends JPanel implements ActionListener {
 		exit.addActionListener(this);
 	    exit.setHorizontalTextPosition(JButton.CENTER);
 	    exit.setVerticalTextPosition(JButton.CENTER);
+	    exit.setFont(eurostile16);
 		exit.setBorderPainted(false);
 
 		timer = new Timer(1000, this);
@@ -224,7 +232,6 @@ public class SidePanel extends JPanel implements ActionListener {
 		}
 
 		if (e.getSource() == checkAns) {
-			// System.out.println("SCORE: "+Double.parseDouble(score.getText()));
 			if (mathgame.workPanel.getComponentCount() == 1) {
 				NumberCard finalAnsCard;
 				Component finalAnsComp = mathgame.workPanel.getComponent(0);
@@ -245,17 +252,21 @@ public class SidePanel extends JPanel implements ActionListener {
 						scorekeeper.uponWinning(System.currentTimeMillis());
 						resetFunction();
 						//score.setText(Double.toString(Double.parseDouble(score.getText()) + 20));//determine scoring algorithm
-						score.setText(Double.toString(scorekeeper.getTotalScore()));
+						points = (int) scorekeeper.getTotalScore();
+						score.setText(Integer.toString(points));
 					}
 					else {
+						JOptionPane.showMessageDialog(this, "Incorrect answer.  Try again.");
 						scorekeeper.uponDeduction(1);
+						points = (int) scorekeeper.getTotalScore();
+						score.setText(Integer.toString(points));
 					}
-				} else {
-					JOptionPane.showMessageDialog(this,
-							"Error.  Cannot evaluate answer");
-					System.out.println("ERROR.. cannot check answer for this");
 				}
-
+			}
+			else {
+				JOptionPane.showMessageDialog(this,
+						"Error.  Cannot evaluate answer");
+				System.out.println("ERROR.. cannot check answer for this");
 			}
 		}
 
@@ -266,7 +277,9 @@ public class SidePanel extends JPanel implements ActionListener {
 			// mathgame.cardPanel.randomize( mathgame.cardPanel.randomValues() );
 			// while ( undo.getIndex() > 0 ) {
 			// undoFunction();
-
+			scorekeeper.uponDeduction(2);//lose points for getting a new set
+			points = (int) scorekeeper.getTotalScore();
+			score.setText(Integer.toString(points));
 			resetFunction();
 		}
 
@@ -284,6 +297,7 @@ public class SidePanel extends JPanel implements ActionListener {
 					null, null, null) == 0) {
 				mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.MENU);//open the menu
 				score.setText("0.0");//reset the score
+				resetFunction();//reset the workspace and cardpanels
 				//reset data validation boxes
 				mathgame.cardPanel.v1.reset();
 				mathgame.cardPanel.v2.reset();
@@ -428,7 +442,8 @@ public class SidePanel extends JPanel implements ActionListener {
 		if (mathgame.workPanel.getComponentCount() > 0) {
 			NumberCard temp;
 			OperationCard temp2;
-			for (int x = 0; x < mathgame.workPanel.getComponentCount(); x++) {
+			int count = mathgame.workPanel.getComponentCount();
+			for (int x = 0; x < count; x++) {
 				if (mathgame.workPanel.getComponent(0) instanceof NumberCard) {
 					temp = (NumberCard) mathgame.workPanel.getComponent(0);
 					mathgame.cardPanel.restoreCard(temp.getText());
@@ -442,7 +457,8 @@ public class SidePanel extends JPanel implements ActionListener {
 		if (mathgame.holdPanel.getComponentCount() > 0) {
 			NumberCard temp;
 			OperationCard temp2;
-			for (int x = 0; x < mathgame.holdPanel.getComponentCount(); x++) {
+			int count = mathgame.holdPanel.getComponentCount();
+			for (int x = 0; x < count; x++) {
 				if (mathgame.holdPanel.getComponent(0) instanceof NumberCard) {
 					temp = (NumberCard) mathgame.holdPanel.getComponent(0);
 					mathgame.cardPanel.restoreCard(temp.getText());

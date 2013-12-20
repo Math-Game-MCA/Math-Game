@@ -10,6 +10,7 @@ public class ScoringSystem {
 	public ScoringSystem()	{
 		StartTime = 0;
 		roundScore = 0;
+		totalScore = 0;
 	}
 	
 	public void setTimeStart (long time)	{
