@@ -5,7 +5,7 @@
  * Notes: working on listeners & eliminating the "double-menu" where 2 menus are seen, but only one is 
  * functional.
  */
-package com.mathgame.math;
+package com.mathgame.menus;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -30,11 +30,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
+import com.mathgame.math.MathGame;
+import com.mathgame.math.TypeManager;
+
 /**
  * Class that creates the game Menu
  */
 
-public class SubMenu extends JPanel implements ActionListener, MouseMotionListener, MouseListener{
+public class GameTypeMenu extends JPanel implements ActionListener, MouseMotionListener, MouseListener{
 	
 	/**
 	 * 
@@ -42,7 +45,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	private static final long serialVersionUID = -3036828086937465893L;
 
 	static private MathGame mathGame;
-	static private NumberType typeManager;
+	static private TypeManager typeManager;
 	
 	final String imageFile = "/images/backa.png";
 	final String buttonImageFile = "/images/MenuButtonImg1.png";
@@ -74,7 +77,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	JTextArea infod;
 	
 	//constructor
-	public void init(MathGame mg, NumberType nt)	{
+	public void init(MathGame mg, TypeManager nt)	{
 		
 		this.setLayout(null);
 		Dimension size = getPreferredSize();
@@ -85,10 +88,10 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 		mathGame = mg;
 		typeManager = nt;
 		
-		background = new ImageIcon(SubMenu.class.getResource(imageFile));
-		buttonImage = new ImageIcon(SubMenu.class.getResource(buttonImageFile));
-		buttonRollOverImage = new ImageIcon(SubMenu.class.getResource(buttonRollOverImageFile));
-		buttonPressedImage = new ImageIcon(SubMenu.class.getResource(buttonPressedImageFile));
+		background = new ImageIcon(GameTypeMenu.class.getResource(imageFile));
+		buttonImage = new ImageIcon(GameTypeMenu.class.getResource(buttonImageFile));
+		buttonRollOverImage = new ImageIcon(GameTypeMenu.class.getResource(buttonRollOverImageFile));
+		buttonPressedImage = new ImageIcon(GameTypeMenu.class.getResource(buttonPressedImageFile));
 		
 		
 		Font titleFont = new Font("Arial", Font.BOLD, 36);
@@ -152,7 +155,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 		/**
 		 * TODO get the text in the label to wrap if it is longer than the label width.
 		 */
-//Info Box for Enter Box
+//Info Box for Fractions Button
 		infoa = new JTextArea("Choose this mode to work with fractions");
 		infoa.setFont(infoFont);
 		infoa.setBounds(95, 525, 90, 130);
@@ -165,7 +168,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 		carda.add(infoa);
 		carda.setVisible(false);
 				
-//Info Box for Help Button		
+//Info Box for Decimals Button		
 		infob = new JTextArea("Choose this mode to work with decimals");
 		infob.setFont(infoFont);
 		infob.setBounds(295, 525, 90, 130);
@@ -178,7 +181,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 		cardb.add(infob);
 		cardb.setVisible(false);
 				
-//Info Box for Help Button		
+//Info Box for Integers Button		
 		infoc = new JTextArea("Choose this mode to work with integers");
 		infoc.setFont(infoFont);
 		infoc.setBounds(490, 525, 90, 130);
@@ -191,7 +194,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 		cardc.add(infoc);
 		cardc.setVisible(false);
 				
-//Info Box for Exit Button		
+//Info Box for Mixed Button		
 		infod = new JTextArea("Choose this mode to work with all types");
 		infod.setFont(infoFont);
 		infod.setBounds(680, 525, 90, 130);
@@ -236,42 +239,29 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == fraction )	{
 			mathGame.typeManager.setType("fraction");
-			mathGame.typeManager.randomize();
-			startgame();
+			mathGame.cl.show(mathGame.cardLayoutPanels, MathGame.DIFFMENU);
 		}
 		
 		else if(e.getSource() == integer){
 			mathGame.typeManager.setType("integer");
-			mathGame.typeManager.randomize();
-			startgame();
+			//mathGame.typeManager.randomize();
+
+			mathGame.cl.show(mathGame.cardLayoutPanels, MathGame.DIFFMENU);
 		}
 		
 		else if(e.getSource() == decimal){
 			mathGame.typeManager.setType("decimal");
-			mathGame.typeManager.randomize();
-			startgame();
+			mathGame.cl.show(mathGame.cardLayoutPanels, MathGame.DIFFMENU);
 		}
-		else if(e.getSource() == mixed)
+		else if(e.getSource() == mixed){
+			mathGame.cl.show(mathGame.cardLayoutPanels, MathGame.DIFFMENU);
+		}
 			//choosemixed();
-			startgame();
+			//startgame();
 	}
 	
-	/**
-	 * Starts the game
-	 */
-	public void startgame() {
-		//this.setVisible(false);
-		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
-		System.out.println("ENTER GAME");
+	public void pickDiff(){
 		
-		//HORRIBLE programming practice... anyone find away around this?
-		mathGame.sidePanel.timer.start();
-		mathGame.sidePanel.startTime = System.currentTimeMillis();
-		mathGame.sidePanel.scorekeeper.setTimeStart(mathGame.sidePanel.startTime);
-		//need to somehow get the timer to start when teh game starts...
-		
-		typeManager.init(mathGame.cardPanel);
-		typeManager.randomize();
 	}
 	
 
@@ -327,7 +317,7 @@ public class SubMenu extends JPanel implements ActionListener, MouseMotionListen
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		g.drawImage(background.getImage(), 0, 0, SubMenu.this);
+		g.drawImage(background.getImage(), 0, 0, GameTypeMenu.this);
 	}
 
 	@Override

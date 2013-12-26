@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import com.mathgame.cards.*;
 import com.mathgame.math.Calculate;
 import com.mathgame.math.MathGame;
-import com.mathgame.math.NumberType;
+import com.mathgame.math.TypeManager;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.*;
@@ -73,7 +73,7 @@ public class CardPanel extends JPanel{
 	int currentRowNumber;
 	XSSFRow currentRow;
 	
-	NumberType typeManager;
+	TypeManager typeManager;
 		
 	public CardPanel(MathGame mathGame){
 		this.mathGame = mathGame;

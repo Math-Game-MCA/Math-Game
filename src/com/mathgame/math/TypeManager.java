@@ -23,7 +23,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-public class NumberType {
+public class TypeManager {
 	NumberCard card1;
 	NumberCard card2;
 	NumberCard card3;
@@ -40,6 +40,9 @@ public class NumberType {
 
 	String numberType;
 	String numberTypeFile;
+	
+	public enum Difficulty{EASY, MEDIUM, HARD};
+	Difficulty diff;
 
 	InputStream cardValueInput;
 	XSSFWorkbook cardValueWorkbook;
@@ -51,7 +54,7 @@ public class NumberType {
 	int currentRowNumber;
 	XSSFRow currentRow;
 
-	public NumberType() {
+	public TypeManager() {
 	}
 
 	/**
@@ -115,6 +118,10 @@ public class NumberType {
 
 	}
 	
+	
+	public void setDiff(Difficulty d){
+		diff = d;
+	}
 	
 
 	//generate a random arrayList of fractions, decimals, integers, etc. to be added to the cards; may be replaced in the future

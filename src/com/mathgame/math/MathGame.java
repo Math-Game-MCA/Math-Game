@@ -3,6 +3,9 @@ package com.mathgame.math;
 import javax.swing.*;
 
 import com.mathgame.database.*;
+import com.mathgame.menus.DifficultyMenu;
+import com.mathgame.menus.GameTypeMenu;
+import com.mathgame.menus.MainMenu;
 import com.mathgame.panels.CardPanel;
 import com.mathgame.panels.HoldPanel;
 import com.mathgame.panels.OperationPanel;
@@ -25,9 +28,11 @@ public class MathGame extends JApplet implements ActionListener
 	int appWidth=900;//1300 or 900
 	int appHeight=620;
 
-	static final String GAME = "CardLayoutPanel Game";
-	public static final String MENU = "CardLayoutPanel Menu";
-	static final String SUBMENU = "CardLayoutPanel SubMenu";
+	public static final String GAME = "CardLayoutPanel Game";
+	public static final String MAINMENU = "CardLayoutPanel MainMenu";
+	public static final String GAMETYPEMENU = "CardLayoutPanel GameTypeMenu";
+	public static final String DIFFMENU = "CardLayoutPanel DifficultyMenu";
+	
 	public JPanel cardLayoutPanels;//uses CardLayout to switch between menu and game
 	public CardLayout cl;
 	
@@ -38,8 +43,10 @@ public class MathGame extends JApplet implements ActionListener
 	public CardPanel cardPanel;//holds cards at top
 	public WorkspacePanel workPanel;//center of screen where cards are morphed together
 	public HoldPanel holdPanel;//holds intermediate sums, differences, products, and quotients
-	Menu menu;
-	SubMenu submenu;
+	
+	MainMenu mainMenu;
+	GameTypeMenu gameTypeMenu;
+	DifficultyMenu diffMenu;
 	
 	Rectangle home1;
 	Rectangle home2;
@@ -71,7 +78,7 @@ public class MathGame extends JApplet implements ActionListener
 	Rectangle[] cardHomes = new Rectangle[11];//home1, home2...opA,S...
 	String[] cardVals = new String[11];
 	
-	public NumberType typeManager;
+	public TypeManager typeManager;
 	
 	String[] operations = {"+", "-", "*", "/"};
 	
@@ -93,19 +100,23 @@ public class MathGame extends JApplet implements ActionListener
 		cardLayoutPanels = new JPanel(new CardLayout());
 		cardLayoutPanels.setBounds(0, 0, appWidth, appHeight);
 		
-		menu = new Menu();
-		menu.init(this);
-		menu.setBounds(0, 0, appWidth, appHeight);
+		mainMenu = new MainMenu();
+		mainMenu.init(this);
+		mainMenu.setBounds(0, 0, appWidth, appHeight);
 		
 		layer = new JLayeredPane();
 		layer.setLayout(null);
 		layer.setBounds(5, 0, getSize().width, getSize().height);
 		
-		typeManager = new NumberType();
+		typeManager = new TypeManager();
 		
-		submenu = new SubMenu();
-		submenu.init(this, typeManager);
-		submenu.setBounds(0, 0, appWidth, appHeight);
+		gameTypeMenu = new GameTypeMenu();
+		gameTypeMenu.init(this, typeManager);
+		gameTypeMenu.setBounds(0, 0, appWidth, appHeight);
+		
+		diffMenu = new DifficultyMenu();
+		diffMenu.init(this);;
+		diffMenu.setBounds(0, 0, appWidth, appHeight);
 		
 		sidePanel = new SidePanel();//control bar
 		//sidePanel.setBounds(750, 0, 900, 620);//x, y, width, height
@@ -128,13 +139,14 @@ public class MathGame extends JApplet implements ActionListener
 		holdPanel.init(this);
 		
 		//adding panels to the game
-		cardLayoutPanels.add(menu, MENU);
-		cardLayoutPanels.add(submenu, SUBMENU);
+		cardLayoutPanels.add(mainMenu, MAINMENU);
+		cardLayoutPanels.add(gameTypeMenu, GAMETYPEMENU);
+		cardLayoutPanels.add(diffMenu, DIFFMENU);
 		cardLayoutPanels.add(layer, GAME);
 		cl = (CardLayout) cardLayoutPanels.getLayout();
 		//cl.show(cardLayoutPanels, MENU);
 		add(cardLayoutPanels);
-		cl.show(cardLayoutPanels, MENU);
+		cl.show(cardLayoutPanels, MAINMENU);
 		//add(layer);
 		//layer.add(menu, new Integer(2));
 		layer.add(sidePanel, new Integer(0));
