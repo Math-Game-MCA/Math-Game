@@ -270,6 +270,16 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		//JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
 	}
 	
+	/**
+	 * Turns down all the cards
+	 */
+	public void hideInfo()	{
+		carda.setVisible(false);
+		cardb.setVisible(false);
+		cardc.setVisible(false);
+		cardd.setVisible(false);
+	}
+	
 	public void exitinfo() {
 //		info.setText("Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
 		carda.setVisible(false);
@@ -306,22 +316,15 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		if(e.getSource() == help)	{
 			helpbox();
 		}
-		
-		else if(e.getSource() == about)
-		{
+		else if(e.getSource() == about)	{
 			aboutinfo();
 		}
-		
-		else if(e.getSource() == enter)
-		{
+		else if(e.getSource() == enter)	{
 			enterinfo();
 		}
-		
-		else if(e.getSource() == exit)
-		{
+		else if(e.getSource() == exit)	{
 			exitinfo();
 		}
-		
 		
 	}
 
@@ -338,6 +341,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	@Override
 	public void mouseExited(MouseEvent e) {
 		System.out.println("Mouse Exited Button");
+		hideInfo();
 		if(e.getSource() == help)	{
 //			info.setText("Welcome to Epsilon, the mathematical card game!");
 		}

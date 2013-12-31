@@ -312,7 +312,16 @@ public class GameTypeMenu extends JPanel implements ActionListener, MouseMotionL
 //		info.setText("Choose this mode to work with all of the types");
 		//JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
 	}
-	
+
+	/**
+	 * Turns down all the cards
+	 */
+	public void hideInfo()	{
+		carda.setVisible(false);
+		cardb.setVisible(false);
+		cardc.setVisible(false);
+		cardd.setVisible(false);
+	}
 	
 	@Override
 	public void paintComponent(Graphics g){
@@ -357,6 +366,7 @@ public class GameTypeMenu extends JPanel implements ActionListener, MouseMotionL
 	@Override
 	public void mouseExited(MouseEvent e) {
 		System.out.println("Mouse Exited Button");
+		hideInfo();
 		if(e.getSource() == decimal)	{
 //			info.setText("Please choose a mode");
 		}

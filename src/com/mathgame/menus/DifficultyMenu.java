@@ -1,15 +1,16 @@
 package com.mathgame.menus;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.mathgame.math.MathGame;
@@ -28,18 +29,19 @@ public class DifficultyMenu extends JPanel implements ActionListener{
 	static ImageIcon buttonRollOverImage;
 	static ImageIcon buttonPressedImage;
 	
-	//mouse coordinates
-	int mx;
-	int my;
-	
 	JButton easy, medium, hard;
+	JLabel space;//holds extra space
 	MathGame mathGame;
 	
 	//TODO: Add and make all fonts static in MathGame.java so they're accessible from everywhere
+	//excellent idea!! ^^
 	Font buttonFont;
 	
 	public void init(MathGame mathGame){
 		this.mathGame = mathGame;
+		
+		this.setLayout(null);
+		
 		buttonFont = new Font("Arial", Font.PLAIN, 20);
 
 		background = new ImageIcon(GameTypeMenu.class.getResource(imageFile));
@@ -56,44 +58,48 @@ public class DifficultyMenu extends JPanel implements ActionListener{
 	    
 	    medium = new JButton("Medium");
 		medium.setFont(buttonFont);
-		medium.setBounds(105+BUTTON_WIDTH, 335, BUTTON_WIDTH, BUTTON_HEIGHT);
+		medium.setBounds(295, 335, BUTTON_WIDTH, BUTTON_HEIGHT);
 	    medium.setHorizontalTextPosition(JButton.CENTER);
 	    medium.setVerticalTextPosition(JButton.CENTER);
 	    medium.setBorderPainted(false);
 	    
 	    hard = new JButton("Hard");
 		hard.setFont(buttonFont);
-		hard.setBounds(105+BUTTON_WIDTH*2, 335, BUTTON_WIDTH, BUTTON_HEIGHT);
+		hard.setBounds(490, 335, BUTTON_WIDTH, BUTTON_HEIGHT);
 	    hard.setHorizontalTextPosition(JButton.CENTER);
 	    hard.setVerticalTextPosition(JButton.CENTER);
 	    hard.setBorderPainted(false);
+	    
+	    space = new JLabel();
+	    space.setBounds(672, 335, BUTTON_WIDTH, BUTTON_HEIGHT);
+	    space.setHorizontalTextPosition(JButton.CENTER);
+	    space.setVerticalTextPosition(JButton.CENTER);
+	    space.setIcon(buttonImage);
 
 	    try{
-	    easy.setIcon(buttonImage);
-	    easy.setRolloverIcon(buttonRollOverImage);
-	    easy.setPressedIcon(buttonPressedImage);
-	    
-	    medium.setIcon(buttonImage);
-	    medium.setRolloverIcon(buttonRollOverImage);
-	    medium.setPressedIcon(buttonPressedImage);
-	    
-	    hard.setIcon(buttonImage);
-	    hard.setRolloverIcon(buttonRollOverImage);
-	    hard.setPressedIcon(buttonPressedImage);
+		    easy.setIcon(buttonImage);
+		    easy.setRolloverIcon(buttonRollOverImage);
+		    easy.setPressedIcon(buttonPressedImage);
+		    
+		    medium.setIcon(buttonImage);
+		    medium.setRolloverIcon(buttonRollOverImage);
+		    medium.setPressedIcon(buttonPressedImage);
+		    
+		    hard.setIcon(buttonImage);
+		    hard.setRolloverIcon(buttonRollOverImage);
+		    hard.setPressedIcon(buttonPressedImage);
 	    } catch(Exception e){
 	    	e.printStackTrace();
 	    }
-	    
 	    
 	    easy.addActionListener(this);
 	    medium.addActionListener(this);
 	    hard.addActionListener(this);
 	    
-	    
 	    add(easy);
 	    add(medium);
 	    add(hard);
-	    
+	    add(space);
 	    
 	}
 	
@@ -136,7 +142,7 @@ public class DifficultyMenu extends JPanel implements ActionListener{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		//g.drawImage(background.getImage(), 0, 0, DifficultyMenu.this);
+		g.drawImage(background.getImage(), 0, 0, DifficultyMenu.this);
 	}
 
 }
