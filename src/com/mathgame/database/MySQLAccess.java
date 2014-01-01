@@ -17,11 +17,12 @@ import java.sql.Statement;
  *
  */
 public class MySQLAccess{
-	//for release, host should be 127...., for testing, it should be egarcia.org
-	private String host = "mysql";//"98.138.19.88";//"localhost";//"mastermindmedia.info";//"127.0.0.1";//"egarcia.org";
-	private String db = "Mathgame";
-	private final String user = "math_game";//"egarciao@localhost";
-	private final String pass = "konnect123";//"oL20wC06xd";
+	//for release, host should be 127...., for testing, it should be mcalearning
+	private String host = "mcalearning.com";//"192.185.4.77";//";
+	private String db = "sofiav_mathgame";
+	private final String user = "sofiav_user";//"egarciao@localhost";
+	private final String pass = "Mathgames1";//"oL20wC06xd";
+	
 	private Connection connect = null;
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
