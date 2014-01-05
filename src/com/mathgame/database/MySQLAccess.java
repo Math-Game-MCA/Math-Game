@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.mathgame.math.MathGame;
+import com.mathgame.math.TypeManager;
+
 /**
  * The access class that connects to the MySQL database
  * @author Hima
@@ -29,12 +32,24 @@ public class MySQLAccess{
 	private ResultSet resultSet = null;
 	
 	private int id;
-	private int num1;
+	private String num1;
 	private String op;
-	private int num2;
-	private double answer;
+	private String num2;
+	private String answer;//double
+	
 	
 	public static String sqlError="";
+	MathGame mathGame;
+	
+	public MySQLAccess(MathGame mathGame){
+		this.mathGame = mathGame;
+	}
+	
+	//Only used for SQLProject
+	protected MySQLAccess(){}
+	
+	
+	
 	public boolean connect() throws Exception
 	{
 		try{
@@ -76,7 +91,7 @@ public class MySQLAccess{
 	 * 
 	 * @return num1
 	 */
-	public int getNum1()
+	public String getNum1()
 	{
 		//System.out.println("num1 " + num1);
 		return num1;
@@ -95,7 +110,7 @@ public class MySQLAccess{
 	 * 
 	 * @return num2
 	 */
-	public int getNum2()
+	public String  getNum2()
 	{
 		//System.out.println("num2 " + num2);
 		return num2;
@@ -105,7 +120,7 @@ public class MySQLAccess{
 	 * 
 	 * @return answer
 	 */
-	public Double getAnswer()
+	public String  getAnswer()
 	{
 		//System.out.println("answer " + answer);
 		return answer;
@@ -118,64 +133,43 @@ public class MySQLAccess{
 	 */
 	public void getVals() throws Exception
 	{
+		String gameType;
+		if(mathGame != null)
+			gameType = mathGame.typeManager.getType().toString().toLowerCase();
+		else
+			gameType = "integers";
+		
+		
 		try{
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("select * from Mathgame.vals");
+			resultSet = statement.executeQuery("select * from sofiav_mathgame."+gameType);
 			
 			resultSet.relative((int) (Math.random()*98)+1);
 			
-			int idV = resultSet.getInt("ID");
-			int num1V = resultSet.getInt("Num1");
-			String operV = resultSet.getString("Op");
-			
-			int num2V = resultSet.getInt("num2");
-			double outputV = resultSet.getDouble("answer");
+			id = resultSet.getInt("ID");
+			num1 = ""+resultSet.getInt("Num1");
+			op = resultSet.getString("Op");			
+			num2 = ""+resultSet.getInt("num2");
+			answer = ""+resultSet.getDouble("answer");
 			//double output = calc(num1, op, num2);
 			//writeResultSet(resultSet);
-			id = idV;
-			num1 = num1V;
-			op = operV;
-			num2 = num2V;
-			answer = outputV;
+			
+			System.out.println("DB vals:" + num1 + op + num2 + "=" + answer);
+			
 			
 			/*resultSet.next();
 			System.out.println(resultSet.getRow());
 			System.out.println(resultSet.getString(2));*/
 			
-			/*int ID = resultSet.getInt("ID");
-			String num1 = resultSet.getString("Num1");
-			String Op = resultSet.getString("Op");
-			String num2 = resultSet.getString("Num2");
-			
-			System.out.println("ID: " + ID);
-			System.out.println("num1: " + num1);
-			System.out.println("Op: " + Op);
-			System.out.println("num2: " + num2);*/
 			
 		}
 		catch (Exception e){
 			System.out.println("SQLException: " + e.getMessage());
-		/*	File file = new File("SQLOut.txt");
-			if(!file.exists())
-				file.createNewFile();
-			
-			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-			bw.write("HI"+e.getMessage());
-			bw.flush();
-			
-			bw.close();
-			*/
-					
 			throw e;
-			
-		   // System.out.println("SQLState: " + e.getSQLState());
-		    ///System.out.println("VendorError: " + e.getErrorCode());
 		}
-		finally{ 
-			
-			
-			System.out.println("finally block");
-			}
+		//finally{ 
+		//	System.out.println("finally block");
+		//	}
 		
 	}
 	

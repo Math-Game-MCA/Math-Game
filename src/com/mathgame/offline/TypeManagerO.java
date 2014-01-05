@@ -1,4 +1,4 @@
-package com.mathgame.math;
+package com.mathgame.offline;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.mathgame.cards.NumberCard;
+import com.mathgame.math.Calculate;
 import com.mathgame.panels.CardPanel;
 
 import java.math.BigDecimal;
@@ -23,9 +24,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-public class TypeManager {
-	MathGame mathGame;
-	
+public class TypeManagerO {
 	NumberCard card1;
 	NumberCard card2;
 	NumberCard card3;
@@ -61,8 +60,7 @@ public class TypeManager {
 	int currentRowNumber;
 	XSSFRow currentRow;
 
-	public TypeManager(MathGame mathGame) {
-		this.mathGame = mathGame;
+	public TypeManagerO() {
 	}
 
 	/**
@@ -76,7 +74,37 @@ public class TypeManager {
 		gameType = type;
 		System.out.println("GameType " + gameType);
 
+		try {
+			//File excelFile = new File(cardValueFile);
+			if(gameType == GameType.FRACTIONS)
+				numberTypeFile = fractionFile;
+			else if(gameType == GameType.DECIMALS)
+				numberTypeFile = decimalFile;
+			else if(gameType == GameType.INTEGERS)
+				numberTypeFile = integerFile;
+			else {
+				gameType = GameType.INTEGERS;
+				numberTypeFile = integerFile;
+			}
+			cardValueInput = getClass().getClassLoader().getResourceAsStream(numberTypeFile);
 
+			System.out.println("file size: " + cardValueInput.available());
+			cardValueWorkbook = new XSSFWorkbook(cardValueInput);
+
+			currentSheet = cardValueWorkbook.getSheetAt(0);
+			Iterator<Row> rowIter = currentSheet.rowIterator();
+			rowCount = 0;
+			while(rowIter.hasNext()) {
+				rowCount++;
+				rowIter.next();
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("excel file not found");
+			System.out.println(new File(numberTypeFile));
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public GameType getType() {
@@ -104,12 +132,18 @@ public class TypeManager {
 		this.values = cP.values;
 
 	}
+	
+	
+	
+	
 
 	//generate a random arrayList of fractions, decimals, integers, etc. to be added to the cards; may be replaced in the future
 	
 	public ArrayList<Double> randomFractionValues() {
 		Random generator = new Random();
-		
+		currentRowNumber = (int) ( generator.nextFloat()*rowCount );
+		System.out.println("Current row: " + (currentRowNumber + 1));
+		currentRow = currentSheet.getRow(currentRowNumber);
 
 		ArrayList<Double> cardValues = new ArrayList<Double>();
 		
@@ -122,10 +156,10 @@ public class TypeManager {
 		int RandomInsert2;
 		do {
 			RandomInsert2 = (int) ( generator.nextFloat()*6 );
-		} while (RandomInsert2 == RandomInsert1 );//makes sure that the two cards chosen to be part of the answer are not the same
+		} while (RandomInsert2 == RandomInsert1 );
 
-		cardValues.set(RandomInsert1, convertFractiontoDecimal(mathGame.sql.getNum1()));
-		cardValues.set(RandomInsert2, convertFractiontoDecimal(mathGame.sql.getNum2()));//currentRow.getCell(3).getStringCellValue()) );
+		cardValues.set(RandomInsert1, convertFractiontoDecimal(currentRow.getCell(1).getStringCellValue()) );
+		cardValues.set(RandomInsert2, convertFractiontoDecimal(currentRow.getCell(3).getStringCellValue()) );
 
 		return cardValues;
 	}
@@ -202,7 +236,7 @@ public class TypeManager {
 			x = x.abs();
 		}
 		
-		BigDecimal error = new BigDecimal("0.000001"); // TODO This number deterines the precision/accuracy of the conversion
+		BigDecimal error = new BigDecimal("0.000001"); // TODO This number determines the precision/accuracy of the conversion
 		x = x.setScale(error.scale(), RoundingMode.HALF_UP);
 		
 		BigDecimal n = (new BigDecimal(x.toBigInteger())).setScale(error.scale());
@@ -249,6 +283,9 @@ public class TypeManager {
 
 	public ArrayList<Double> randomDecimalValues() {
 		Random generator = new Random();
+		currentRowNumber = (int) ( generator.nextFloat()*rowCount );
+		System.out.println("Current row: " + (currentRowNumber + 1));
+		currentRow = currentSheet.getRow(currentRowNumber);
 
 		ArrayList<Double> cardValues = new ArrayList<Double>();
 
@@ -262,15 +299,20 @@ public class TypeManager {
 			RandomInsert2 = (int) ( generator.nextFloat()*6 );
 		} while (RandomInsert2 == RandomInsert1);
 
+		//cardValues.set(RandomInsert1, Double.parseDouble( currentRow.getCell(1).getStringCellValue()) );
+		//cardValues.set(RandomInsert2, Double.parseDouble( currentRow.getCell(3).getStringCellValue()) );
 
-		cardValues.set(RandomInsert1, Double.valueOf(mathGame.sql.getNum1()) );
-		cardValues.set(RandomInsert2, Double.valueOf(mathGame.sql.getNum2()) );//currentRow.getCell(3).getNumericCellValue() );
+		cardValues.set(RandomInsert1, currentRow.getCell(1).getNumericCellValue() );
+		cardValues.set(RandomInsert2, currentRow.getCell(3).getNumericCellValue() );
 
 		return cardValues;
 	}
 	
 	public ArrayList<Integer> randomIntegerValues() {
 		Random generator = new Random();
+		currentRowNumber = (int) ( generator.nextFloat()*rowCount );
+		System.out.println("Current row: " + (currentRowNumber + 1));
+		currentRow = currentSheet.getRow(currentRowNumber);
 
 		ArrayList<Integer> cardValues = new ArrayList<Integer>();
 
@@ -283,8 +325,8 @@ public class TypeManager {
 			RandomInsert2 = (int) ( generator.nextFloat()*6 );
 		} while (RandomInsert2 == RandomInsert1 );
 
-		cardValues.set(RandomInsert1,  Integer.valueOf(mathGame.sql.getNum1()) );
-		cardValues.set(RandomInsert2, Integer.valueOf(mathGame.sql.getNum2()) );//(int)currentRow.getCell(3).getNumericCellValue() );
+		cardValues.set(RandomInsert1, (int)currentRow.getCell(1).getNumericCellValue() );
+		cardValues.set(RandomInsert2, (int)currentRow.getCell(3).getNumericCellValue() );
 
 		return cardValues;
 	}
@@ -294,12 +336,6 @@ public class TypeManager {
 	 * @param newValues
 	 */
 	public void randomize() {
-		try {
-			mathGame.sql.getVals();
-		} catch (Exception e) {
-			System.out.println("Get vals from DB failed");
-			e.printStackTrace();
-		}
 		if(gameType == GameType.FRACTIONS) {
 			ArrayList<Double> newValues = randomFractionValues();
 
@@ -316,7 +352,7 @@ public class TypeManager {
 			values.set(3, card4.getText());
 			values.set(4, card5.getText());
 			values.set(5, card6.getText());
-			ans.setText(mathGame.sql.getAnswer());//currentRow.getCell(4).getStringCellValue());
+			ans.setText(currentRow.getCell(4).getStringCellValue());
 			System.out.println(newValues.get(0));
 			
 			
@@ -347,7 +383,7 @@ public class TypeManager {
 			values.set(3, card4.getText());
 			values.set(4, card5.getText());
 			values.set(5, card6.getText());
-			ans.setText(mathGame.sql.getAnswer());//currentRow.getCell(4).getNumericCellValue());
+			ans.setText(""+currentRow.getCell(4).getNumericCellValue());
 			System.out.println(newValues.get(0));
 			
 			
@@ -376,7 +412,7 @@ public class TypeManager {
 			values.set(3, card4.getText());
 			values.set(4, card5.getText());
 			values.set(5, card6.getText());
-			ans.setText(mathGame.sql.getAnswer());//currentRow.getCell(4).getNumericCellValue());
+			ans.setText(""+currentRow.getCell(4).getNumericCellValue());
 			System.out.println(newValues.get(0));
 			
 			

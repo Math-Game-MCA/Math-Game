@@ -16,6 +16,7 @@ import java.awt.*;
 import java.awt.dnd.DropTarget;
 import java.awt.event.*;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -68,7 +69,8 @@ public class MathGame extends JApplet implements ActionListener
 	JButton clear;
 	
 	static boolean useDatabase = false;
-	MySQLAccess sql;
+	public MySQLAccess sql;
+	private SwingWorker<Boolean, Void> backgroundConnect;
 	
 	JLabel correction;
 	
@@ -94,7 +96,49 @@ public class MathGame extends JApplet implements ActionListener
 		setLayout(null);
 		//((JComponent) getContentPane()).setBorder(new LineBorder(Color.yellow));
 		//setBorder(new LineBorder(Color.yellow));
+		sql = new MySQLAccess(this);
+		backgroundConnect = new SwingWorker<Boolean, Void>(){
+			
+			@Override
+			protected Boolean doInBackground() throws Exception{
+				
+				try {
+					if(!sql.connect())
+						throw new Exception("couldn't connect");
+					
+					System.out.println("Database connected");
+					return true;
+				} catch (Exception e) {
+					System.out.println("Exception detected in doinBackground");
+					e.printStackTrace();
+					return false;
+				}
+				/*try {
+					sql.getVals();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}*/
+			}
+			
+			@Override
+			protected void done(){
+				boolean connected = false;
+				try {
+					connected = get();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+				System.out.println("Done connected status " + connected);
+				
+				if(connected)
+					for(int i=0; i<10; i++)
+						System.out.println("CONNNNNNNNNECTEDDDDDD TO db");
+			}
+		};
 		
+		backgroundConnect.execute();//connects to database
 		//Initiation of panels
 
 		cardLayoutPanels = new JPanel(new CardLayout());
@@ -108,7 +152,7 @@ public class MathGame extends JApplet implements ActionListener
 		layer.setLayout(null);
 		layer.setBounds(5, 0, getSize().width, getSize().height);
 		
-		typeManager = new TypeManager();
+		typeManager = new TypeManager(this);
 		
 		gameTypeMenu = new GameTypeMenu();
 		gameTypeMenu.init(this, typeManager);
@@ -155,18 +199,7 @@ public class MathGame extends JApplet implements ActionListener
 		layer.add(workPanel, new Integer(0)); 
 		layer.add(holdPanel, new Integer(0));
 		
-		sql = new MySQLAccess();
-		/*try {
-			sql.connect();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-			sql.getVals();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
-	
+			
 		home1 = new Rectangle(cardPanel.card1.getBounds());
 		home2 = new Rectangle(cardPanel.card2.getBounds());
 		home3 = new Rectangle(cardPanel.card3.getBounds());

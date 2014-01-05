@@ -32,6 +32,7 @@ import javax.swing.border.TitledBorder;
 
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager;
+import com.mathgame.math.TypeManager.GameType;
 
 /**
  * Class that creates the game Menu
@@ -238,22 +239,23 @@ public class GameTypeMenu extends JPanel implements ActionListener, MouseMotionL
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == fraction )	{
-			mathGame.typeManager.setType("fraction");
+			mathGame.typeManager.setType(GameType.FRACTIONS);
 			mathGame.cl.show(mathGame.cardLayoutPanels, MathGame.DIFFMENU);
 		}
 		
 		else if(e.getSource() == integer){
-			mathGame.typeManager.setType("integer");
+			mathGame.typeManager.setType(GameType.INTEGERS);
 			//mathGame.typeManager.randomize();
 
 			mathGame.cl.show(mathGame.cardLayoutPanels, MathGame.DIFFMENU);
 		}
 		
 		else if(e.getSource() == decimal){
-			mathGame.typeManager.setType("decimal");
+			mathGame.typeManager.setType(GameType.DECIMALS);
 			mathGame.cl.show(mathGame.cardLayoutPanels, MathGame.DIFFMENU);
 		}
 		else if(e.getSource() == mixed){
+			mathGame.typeManager.setType(GameType.MIXED);
 			mathGame.cl.show(mathGame.cardLayoutPanels, MathGame.DIFFMENU);
 		}
 			//choosemixed();
