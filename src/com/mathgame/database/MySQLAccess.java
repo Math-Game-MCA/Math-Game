@@ -144,17 +144,18 @@ public class MySQLAccess{
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select * from sofiav_mathgame."+gameType);
 			
-			resultSet.relative((int) (Math.random()*98)+1);
+			int offset = (int) (Math.random()*98)+1;
+			resultSet.relative(offset);
 			
 			id = resultSet.getInt("ID");
-			num1 = ""+resultSet.getInt("Num1");
+			num1 = ""+resultSet.getString("Num1");
 			op = resultSet.getString("Op");			
-			num2 = ""+resultSet.getInt("num2");
-			answer = ""+resultSet.getDouble("answer");
+			num2 = ""+resultSet.getString("num2");
+			answer = ""+resultSet.getString("answer");
 			//double output = calc(num1, op, num2);
 			//writeResultSet(resultSet);
 			
-			System.out.println("DB vals:" + num1 + op + num2 + "=" + answer);
+			System.out.println("DB vals-row " + offset + ":   " + num1 + op + num2 + "=" + answer);
 			
 			
 			/*resultSet.next();
