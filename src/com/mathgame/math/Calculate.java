@@ -31,8 +31,11 @@ public class Calculate {
 		}
 		
 		if(possible){
-			double num1 = Double.valueOf(card1.getText());
-			double num2 = Double.valueOf(card2.getText());
+			double num1 = card1.parseNumFromText(card1.getValue());
+			double num2 = card1.parseNumFromText(card2.getValue());//Double.valueOf(card2.getValue());
+			System.out.println("num1 final : " + card1.getValue());
+			System.out.println("num2 final : " + num2);
+			System.out.println("op final: " + operation.operation);
 			String op = operation.operation;
 			double answer= -1;
 			

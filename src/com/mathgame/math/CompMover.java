@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
 import com.mathgame.cards.NumberCard;
+import com.mathgame.cards.OperationCard;
 
 /**
  * 
@@ -189,15 +190,63 @@ public class CompMover extends MouseInputAdapter
             				view.cardPanel.changeCardExistence(5, false);
             			}
             		}
+            		if(view.workPanel.getComponentCount() == 1 && 
+            				view.workPanel.getComponent(0) instanceof OperationCard)	{//force card to be placed BEFORE operator
+            			OperationCard tempOpCard = (OperationCard) view.workPanel.getComponent(0);
+            			view.workPanel.remove(0);//temporarily take out operation card
+            			layer.remove(selectedComponent);
+            			layer.revalidate();
+            			view.workPanel.add(selectedComponent);//put numbercard
+            			view.workPanel.add(tempOpCard);//put back operation AFTER numbercard
+            			view.workPanel.revalidate();
+            			view.layer.repaint();
+            		}
+            		else	{
+		            	layer.remove(selectedComponent);
+		            	layer.revalidate();
+		            	view.workPanel.add(selectedComponent);
+		            	view.workPanel.revalidate();
+		            	view.layer.repaint();
+            		}
             	}
-            	layer.remove(selectedComponent);
-            	layer.revalidate();
-            	view.workPanel.add(selectedComponent);
-            	view.workPanel.revalidate();
-            	//panel2b.repaint();
+            	else if(selectedComponent instanceof OperationCard)	{//now attempt to put operation card inbetween if necessary
+            		if(view.workPanel.getComponentCount() == 0)	{//nothing in workpanel... do not put operation
+                    	restoreCard();
+            		}
+            		else if(view.workPanel.getComponentCount() == 1)	{//there is presumably 1 number card in there...
+                		layer.remove(selectedComponent);
+                		layer.revalidate();
+                		view.workPanel.add(selectedComponent);
+            			view.workPanel.revalidate();
+                    	view.layer.repaint();
+            		}
+            		else if(view.workPanel.getComponentCount() == 2)	{//check if its numcard/numcard or numcard/opcard
+            			if(view.workPanel.getComponent(0) instanceof NumberCard && 
+            					view.workPanel.getComponent(1) instanceof NumberCard)
+            			{
+                    		OperationCard temp = (OperationCard) selectedComponent;
+                    		layer.remove(selectedComponent);
+                    		layer.revalidate();
+            				NumberCard tempNumCard = (NumberCard) view.workPanel.getComponent(1);
+            				view.workPanel.remove(1);//remove second number card;
+            				view.workPanel.revalidate();
+            				view.workPanel.add(temp);
+            				view.workPanel.revalidate();
+            				view.workPanel.add(tempNumCard);
+            				view.workPanel.revalidate();
+            				view.layer.repaint();
+            			}
+            			else
+            			{
+            				restoreCard();
+            			}
+            		}
+            		else//there are three cards in the middle
+            		{
+            			restoreCard();
+            		}
+            	}
             	//selectedComponent.setSize(cardHomes[1].getSize());
-            	 
-            	view.layer.repaint();
             }
             else if(box1.intersects(box3))
             {
@@ -223,43 +272,51 @@ public class CompMover extends MouseInputAdapter
             				view.cardPanel.changeCardExistence(5, false);
             			}
             		}
+	            	layer.remove(selectedComponent);
+	            	layer.revalidate();
+	            	view.holdPanel.add(selectedComponent);
+	            	view.holdPanel.revalidate();
+	            	view.layer.repaint();
             	}
-            	layer.remove(selectedComponent);
-            	layer.revalidate();
-            	view.holdPanel.add(selectedComponent);
-            	view.holdPanel.revalidate();
-            	view.layer.repaint();
+            	else if(selectedComponent instanceof OperationCard)	{//don't put operation cards in hold
+            		restoreCard();
+            	}
             }
             else 
             {
-            	for(int i=0;i<cards.length;i++)
-            	{
-            		//System.out.println(selectedComponent);
-	            		if(selectedComponent.equals(cards[i]))
-	            		{
-	            		
-	            			selectedComponent.setBounds(cardHomes[i]);
-		            		break;
-	            		}
-            	}
-            	try{
-	            	if(selectedComponent.getName().equals(("Answer")))
-	            	{
-	            		layer.remove(selectedComponent);
-	                	layer.revalidate();
-	                	view.holdPanel.add(selectedComponent);
-	                	view.holdPanel.revalidate();
-	                	view.layer.repaint();
-	            	}
-            	} catch(Exception ex) {
-            		System.err.println("can't get selectedComponent name");
-            	}
-            		
-            	
-            	
+            	restoreCard();
+    	    	try{
+    	        	if(selectedComponent.getName().equals(("Answer")))
+    	        	{
+    	        		layer.remove(selectedComponent);
+    	            	layer.revalidate();
+    	            	view.holdPanel.add(selectedComponent);
+    	            	view.holdPanel.revalidate();
+    	            	view.layer.repaint();
+    	        	}
+    	    	} catch(Exception ex) {
+    	    		System.err.println("can't get selectedComponent name");
+    	    	}
             }
             
         }
+        
+        /**
+         * Restores the card to original position if not placed in a panel
+         */
+        private void restoreCard()
+        {
+        	for(int i=0;i<cards.length;i++)
+	    	{
+	    		//System.out.println(selectedComponent);
+        		if(selectedComponent.equals(cards[i]))
+        		{
+        		
+        			selectedComponent.setBounds(cardHomes[i]);
+            		break;
+        		}
+	    	}
+    	}
  
         /**
          * function for when mouse (having already been clicked) is dragged

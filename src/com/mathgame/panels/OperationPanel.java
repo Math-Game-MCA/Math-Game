@@ -1,4 +1,4 @@
-package com.mathgame.math;
+package com.mathgame.panels;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -8,10 +8,13 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import com.mathgame.cards.OperationCard;
+import com.mathgame.math.CompMover;
+import com.mathgame.math.MathGame;
 
 
 public class OperationPanel extends JPanel
@@ -23,13 +26,13 @@ public class OperationPanel extends JPanel
 	/**
 	 * The panel that holds the operations that you can use
 	 */
-	OperationCard add;
-	OperationCard subtract;
-	OperationCard multiply;
-	OperationCard divide;
+	public OperationCard add;
+	public OperationCard subtract;
+	public OperationCard multiply;
+	public OperationCard divide;
 
-	final String imageFile = "images/Operation bar.png";
-	Image background;
+	final String imageFile = "/images/Operation bar.png";
+	static ImageIcon background;
 	
 	JLayeredPane masterLayer;
 	
@@ -64,7 +67,8 @@ public class OperationPanel extends JPanel
 		
 		masterLayer = mathGame.layer;//layered pane passed over
 		
-		background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		//background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		background = new ImageIcon(OperationPanel.class.getResource(imageFile));
 	}
 	
 	/**
@@ -94,7 +98,7 @@ public class OperationPanel extends JPanel
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.drawImage(background, 0, 0, null);
+		g.drawImage(background.getImage(), 0, 0, OperationPanel.this);
 
 		
 	}

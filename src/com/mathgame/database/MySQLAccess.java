@@ -13,15 +13,15 @@ import java.sql.Statement;
 
 /**
  * The access class that connects to the MySQL database
- * @author Hima the Great
+ * @author Hima
  *
  */
 public class MySQLAccess{
 	//for release, host should be 127...., for testing, it should be egarcia.org
-	private String host = "davidmelvin.me";//"localhost";//"127.0.0.1";//"egarcia.org";
-	private String db = "davidmel_MathGame";
-	private final String user = "davidmel_user";//"egarciao@localhost";
-	private final String pass = "Password1";//"oL20wC06xd";
+	private String host = "mysql";//"98.138.19.88";//"localhost";//"mastermindmedia.info";//"127.0.0.1";//"egarcia.org";
+	private String db = "Mathgame";
+	private final String user = "math_game";//"egarciao@localhost";
+	private final String pass = "konnect123";//"oL20wC06xd";
 	private Connection connect = null;
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
@@ -39,6 +39,7 @@ public class MySQLAccess{
 		try{
 			//108.178.58.2
 			Class.forName("com.mysql.jdbc.Driver");
+			
 			connect = DriverManager.getConnection("jdbc:mysql://" + host + "/" + db, user, pass);
 			
 			if(!connect.isClosed())
@@ -49,7 +50,8 @@ public class MySQLAccess{
 			}
 		}
 		catch(Exception e){
-			System.out.println("Error: " + e.getMessage());
+			System.out.println("ErrorO: " + e.getMessage());
+			System.out.println("Error1: " + e.getClass().getName());
 			sqlError = e.getMessage(); 
 			//sqlError.concat(e.getCause().toString());
 			//sqlError = e.getStackTrace().toString();
@@ -117,7 +119,7 @@ public class MySQLAccess{
 	{
 		try{
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("select * from davidmel_MathGame.values");
+			resultSet = statement.executeQuery("select * from Mathgame.vals");
 			
 			resultSet.relative((int) (Math.random()*98)+1);
 			
@@ -152,7 +154,7 @@ public class MySQLAccess{
 		}
 		catch (Exception e){
 			System.out.println("SQLException: " + e.getMessage());
-			File file = new File("SQLOut.txt");
+		/*	File file = new File("SQLOut.txt");
 			if(!file.exists())
 				file.createNewFile();
 			
@@ -161,7 +163,7 @@ public class MySQLAccess{
 			bw.flush();
 			
 			bw.close();
-			
+			*/
 					
 			throw e;
 			
@@ -171,7 +173,7 @@ public class MySQLAccess{
 		finally{ 
 			
 			
-			//System.out.println("finally block");
+			System.out.println("finally block");
 			}
 		
 	}

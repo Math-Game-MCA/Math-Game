@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mathgame.math;
+package com.mathgame.panels;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -14,11 +14,17 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
+import com.mathgame.math.Calculate;
+import com.mathgame.math.CompMover;
+import com.mathgame.math.MathGame;
+import com.mathgame.math.NumberType;
 /**
  * The panel where the cards will be dragged in order to combine and use them
  *
@@ -31,11 +37,12 @@ public class WorkspacePanel extends JPanel{
 	 */
 	private static final long serialVersionUID = 7408931441173570326L;
 	MathGame mathGame;//holds the game so it can reference all the other panels
-	final String imageFile = "images/Workspace.png";
-	Image background;
+	final String imageFile = "/images/Workspace.png";
+	static ImageIcon background;
 	
 	Calculate calc;
 	CompMover mover;
+	NumberType typeManager;
 	
 	public void init(MathGame mathGame)	{
 		this.setLayout(new FlowLayout());
@@ -49,11 +56,13 @@ public class WorkspacePanel extends JPanel{
 		size.height = 260;
 		setPreferredSize(size);
 		
-		background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		//background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		background = new ImageIcon(WorkspacePanel.class.getResource(imageFile));
 		
 		calc = new Calculate();
 		mover = new CompMover();
 		this.mathGame = mathGame;
+		this.typeManager = mathGame.typeManager;
 	}
 	
 	/** 
@@ -61,19 +70,79 @@ public class WorkspacePanel extends JPanel{
 	 */
 	public void calcCheck(){
 		int count = this.getComponentCount();
-		System.out.println(count);
+		System.out.println(" count is " + count);
+		
 		Double answer= null;
 		if(count == 3)
 		{
 			answer = calc.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2), mathGame);
-			System.out.println("NUM1:"+this.getComponentCount());
+			
 		}
 		
 		if(answer != null)
 		{
 			System.out.println("answer:"+answer);
+			if(answer.isInfinite() || answer.isNaN()) { //TODO does this fix the infinity bug?
+				//Yes, it fixes it, but with a caveat - using getText instead of getValue... may need to '
+				//update code to support getValue instead of getText
+				JOptionPane.showMessageDialog(this, "You can't divide by zero!");
+				
+				NumberCard tempnum1 = (NumberCard)this.getComponent(0);
+				NumberCard tempnum2 = (NumberCard)this.getComponent(2);
+
+				String restoreOperator = new String(currentOperation());
+				mathGame.opPanel.addOperator(restoreOperator);
+				
+				if (tempnum1.getHome() == "home") {// originally in card panel
+					System.out.println("restore card1; value: " + tempnum1.getText());
+					mathGame.cardPanel.restoreCard(tempnum1.getText());
+				} else if (tempnum1.getHome() == "hold") {// new card in holding area
+					for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
+						NumberCard temp = (NumberCard) mathGame.holdPanel
+								.getComponent(0);
+						if (temp.getHome() == "home") {
+							mathGame.cardPanel.restoreCard(temp.getText());
+							;
+						} // check for cards that were dragged from home into workspace
+							// and restores them
+					}
+					mathGame.holdPanel.add(tempnum1);
+				}
+
+				if (tempnum2.getHome() == "home") {
+					System.out.println("restore card2; value: " + tempnum2.getText());
+					mathGame.cardPanel.restoreCard(tempnum2.getText());
+				} else if (tempnum2.getHome() == "hold") {
+					for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
+						NumberCard temp = (NumberCard) mathGame.holdPanel
+								.getComponent(0);
+						if (temp.getHome() == "home") {
+							mathGame.cardPanel.restoreCard(temp.getText());
+						}
+					}
+					mathGame.holdPanel.add(tempnum2);
+				}
+				
+				this.removeAll();
+
+				mathGame.workPanel.revalidate();
+				mathGame.workPanel.repaint();
+				mathGame.holdPanel.revalidate();
+				mathGame.holdPanel.repaint();
+				mathGame.cardPanel.revalidate();
+				
+				return;
+			}
+			
 			NumberCard answerCard = new NumberCard(answer);
-			answerCard.setValue(answer);
+			if(typeManager.getType() == "fraction") {
+				String temp = typeManager.convertDecimaltoFraction(answer);
+				answerCard.setValue(temp);
+				answerCard.setText(temp);
+				System.out.println("as fraction: " + typeManager.convertDecimaltoFraction(answer));
+			}
+			else
+				answerCard.setValue(""+answer);
 			answerCard.addMouseListener(mover);
 			answerCard.addMouseMotionListener(mover);
 			answerCard.setName("Answer");
@@ -127,6 +196,6 @@ public class WorkspacePanel extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		g.drawImage(background, 0, 0, null);
+		g.drawImage(background.getImage(), 0, 0, WorkspacePanel.this);
 	}
 }
