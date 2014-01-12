@@ -23,6 +23,7 @@ public class NumberCard extends JLabel{
 	private String value;
 	private int width = 80;
 	private int height = 100;
+	private final double epsilon = 0.00000000000001;//max value error until rounding; i.e. 14 decimal places
 	public int numberTag;
 	final Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 22);
 	//sizes can be overridden with setWidth and setHeight methods
@@ -54,6 +55,7 @@ public class NumberCard extends JLabel{
 	 * 
 	 */
 	public NumberCard(double n){
+		n = round(n);//CRITICAL: round the answer to avoid errors comparing value!
 		value = ""+n;
 		this.setText(String.valueOf(n));
 		this.setFont(sansSerif36);
@@ -75,7 +77,7 @@ public class NumberCard extends JLabel{
 	 * @param delim The String that separates the number (ex. /, sqrt( )
 	 */
 	public double parseNumFromText(String s){
-		//delim?
+		//Where is parameter "delim"?
 		
 		double ans=0;
 		double n1=-1, n2=-1;// the two separate numbers from the string s
@@ -94,7 +96,7 @@ public class NumberCard extends JLabel{
 				if(end1 == -1)
 				{
 					end1 = i;
-					System.out.println("substring " + s.substring(0, end1));
+					System.out.println("substring(parse) " + s.substring(0, end1));
 					n1 = Double.valueOf( s.substring(0, end1) );
 				}
 			}
@@ -103,7 +105,7 @@ public class NumberCard extends JLabel{
 				if(end1 != -1)
 				{
 					end2 = i;
-					System.out.println("substring " +  s.substring(end2, s.length()) );
+					System.out.println("substring(parse) " +  s.substring(end2, s.length()) );
 					n2 = Double.valueOf( s.substring(end2, s.length()) );
 					break;
 				}
@@ -115,7 +117,7 @@ public class NumberCard extends JLabel{
 		if(end2 != -1)//an operator was actually found
 			foundOp = s.substring(end1, end2);//the string that contains the found operator
 		
-		System.out.println("substring " + foundOp);
+		System.out.println("substring(parse) " + foundOp);
 		System.out.println("entered s : " + s);
 		
 		if(foundOp.equals("/"))
@@ -125,9 +127,25 @@ public class NumberCard extends JLabel{
 		else //just a normal number
 			ans = Double.valueOf(s);
 		
-		System.out.println("sub answer " + ans);
+		ans = round(ans);//CRITICAL: round the answer to avoid errors comparing value!
+		
+		System.out.println("sub answer(parse) " + ans);
 		return ans;
 	}
+	
+	/**
+	 * Rounds the value of a number to nearest place, predetermined max error
+	 * @param n number to round
+	 * @return n rounded number
+	 */
+	public double round(double n)	{
+		//rounding algorithm for increment epsilon
+		double q = n / epsilon;
+		q = Math.floor(q + 0.5);//round to nearest integer
+		n = q * epsilon;
+		return n;
+	}
+	
 	/**
 	 * @return the value
 	 */
