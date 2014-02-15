@@ -248,7 +248,20 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	 */
 	public void startgame() {
 		//this.setVisible(false);
-		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAMETYPEMENU);
+		Object[] options = {"Single Player", "Multiplayer"};
+		String s = (String) JOptionPane.showInputDialog(this, "Choose the mode", "Mode Select", JOptionPane.YES_NO_CANCEL_OPTION, null, options, null);
+		int n = 0;
+		if(s == "Single Player")
+			n = 1;
+		else
+			n = 2;
+		if(n == 1)	{
+			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAMETYPEMENU);
+		}
+		else if(n == 2)
+		{
+			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);
+		}
 		//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.SUBMENU);
 		System.out.println("ENTER GAME");
 	}

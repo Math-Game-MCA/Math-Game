@@ -6,6 +6,7 @@ import com.mathgame.database.*;
 import com.mathgame.menus.DifficultyMenu;
 import com.mathgame.menus.GameTypeMenu;
 import com.mathgame.menus.MainMenu;
+import com.mathgame.menus.MultiMenu;
 import com.mathgame.panels.CardPanel;
 import com.mathgame.panels.HoldPanel;
 import com.mathgame.panels.OperationPanel;
@@ -33,6 +34,7 @@ public class MathGame extends JApplet implements ActionListener
 	public static final String MAINMENU = "CardLayoutPanel MainMenu";
 	public static final String GAMETYPEMENU = "CardLayoutPanel GameTypeMenu";
 	public static final String DIFFMENU = "CardLayoutPanel DifficultyMenu";
+	public static final String MULTIMENU = "CardLayoutPanel Multiplayer";
 	
 	public JPanel cardLayoutPanels;//uses CardLayout to switch between menu and game
 	public CardLayout cl;
@@ -48,6 +50,7 @@ public class MathGame extends JApplet implements ActionListener
 	MainMenu mainMenu;
 	GameTypeMenu gameTypeMenu;
 	DifficultyMenu diffMenu;
+	MultiMenu multimenu;
 	
 	Rectangle home1;
 	Rectangle home2;
@@ -162,6 +165,10 @@ public class MathGame extends JApplet implements ActionListener
 		diffMenu.init(this);;
 		diffMenu.setBounds(0, 0, appWidth, appHeight);
 		
+		multimenu = new MultiMenu();
+		multimenu.init(this, typeManager);
+		multimenu.setBounds(0, 0, appWidth, appHeight);
+		
 		sidePanel = new SidePanel();//control bar
 		//sidePanel.setBounds(750, 0, 900, 620);//x, y, width, height
 		sidePanel.init(this);
@@ -187,6 +194,7 @@ public class MathGame extends JApplet implements ActionListener
 		cardLayoutPanels.add(gameTypeMenu, GAMETYPEMENU);
 		cardLayoutPanels.add(diffMenu, DIFFMENU);
 		cardLayoutPanels.add(layer, GAME);
+		cardLayoutPanels.add(multimenu, MULTIMENU);
 		cl = (CardLayout) cardLayoutPanels.getLayout();
 		//cl.show(cardLayoutPanels, MENU);
 		add(cardLayoutPanels);
