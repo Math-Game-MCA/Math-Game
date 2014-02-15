@@ -21,6 +21,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import com.mathgame.math.MathGame;
+import java.io.IOException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.border.TitledBorder;
 
 /**
  * Class that creates the game Menu
@@ -54,6 +64,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	JButton help;//press for game help
 	JButton about;//press for "stuff"
 	JButton exit;//press to leave game :(
+	
 //	JLabel epsilon;//self-explanatory
 	JPanel carda;
 	JPanel cardb;
@@ -79,6 +90,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		buttonImage = new ImageIcon(MainMenu.class.getResource(buttonImageFile));
 		buttonRollOverImage = new ImageIcon(MainMenu.class.getResource(buttonRollOverImageFile));
 		buttonPressedImage = new ImageIcon(MainMenu.class.getResource(buttonPressedImageFile));
+		background = new ImageIcon(MainMenu.class.getResource(imageFile));
 		
 		
 //		Font titleFont = new Font("Arial", Font.BOLD, 36);
@@ -189,14 +201,17 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		cardd.setVisible(false);
 		
 //		add(epsilon);
+
 		add(enter);
 		add(help);
 		add(about);
 		add(exit);
+
 		add(carda);
 		add(cardb);
 		add(cardc);
 		add(cardd);
+
 		//p1.setBorder(new TitledBorder("Epsilon"));
 		
 		//add(epsilon);
@@ -223,6 +238,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 			//helpbox();
 		//else if(e.getSource() == about)
 			//aboutinfo();
+
 		else if(e.getSource() == exit)
 			exit();
 	}
@@ -233,6 +249,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	public void startgame() {
 		//this.setVisible(false);
 		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAMETYPEMENU);
+		//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.SUBMENU);
 		System.out.println("ENTER GAME");
 	}
 	
