@@ -1,40 +1,32 @@
 /**
  * Authors: David Schildkraut, Roland Fong, Hima T.
- * Purpose: create a menu for the Game 'Epsilon'
- * Last Date Worked On: 9/24/13
  * Notes: working on listeners & eliminating the "double-menu" where 2 menus are seen, but only one is 
  * functional.
  */
-package com.mathgame.math;
+package com.mathgame.menus;
 
-import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.border.TitledBorder;
+
+import com.mathgame.math.MathGame;
 
 /**
  * Class that creates the game Menu
  */
 
-public class Menu extends JPanel implements ActionListener, MouseMotionListener, MouseListener{
+public class MainMenu extends JPanel implements ActionListener, MouseMotionListener, MouseListener{
 	
 	/**
 	 * 
@@ -83,10 +75,10 @@ public class Menu extends JPanel implements ActionListener, MouseMotionListener,
 		
 		mathGame = mg;
 		
-		background = new ImageIcon(Menu.class.getResource(imageFile));
-		buttonImage = new ImageIcon(Menu.class.getResource(buttonImageFile));
-		buttonRollOverImage = new ImageIcon(Menu.class.getResource(buttonRollOverImageFile));
-		buttonPressedImage = new ImageIcon(Menu.class.getResource(buttonPressedImageFile));
+		background = new ImageIcon(MainMenu.class.getResource(imageFile));
+		buttonImage = new ImageIcon(MainMenu.class.getResource(buttonImageFile));
+		buttonRollOverImage = new ImageIcon(MainMenu.class.getResource(buttonRollOverImageFile));
+		buttonPressedImage = new ImageIcon(MainMenu.class.getResource(buttonPressedImageFile));
 		
 		
 //		Font titleFont = new Font("Arial", Font.BOLD, 36);
@@ -240,7 +232,7 @@ public class Menu extends JPanel implements ActionListener, MouseMotionListener,
 	 */
 	public void startgame() {
 		//this.setVisible(false);
-		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.SUBMENU);
+		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAMETYPEMENU);
 		System.out.println("ENTER GAME");
 	}
 	
@@ -278,6 +270,16 @@ public class Menu extends JPanel implements ActionListener, MouseMotionListener,
 		//JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
 	}
 	
+	/**
+	 * Turns down all the cards
+	 */
+	public void hideInfo()	{
+		carda.setVisible(false);
+		cardb.setVisible(false);
+		cardc.setVisible(false);
+		cardd.setVisible(false);
+	}
+	
 	public void exitinfo() {
 //		info.setText("Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
 		carda.setVisible(false);
@@ -298,7 +300,7 @@ public class Menu extends JPanel implements ActionListener, MouseMotionListener,
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		g.drawImage(background.getImage(), 0, 0, Menu.this);
+		g.drawImage(background.getImage(), 0, 0, MainMenu.this);
 	}
 
 	@Override
@@ -314,22 +316,15 @@ public class Menu extends JPanel implements ActionListener, MouseMotionListener,
 		if(e.getSource() == help)	{
 			helpbox();
 		}
-		
-		else if(e.getSource() == about)
-		{
+		else if(e.getSource() == about)	{
 			aboutinfo();
 		}
-		
-		else if(e.getSource() == enter)
-		{
+		else if(e.getSource() == enter)	{
 			enterinfo();
 		}
-		
-		else if(e.getSource() == exit)
-		{
+		else if(e.getSource() == exit)	{
 			exitinfo();
 		}
-		
 		
 	}
 
@@ -346,6 +341,7 @@ public class Menu extends JPanel implements ActionListener, MouseMotionListener,
 	@Override
 	public void mouseExited(MouseEvent e) {
 		System.out.println("Mouse Exited Button");
+		hideInfo();
 		if(e.getSource() == help)	{
 //			info.setText("Welcome to Epsilon, the mathematical card game!");
 		}

@@ -24,7 +24,8 @@ import com.mathgame.cards.OperationCard;
 import com.mathgame.math.Calculate;
 import com.mathgame.math.CompMover;
 import com.mathgame.math.MathGame;
-import com.mathgame.math.NumberType;
+import com.mathgame.math.TypeManager;
+import com.mathgame.math.TypeManager.GameType;
 /**
  * The panel where the cards will be dragged in order to combine and use them
  *
@@ -42,7 +43,7 @@ public class WorkspacePanel extends JPanel{
 	
 	Calculate calc;
 	CompMover mover;
-	NumberType typeManager;
+	TypeManager typeManager;
 	
 	public void init(MathGame mathGame)	{
 		this.setLayout(new FlowLayout());
@@ -135,7 +136,7 @@ public class WorkspacePanel extends JPanel{
 			}
 			
 			NumberCard answerCard = new NumberCard(answer);
-			if(typeManager.getType() == "fraction") {
+			if(typeManager.getType() == GameType.FRACTIONS) {
 				String temp = typeManager.convertDecimaltoFraction(answer);
 				answerCard.setValue(temp);
 				answerCard.setText(temp);

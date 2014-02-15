@@ -1,4 +1,4 @@
-package com.mathgame.math;
+package com.mathgame.offline;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.mathgame.cards.NumberCard;
+import com.mathgame.math.Calculate;
 import com.mathgame.panels.CardPanel;
 
 import java.math.BigDecimal;
@@ -23,7 +24,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-public class NumberType {
+public class TypeManagerO {
 	NumberCard card1;
 	NumberCard card2;
 	NumberCard card3;
@@ -38,8 +39,16 @@ public class NumberType {
 	ArrayList<String> values;
 	ArrayList<Boolean>	cardExists;
 
-	String numberType;
+	
+	
+	
 	String numberTypeFile;
+	
+	public enum GameType{INTEGERS, DECIMALS, FRACTIONS, MIXED};
+	public enum Difficulty{EASY, MEDIUM, HARD};
+	
+	GameType gameType = GameType.INTEGERS;
+	Difficulty gameDiff;
 
 	InputStream cardValueInput;
 	XSSFWorkbook cardValueWorkbook;
@@ -51,7 +60,7 @@ public class NumberType {
 	int currentRowNumber;
 	XSSFRow currentRow;
 
-	public NumberType() {
+	public TypeManagerO() {
 	}
 
 	/**
@@ -61,19 +70,20 @@ public class NumberType {
 	 * Default number type is integer
 	 * @param input
 	 */
-	public void setType(String input) {
-		numberType = input;
+	public void setType(GameType type) {
+		gameType = type;
+		System.out.println("GameType " + gameType);
 
 		try {
 			//File excelFile = new File(cardValueFile);
-			if(numberType == "fraction")
+			if(gameType == GameType.FRACTIONS)
 				numberTypeFile = fractionFile;
-			else if(numberType == "decimal")
+			else if(gameType == GameType.DECIMALS)
 				numberTypeFile = decimalFile;
-			else if(numberType == "integer")
+			else if(gameType == GameType.INTEGERS)
 				numberTypeFile = integerFile;
 			else {
-				numberType = "integer";
+				gameType = GameType.INTEGERS;
 				numberTypeFile = integerFile;
 			}
 			cardValueInput = getClass().getClassLoader().getResourceAsStream(numberTypeFile);
@@ -97,8 +107,16 @@ public class NumberType {
 		}
 	}
 	
-	public String getType() {
-		return numberType;
+	public GameType getType() {
+		return gameType;
+	}
+	
+	public void setDiff(Difficulty d){
+		gameDiff = d;
+	}
+	
+	public Difficulty getDiff(){
+		return gameDiff;
 	}
 	
 	public void init(CardPanel cP) {
@@ -114,6 +132,8 @@ public class NumberType {
 		this.values = cP.values;
 
 	}
+	
+	
 	
 	
 
@@ -216,7 +236,7 @@ public class NumberType {
 			x = x.abs();
 		}
 		
-		BigDecimal error = new BigDecimal("0.000001"); // TODO This number deterines the precision/accuracy of the conversion
+		BigDecimal error = new BigDecimal("0.000001"); // TODO This number determines the precision/accuracy of the conversion
 		x = x.setScale(error.scale(), RoundingMode.HALF_UP);
 		
 		BigDecimal n = (new BigDecimal(x.toBigInteger())).setScale(error.scale());
@@ -316,7 +336,7 @@ public class NumberType {
 	 * @param newValues
 	 */
 	public void randomize() {
-		if(numberType == "fraction") {
+		if(gameType == GameType.FRACTIONS) {
 			ArrayList<Double> newValues = randomFractionValues();
 
 			card1.setText(convertDecimaltoFraction(newValues.get(0)));
@@ -347,7 +367,7 @@ public class NumberType {
 			
 		}
 		
-		else if(numberType == "decimal"){
+		else if(gameType == GameType.DECIMALS){
 			ArrayList<Double> newValues = randomDecimalValues();
 
 			card1.setText(""+newValues.get(0));
