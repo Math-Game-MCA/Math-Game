@@ -43,7 +43,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	private MathGame mathGame;
 	private TypeManager typeManager;
 	
-	final String imageFile = "/images/backa.png";
+	final String imageFile = "/images/backMulti.png";
 	final String buttonImageFile = "/images/MenuButtonImg1.png";
 	final String buttonRollOverImageFile = "/images/MenuButtonImg2.png";
 	final String buttonPressedImageFile = "/images/MenuButtonImg3.png";
@@ -99,7 +99,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		friend.setFont(titleFont);
 		friend.setBounds(705, 55, 130, 60);
 		
-		home = new JButton("Enter");
+		home = new JButton("Back");
 		home.setFont(buttonFont);
 		home.setBounds(105, 535, BUTTON_WIDTH, BUTTON_HEIGHT);
 	    home.setHorizontalTextPosition(JButton.CENTER);
@@ -194,22 +194,26 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	public void actionPerformed(ActionEvent e) {
 		//TODO program functionality of buttons
 		if(e.getSource() == home )	{
-			choosefraction();
-			startgame();
+			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MAINMENU);//open the menu
+			//choosefraction();
+			//startgame();
 		}
 		
 		else if(e.getSource() == host){
-			chooseinteger();
-			startgame();
+			//chooseinteger();
+			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAMETYPEMENU);
+			//startgame();
 		}
 		
 		else if(e.getSource() == join){
-			choosedecimal();
-			startgame();
+			//choosedecimal();
+			//startgame();
 		}
 		else if(e.getSource() == random)
-			choosemixed();
-			startgame();
+		{
+			//choosemixed();
+			//startgame();
+		}
 	}
 	
 	/**
