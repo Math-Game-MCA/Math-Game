@@ -47,9 +47,12 @@ public class SidePanel extends JPanel implements ActionListener {
 	JButton reset;
 
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
+<<<<<<< HEAD
 	Font eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
 	Font eurostile16 = new Font("Eurostile", Font.PLAIN, 16);
+=======
 	Font sansSerif18 = new Font("SansSerif", Font.PLAIN, 18);
+>>>>>>> 73c689e1b26033611cc5ce08ce011186e36ee79b
 
 	final String imageFile = "/images/control bar.png";
 	

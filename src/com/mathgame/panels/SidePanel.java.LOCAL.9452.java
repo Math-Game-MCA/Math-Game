@@ -38,7 +38,6 @@ public class SidePanel extends JPanel implements ActionListener {
 	JLabel pass;// count how many you get right
 	JLabel fail;// how many you got wrong
 	JLabel score;// TODO: Determine how to calculate the score!
-	JLabel vs;
 
 	JButton help;
 	JButton exit;
@@ -49,7 +48,6 @@ public class SidePanel extends JPanel implements ActionListener {
 	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
 	Font eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
 	Font eurostile16 = new Font("Eurostile", Font.PLAIN, 16);
-	Font sansSerif18 = new Font("SansSerif", Font.PLAIN, 18);
 
 	final String imageFile = "/images/control bar.png";
 	
@@ -105,7 +103,6 @@ public class SidePanel extends JPanel implements ActionListener {
 		checkAns = new JButton("Check Answer");
 		undo = new UndoButton("Undo Move", mathGame);
 		reset = new JButton("Reset");
-		vs = new JLabel();
 
 		pass = new JLabel("Correct: " + correct);
 		fail = new JLabel("Wrong: " + wrong);
@@ -123,7 +120,6 @@ public class SidePanel extends JPanel implements ActionListener {
 		add(checkAns);
 		add(undo);
 		add(reset);
-		add(vs);
 
 		// define properties of controls
 		clock.setBounds(10, 10, 130, 60);
@@ -162,11 +158,6 @@ public class SidePanel extends JPanel implements ActionListener {
 	    checkAns.setFont(eurostile16);
 		checkAns.setBorderPainted(false);
 
-		vs.setBounds(10, 310, 130, 30);
-		vs.setFont(sansSerif18);
-		vs.setHorizontalAlignment(SwingConstants.CENTER);
-		vs.setText("Vs. " + "nobody"); //TODO When versing someone, replace "nobody" with opponent name
-		
 		help.setBounds(10, 540, 130, 30);
 		help.setHorizontalAlignment(SwingConstants.CENTER);
 		help.addActionListener(this);
