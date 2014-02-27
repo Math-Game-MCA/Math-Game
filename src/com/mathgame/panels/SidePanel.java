@@ -46,10 +46,8 @@ public class SidePanel extends JPanel implements ActionListener {
 	public UndoButton undo;
 	JButton reset;
 
-	Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 36);
 	Font eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
 	Font eurostile16 = new Font("Eurostile", Font.PLAIN, 16);
-	Font sansSerif18 = new Font("SansSerif", Font.PLAIN, 18);
 
 	final String imageFile = "/images/control bar.png";
 	
@@ -163,7 +161,7 @@ public class SidePanel extends JPanel implements ActionListener {
 		checkAns.setBorderPainted(false);
 
 		vs.setBounds(10, 310, 130, 30);
-		vs.setFont(sansSerif18);
+		vs.setFont(eurostile16);
 		vs.setHorizontalAlignment(SwingConstants.CENTER);
 		vs.setText("Vs. " + "nobody"); //TODO When versing someone, replace "nobody" with opponent name
 		
