@@ -5,6 +5,7 @@ package com.mathgame.menus;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -16,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +30,7 @@ import javax.swing.border.TitledBorder;
 
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager;
+import com.mathgame.network.User;
 
 /**
  * Class that creates the game Menu
@@ -58,7 +61,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	int mx;
 	int my;
 	
-	
 	JPanel carda;
 	JPanel cardb;
 	JButton home;//press to enter the game;
@@ -67,7 +69,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	JButton random;//unknown
 	JLabel mode;//self-explanatory
 	JLabel friend;
-
 	
 	//constructor
 	public void init(MathGame mg, TypeManager tn)	{
@@ -86,18 +87,17 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		buttonRollOverImage = new ImageIcon(MultiMenu.class.getResource(buttonRollOverImageFile));
 		buttonPressedImage = new ImageIcon(MultiMenu.class.getResource(buttonPressedImageFile));
 		
-		
 		Font titleFont = new Font("Arial", Font.BOLD, 24);
 		Font buttonFont = new Font("Arial", Font.PLAIN, 20);
 		Font infoFont = new Font("Arial", Font.BOLD, 12);
 		
 		mode = new JLabel("Lobby");
 		mode.setFont(titleFont);
-		mode.setBounds(365, 55, 130, 60);
+		mode.setBounds(305, 50, 100, 60);
 		
 		friend = new JLabel("Online");
 		friend.setFont(titleFont);
-		friend.setBounds(705, 55, 130, 60);
+		friend.setBounds(680, 50, 100, 60);
 		
 		home = new JButton("Back");
 		home.setFont(buttonFont);
@@ -120,7 +120,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		join.setVerticalTextPosition(JButton.CENTER);
 		join.setBorderPainted(false);
 	    
-	    
 		random = new JButton("Random Game");
 		random.setFont(buttonFont);
 		random.setBounds(672, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -129,13 +128,20 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		random.setBorderPainted(false);
 		
 	    carda = new JPanel();
-		carda.setBounds(110, 109, 525, 400);
+		carda.setBounds(100, 100, 500, 400);
 		carda.setVisible(true);
 		
+		//TODO SAMPLE GAMES, delete later; add games instead through host menu
+		carda.add(new GameCard("TEST1", "Timed Scoring"));
+		carda.add(new GameCard("TEST2", "Timed Scoring"));
+		carda.add(new GameCard("TEST3", "Win Scoring"));
+		carda.add(new GameCard("TEST4", "Timed Scoring"));
+		carda.add(new GameCard("TEST5", "Win Scoring"));
+		carda.add(new GameCard("TEST6", "Win Scoring"));
+		
 		cardb = new JPanel();
-		cardb.setBounds(680, 109, 150, 400);
+		cardb.setBounds(650, 100, 150, 400);
 		cardb.setVisible(true);
-		    
 	    
 		try {
 		    home.setIcon(buttonImage);
@@ -157,7 +163,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		/**
+		/*
 		 * TODO get the text in the label to wrap if it is longer than the label width.
 		 */
 //Info Box for Enter Box
@@ -359,5 +365,104 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 	}
 
+	private class GameCard extends JLabel	{
+		String name;
+		String type;//Timed Scoring vs. Win Scoring
+		int numberOfPlayers;//probably 2 for now, maybe introduce solo mode for 1 player
+		ArrayList<User>players;
+		
+		/**
+		 * @param name
+		 * @param type
+		 */
+		public GameCard(String name, String type) {
+			super();
+			this.name = name;
+			this.type = type;
+			this.setLayout(null);
+			Dimension size = getPreferredSize();
+			size.width = 100;
+			size.height = 100;
+			setPreferredSize(size);
+			setOpaque(true);
+			this.setText("<html>"+name+"<br>"+type+"</html>");
+			
+			this.addMouseListener(new MouseListener() {
 
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					//this is when the user chooses to join the game
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+				}
+				
+			});
+		}
+		public void addPlayer(User u)	{
+			players.add(u);
+			numberOfPlayers++;
+		}
+		/**
+		 * @return the name
+		 */
+		public String getName() {
+			return name;
+		}
+		/**
+		 * @param name the name to set
+		 */
+		public void setName(String name) {
+			this.name = name;
+		}
+		/**
+		 * @return the type
+		 */
+		public String getType() {
+			return type;
+		}
+		/**
+		 * @param type the type to set
+		 */
+		public void setType(String type) {
+			this.type = type;
+		}
+		/**
+		 * @return the numberOfPlayers
+		 */
+		public int getNumberOfPlayers() {
+			return numberOfPlayers;
+		}
+		/**
+		 * @param numberOfPlayers the numberOfPlayers to set
+		 */
+		public void setNumberOfPlayers(int numberOfPlayers) {
+			this.numberOfPlayers = numberOfPlayers;
+		}
+		/* (non-Javadoc)
+		 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+		 */
+		@Override
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			setBackground(Color.green);
+			
+		}
+		
+	}
 }
