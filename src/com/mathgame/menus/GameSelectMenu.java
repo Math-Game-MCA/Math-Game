@@ -1,8 +1,17 @@
 /*
  * Author: David Schildkraut
- * Date: 2/27/14
+ * Date created: 2/27/14
+ * Date last Edited: 2/28/14
  * Purpose: Selection menu to choose settings for game
+ * NOTE: PLEASE READ ALL COMMENTS AND TODO's
  */
+
+
+//TODO: get menu to be a pop up
+//TODO: link variables from menu to other variables (i.e. difficulty & number type variables)
+//TODO: get user input for name of game & create the location to do that
+//TODO: check/make buttons look pressed/selected when clicked
+//TODO: change colors to match the color scheme of rest of game
 
 package com.mathgame.menus;
 
@@ -19,20 +28,38 @@ public class GameSelectMenu extends JPanel implements ActionListener {
 	
 	static MathGame mathGame;
 	
-	int menuwidth=300;
-	int menuheight=550;
+	int menuwidth=300; //width of menu
+	int menuheight=550; //height of menu
 	
-	int players=2;
-	int ntype=0;
-	int gtype=0;
-	int rounds=3;
+	int players=2; //player variable (2-6). Each number stands for respective # of players
+	int ntype=0; //number type variable (0-3). 0 = fraction, 1 = decimal, 2 = mixed, 3 = integers
+	int gtype=0; //game type variable (0 or 1). 0 = time scoring, 1 = card usage scoring
+	int rounds=3; //rounds variable (1-5). variable value is # of rounds, making it easier to integrate this into a loop
+	int diff=1; //difficulty variable (1-3). 1 = easy, 2 = medium, 3 = hard.
 	
-	JPanel init;
-	JPanel round;
-	JPanel game;
-	JPanel number;
-	JPanel player;
+	JPanel init; //for initiation buttons
+	JPanel round; //for round selection buttons
+	JPanel game; //for game type (scoring) buttons
+	JPanel number; //for number type buttons
+	JPanel player; //for player # buttons
+	JPanel diffi; //for difficulty buttons
 	
+	/*
+	 * These labels are to make the menu more user friendly
+	 * TODO: add menu title
+	 * TODO: format font & size of labels
+	 * If size formatted, may need to change overall vertical height or vertical height of button panels. If you do this, be sure to remember to change coordinates of panels
+	 * Check to make sure that the labels are centered.
+	 */
+	JLabel play;
+	JLabel score;
+	JLabel num;
+	JLabel rnd;
+	JLabel dfct;
+	
+	JButton easy;
+	JButton med;
+	JButton hard;
 	JButton cancel;
 	JButton finish;
 	JButton two;
@@ -61,6 +88,16 @@ public class GameSelectMenu extends JPanel implements ActionListener {
 		
 		
 		mathGame = mg;
+		
+		play = new JLabel("# Players");
+		
+		score = new JLabel("Scoring Type");
+		
+		num = new JLabel("Number Type");
+		
+		rnd = new JLabel("# Rounds");
+		
+		dfct = new JLabel("Difficulty");
 		
 		finish = new JButton("Finish");
 		finish.setHorizontalTextPosition(JButton.SOUTH_EAST);
@@ -134,25 +171,43 @@ public class GameSelectMenu extends JPanel implements ActionListener {
 		r5.setHorizontalTextPosition(JButton.TRAILING);
 		r5.setVerticalTextPosition(JButton.CENTER);
 		
+		easy = new JButton("Easy");
+		easy.setHorizontalTextPosition(JButton.LEFT);
+		easy.setVerticalTextPosition(JButton.CENTER);
+		
+		med = new JButton("Medium");
+		med.setHorizontalTextPosition(JButton.CENTER);
+		med.setVerticalTextPosition(JButton.CENTER);
+		
+		hard = new JButton("Hard");
+		hard.setHorizontalTextPosition(JButton.RIGHT);
+		hard.setVerticalTextPosition(JButton.CENTER);
+		
+		diffi = new JPanel();
+		diffi.add(easy);
+		diffi.add(med);
+		diffi.add(hard);
+		diffi.setBounds(10, 295, 280, 75);
+		
 		player = new JPanel();
 		player.add(two);
 		player.add(three);
 		player.add(four);
 		player.add(five);
 		player.add(six);
-		player.setBounds(10, 10, 280, 90);
+		player.setBounds(10, 10, 280, 75);
 		
 		game = new JPanel();
 		game.add(time);
 		game.add(usage);
-		game.setBounds(10, 110, 280, 90);
+		game.setBounds(10, 95, 280, 75);
 		
 		number = new JPanel();
 		number.add(dec);
 		number.add(frac);
 		number.add(mix);
 		number.add(inte);
-		number.setBounds(10, 210, 280, 130);
+		number.setBounds(10, 180, 280, 105);
 		
 		round = new JPanel();
 		round.add(r1);
@@ -160,18 +215,38 @@ public class GameSelectMenu extends JPanel implements ActionListener {
 		round.add(r3);
 		round.add(r4);
 		round.add(r5);
-		round.setBounds(10, 350, 280, 90);
+		round.setBounds(10, 380, 280, 75);
 		
 		init.add(finish);
 		init.add(cancel);
-		init.setBounds(10, 450, 280, 90);
+		init.setBounds(10, 465, 280, 75);
+		
+		play.setLocation(125, 0);
+		play.setHorizontalAlignment(JLabel.CENTER);
+		
+		score.setLocation(125, 85);
+		score.setHorizontalAlignment(JLabel.CENTER);
+		
+		num.setLocation(125, 170);
+		num.setHorizontalAlignment(JLabel.CENTER);
+		
+		rnd.setLocation(125, 370);
+		rnd.setHorizontalAlignment(JLabel.CENTER);
+		
+		dfct.setLocation(125, 285);
+		dfct.setHorizontalAlignment(JLabel.CENTER);
+		
 		
 		add(player);
 		add(game);
 		add(number);
 		add(round);
 		add(init);
-		
+		add(play);
+		add(score);
+		add(num);
+		add(rnd);
+		add(dfct);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -180,70 +255,163 @@ public class GameSelectMenu extends JPanel implements ActionListener {
 		}
 		else if(e.getSource() == cancel) {
 			System.out.println("go back");
+			//TODO: cause popup to close
 		}
+		//TODO: confirm whether or not the .setSelected function will have any impact on showing if a button is selected or not
 		else if(e.getSource() == two) {
 			System.out.println("2-players");
 			two.setSelected(true);
+			three.setSelected(false);
+			four.setSelected(false);
+			five.setSelected(false);
+			six.setSelected(false);
+			players = 2;
 		}
 		else if(e.getSource() == three) {
 			System.out.println("3-players");
+			two.setSelected(true);
 			three.setSelected(true);
+			four.setSelected(false);
+			five.setSelected(false);
+			six.setSelected(false);
+			players = 3;
 		}
 		else if(e.getSource() == four) {
 			System.out.println("4-players");
+			two.setSelected(false);
+			three.setSelected(false);
 			four.setSelected(true);
+			five.setSelected(false);
+			six.setSelected(false);
+			players = 4;
 		}
 		else if(e.getSource() == five) {
 			System.out.println("5-players");
+			two.setSelected(false);
+			three.setSelected(false);
+			four.setSelected(false);
 			five.setSelected(true);
+			six.setSelected(false);
+			players = 5;
 		}
 		else if(e.getSource() == six) {
 			System.out.println("6-players");
+			two.setSelected(false);
+			three.setSelected(false);
+			four.setSelected(false);
+			five.setSelected(false);
 			six.setSelected(true);
+			players = 6;
 		}
 		else if(e.getSource() == frac) {
 			System.out.println("fraction level");
 			frac.setSelected(true);
+			dec.setSelected(false);
+			mix.setSelected(false);
+			inte.setSelected(false);
+			ntype = 0;
 		}
 		else if(e.getSource() == dec) {
 			System.out.println("decimal level");
+			frac.setSelected(false);
 			dec.setSelected(true);
+			mix.setSelected(false);
+			inte.setSelected(false);
+			ntype = 1;
 		}
 		else if(e.getSource() == mix) {
 			System.out.println("mixed level");
+			frac.setSelected(false);
+			dec.setSelected(false);
 			mix.setSelected(true);
+			inte.setSelected(false);
+			ntype = 2;
 		}
 		else if(e.getSource() == inte) {
 			System.out.println("integer level");
+			frac.setSelected(false);
+			dec.setSelected(false);
+			mix.setSelected(false);
 			inte.setSelected(true);
+			ntype = 3;
 		}
 		else if(e.getSource() == time) {
 			System.out.println("Time Scoring");
 			time.setSelected(true);
+			usage.setSelected(false);
+			gtype = 0;
 		}
 		else if(e.getSource() == usage) {
 			System.out.println("Card Usage Scoring");
+			time.setSelected(false);
 			usage.setSelected(true);
+			gtype = 1;
 		}
 		else if(e.getSource() == r1) {
 			System.out.println("1 round");
 			r1.setSelected(true);
+			r2.setSelected(false);
+			r3.setSelected(false);
+			r4.setSelected(false);
+			r5.setSelected(false);
+			rounds = 1;
 		}
 		else if(e.getSource() == r2) {
 			System.out.println("2 rounds");
+			r1.setSelected(false);
 			r2.setSelected(true);
+			r3.setSelected(false);
+			r4.setSelected(false);
+			r5.setSelected(false);
+			rounds = 2;
 		}
 		else if(e.getSource() == r3) {
 			System.out.println("3 rounds");
+			r1.setSelected(false);
+			r2.setSelected(false);
 			r3.setSelected(true);
+			r4.setSelected(false);
+			r5.setSelected(false);
+			rounds = 3;
 		}
 		else if(e.getSource() == r4) {
 			System.out.println("4 rounds");
+			r5.setSelected(false);
 			r4.setSelected(true);
+			r3.setSelected(false);
+			r2.setSelected(false);
+			r1.setSelected(false);
+			rounds = 4;
 		}
 		else if(e.getSource() == r5) {
 			System.out.println("5 rounds");
 			r5.setSelected(true);
+			r4.setSelected(false);
+			r3.setSelected(false);
+			r2.setSelected(false);
+			r1.setSelected(false);
+			rounds = 5;
+		}
+		else if(e.getSource() == easy) {
+			System.out.println("easy game");
+			easy.setSelected(true);
+			med.setSelected(false);
+			hard.setSelected(false);
+			diff = 1;
+		}
+		else if(e.getSource() == med) {
+			System.out.println("medium game");
+			med.setSelected(true);
+			easy.setSelected(false);
+			hard.setSelected(false);
+			diff = 2;
+		}
+		else if(e.getSource() == hard) {
+			System.out.println("hard game");
+			med.setSelected(false);
+			easy.setSelected(false);
+			hard.setSelected(true);
+			diff = 3;
 		}
 	}
 	
