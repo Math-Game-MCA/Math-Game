@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -70,6 +72,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	JLabel mode;//self-explanatory
 	JLabel friend;
 	
+	static GameSelectMenu gsm;
+	
 	//constructor
 	public void init(MathGame mg, TypeManager tn)	{
 		
@@ -81,6 +85,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		mathGame = mg;
 		typeManager = tn;
+		gsm = new GameSelectMenu(mathGame);
 		
 		background = new ImageIcon(MultiMenu.class.getResource(imageFile));
 		buttonImage = new ImageIcon(MultiMenu.class.getResource(buttonImageFile));
@@ -206,8 +211,11 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		}
 		
 		else if(e.getSource() == host){
-			//chooseinteger();
-			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAMETYPEMENU);
+			gsm.pack();
+			gsm.fit();
+			gsm.setVisible(true);
+			gsm.toFront();
+			//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAMETYPEMENU);
 			//startgame();
 		}
 		

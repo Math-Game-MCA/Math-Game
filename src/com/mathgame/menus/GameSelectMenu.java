@@ -24,7 +24,7 @@ import java.awt.color.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GameSelectMenu extends JPanel implements ActionListener {
+public class GameSelectMenu extends JDialog implements ActionListener {
 	
 	static MathGame mathGame;
 	
@@ -79,14 +79,14 @@ public class GameSelectMenu extends JPanel implements ActionListener {
 	JButton r4;
 	JButton r5;
 	
-	public void init(MathGame mg)	{
+	/**
+	 * Constructor
+	 * @param mathgame
+	 */
+	public GameSelectMenu(MathGame mg)	{
 		
 		this.setLayout(null);
-		Dimension size = getPreferredSize();
-		size.width = menuwidth;
-		size.height = menuheight;
-		
-		
+		this.setSize(menuwidth, menuheight);
 		mathGame = mg;
 		
 		play = new JLabel("# Players");
@@ -100,88 +100,89 @@ public class GameSelectMenu extends JPanel implements ActionListener {
 		dfct = new JLabel("Difficulty");
 		
 		finish = new JButton("Finish");
-		finish.setHorizontalTextPosition(JButton.SOUTH_EAST);
-		finish.setVerticalTextPosition(JButton.SOUTH_EAST);
+		//finish.setHorizontalTextPosition(JButton.SOUTH_EAST);
+		//finish.setVerticalTextPosition(SwingConstants.SOUTH_EAST);
 		
 		cancel = new JButton("Cancel");
-		cancel.setHorizontalTextPosition(JButton.SOUTH_WEST);
-		cancel.setVerticalTextPosition(JButton.SOUTH_WEST);
+		cancel.addActionListener(this);
+		//cancel.setHorizontalTextPosition(JButton.SOUTH_WEST);
+		//cancel.setVerticalTextPosition(JButton.SOUTH_WEST);
 		
 		two = new JButton("2");
-		two.setHorizontalTextPosition(JButton.LEFT);
-		two.setVerticalTextPosition(JButton.CENTER);
+		//two.setHorizontalTextPosition(JButton.LEFT);
+		//two.setVerticalTextPosition(JButton.CENTER);
 		
 		three = new JButton("3");
-		three.setHorizontalTextPosition(JButton.LEFT);
-		three.setVerticalTextPosition(JButton.CENTER);
+		//three.setHorizontalTextPosition(JButton.LEFT);
+		//three.setVerticalTextPosition(JButton.CENTER);
 		
 		four = new JButton("4");
-		four.setHorizontalTextPosition(JButton.CENTER);
-		four.setVerticalTextPosition(JButton.CENTER);
+		//four.setHorizontalTextPosition(JButton.CENTER);
+		//four.setVerticalTextPosition(JButton.CENTER);
 		
 		five = new JButton("5");
-		five.setHorizontalTextPosition(JButton.RIGHT);
-		five.setVerticalTextPosition(JButton.CENTER);
+		//five.setHorizontalTextPosition(JButton.RIGHT);
+		//five.setVerticalTextPosition(JButton.CENTER);
 		
 		six = new JButton("6");
-		six.setHorizontalTextPosition(JButton.RIGHT);
-		six.setVerticalTextPosition(JButton.CENTER);
+		//six.setHorizontalTextPosition(JButton.RIGHT);
+		//six.setVerticalTextPosition(JButton.CENTER);
 		
 		frac = new JButton("Fraction");
-		frac.setHorizontalTextPosition(JButton.NORTH_WEST);
-		frac.setVerticalTextPosition(JButton.NORTH_WEST);
+		//frac.setHorizontalTextPosition(JButton.NORTH_WEST);
+		//frac.setVerticalTextPosition(JButton.NORTH_WEST);
 		
 		dec = new JButton("Decimal");
-		dec.setHorizontalTextPosition(JButton.NORTH_EAST);
-		dec.setVerticalTextPosition(JButton.NORTH_EAST);
+		//dec.setHorizontalTextPosition(JButton.NORTH_EAST);
+		//dec.setVerticalTextPosition(JButton.NORTH_EAST);
 		
 		mix = new JButton("Mix");
-		mix.setHorizontalTextPosition(JButton.SOUTH_EAST);
-		mix.setVerticalTextPosition(JButton.SOUTH_EAST);
+		//mix.setHorizontalTextPosition(JButton.SOUTH_EAST);
+		//mix.setVerticalTextPosition(JButton.SOUTH_EAST);
 		
 		inte = new JButton("Integer");
-		inte.setHorizontalTextPosition(JButton.SOUTH_WEST);
-		inte.setVerticalTextPosition(JButton.SOUTH_WEST);
+		//inte.setHorizontalTextPosition(JButton.SOUTH_WEST);
+		//inte.setVerticalTextPosition(JButton.SOUTH_WEST);
 		
 		time = new JButton("Time");
-		time.setHorizontalTextPosition(JButton.LEFT);
-		time.setVerticalTextPosition(JButton.CENTER);
+		//time.setHorizontalTextPosition(JButton.LEFT);
+		//time.setVerticalTextPosition(JButton.CENTER);
 		
 		usage = new JButton("Usage");
-		usage.setHorizontalTextPosition(JButton.RIGHT);
-		usage.setVerticalTextPosition(JButton.CENTER);
+		//usage.setHorizontalTextPosition(JButton.RIGHT);
+		//usage.setVerticalTextPosition(JButton.CENTER);
 		
 		r1 = new JButton("1");
-		r1.setHorizontalTextPosition(JButton.LEADING);
-		r1.setVerticalTextPosition(JButton.CENTER);
+		//r1.setHorizontalTextPosition(JButton.LEADING);
+		//r1.setVerticalTextPosition(JButton.CENTER);
 		
 		r2 = new JButton("2");
-		r2.setHorizontalTextPosition(JButton.LEFT);
-		r2.setVerticalTextPosition(JButton.CENTER);
+		//r2.setHorizontalTextPosition(JButton.LEFT);
+		//r2.setVerticalTextPosition(JButton.CENTER);
 		
 		r3 = new JButton("3");
-		r3.setHorizontalTextPosition(JButton.CENTER);
-		r3.setVerticalTextPosition(JButton.CENTER);
+		//r3.setHorizontalTextPosition(JButton.CENTER);
+		//r3.setVerticalTextPosition(JButton.CENTER);
 		
 		r4 = new JButton("4");
-		r4.setHorizontalTextPosition(JButton.RIGHT);
-		r4.setVerticalTextPosition(JButton.CENTER);
+		//r4.setHorizontalTextPosition(JButton.RIGHT);
+		//r4.setVerticalTextPosition(JButton.CENTER);
 		
 		r5 = new JButton("5");
-		r5.setHorizontalTextPosition(JButton.TRAILING);
-		r5.setVerticalTextPosition(JButton.CENTER);
+		//r5.setHorizontalTextPosition(JButton.TRAILING);
+		//r5.setVerticalTextPosition(JButton.CENTER);
 		
 		easy = new JButton("Easy");
-		easy.setHorizontalTextPosition(JButton.LEFT);
-		easy.setVerticalTextPosition(JButton.CENTER);
+		//easy.setHorizontalTextPosition(JButton.LEFT);
+		//easy.setVerticalTextPosition(JButton.CENTER);
 		
 		med = new JButton("Medium");
-		med.setHorizontalTextPosition(JButton.CENTER);
-		med.setVerticalTextPosition(JButton.CENTER);
+		//med.setHorizontalTextPosition(JButton.CENTER);
+		//med.setVerticalTextPosition(JButton.CENTER);
 		
 		hard = new JButton("Hard");
-		hard.setHorizontalTextPosition(JButton.RIGHT);
-		hard.setVerticalTextPosition(JButton.CENTER);
+		//hard.setHorizontalTextPosition(JButton.RIGHT);
+		//hard.setVerticalTextPosition(JButton.CENTER);
 		
 		diffi = new JPanel();
 		diffi.add(easy);
@@ -217,6 +218,7 @@ public class GameSelectMenu extends JPanel implements ActionListener {
 		round.add(r5);
 		round.setBounds(10, 380, 280, 75);
 		
+		init = new JPanel();
 		init.add(finish);
 		init.add(cancel);
 		init.setBounds(10, 465, 280, 75);
@@ -249,15 +251,23 @@ public class GameSelectMenu extends JPanel implements ActionListener {
 		add(dfct);
 	}
 	
+	/**
+	 * Resize (since .pack() will make it null size)
+	 */
+	public void fit()	{
+		this.setSize(menuwidth, menuheight);
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == finish)	{
 			startgame();
 		}
 		else if(e.getSource() == cancel) {
 			System.out.println("go back");
-			//TODO: cause popup to close
+			this.dispose();
 		}
 		//TODO: confirm whether or not the .setSelected function will have any impact on showing if a button is selected or not
+		//ANSWER to to do: use a radiogroup instead and you won't have to worry about which is selected.  I'll handle it
 		else if(e.getSource() == two) {
 			System.out.println("2-players");
 			two.setSelected(true);
