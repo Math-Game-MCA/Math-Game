@@ -32,7 +32,7 @@ public class SidePanel extends JPanel implements ActionListener {
 
 	MathGame mathGame;
 	TypeManager typeManager;
-	public ScoringSystem scorekeeper;
+	ScoringSystem scorekeeper;
 	
 	JLabel clock;
 	JLabel pass;// count how many you get right
@@ -87,7 +87,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	public void init(MathGame mathGame) {
 		this.mathGame = mathGame;
 		this.typeManager = mathGame.typeManager;
-		this.scorekeeper = new ScoringSystem();
+		scorekeeper = new ScoringSystem();
 
 		// this.setBorder(new LineBorder(Color.BLACK));
 		this.setBounds(750, 0, 150, 620);
@@ -208,9 +208,10 @@ public class SidePanel extends JPanel implements ActionListener {
 		}
 	}
 
-	public void startTimer(){
+	public void startTimer(String type){
 		timer.start();
 		startTime = System.currentTimeMillis();
+		scorekeeper.setGameType(type);
 		scorekeeper.setTimeStart(startTime);
 		
 	}
@@ -260,9 +261,10 @@ public class SidePanel extends JPanel implements ActionListener {
 									.parseNumFromText(actualAns) == finalAnsCard
 									.parseNumFromText(computedAns)) {
 						JOptionPane.showMessageDialog(this,
-								"Congratulations!  Victory is yours!");
+								"Congratulations!  Victory is yours! Points earned: " + scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex()+1));
 						// later on change to something else... victory song? who knows...
-						scorekeeper.uponWinning(System.currentTimeMillis());
+						System.out.println("Cards used: " + (undo.getIndex()+1));
+						
 						resetFunction();
 						//score.setText(Double.toString(Double.parseDouble(score.getText()) + 20));//determine scoring algorithm
 						points = (int) scorekeeper.getTotalScore();

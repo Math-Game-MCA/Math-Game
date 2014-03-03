@@ -6,11 +6,17 @@ public class ScoringSystem {
 	private long StartTime;
 	private long EndTime;
 	private double roundScore;
+	private String gameType;
 	
 	public ScoringSystem()	{
 		StartTime = 0;
 		roundScore = 0;
 		totalScore = 0;
+	}
+	
+	public void setGameType(String type) {
+		gameType = type;
+		System.out.println("Game type is: " + gameType);
 	}
 	
 	public void setTimeStart (long time)	{
@@ -27,10 +33,14 @@ public class ScoringSystem {
 		return score;
 	}
 	
-	public double uponWinning(long time)	{
+	public double uponWinning(long time, int cardCount)	{
 		EndTime = time;
 		long totalTime = EndTime - StartTime;
-		roundScore = scoringAlgorithm(totalTime / 1000);//divide by 1000 to get seconds
+		if (gameType == "Speed")
+			roundScore = scoringAlgorithm(totalTime / 1000);//divide by 1000 to get seconds
+		else
+			roundScore = cardCount * 20;
+		System.out.println(cardCount + " " + roundScore);
 		totalScore += roundScore;
 		return roundScore;
 	}

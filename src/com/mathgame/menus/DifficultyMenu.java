@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.mathgame.math.MathGame;
@@ -107,31 +108,46 @@ public class DifficultyMenu extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(easy))
 		{
+			Object[] options = {"Speed", "Accuracy"}; //TODO choose better words
+			String s = (String) JOptionPane.showInputDialog(this, "Choose a game mode", "Game Mode", JOptionPane.OK_CANCEL_OPTION, null, options, null);
+			if (s.isEmpty()) {
+				return;
+			};
 			mathGame.typeManager.setDiff(Difficulty.EASY);
 			mathGame.typeManager.randomize();
-			startGame();
+			startGame(s);
 		}
 		else if(e.getSource().equals(medium)){
+			Object[] options = {"Speed", "Accuracy"}; //TODO choose better words
+			String s = (String) JOptionPane.showInputDialog(this, "Choose a game mode", "Game Mode", JOptionPane.OK_CANCEL_OPTION, null, options, null);
+			if (s.isEmpty()) {
+				return;
+			};
 			mathGame.typeManager.setDiff(Difficulty.MEDIUM);
 			mathGame.typeManager.randomize();
-			startGame();
+			startGame(s);
 		}
 		else if(e.getSource().equals(hard)){
+			Object[] options = {"Speed", "Complexity"}; //TODO choose better words
+			String s = (String) JOptionPane.showInputDialog(this, "Choose a game mode", "Game Mode", JOptionPane.OK_CANCEL_OPTION, null, options, null);
+			if (s.isEmpty()) {
+				return;
+			};
 			mathGame.typeManager.setDiff(Difficulty.HARD);
 			mathGame.typeManager.randomize();
-			startGame();
+			startGame(s);
 		}
 	}
 	
 	/**
 	 * Starts the game
 	 */
-	public void startGame() {
+	public void startGame(String s) {		
 		
 		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
 		System.out.println("ENTER GAME");
 		
-		mathGame.sidePanel.startTimer();
+		mathGame.sidePanel.startTimer(s);
 		
 		mathGame.typeManager.init(mathGame.cardPanel);
 		//mathGame.typeManager.randomize();
