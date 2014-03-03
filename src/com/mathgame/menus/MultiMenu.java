@@ -214,7 +214,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 			gsm.pack();
 			gsm.fit();
 			gsm.setVisible(true);
-			gsm.toFront();
+			gsm.toFront();//TODO combine tofront and setvisible into one function (init?) and then return a gamecard
 			//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAMETYPEMENU);
 			//startgame();
 		}
