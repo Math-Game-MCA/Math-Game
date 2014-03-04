@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager;
@@ -37,12 +38,15 @@ public class MySQLAccess{
 	private String num2;
 	private String answer;//double
 	
+	GameAccess gameAccess;
 	
-	public static String sqlError="";
+	
+	protected static String sqlError="err:";
 	MathGame mathGame;
 	
 	public MySQLAccess(MathGame mathGame){
 		this.mathGame = mathGame;
+		gameAccess = new GameAccess(connect);
 	}
 	
 	//Only used for SQLProject
@@ -303,5 +307,10 @@ public class MySQLAccess{
 	
 			System.out.println(e);
 		}
+	}
+	
+	public ArrayList<String> getUsersGame() throws Exception{
+		gameAccess = new GameAccess(connect);
+		return gameAccess.getUsers();
 	}
 }

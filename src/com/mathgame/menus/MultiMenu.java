@@ -3,14 +3,18 @@
  */
 package com.mathgame.menus;
 
+import java.awt.Button;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -63,16 +67,19 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	int mx;
 	int my;
 	
-	JPanel carda;
-	JPanel cardb;
+	JPanel gamesList;
+	JPanel usersList;
 	JButton home;//press to enter the game;
 	JButton host;//press to host game
 	JButton join;//press to join game
-	JButton random;//unknown
+	JButton refresh;//updates from database
 	JLabel mode;//self-explanatory
 	JLabel friend;
 	
+	Panel innerPanel; 
+	
 	static GameSelectMenu gsm;
+	private ArrayList<String> usersArray = new ArrayList<String>();
 	
 	//constructor
 	public void init(MathGame mg, TypeManager tn)	{
@@ -125,28 +132,37 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		join.setVerticalTextPosition(JButton.CENTER);
 		join.setBorderPainted(false);
 	    
-		random = new JButton("Random Game");
-		random.setFont(buttonFont);
-		random.setBounds(672, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
-		random.setHorizontalTextPosition(JButton.CENTER);
-		random.setVerticalTextPosition(JButton.CENTER);
-		random.setBorderPainted(false);
+		refresh = new JButton("Refresh");
+		refresh.setFont(buttonFont);
+		refresh.setBounds(672, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
+		refresh.setHorizontalTextPosition(JButton.CENTER);
+		refresh.setVerticalTextPosition(JButton.CENTER);
+		refresh.setBorderPainted(false);
 		
-	    carda = new JPanel();
-		carda.setBounds(100, 100, 500, 400);
-		carda.setVisible(true);
+	    gamesList = new JPanel();
+	    gamesList.setBounds(100, 100, 500, 400);
+	    gamesList.setVisible(true);
 		
 		//TODO SAMPLE GAMES, delete later; add games instead through host menu
-		carda.add(new GameCard("TEST1", "Timed Scoring"));
-		carda.add(new GameCard("TEST2", "Timed Scoring"));
-		carda.add(new GameCard("TEST3", "Win Scoring"));
-		carda.add(new GameCard("TEST4", "Timed Scoring"));
-		carda.add(new GameCard("TEST5", "Win Scoring"));
-		carda.add(new GameCard("TEST6", "Win Scoring"));
+	    gamesList.add(new GameCard("TEST1", "Timed Scoring"));
+	    gamesList.add(new GameCard("TEST2", "Timed Scoring"));
+	    gamesList.add(new GameCard("TEST3", "Win Scoring"));
+	    gamesList.add(new GameCard("TEST4", "Timed Scoring"));
+	    gamesList.add(new GameCard("TEST5", "Win Scoring"));
+	    gamesList.add(new GameCard("TEST6", "Win Scoring"));
 		
-		cardb = new JPanel();
-		cardb.setBounds(650, 100, 150, 400);
-		cardb.setVisible(true);
+		usersList = new JPanel();
+		usersList.setBounds(650, 100, 150, 400);
+		usersList.setVisible(true);
+		
+		GridLayout columnLayout = new GridLayout(0, 1);
+		innerPanel = new Panel();
+		innerPanel.setLayout(new FlowLayout());
+		
+		usersList.setLayout(columnLayout);
+		usersList.add(innerPanel);
+		
+				
 	    
 		try {
 		    home.setIcon(buttonImage);
@@ -161,9 +177,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		    join.setRolloverIcon(buttonRollOverImage);
 		    join.setPressedIcon(buttonRollOverImage);
 		    
-		    random.setIcon(buttonImage);
-		    random.setRolloverIcon(buttonRollOverImage);
-		    random.setPressedIcon(buttonPressedImage);
+		    refresh.setIcon(buttonImage);
+		    refresh.setRolloverIcon(buttonRollOverImage);
+		    refresh.setPressedIcon(buttonPressedImage);
 		    
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -178,9 +194,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		add(home);
 		add(host);
 		add(join);
-		add(random);
-		add(carda);
-		add(cardb);
+		add(refresh);
+		add(gamesList);
+		add(usersList);
 
 		//p1.setBorder(new TitledBorder("Epsilon"));
 		
@@ -195,9 +211,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		join.addMouseMotionListener(this);
 		join.addMouseListener(this);
 		join.addActionListener(this);
-		random.addActionListener(this);
-		random.addMouseMotionListener(this);
-		random.addMouseListener(this);
+		refresh.addActionListener(this);
+		refresh.addMouseMotionListener(this);
+		refresh.addMouseListener(this);
 		
 		System.out.println("Menu Init Complete");
 	}
@@ -223,13 +239,38 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 			//choosedecimal();
 			//startgame();
 		}
-		else if(e.getSource() == random)
+		else if(e.getSource() == refresh)
 		{
+			refreshDatabase();
 			//choosemixed();
 			//startgame();
 		}
 	}
 	
+	public void refreshDatabase(){
+		try {
+			usersArray = mathGame.sql.getUsersGame();
+			updateUsersList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateUsersList(){
+		//usersList.removeAll();
+		System.out.println("updating users " + usersArray.size());
+		
+		for(int i=0; i<usersArray.size(); i++)
+		{
+			JLabel label = new JLabel(usersArray.get(i));
+			label.setPreferredSize(new Dimension(100, 20));
+			innerPanel.add(label);
+		}
+		
+		usersList.revalidate();
+		usersList.repaint();
+		
+	}
 	/**
 	 * Starts the game
 	 */
@@ -343,7 +384,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		else if(e.getSource() == join) {
 			integerinfo();
 		}
-		else if(e.getSource() == random) {
+		else if(e.getSource() == refresh) {
 			mixedinfo();
 		}
 	}
