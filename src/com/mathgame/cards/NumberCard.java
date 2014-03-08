@@ -22,6 +22,7 @@ public class NumberCard extends JLabel{
 	 */
 	private static final long serialVersionUID = -4999587614115223052L;
 	private String value;
+	private String strValue;
 	private int width = 80;
 	private int height = 100;
 	private final double epsilon = 0.00000000000001;//max value error until rounding; i.e. 14 decimal places
@@ -66,6 +67,7 @@ public class NumberCard extends JLabel{
 	public NumberCard(double n){
 		n = round(n);//CRITICAL: round the answer to avoid errors comparing value!
 		value = ""+n;
+		strValue = ""+n;
 		//this.setText(String.valueOf(n));
 		//this.setFont(sansSerif36);
 		this.setHorizontalAlignment(JLabel.CENTER);
@@ -76,11 +78,12 @@ public class NumberCard extends JLabel{
 		imageFile = "images/card" + numberTag + "file";
 		imgGen.setImgFile(imageFile);
 		img = new ImageIcon();
-		renderText(value);
+		renderText(strValue);
 	}
 	
 	public NumberCard(String s){
 		value = ""+parseNumFromText(s);
+		strValue = s;
 		//this.setText(s);
 		//this.setFont(sansSerif36);
 		this.setHorizontalAlignment(JLabel.CENTER);
@@ -91,7 +94,7 @@ public class NumberCard extends JLabel{
 		imageFile = "images/card" + numberTag + "file";
 		imgGen.setImgFile(imageFile);
 		img = new ImageIcon();
-		renderText(value);
+		renderText(strValue);
 	}
 
 	/**
@@ -181,9 +184,23 @@ public class NumberCard extends JLabel{
 	 */
 	public void setValue(String value) {
 		this.value = value;
-		renderText(value);
 	}
 	 
+	/**
+	 * @return the strValue
+	 */
+	public String getStrValue() {
+		return strValue;
+	}
+
+	/**
+	 * @param strValue the strValue to set
+	 */
+	public void setStrValue(String strValue) {
+		this.strValue = strValue;
+		renderText(strValue);
+	}
+
 	/**
 	 * @return the width
 	 */

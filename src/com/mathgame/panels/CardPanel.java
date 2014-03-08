@@ -156,12 +156,12 @@ public class CardPanel extends JPanel{
 		
 		values = new ArrayList<String>();
 		
-		values.add(card1.getText());
-		values.add(card2.getText());
-		values.add(card3.getText());
-		values.add(card4.getText());
-		values.add(card5.getText());
-		values.add(card6.getText());
+		values.add(card1.getStrValue());
+		values.add(card2.getStrValue());
+		values.add(card3.getStrValue());
+		values.add(card4.getStrValue());
+		values.add(card5.getStrValue());
+		values.add(card6.getStrValue());
 		
 		calc = new Calculate();
 		

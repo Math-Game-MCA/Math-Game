@@ -83,9 +83,7 @@ public class WorkspacePanel extends JPanel{
 		if(answer != null)
 		{
 			System.out.println("answer:"+answer);
-			if(answer.isInfinite() || answer.isNaN()) { //TODO does this fix the infinity bug?
-				//Yes, it fixes it, but with a caveat - using getText instead of getValue... may need to '
-				//update code to support getValue instead of getText
+			if(answer.isInfinite() || answer.isNaN()) {
 				JOptionPane.showMessageDialog(this, "You can't divide by zero!");
 				
 				NumberCard tempnum1 = (NumberCard)this.getComponent(0);
@@ -95,14 +93,14 @@ public class WorkspacePanel extends JPanel{
 				mathGame.opPanel.addOperator(restoreOperator);
 				
 				if (tempnum1.getHome() == "home") {// originally in card panel
-					System.out.println("restore card1; value: " + tempnum1.getText());
-					mathGame.cardPanel.restoreCard(tempnum1.getText());
+					System.out.println("restore card1; value: " + tempnum1.getStrValue());
+					mathGame.cardPanel.restoreCard(tempnum1.getStrValue());
 				} else if (tempnum1.getHome() == "hold") {// new card in holding area
 					for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
 						NumberCard temp = (NumberCard) mathGame.holdPanel
 								.getComponent(0);
 						if (temp.getHome() == "home") {
-							mathGame.cardPanel.restoreCard(temp.getText());
+							mathGame.cardPanel.restoreCard(temp.getStrValue());
 							;
 						} // check for cards that were dragged from home into workspace
 							// and restores them
@@ -111,14 +109,14 @@ public class WorkspacePanel extends JPanel{
 				}
 
 				if (tempnum2.getHome() == "home") {
-					System.out.println("restore card2; value: " + tempnum2.getText());
-					mathGame.cardPanel.restoreCard(tempnum2.getText());
+					System.out.println("restore card2; value: " + tempnum2.getStrValue());
+					mathGame.cardPanel.restoreCard(tempnum2.getStrValue());
 				} else if (tempnum2.getHome() == "hold") {
 					for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
 						NumberCard temp = (NumberCard) mathGame.holdPanel
 								.getComponent(0);
 						if (temp.getHome() == "home") {
-							mathGame.cardPanel.restoreCard(temp.getText());
+							mathGame.cardPanel.restoreCard(temp.getStrValue());
 						}
 					}
 					mathGame.holdPanel.add(tempnum2);
@@ -139,7 +137,7 @@ public class WorkspacePanel extends JPanel{
 			if(typeManager.getType() == GameType.FRACTIONS) {
 				String temp = typeManager.convertDecimaltoFraction(answer);
 				answerCard.setValue(temp);
-				answerCard.setText(temp);
+				answerCard.setStrValue(temp);
 				System.out.println("as fraction: " + typeManager.convertDecimaltoFraction(answer));
 			}
 			else

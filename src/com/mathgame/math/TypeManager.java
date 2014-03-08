@@ -303,20 +303,20 @@ public class TypeManager {
 		if(gameType == GameType.FRACTIONS) {
 			ArrayList<Double> newValues = randomFractionValues();
 
-			card1.setText(convertDecimaltoFraction(newValues.get(0)));
-			card2.setText(convertDecimaltoFraction(newValues.get(1)));
-			card3.setText(convertDecimaltoFraction(newValues.get(2)));
-			card4.setText(convertDecimaltoFraction(newValues.get(3)));
-			card5.setText(convertDecimaltoFraction(+newValues.get(4)));
-			card6.setText(convertDecimaltoFraction(newValues.get(5)));
+			card1.setStrValue(convertDecimaltoFraction(newValues.get(0)));
+			card2.setStrValue(convertDecimaltoFraction(newValues.get(1)));
+			card3.setStrValue(convertDecimaltoFraction(newValues.get(2)));
+			card4.setStrValue(convertDecimaltoFraction(newValues.get(3)));
+			card5.setStrValue(convertDecimaltoFraction(+newValues.get(4)));
+			card6.setStrValue(convertDecimaltoFraction(newValues.get(5)));
 
-			values.set(0, card1.getText());
-			values.set(1, card2.getText());
-			values.set(2, card3.getText());
-			values.set(3, card4.getText());
-			values.set(4, card5.getText());
-			values.set(5, card6.getText());
-			ans.setText(mathGame.sql.getAnswer());//currentRow.getCell(4).getStringCellValue());
+			values.set(0, card1.getStrValue());
+			values.set(1, card2.getStrValue());
+			values.set(2, card3.getStrValue());
+			values.set(3, card4.getStrValue());
+			values.set(4, card5.getStrValue());
+			values.set(5, card6.getStrValue());
+			ans.setStrValue(mathGame.sql.getAnswer());//currentRow.getCell(4).getStringCellValue());
 			System.out.println(newValues.get(0));
 			
 			
@@ -326,7 +326,7 @@ public class TypeManager {
 			card4.setValue(""+newValues.get(3));
 			card5.setValue(""+newValues.get(4));
 			card6.setValue(""+newValues.get(5));
-			ans.setValue(""+card1.parseNumFromText(ans.getText()));
+			ans.setValue(""+card1.parseNumFromText(ans.getStrValue()));
 			//card1.parseNumFromText(newValues.get(3))
 			
 		}
@@ -334,20 +334,20 @@ public class TypeManager {
 		else if(gameType == GameType.DECIMALS){
 			ArrayList<Double> newValues = randomDecimalValues();
 
-			card1.setText(""+newValues.get(0));
-			card2.setText(""+newValues.get(1));
-			card3.setText(""+newValues.get(2));
-			card4.setText(""+newValues.get(3));
-			card5.setText(""+newValues.get(4));
-			card6.setText(""+newValues.get(5));
+			card1.setStrValue(""+newValues.get(0));
+			card2.setStrValue(""+newValues.get(1));
+			card3.setStrValue(""+newValues.get(2));
+			card4.setStrValue(""+newValues.get(3));
+			card5.setStrValue(""+newValues.get(4));
+			card6.setStrValue(""+newValues.get(5));
 
-			values.set(0, card1.getText());
-			values.set(1, card2.getText());
-			values.set(2, card3.getText());
-			values.set(3, card4.getText());
-			values.set(4, card5.getText());
-			values.set(5, card6.getText());
-			ans.setText(mathGame.sql.getAnswer());//currentRow.getCell(4).getNumericCellValue());
+			values.set(0, card1.getStrValue());
+			values.set(1, card2.getStrValue());
+			values.set(2, card3.getStrValue());
+			values.set(3, card4.getStrValue());
+			values.set(4, card5.getStrValue());
+			values.set(5, card6.getStrValue());
+			ans.setStrValue(mathGame.sql.getAnswer());//currentRow.getCell(4).getNumericCellValue());
 			System.out.println(newValues.get(0));
 			
 			
@@ -357,26 +357,26 @@ public class TypeManager {
 			card4.setValue(""+newValues.get(3));
 			card5.setValue(""+newValues.get(4));
 			card6.setValue(""+newValues.get(5));
-			ans.setValue(""+card1.parseNumFromText(ans.getText()));
+			ans.setValue(""+card1.parseNumFromText(ans.getStrValue()));
 		}
 		
 		else{
 			ArrayList<Integer> newValues = randomIntegerValues();
 
-			card1.setText(""+newValues.get(0));
-			card2.setText(""+newValues.get(1));
-			card3.setText(""+newValues.get(2));
-			card4.setText(""+newValues.get(3));
-			card5.setText(""+newValues.get(4));
-			card6.setText(""+newValues.get(5));
+			card1.setStrValue(""+newValues.get(0));
+			card2.setStrValue(""+newValues.get(1));
+			card3.setStrValue(""+newValues.get(2));
+			card4.setStrValue(""+newValues.get(3));
+			card5.setStrValue(""+newValues.get(4));
+			card6.setStrValue(""+newValues.get(5));
 
-			values.set(0, card1.getText());
-			values.set(1, card2.getText());
-			values.set(2, card3.getText());
-			values.set(3, card4.getText());
-			values.set(4, card5.getText());
-			values.set(5, card6.getText());
-			ans.setText(mathGame.sql.getAnswer());//currentRow.getCell(4).getNumericCellValue());
+			values.set(0, card1.getStrValue());
+			values.set(1, card2.getStrValue());
+			values.set(2, card3.getStrValue());
+			values.set(3, card4.getStrValue());
+			values.set(4, card5.getStrValue());
+			values.set(5, card6.getStrValue());
+			ans.setStrValue(mathGame.sql.getAnswer());//currentRow.getCell(4).getNumericCellValue());
 			System.out.println(newValues.get(0));
 			
 			
@@ -386,7 +386,7 @@ public class TypeManager {
 			card4.setValue(""+newValues.get(3));
 			card5.setValue(""+newValues.get(4));
 			card6.setValue(""+newValues.get(5));
-			ans.setValue(""+card1.parseNumFromText(ans.getText()));
+			ans.setValue(""+card1.parseNumFromText(ans.getStrValue()));
 		}
 		
 		//tag each card with "home" (cardpanel) being original location

@@ -370,14 +370,14 @@ public class SidePanel extends JPanel implements ActionListener {
 			return;
 		}
 		if (tempnum1.getHome() == "home") {// originally in card panel
-			System.out.println("restore card1; value: " + tempnum1.getText());
-			mathGame.cardPanel.restoreCard(tempnum1.getText());
+			System.out.println("restore card1; value: " + tempnum1.getStrValue());
+			mathGame.cardPanel.restoreCard(tempnum1.getStrValue());
 		} else if (tempnum1.getHome() == "hold") {// new card in holding area
 			for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
 				NumberCard temp = (NumberCard) mathGame.holdPanel
 						.getComponent(0);
 				if (temp.getHome() == "home") {
-					mathGame.cardPanel.restoreCard(temp.getText());
+					mathGame.cardPanel.restoreCard(temp.getStrValue());
 					;
 				} // check for cards that were dragged from home into workspace
 					// and restores them
@@ -386,14 +386,14 @@ public class SidePanel extends JPanel implements ActionListener {
 		}
 
 		if (tempnum2.getHome() == "home") {
-			System.out.println("restore card2; value: " + tempnum2.getText());
-			mathGame.cardPanel.restoreCard(tempnum2.getText());
+			System.out.println("restore card2; value: " + tempnum2.getStrValue());
+			mathGame.cardPanel.restoreCard(tempnum2.getStrValue());
 		} else if (tempnum2.getHome() == "hold") {
 			for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
 				NumberCard temp = (NumberCard) mathGame.holdPanel
 						.getComponent(0);
 				if (temp.getHome() == "home") {
-					mathGame.cardPanel.restoreCard(temp.getText());
+					mathGame.cardPanel.restoreCard(temp.getStrValue());
 				}
 			}
 			mathGame.holdPanel.add(tempnum2);
@@ -408,7 +408,7 @@ public class SidePanel extends JPanel implements ActionListener {
 			for (int i = 0; i < mathGame.holdPanel.getComponentCount(); i++) {
 				temp = (NumberCard) mathGame.holdPanel.getComponent(i);
 				// note: cast (NumberCard) assumes that only NumberCards will be in holdpanel
-				if (temp.getText() == prevAns.getText()) {// check to see if the checked card is the previous answer
+				if (temp.getStrValue() == prevAns.getStrValue()) {// check to see if the checked card is the previous answer
 					System.out.println("Deleting card in hold");
 					mathGame.holdPanel.remove(i);
 					i = mathGame.holdPanel.getComponentCount() + 1;// so we can exit this loop
@@ -461,7 +461,7 @@ public class SidePanel extends JPanel implements ActionListener {
 			for (int x = 0; x < count; x++) {
 				if (mathGame.workPanel.getComponent(0) instanceof NumberCard) {
 					temp = (NumberCard) mathGame.workPanel.getComponent(0);
-					mathGame.cardPanel.restoreCard(temp.getText());
+					mathGame.cardPanel.restoreCard(temp.getStrValue());
 				} else if (mathGame.workPanel.getComponent(0) instanceof OperationCard) {
 					temp2 = (OperationCard) mathGame.workPanel.getComponent(0);
 					mathGame.opPanel.addOperator(temp2.getOperation());
@@ -476,7 +476,7 @@ public class SidePanel extends JPanel implements ActionListener {
 			for (int x = 0; x < count; x++) {
 				if (mathGame.holdPanel.getComponent(0) instanceof NumberCard) {
 					temp = (NumberCard) mathGame.holdPanel.getComponent(0);
-					mathGame.cardPanel.restoreCard(temp.getText());
+					mathGame.cardPanel.restoreCard(temp.getStrValue());
 				} else if (mathGame.holdPanel.getComponent(0) instanceof OperationCard) {
 					temp2 = (OperationCard) mathGame.holdPanel.getComponent(0);
 					mathGame.opPanel.addOperator(temp2.getOperation());
