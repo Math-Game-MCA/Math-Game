@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
@@ -29,9 +30,17 @@ public class NumberCard extends JLabel{
 	//sizes can be overridden with setWidth and setHeight methods
 	public String type = "none";
 	public String home;//hold or home (i.e. was it a created card or a new card?)
-
+	//image processing
+	private final String imageFile;
+	private ImageIcon img;
+	private ImageGenerator imgGen;
+	
 	public NumberCard(){
-		
+		//image processing
+		imgGen = new ImageGenerator(this.getWidth(), this.getHeight());
+		imageFile = "images/card" + numberTag + "file";
+		imgGen.setImgFile(imageFile);
+		img = new ImageIcon();
 	}
 	
 	/**
@@ -57,18 +66,32 @@ public class NumberCard extends JLabel{
 	public NumberCard(double n){
 		n = round(n);//CRITICAL: round the answer to avoid errors comparing value!
 		value = ""+n;
-		this.setText(String.valueOf(n));
-		this.setFont(sansSerif36);
+		//this.setText(String.valueOf(n));
+		//this.setFont(sansSerif36);
 		this.setHorizontalAlignment(JLabel.CENTER);
 		this.setPreferredSize(new Dimension(width, height));
+
+		//image processing
+		imgGen = new ImageGenerator(this.getWidth(), this.getHeight());
+		imageFile = "images/card" + numberTag + "file";
+		imgGen.setImgFile(imageFile);
+		img = new ImageIcon();
+		renderText(value);
 	}
 	
 	public NumberCard(String s){
 		value = ""+parseNumFromText(s);
-		this.setText(s);
-		this.setFont(sansSerif36);
+		//this.setText(s);
+		//this.setFont(sansSerif36);
 		this.setHorizontalAlignment(JLabel.CENTER);
 		this.setPreferredSize(new Dimension(width, height));
+
+		//image processing
+		imgGen = new ImageGenerator(this.getWidth(), this.getHeight());
+		imageFile = "images/card" + numberTag + "file";
+		imgGen.setImgFile(imageFile);
+		img = new ImageIcon();
+		renderText(value);
 	}
 
 	/**
@@ -158,6 +181,7 @@ public class NumberCard extends JLabel{
 	 */
 	public void setValue(String value) {
 		this.value = value;
+		renderText(value);
 	}
 	 
 	/**
@@ -213,13 +237,25 @@ public class NumberCard extends JLabel{
 	}
 
 	/**
+	 * Renders the string into image
+	 * @param t
+	 */
+	public void renderText(String t)	{
+		imgGen.renderExpression(t);
+		revalidate();
+		repaint();
+	}
+	
+	/**
 	 * sets size, color, and border of card
 	 * 
 	 * @param Graphics g
 	 */
 	public void paintComponent(Graphics g)	{
 		g.setColor(new Color(255, 255, 255));
-		g.fillRect(0, 0, width, height);
+		//g.fillRect(0, 0, width, height);
+		img.setImage(imgGen.getImg());
+		g.drawImage(img.getImage(), 0, 0, NumberCard.this);
 		this.setBorder(new LineBorder(Color.BLACK));
 		super.paintComponent(g);//put at end so that text can render
 	}
