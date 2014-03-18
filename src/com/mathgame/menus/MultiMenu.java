@@ -259,7 +259,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	public void updateUsersList(){
 		//usersList.removeAll();
 		System.out.println("updating users " + usersArray.size());
-		
+		innerPanel.removeAll();
 		for(int i=0; i<usersArray.size(); i++)
 		{
 			JLabel label = new JLabel(usersArray.get(i));
