@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * The main class of the program
  */
-public class MathGame extends JApplet implements ActionListener {
+public class MathGame extends Container implements ActionListener {
 
 	private static final long serialVersionUID = 412526093812019078L;
 	int appWidth = 900;// 1300 or 900
@@ -94,10 +94,10 @@ public class MathGame extends JApplet implements ActionListener {
 	/**
 	 * Initializes the window & game
 	 */
-	@Override
-	public void init() {
+	public MathGame() {
 		System.out.println("initing");
-		setSize(appWidth, appHeight);
+		setPreferredSize(new Dimension(appWidth, appHeight));
+		//setSize(appWidth, appHeight);
 		setLayout(null);
 		// ((JComponent) getContentPane()).setBorder(new
 		// LineBorder(Color.yellow));
@@ -322,7 +322,7 @@ public class MathGame extends JApplet implements ActionListener {
 	}
 
 	public URL getDocBase() {
-		return getDocumentBase();
+		return getDocBase();
 	}
 
 }// class file

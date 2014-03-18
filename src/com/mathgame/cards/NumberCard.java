@@ -39,7 +39,7 @@ public class NumberCard extends JLabel{
 	public NumberCard(){
 		//image processing
 		imgGen = new ImageGenerator(this.getWidth(), this.getHeight());
-		imageFile = "images/card" + numberTag + "file";
+		imageFile = "card" + numberTag + "file";
 		imgGen.setImgFile(imageFile);
 		img = new ImageIcon();
 	}
@@ -75,7 +75,7 @@ public class NumberCard extends JLabel{
 
 		//image processing
 		imgGen = new ImageGenerator(this.getWidth(), this.getHeight());
-		imageFile = "images/card" + numberTag + "file";
+		imageFile = "card" + numberTag + "file";
 		imgGen.setImgFile(imageFile);
 		img = new ImageIcon();
 		renderText(strValue);
@@ -91,7 +91,7 @@ public class NumberCard extends JLabel{
 
 		//image processing
 		imgGen = new ImageGenerator(this.getWidth(), this.getHeight());
-		imageFile = "images/card" + numberTag + "file";
+		imageFile = "card" + numberTag + "file";
 		imgGen.setImgFile(imageFile);
 		img = new ImageIcon();
 		renderText(strValue);

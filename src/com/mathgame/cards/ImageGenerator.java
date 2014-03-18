@@ -211,7 +211,9 @@ public class ImageGenerator {
 	 * @param imgFile the imgFile to set
 	 */
 	public void setImgFile(String imgFile) {
-		this.imgFile = imgFile;
+		String fileSeparator = System.getProperty("file.separator");
+		this.imgFile = "images"+fileSeparator+imgFile;
+		//hima, it didn't work b/c i needed the "fileseparator" - no idea what it does...
 		outf = new File(imgFile);
 		
 		try {
