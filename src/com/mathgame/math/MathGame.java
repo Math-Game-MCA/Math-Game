@@ -7,11 +7,13 @@ import com.mathgame.menus.DifficultyMenu;
 import com.mathgame.menus.GameTypeMenu;
 import com.mathgame.menus.MainMenu;
 import com.mathgame.menus.MultiMenu;
+import com.mathgame.menus.OptionMenu;
 import com.mathgame.panels.CardPanel;
 import com.mathgame.panels.HoldPanel;
 import com.mathgame.panels.OperationPanel;
 import com.mathgame.panels.SidePanel;
 import com.mathgame.panels.WorkspacePanel;
+
 
 import java.awt.*;
 import java.awt.dnd.DropTarget;

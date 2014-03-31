@@ -249,6 +249,8 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	public void startgame() {
 		//this.setVisible(false);
 		Object[] options = {"Single Player", "Multiplayer"};
+		String name = JOptionPane.showInputDialog(this, "User Name");
+		System.out.println("user name is " + name);
 		String s = (String) JOptionPane.showInputDialog(this, "Choose the mode", "Mode Select", JOptionPane.YES_NO_CANCEL_OPTION, null, options, null);
 		int n = 0;
 		if(s == "Single Player")
