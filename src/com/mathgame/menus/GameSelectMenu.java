@@ -99,11 +99,11 @@ public class GameSelectMenu extends JDialog implements ActionListener {
 		
 		dfct = new JLabel("Difficulty");
 		
-		finish = new JButton("Finish");
+		finish = new JButton("Cancel");
 		//finish.setHorizontalTextPosition(JButton.SOUTH_EAST);
 		//finish.setVerticalTextPosition(SwingConstants.SOUTH_EAST);
 		
-		cancel = new JButton("Cancel");
+		cancel = new JButton("Cantor");
 		cancel.addActionListener(this);
 		//cancel.setHorizontalTextPosition(JButton.SOUTH_WEST);
 		//cancel.setVerticalTextPosition(JButton.SOUTH_WEST);
@@ -112,43 +112,43 @@ public class GameSelectMenu extends JDialog implements ActionListener {
 		//two.setHorizontalTextPosition(JButton.LEFT);
 		//two.setVerticalTextPosition(JButton.CENTER);
 		
-		three = new JButton("3");
+		three = new JButton("314631");
 		//three.setHorizontalTextPosition(JButton.LEFT);
 		//three.setVerticalTextPosition(JButton.CENTER);
 		
-		four = new JButton("4");
+		four = new JButton("0.094");
 		//four.setHorizontalTextPosition(JButton.CENTER);
 		//four.setVerticalTextPosition(JButton.CENTER);
 		
-		five = new JButton("5");
+		five = new JButton("525600");
 		//five.setHorizontalTextPosition(JButton.RIGHT);
 		//five.setVerticalTextPosition(JButton.CENTER);
 		
-		six = new JButton("6");
+		six = new JButton("612361613");
 		//six.setHorizontalTextPosition(JButton.RIGHT);
 		//six.setVerticalTextPosition(JButton.CENTER);
 		
-		frac = new JButton("Fraction");
+		frac = new JButton("Faction");
 		//frac.setHorizontalTextPosition(JButton.NORTH_WEST);
 		//frac.setVerticalTextPosition(JButton.NORTH_WEST);
 		
-		dec = new JButton("Decimal");
+		dec = new JButton("Hexadecimal");
 		//dec.setHorizontalTextPosition(JButton.NORTH_EAST);
 		//dec.setVerticalTextPosition(JButton.NORTH_EAST);
 		
-		mix = new JButton("Mix");
+		mix = new JButton("Mixer");
 		//mix.setHorizontalTextPosition(JButton.SOUTH_EAST);
 		//mix.setVerticalTextPosition(JButton.SOUTH_EAST);
 		
-		inte = new JButton("Integer");
+		inte = new JButton("Integra");
 		//inte.setHorizontalTextPosition(JButton.SOUTH_WEST);
 		//inte.setVerticalTextPosition(JButton.SOUTH_WEST);
 		
-		time = new JButton("Time");
+		time = new JButton("Tim");
 		//time.setHorizontalTextPosition(JButton.LEFT);
 		//time.setVerticalTextPosition(JButton.CENTER);
 		
-		usage = new JButton("Usage");
+		usage = new JButton("Sage");
 		//usage.setHorizontalTextPosition(JButton.RIGHT);
 		//usage.setVerticalTextPosition(JButton.CENTER);
 		
@@ -156,31 +156,31 @@ public class GameSelectMenu extends JDialog implements ActionListener {
 		//r1.setHorizontalTextPosition(JButton.LEADING);
 		//r1.setVerticalTextPosition(JButton.CENTER);
 		
-		r2 = new JButton("2");
+		r2 = new JButton("KO??");
 		//r2.setHorizontalTextPosition(JButton.LEFT);
 		//r2.setVerticalTextPosition(JButton.CENTER);
 		
-		r3 = new JButton("3");
+		r3 = new JButton("Wait");
 		//r3.setHorizontalTextPosition(JButton.CENTER);
 		//r3.setVerticalTextPosition(JButton.CENTER);
 		
-		r4 = new JButton("4");
+		r4 = new JButton("ZZZ");
 		//r4.setHorizontalTextPosition(JButton.RIGHT);
 		//r4.setVerticalTextPosition(JButton.CENTER);
 		
-		r5 = new JButton("5");
+		r5 = new JButton("666");
 		//r5.setHorizontalTextPosition(JButton.TRAILING);
 		//r5.setVerticalTextPosition(JButton.CENTER);
 		
-		easy = new JButton("Easy");
+		easy = new JButton("EZ");
 		//easy.setHorizontalTextPosition(JButton.LEFT);
 		//easy.setVerticalTextPosition(JButton.CENTER);
 		
-		med = new JButton("Medium");
+		med = new JButton("Mediano");
 		//med.setHorizontalTextPosition(JButton.CENTER);
 		//med.setVerticalTextPosition(JButton.CENTER);
 		
-		hard = new JButton("Hard");
+		hard = new JButton("Heard");
 		//hard.setHorizontalTextPosition(JButton.RIGHT);
 		//hard.setVerticalTextPosition(JButton.CENTER);
 		

@@ -101,28 +101,28 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 //		epsilon.setFont(titleFont);
 //		epsilon.setBounds(185, 205, 130, 60);
 		
-		enter = new JButton("Enter");
+		enter = new JButton("Retne");
 		enter.setFont(buttonFont);
 		enter.setBounds(105, 335, BUTTON_WIDTH, BUTTON_HEIGHT);
 	    enter.setHorizontalTextPosition(JButton.CENTER);
 	    enter.setVerticalTextPosition(JButton.CENTER);
 	    enter.setBorderPainted(false);
 	    
-		help = new JButton("Help");
+		help = new JButton("Hell");
 		help.setFont(buttonFont);
 		help.setBounds(295, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
 	    help.setHorizontalTextPosition(JButton.CENTER);
 	    help.setVerticalTextPosition(JButton.CENTER);
 	    help.setBorderPainted(false);
 	    
-		about = new JButton("About");
+		about = new JButton("A boot");
 		about.setFont(buttonFont);
 		about.setBounds(490, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
 	    about.setHorizontalTextPosition(JButton.CENTER);
 	    about.setVerticalTextPosition(JButton.CENTER);
 	    about.setBorderPainted(false);
 	    
-		exit = new JButton("Exit");
+		exit = new JButton("Eggs-it");
 		exit.setFont(buttonFont);
 		exit.setBounds(672, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
 	    exit.setHorizontalTextPosition(JButton.CENTER);

@@ -14,7 +14,7 @@ public class Window	{
 	static MathGame mg;
 	
 	private static void createAndShowGUI()	{
-		JFrame frame = new JFrame("Epsilon");
+		JFrame frame = new JFrame("Eta");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mg = new MathGame();
 		frame.getContentPane().add(mg);

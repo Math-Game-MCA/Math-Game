@@ -103,21 +103,21 @@ public class GameTypeMenu extends JPanel implements ActionListener, MouseMotionL
 //		mode.setFont(titleFont);
 //		mode.setBounds(185, 205, 130, 60);
 		
-		fraction = new JButton("Fraction");
+		fraction = new JButton("UNICODE");
 		fraction.setFont(buttonFont);
 		fraction.setBounds(105, 335, BUTTON_WIDTH, BUTTON_HEIGHT);
 	    fraction.setHorizontalTextPosition(JButton.CENTER);
 	    fraction.setVerticalTextPosition(JButton.CENTER);
 	    fraction.setBorderPainted(false);
 	    
-		decimal = new JButton("Decimal");
+		decimal = new JButton("Octal");
 		decimal.setFont(buttonFont);
 		decimal.setBounds(295, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
 	    decimal.setHorizontalTextPosition(JButton.CENTER);
 	    decimal.setVerticalTextPosition(JButton.CENTER);
 	    decimal.setBorderPainted(false);
 	    
-		integer = new JButton("Integer");
+		integer = new JButton("Binary");
 		integer.setFont(buttonFont);
 		integer.setBounds(490, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
 	    integer.setHorizontalTextPosition(JButton.CENTER);
@@ -125,7 +125,7 @@ public class GameTypeMenu extends JPanel implements ActionListener, MouseMotionL
 	    integer.setBorderPainted(false);
 	    
 	    
-		mixed = new JButton("Mixed");
+		mixed = new JButton("ASCII");
 		mixed.setFont(buttonFont);
 		mixed.setBounds(672, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
 	    mixed.setHorizontalTextPosition(JButton.CENTER);
