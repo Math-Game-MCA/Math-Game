@@ -50,21 +50,21 @@ public class DifficultyMenu extends JPanel implements ActionListener{
 		buttonRollOverImage = new ImageIcon(GameTypeMenu.class.getResource(buttonRollOverImageFile));
 		buttonPressedImage = new ImageIcon(GameTypeMenu.class.getResource(buttonPressedImageFile));
 		
-		easy = new JButton("Baby");
+		easy = new JButton("Easy");
 		easy.setFont(buttonFont);
 		easy.setBounds(105, 335, BUTTON_WIDTH, BUTTON_HEIGHT);
 	    easy.setHorizontalTextPosition(JButton.CENTER);
 	    easy.setVerticalTextPosition(JButton.CENTER);
 	    easy.setBorderPainted(false);
 	    
-	    medium = new JButton("Adult");
+	    medium = new JButton("Medium");
 		medium.setFont(buttonFont);
 		medium.setBounds(295, 335, BUTTON_WIDTH, BUTTON_HEIGHT);
 	    medium.setHorizontalTextPosition(JButton.CENTER);
 	    medium.setVerticalTextPosition(JButton.CENTER);
 	    medium.setBorderPainted(false);
 	    
-	    hard = new JButton("Academy Student");
+	    hard = new JButton("Hard");
 		hard.setFont(buttonFont);
 		hard.setBounds(490, 335, BUTTON_WIDTH, BUTTON_HEIGHT);
 	    hard.setHorizontalTextPosition(JButton.CENTER);

@@ -103,36 +103,36 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		Font buttonFont = new Font("Arial", Font.PLAIN, 20);
 		Font infoFont = new Font("Arial", Font.BOLD, 12);
 		
-		mode = new JLabel("Dobby");
+		mode = new JLabel("Lobby");
 		mode.setFont(titleFont);
 		mode.setBounds(305, 50, 100, 60);
 		
-		friend = new JLabel("Offline");
+		friend = new JLabel("Online");
 		friend.setFont(titleFont);
 		friend.setBounds(680, 50, 100, 60);
 		
-		home = new JButton("Forward");
+		home = new JButton("Back");
 		home.setFont(buttonFont);
 		home.setBounds(105, 535, BUTTON_WIDTH, BUTTON_HEIGHT);
 	    home.setHorizontalTextPosition(JButton.CENTER);
 	    home.setVerticalTextPosition(JButton.CENTER);
 	    home.setBorderPainted(false);
 	    
-		host = new JButton("Hostess");
+		host = new JButton("Host");
 		host.setFont(buttonFont);
 		host.setBounds(295, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
 		host.setHorizontalTextPosition(JButton.CENTER);
 		host.setVerticalTextPosition(JButton.CENTER);
 		host.setBorderPainted(false);
 	    
-		join = new JButton("Leave");
+		join = new JButton("Join");
 		join.setFont(buttonFont);
 		join.setBounds(490, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
 		join.setHorizontalTextPosition(JButton.CENTER);
 		join.setVerticalTextPosition(JButton.CENTER);
 		join.setBorderPainted(false);
 	    
-		refresh = new JButton("Undo");
+		refresh = new JButton("Refresh");
 		refresh.setFont(buttonFont);
 		refresh.setBounds(672, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
 		refresh.setHorizontalTextPosition(JButton.CENTER);
