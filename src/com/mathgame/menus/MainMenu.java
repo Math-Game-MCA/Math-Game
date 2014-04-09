@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import com.mathgame.math.MathGame;
+import com.mathgame.network.User;
+
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
@@ -251,6 +253,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		Object[] options = {"Single Player", "Multiplayer"};
 		String name = JOptionPane.showInputDialog(this, "User Name");
 		System.out.println("user name is " + name);
+		mathGame.thisUser.setName(name);
 		String s = (String) JOptionPane.showInputDialog(this, "Choose the mode", "Mode Select", JOptionPane.YES_NO_CANCEL_OPTION, null, options, null);
 		int n = 0;
 		if(s == "Single Player")
@@ -263,6 +266,10 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		else if(n == 2)
 		{
 			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);
+			
+			
+			mathGame.multimenu.refreshDatabase();
+			mathGame.multimenu.addThisUser();
 		}
 		//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.SUBMENU);
 		System.out.println("ENTER GAME");

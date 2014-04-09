@@ -8,11 +8,13 @@ import com.mathgame.menus.GameTypeMenu;
 import com.mathgame.menus.MainMenu;
 import com.mathgame.menus.MultiMenu;
 import com.mathgame.menus.OptionMenu;
+import com.mathgame.network.User;
 import com.mathgame.panels.CardPanel;
 import com.mathgame.panels.HoldPanel;
 import com.mathgame.panels.OperationPanel;
 import com.mathgame.panels.SidePanel;
 import com.mathgame.panels.WorkspacePanel;
+
 
 
 import java.awt.*;
@@ -54,7 +56,7 @@ public class MathGame extends Container implements ActionListener {
 	MainMenu mainMenu;
 	GameTypeMenu gameTypeMenu;
 	DifficultyMenu diffMenu;
-	MultiMenu multimenu;
+	public MultiMenu multimenu;
 
 	Rectangle home1;
 	Rectangle home2;
@@ -78,6 +80,7 @@ public class MathGame extends Container implements ActionListener {
 	static boolean useDatabase = false;
 	public MySQLAccess sql;
 	private SwingWorker<Boolean, Void> backgroundConnect;
+	public User thisUser;
 
 	JLabel correction;
 
@@ -98,6 +101,7 @@ public class MathGame extends Container implements ActionListener {
 	 */
 	public MathGame() {
 		System.out.println("initing");
+		thisUser = new User("blank", "pass");
 		setPreferredSize(new Dimension(appWidth, appHeight));
 		//setSize(appWidth, appHeight);
 		setLayout(null);

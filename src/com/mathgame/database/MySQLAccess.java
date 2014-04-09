@@ -46,7 +46,8 @@ public class MySQLAccess{
 	
 	public MySQLAccess(MathGame mathGame){
 		this.mathGame = mathGame;
-		gameAccess = new GameAccess(connect);
+		gameAccess = new GameAccess(mathGame, connect);
+		System.out.println("11111111111"+mathGame.getBackground());
 	}
 	
 	//Only used for SQLProject
@@ -310,7 +311,12 @@ public class MySQLAccess{
 	}
 	
 	public ArrayList<String> getUsersGame() throws Exception{
-		gameAccess = new GameAccess(connect);
+		gameAccess = new GameAccess(mathGame, connect);
 		return gameAccess.getUsers();
+	}
+	
+	public void addUser(){
+		gameAccess.addUser();
+	
 	}
 }

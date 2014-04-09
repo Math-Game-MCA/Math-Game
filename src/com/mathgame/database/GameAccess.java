@@ -2,10 +2,12 @@ package com.mathgame.database;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import java.sql.Connection;
+
+import com.mathgame.math.MathGame;
 
 public class GameAccess extends MySQLAccess{
 	
@@ -15,10 +17,29 @@ public class GameAccess extends MySQLAccess{
 	private ResultSet resultSet = null;
 	
 	ArrayList<String> onlineUsers = new ArrayList<String>();
+	MathGame mathGame;
 	
-	public GameAccess(Connection conn){
+	public GameAccess(MathGame game, Connection conn){
+		mathGame = game;
 		connect = conn;
-		
+	}
+	
+	public void addUser(){
+		try {
+			statement = connect.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("name " + mathGame.thisUser.getName());
+		try {
+			statement.executeUpdate("INSERT INTO sofiav_mathgame.online_users (ID, Name)"
+					+ " VALUES (NULL, '"+mathGame.thisUser.getName()+"')");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * gets users values from the database
@@ -27,6 +48,7 @@ public class GameAccess extends MySQLAccess{
 	 */
 	public ArrayList<String> getUsers() throws Exception
 	{
+		//System.out.println(super.mathGame.getCursor());
 		String gameType;
 		if(mathGame != null)
 			gameType = mathGame.typeManager.getType().toString().toLowerCase();

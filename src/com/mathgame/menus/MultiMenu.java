@@ -215,6 +215,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		refresh.addMouseMotionListener(this);
 		refresh.addMouseListener(this);
 		
+		
+		
 		System.out.println("Menu Init Complete");
 	}
 	
@@ -245,6 +247,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 			//choosemixed();
 			//startgame();
 		}
+	}
+	
+	public void addThisUser(){
+		mathGame.sql.addUser();
 	}
 	
 	public void refreshDatabase(){
