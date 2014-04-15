@@ -229,7 +229,16 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		exit.addMouseMotionListener(this);
 		exit.addMouseListener(this);
 		
+		//get username before playing
+		getUser();
+		
 		System.out.println("Menu Init Complete");
+	}
+	
+	public void getUser()	{
+		String name = JOptionPane.showInputDialog(this, "User Name");
+		System.out.println("user name is " + name);
+		mathGame.thisUser.setName(name);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -250,10 +259,8 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	 */
 	public void startgame() {
 		//this.setVisible(false);
-		Object[] options = {"Single Player", "Multiplayer"};
-		String name = JOptionPane.showInputDialog(this, "User Name");
-		System.out.println("user name is " + name);
-		mathGame.thisUser.setName(name);
+		/*Object[] options = {"Single Player", "Multiplayer"};
+		
 		String s = (String) JOptionPane.showInputDialog(this, "Choose the mode", "Mode Select", JOptionPane.YES_NO_CANCEL_OPTION, null, options, null);
 		int n = 0;
 		if(s == "Single Player")
@@ -261,7 +268,8 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		else
 			n = 2;
 		if(n == 1)	{
-			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAMETYPEMENU);
+			//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAMETYPEMENU);
+			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.OPTIONMENU);
 		}
 		else if(n == 2)
 		{
@@ -271,7 +279,8 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 			mathGame.multimenu.refreshDatabase();
 			mathGame.multimenu.addThisUser();
 		}
-		//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.SUBMENU);
+		//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.SUBMENU);*/
+		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.OPTIONMENU);
 		System.out.println("ENTER GAME");
 	}
 	

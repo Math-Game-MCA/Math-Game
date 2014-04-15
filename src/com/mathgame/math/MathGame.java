@@ -3,19 +3,9 @@ package com.mathgame.math;
 import javax.swing.*;
 
 import com.mathgame.database.*;
-import com.mathgame.menus.DifficultyMenu;
-import com.mathgame.menus.GameTypeMenu;
-import com.mathgame.menus.MainMenu;
-import com.mathgame.menus.MultiMenu;
-import com.mathgame.menus.OptionMenu;
-import com.mathgame.network.User;
-import com.mathgame.panels.CardPanel;
-import com.mathgame.panels.HoldPanel;
-import com.mathgame.panels.OperationPanel;
-import com.mathgame.panels.SidePanel;
-import com.mathgame.panels.WorkspacePanel;
-
-
+import com.mathgame.menus.*;
+import com.mathgame.network.*;
+import com.mathgame.panels.*;
 
 import java.awt.*;
 import java.awt.dnd.DropTarget;
@@ -37,6 +27,7 @@ public class MathGame extends Container implements ActionListener {
 	public static final String GAMETYPEMENU = "CardLayoutPanel GameTypeMenu";
 	public static final String DIFFMENU = "CardLayoutPanel DifficultyMenu";
 	public static final String MULTIMENU = "CardLayoutPanel Multiplayer";
+	public static final String OPTIONMENU = "CardLayoutPanel OptionMenu";
 
 	public JPanel cardLayoutPanels;// uses CardLayout to switch between menu and
 									// game
@@ -57,6 +48,7 @@ public class MathGame extends Container implements ActionListener {
 	GameTypeMenu gameTypeMenu;
 	DifficultyMenu diffMenu;
 	public MultiMenu multimenu;
+	public OptionMenu optionmenu;
 
 	Rectangle home1;
 	Rectangle home2;
@@ -95,6 +87,8 @@ public class MathGame extends Container implements ActionListener {
 	String[] operations = { "+", "-", "*", "/" };
 
 	CompMover mover;
+	
+	static Font arial20;
 
 	/**
 	 * Initializes the window & game
@@ -177,6 +171,9 @@ public class MathGame extends Container implements ActionListener {
 		multimenu = new MultiMenu();
 		multimenu.init(this, typeManager);
 		multimenu.setBounds(0, 0, appWidth, appHeight);
+		
+		optionmenu = new OptionMenu(this);
+		optionmenu.setBounds(0, 0, appWidth, appHeight);
 
 		sidePanel = new SidePanel();// control bar
 		// sidePanel.setBounds(750, 0, 900, 620);//x, y, width, height
@@ -204,6 +201,7 @@ public class MathGame extends Container implements ActionListener {
 		cardLayoutPanels.add(diffMenu, DIFFMENU);
 		cardLayoutPanels.add(layer, GAME);
 		cardLayoutPanels.add(multimenu, MULTIMENU);
+		cardLayoutPanels.add(optionmenu, OPTIONMENU);
 		cl = (CardLayout) cardLayoutPanels.getLayout();
 		// cl.show(cardLayoutPanels, MENU);
 		add(cardLayoutPanels);
@@ -308,6 +306,9 @@ public class MathGame extends Container implements ActionListener {
 		layer.add(opPanel.subtract, new Integer(1));
 		layer.add(opPanel.multiply, new Integer(1));
 		layer.add(opPanel.divide, new Integer(1));
+		
+		//leave fonts in mathGame.java for consistency among all classes
+		arial20 = new Font("Arial", Font.PLAIN, 20);
 
 		/*
 		 * //Code for a different Cursor Toolkit toolkit = getToolkit(); Image
