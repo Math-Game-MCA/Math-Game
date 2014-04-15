@@ -13,9 +13,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -57,6 +60,8 @@ public class OptionMenu extends JPanel implements ActionListener {
 	String[] typeNames = {"Integer", "Decimal", "Fraction"};//then negative, exponent, logarithms
 	String[] diffNames = {"Easy", "Medium", "Hard"};
 	
+	Map<String, JToggleButton> buttonMap;//used to associate button with it's name for easy locating
+	
 	JPanel modePanel;
 	JPanel typePanel;
 	JPanel diffPanel;
@@ -90,6 +95,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 		background = new ImageIcon(GameTypeMenu.class.getResource(backgroundFile));
 		
 		//button creation
+		buttonMap = new HashMap<String, JToggleButton>();
 		initModes();
 		initTypes();
 		initDiffs();
@@ -122,6 +128,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 		for(int i = 0; i < modes.size(); i++)	{
 			modeGroup.add(modes.get(i));
 			modePanel.add(modes.get(i));
+			buttonMap.put(modeNames[i], modes.get(i));
 			modes.get(i).addActionListener(this);
 		}
 	}
@@ -138,6 +145,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 		typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.PAGE_AXIS));
 		for(int i = 0; i < types.size(); i++)	{
 			typePanel.add(types.get(i));
+			buttonMap.put(typeNames[i], types.get(i));
 			//types.get(i).addActionListener(this);
 		}
 	}
@@ -156,29 +164,9 @@ public class OptionMenu extends JPanel implements ActionListener {
 		for(int i = 0; i < diffs.size(); i++)	{
 			diffGroup.add(diffs.get(i));
 			diffPanel.add(diffs.get(i));
+			buttonMap.put(diffNames[i], diffs.get(i));
 			//diffs.get(i).addActionListener(this);
 		}
-	}
-
-	/**
-	 * Finds particular button given its name
-	 * @param name
-	 * @return button
-	 */
-	private JToggleButton findButton(String name)	{
-		for(int i = 0; i < modes.size(); i++)	{
-			if(modes.get(i).getText().equals(name))
-				return modes.get(i);
-		}
-		for(int i = 0; i < types.size(); i++)	{
-			if(types.get(i).getText().equals(name))
-				return types.get(i);
-		}
-		for(int i = 0; i < diffs.size(); i++)	{
-			if(diffs.get(i).getText().equals(name))
-				return diffs.get(i);
-		}
-		return null;
 	}
 	
 	/**
@@ -197,21 +185,21 @@ public class OptionMenu extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//allow options only for practice mode (competitive decided through in game menu)
-		if(e.getSource() == findButton("Practice"))	{
-			if(findButton("Practice").isSelected())	{
+		if(e.getSource() == buttonMap.get("Practice"))	{
+			if(buttonMap.get("Practice").isSelected())	{
 				typePanel.setVisible(true);
 				diffPanel.setVisible(true);
 			}
 		}
-		if(e.getSource() == findButton("Competitive"))	{
-			if(findButton("Competitive").isSelected())	{
+		if(e.getSource() == buttonMap.get("Competitive"))	{
+			if(buttonMap.get("Competitive").isSelected())	{
 				typePanel.setVisible(false);
 				diffPanel.setVisible(false);
 			}
 		}
 		if(e.getSource() == play)	{
 			
-			if(findButton("Competitive").isSelected())	{
+			if(buttonMap.get("Competitive").isSelected())	{
 				mathgame.multimenu.refreshDatabase();
 				mathgame.multimenu.addThisUser();
 				mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.MULTIMENU);
@@ -220,26 +208,26 @@ public class OptionMenu extends JPanel implements ActionListener {
 				startGame();
 			}
 			
-			if(findButton("Integer").isSelected())	{
+			if(buttonMap.get("Integer").isSelected())	{
 				tm.setType(GameType.INTEGERS);
 			}
-			else if(findButton("Decimal").isSelected())	{
+			else if(buttonMap.get("Decimal").isSelected())	{
 				tm.setType(GameType.DECIMALS);
 			}
-			else if(findButton("Fraction").isSelected())	{
+			else if(buttonMap.get("Fraction").isSelected())	{
 				tm.setType(GameType.FRACTIONS);
 			}
 			//etc.
 			
-			if(findButton("Easy").isSelected())	{
+			if(buttonMap.get("Easy").isSelected())	{
 				tm.setDiff(Difficulty.EASY);
 				tm.randomize();
 			}
-			else if(findButton("Medium").isSelected())	{
+			else if(buttonMap.get("Medium").isSelected())	{
 				tm.setDiff(Difficulty.MEDIUM);
 				tm.randomize();
 			}
-			else if(findButton("HARD").isSelected())	{
+			else if(buttonMap.get("Hard").isSelected())	{
 				tm.setDiff(Difficulty.HARD);
 				tm.randomize();
 			}
