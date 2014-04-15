@@ -247,14 +247,22 @@ public class OptionMenu extends JPanel implements ActionListener {
 		//allow options only for practice mode (competitive decided through in game menu)
 		if(e.getSource() == buttonMap.get("Practice"))	{
 			if(buttonMap.get("Practice").isSelected())	{
-				typePanel.setVisible(true);
-				diffPanel.setVisible(true);
+				for(JRadioButton rb : diffs)	{
+					rb.setEnabled(true);
+				}
+				for(JCheckBox cb : types)	{
+					cb.setEnabled(true);
+				}
 			}
 		}
 		if(e.getSource() == buttonMap.get("Competitive"))	{
 			if(buttonMap.get("Competitive").isSelected())	{
-				typePanel.setVisible(false);
-				diffPanel.setVisible(false);
+				for(JRadioButton rb : diffs)	{
+					rb.setEnabled(false);
+				}
+				for(JCheckBox cb : types)	{
+					cb.setEnabled(false);
+				}
 			}
 		}
 		if(e.getSource() == play)	{
@@ -276,6 +284,9 @@ public class OptionMenu extends JPanel implements ActionListener {
 			}
 			else if(buttonMap.get("Fraction").isSelected())	{
 				tm.setType(GameType.FRACTIONS);
+			}
+			else	{
+				tm.setType(GameType.INTEGERS);
 			}
 			//etc.
 			
