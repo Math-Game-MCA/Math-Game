@@ -4,25 +4,21 @@
 package com.mathgame.menus;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
@@ -39,9 +35,15 @@ import com.mathgame.math.TypeManager.GameType;
  * database sheet support or a class that can convert between forms (preferred)
  * Use tooltips when hovering over button.
  * TODO Undecided about scoring... will sort it out later
+ * TODO beautify layout some more (i.e. customize jradiobuttons
  */
 public class OptionMenu extends JPanel implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2089592182201152773L;
+	
 	final String backgroundFile = "/images/background2.png";
 	final String buttonImageFile = "/images/MenuButtonImg1.png";
 	final String buttonRollOverImageFile = "/images/MenuButtonImg2.png";
@@ -49,6 +51,9 @@ public class OptionMenu extends JPanel implements ActionListener {
 	final int BUTTON_WIDTH = 130;
 	final int BUTTON_HEIGHT = 30;
 	static ImageIcon background;
+	static ImageIcon buttonImage;
+	static ImageIcon buttonRollOverImage;
+	static ImageIcon buttonPressedImage;
 	
 	ButtonGroup modeGroup;//Practice or Competitive (aka single player or multiplayer)
 	ButtonGroup diffGroup;//Easy, Medium, Hard
@@ -68,22 +73,27 @@ public class OptionMenu extends JPanel implements ActionListener {
 	
 	JButton play;//click to play the game!
 	
+	GridBagConstraints gbc;
+	
+	Font eurostile24;
+	
 	MathGame mathgame;
 	TypeManager tm;
-	
-	private int mx, my;//mouse coordinates
 	
 	/**
 	 * Constructor
 	 * @param mathgame
 	 */
 	public OptionMenu(MathGame mathgame) {
-		
 		this.mathgame = mathgame;
 		this.tm = mathgame.typeManager;//change to "getTypeManager()" for data hiding; good coding practice
 		
-		//this.setLayout(new GridBagLayout());//TODO make gridbag layout
-		this.setLayout(new FlowLayout(FlowLayout.CENTER));
+		this.setLayout(new GridBagLayout());
+		//this.setLayout(new FlowLayout(FlowLayout.CENTER));
+		gbc = new GridBagConstraints();
+		
+		eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
+		//idk why, but taking font from math game class isn't working
 		
 		//set size
 		Dimension size = getPreferredSize();
@@ -93,6 +103,9 @@ public class OptionMenu extends JPanel implements ActionListener {
 		
 		//image initialization
 		background = new ImageIcon(GameTypeMenu.class.getResource(backgroundFile));
+		buttonImage = new ImageIcon(MainMenu.class.getResource(buttonImageFile));
+		buttonRollOverImage = new ImageIcon(MainMenu.class.getResource(buttonRollOverImageFile));
+		buttonPressedImage = new ImageIcon(MainMenu.class.getResource(buttonPressedImageFile));
 		
 		//button creation
 		buttonMap = new HashMap<String, JToggleButton>();
@@ -106,12 +119,41 @@ public class OptionMenu extends JPanel implements ActionListener {
 		diffs.get(0).setSelected(true);
 		
 		play = new JButton("Play");
+		play.setFont(eurostile24);
+	    play.setHorizontalTextPosition(JButton.CENTER);
+	    play.setVerticalTextPosition(JButton.CENTER);
+	    play.setBorderPainted(false);
+	    play.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		play.addActionListener(this);
 		
-		add(modePanel);
-		add(typePanel);
-		add(diffPanel);
-		add(play);
+		try {
+		    play.setIcon(buttonImage);
+		    play.setRolloverIcon(buttonRollOverImage);
+		    play.setPressedIcon(buttonPressedImage);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.gridwidth = 3;
+		gbc.gridheight = 3;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		add(modePanel, gbc);
+		gbc.gridx = 4;
+		gbc.gridy = 0;
+		gbc.gridwidth = 3;
+		gbc.gridheight = 3;
+		add(typePanel, gbc);
+		gbc.gridx = 8;
+		gbc.gridy = 0;
+		gbc.weighty = 1;
+		gbc.gridwidth = 3;
+		gbc.gridheight = 3;
+		add(diffPanel, gbc);
+		gbc.gridx = 4;
+		gbc.gridy = 3;
+		add(play, gbc);
 	}
 	
 	/**
@@ -123,12 +165,18 @@ public class OptionMenu extends JPanel implements ActionListener {
 			modes.add(new JRadioButton(s));
 		}
 		modePanel = new JPanel();
-		modePanel.setLayout(new BoxLayout(modePanel, BoxLayout.PAGE_AXIS));
+		modePanel.setOpaque(false);
+		modePanel.setLayout(new GridBagLayout());
 		modeGroup = new ButtonGroup();
 		for(int i = 0; i < modes.size(); i++)	{
 			modeGroup.add(modes.get(i));
-			modePanel.add(modes.get(i));
+			modes.get(i).setFont(eurostile24);
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.gridx = 0;
+			gbc.gridy = i;//layout buttons doing down same column
+			modePanel.add(modes.get(i), gbc);
 			buttonMap.put(modeNames[i], modes.get(i));
+			modes.get(i).setOpaque(false);
 			modes.get(i).addActionListener(this);
 		}
 	}
@@ -142,10 +190,16 @@ public class OptionMenu extends JPanel implements ActionListener {
 			types.add(new JCheckBox(s));
 		}
 		typePanel = new JPanel();
-		typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.PAGE_AXIS));
+		typePanel.setLayout(new GridBagLayout());
+		typePanel.setOpaque(false);
 		for(int i = 0; i < types.size(); i++)	{
-			typePanel.add(types.get(i));
+			types.get(i).setFont(eurostile24);
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.gridx = 0;
+			gbc.gridy = i;//layout buttons doing down same column
+			typePanel.add(types.get(i), gbc);
 			buttonMap.put(typeNames[i], types.get(i));
+			types.get(i).setOpaque(false);
 			//types.get(i).addActionListener(this);
 		}
 	}
@@ -160,11 +214,17 @@ public class OptionMenu extends JPanel implements ActionListener {
 		}
 		diffPanel = new JPanel();
 		diffGroup = new ButtonGroup();
-		diffPanel.setLayout(new BoxLayout(diffPanel, BoxLayout.PAGE_AXIS));
+		diffPanel.setLayout(new GridBagLayout());
+		diffPanel.setOpaque(false);
 		for(int i = 0; i < diffs.size(); i++)	{
 			diffGroup.add(diffs.get(i));
-			diffPanel.add(diffs.get(i));
+			diffs.get(i).setFont(eurostile24);
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.gridx = 0;
+			gbc.gridy = i;//layout buttons doing down same column
+			diffPanel.add(diffs.get(i), gbc);
 			buttonMap.put(diffNames[i], diffs.get(i));
+			diffs.get(i).setOpaque(false);
 			//diffs.get(i).addActionListener(this);
 		}
 	}

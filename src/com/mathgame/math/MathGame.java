@@ -88,7 +88,8 @@ public class MathGame extends Container implements ActionListener {
 
 	CompMover mover;
 	
-	static Font arial20;
+	public Font arial20;
+	public Font eurostile36;
 
 	/**
 	 * Initializes the window & game
@@ -309,6 +310,7 @@ public class MathGame extends Container implements ActionListener {
 		
 		//leave fonts in mathGame.java for consistency among all classes
 		arial20 = new Font("Arial", Font.PLAIN, 20);
+		eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
 
 		/*
 		 * //Code for a different Cursor Toolkit toolkit = getToolkit(); Image

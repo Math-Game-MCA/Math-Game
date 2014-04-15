@@ -17,6 +17,9 @@ import javax.swing.JPanel;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager.Difficulty;
 
+/**
+ * @deprecated
+ */
 public class DifficultyMenu extends JPanel implements ActionListener{
 
 	final String imageFile = "/images/backa.png";

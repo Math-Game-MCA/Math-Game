@@ -36,6 +36,7 @@ import com.mathgame.math.TypeManager.GameType;
 
 /**
  * Class that creates the game Menu
+ * @deprecated
  */
 
 public class GameTypeMenu extends JPanel implements ActionListener, MouseMotionListener, MouseListener{
