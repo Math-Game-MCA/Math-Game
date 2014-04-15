@@ -27,7 +27,7 @@ public class MySQLAccess{
 	private final String user = "sofiav_user";//"egarciao@localhost";
 	private final String pass = "Mathgames1";//"oL20wC06xd";
 	
-	private Connection connect = null;
+	public Connection connect = null;
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
@@ -316,7 +316,9 @@ public class MySQLAccess{
 	}
 	
 	public void addUser(){
-		gameAccess.addUser();
-	
+		gameAccess.addUser();	
+	}
+	public void removeUser(){
+		gameAccess.removeUser(connect);	
 	}
 }

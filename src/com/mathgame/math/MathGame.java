@@ -7,6 +7,8 @@ import com.mathgame.menus.*;
 import com.mathgame.network.*;
 import com.mathgame.panels.*;
 
+
+
 import java.awt.*;
 import java.awt.dnd.DropTarget;
 import java.awt.event.*;
@@ -96,6 +98,7 @@ public class MathGame extends Container implements ActionListener {
 	 */
 	public MathGame() {
 		System.out.println("initing");
+		
 		thisUser = new User("blank", "pass");
 		setPreferredSize(new Dimension(appWidth, appHeight));
 		//setSize(appWidth, appHeight);
@@ -322,6 +325,7 @@ public class MathGame extends Container implements ActionListener {
 		 * setCursor(lightPenCursor); layer.setCursor(imageCursor);
 		 */
 
+		
 		System.out.println("init done");
 	}
 
@@ -333,5 +337,8 @@ public class MathGame extends Container implements ActionListener {
 	public URL getDocBase() {
 		return getDocBase();
 	}
+
+
+
 
 }// class file

@@ -41,6 +41,27 @@ public class GameAccess extends MySQLAccess{
 			e.printStackTrace();
 		}
 	}
+	
+	public void removeUser(Connection c){
+		try {
+			statement = c.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("removing name: " + mathGame.thisUser.getName());
+		try {
+			statement.executeUpdate("DELETE FROM sofiav_mathgame.online_users "
+					+ "WHERE sofiav_mathgame.online_users.Name = '"
+		+ mathGame.thisUser.getName() +"'");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
+
 	/**
 	 * gets users values from the database
 	 * 
