@@ -78,7 +78,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	
 	Panel innerPanel; 
 	
-	static GameSelectMenu gsm;
+	static HostMenu hostMenu;
 	private ArrayList<String> usersArray = new ArrayList<String>();
 	
 	//constructor
@@ -92,7 +92,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		mathGame = mg;
 		typeManager = tn;
-		gsm = new GameSelectMenu(mathGame);
+		hostMenu = new HostMenu(mathGame);
 		
 		background = new ImageIcon(MultiMenu.class.getResource(imageFile));
 		buttonImage = new ImageIcon(MultiMenu.class.getResource(buttonImageFile));
@@ -229,11 +229,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		}
 		
 		else if(e.getSource() == host){
-			gsm.pack();
-			gsm.fit();
-			gsm.setVisible(true);
-			gsm.toFront();//TODO combine tofront and setvisible into one function (init?) and then return a gamecard
-			//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAMETYPEMENU);
+			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.HOSTMENU);
 			//startgame();
 		}
 		

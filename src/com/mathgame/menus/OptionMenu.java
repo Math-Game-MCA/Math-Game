@@ -33,9 +33,9 @@ import com.mathgame.math.TypeManager.GameType;
  * Option menu for selecting game mode, number types, difficulty; all in one!
  * Multiple options for type can be selected (i.e. combine integers and decimals, etc.), will need 
  * database sheet support or a class that can convert between forms (preferred)
- * Use tooltips when hovering over button.
+ * TODO Use tooltips when hovering over button.
  * TODO Undecided about scoring... will sort it out later
- * TODO beautify layout some more (i.e. customize jradiobuttons
+ * TODO beautify layout some more (i.e. customize jradiobuttons)
  */
 public class OptionMenu extends JPanel implements ActionListener {
 
@@ -77,16 +77,16 @@ public class OptionMenu extends JPanel implements ActionListener {
 	
 	Font eurostile24;
 	
-	MathGame mathgame;
+	MathGame mathGame;
 	TypeManager tm;
 	
 	/**
 	 * Constructor
-	 * @param mathgame
+	 * @param mathGame
 	 */
-	public OptionMenu(MathGame mathgame) {
-		this.mathgame = mathgame;
-		this.tm = mathgame.typeManager;//change to "getTypeManager()" for data hiding; good coding practice
+	public OptionMenu(MathGame mathGame) {
+		this.mathGame = mathGame;
+		this.tm = mathGame.typeManager;//change to "getTypeManager()" for data hiding; good coding practice
 		
 		this.setLayout(new GridBagLayout());
 		//this.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -97,15 +97,15 @@ public class OptionMenu extends JPanel implements ActionListener {
 		
 		//set size
 		Dimension size = getPreferredSize();
-		size.width = 900;
-		size.height = 620;
+		size.width = mathGame.getWidth();
+		size.height = mathGame.getHeight();
 		setPreferredSize(size);
 		
 		//image initialization
-		background = new ImageIcon(GameTypeMenu.class.getResource(backgroundFile));
-		buttonImage = new ImageIcon(MainMenu.class.getResource(buttonImageFile));
-		buttonRollOverImage = new ImageIcon(MainMenu.class.getResource(buttonRollOverImageFile));
-		buttonPressedImage = new ImageIcon(MainMenu.class.getResource(buttonPressedImageFile));
+		background = new ImageIcon(OptionMenu.class.getResource(backgroundFile));
+		buttonImage = new ImageIcon(OptionMenu.class.getResource(buttonImageFile));
+		buttonRollOverImage = new ImageIcon(OptionMenu.class.getResource(buttonRollOverImageFile));
+		buttonPressedImage = new ImageIcon(OptionMenu.class.getResource(buttonPressedImageFile));
 		
 		//button creation
 		buttonMap = new HashMap<String, JToggleButton>();
@@ -234,12 +234,12 @@ public class OptionMenu extends JPanel implements ActionListener {
 	 */
 	private void startGame() {		
 		
-		mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.GAME);
+		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
 		System.out.println("ENTER GAME");
 		
-		mathgame.sidePanel.startTimer("complexity");//hardcoded to complexity scoring; change to combine speed/complexity
+		mathGame.sidePanel.startTimer("complexity");//hardcoded to complexity scoring; change to combine speed/complexity
 		
-		tm.init(mathgame.cardPanel);
+		tm.init(mathGame.cardPanel);
 	}
 	
 	@Override
@@ -268,9 +268,9 @@ public class OptionMenu extends JPanel implements ActionListener {
 		if(e.getSource() == play)	{
 			
 			if(buttonMap.get("Competitive").isSelected())	{
-				mathgame.multimenu.refreshDatabase();
-				mathgame.multimenu.addThisUser();
-				mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.MULTIMENU);
+				mathGame.multimenu.refreshDatabase();
+				mathGame.multimenu.addThisUser();
+				mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);
 			}
 			else	{
 				startGame();

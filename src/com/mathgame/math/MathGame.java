@@ -30,6 +30,7 @@ public class MathGame extends Container implements ActionListener {
 	public static final String DIFFMENU = "CardLayoutPanel DifficultyMenu";
 	public static final String MULTIMENU = "CardLayoutPanel Multiplayer";
 	public static final String OPTIONMENU = "CardLayoutPanel OptionMenu";
+	public static final String HOSTMENU = "CardLayoutPanel HostMenu";
 
 	public JPanel cardLayoutPanels;// uses CardLayout to switch between menu and
 									// game
@@ -51,6 +52,7 @@ public class MathGame extends Container implements ActionListener {
 	DifficultyMenu diffMenu;
 	public MultiMenu multimenu;
 	public OptionMenu optionmenu;
+	public HostMenu hostmenu;
 
 	Rectangle home1;
 	Rectangle home2;
@@ -176,6 +178,9 @@ public class MathGame extends Container implements ActionListener {
 		multimenu.init(this, typeManager);
 		multimenu.setBounds(0, 0, appWidth, appHeight);
 		
+		hostmenu = new HostMenu(this);
+		hostmenu.setBounds(0, 0, appWidth, appHeight);
+		
 		optionmenu = new OptionMenu(this);
 		optionmenu.setBounds(0, 0, appWidth, appHeight);
 
@@ -206,6 +211,7 @@ public class MathGame extends Container implements ActionListener {
 		cardLayoutPanels.add(layer, GAME);
 		cardLayoutPanels.add(multimenu, MULTIMENU);
 		cardLayoutPanels.add(optionmenu, OPTIONMENU);
+		cardLayoutPanels.add(hostmenu, HOSTMENU);
 		cl = (CardLayout) cardLayoutPanels.getLayout();
 		// cl.show(cardLayoutPanels, MENU);
 		add(cardLayoutPanels);
