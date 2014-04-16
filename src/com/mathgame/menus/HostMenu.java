@@ -4,6 +4,8 @@ package com.mathgame.menus;
 import javax.swing.*;
 
 import com.mathgame.math.MathGame;
+import com.mathgame.math.TypeManager;
+import com.mathgame.math.TypeManager.GameType;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,13 +27,13 @@ import java.util.Map;
 public class HostMenu extends JPanel implements ActionListener {
 	
 	static MathGame mathGame;
+	static MultiMenu multiMenu;
 	
-	//some must be changed to enums or strings
-	int players=2; //player variable (2-6). Each number stands for respective # of players
-	int ntype=0; //number type variable (0-3). 0 = fraction, 1 = decimal, 2 = mixed, 3 = integers
-	int gtype=0; //game type variable (0 or 1). 0 = time scoring, 1 = card usage scoring
-	int rounds=3; //rounds variable (1-5). variable value is # of rounds, making it easier to integrate this into a loop
-	int diff=1; //difficulty variable (1-3). 1 = easy, 2 = medium, 3 = hard.
+	int players; //# of players (2-6)
+	int rounds; //# of rounds (1-5)
+	String type; //number type (frac, dec, int)
+	String scoring; //scoring (complexity, speed, mix)
+	String diff; //difficulty (easy, medium, hard)
 
 	final int BUTTON_WIDTH = 130;
 	final int BUTTON_HEIGHT = 30;
@@ -89,6 +91,7 @@ public class HostMenu extends JPanel implements ActionListener {
 		
 		this.setLayout(new GridBagLayout());
 		mathGame = mg;
+		multiMenu = mathGame.multimenu;
 		//TODO use typemanager?
 		
 		//set size
@@ -169,6 +172,11 @@ public class HostMenu extends JPanel implements ActionListener {
 		gbc.gridx = 2;
 		gbc.gridy = 2;
 		add(cancel, gbc);
+		
+		//default vals
+		types.get(0).setSelected(true);
+		diffs.get(0).setSelected(true);
+		scorings.get(0).setSelected(true);
 	}
 	
 	private void initPlayerPanel()	{
@@ -196,6 +204,7 @@ public class HostMenu extends JPanel implements ActionListener {
 		for(int i = 0; i < types.size(); i++)	{
 			typePanel.add(types.get(i));
 			buttonMap.put(typeNames[i], types.get(i));
+			types.get(i).setActionCommand(typeNames[i]);
 			types.get(i).setOpaque(false);
 			//types.get(i).addActionListener(this);
 		}
@@ -217,6 +226,7 @@ public class HostMenu extends JPanel implements ActionListener {
 			diffGroup.add(diffs.get(i));
 			diffPanel.add(diffs.get(i));
 			buttonMap.put(diffNames[i], diffs.get(i));
+			diffs.get(i).setActionCommand(diffNames[i]);
 			diffs.get(i).setOpaque(false);
 			//diffs.get(i).addActionListener(this);
 		}
@@ -249,6 +259,7 @@ public class HostMenu extends JPanel implements ActionListener {
 			scoringGroup.add(scorings.get(i));
 			scoringPanel.add(scorings.get(i));
 			buttonMap.put(scoringNames[i], scorings.get(i));
+			scorings.get(i).setActionCommand(scoringNames[i]);
 			scorings.get(i).setOpaque(false);
 			//scorings.get(i).addActionListener(this);
 		}
@@ -268,6 +279,37 @@ public class HostMenu extends JPanel implements ActionListener {
 	 */
 	public void startgame() {
 		this.setVisible(false);
+		players = (Integer) playersSpinner.getModel().getValue();
+		rounds = (Integer) roundsSpinner.getModel().getValue();
+		diff = diffGroup.getSelection().getActionCommand();
+		scoring = scoringGroup.getSelection().getActionCommand();
+
+		//TODO set capability for multiple (instead of first one picked)
+		if(buttonMap.get("Integer").isSelected())	{
+			multiMenu.chooseinteger();
+			type = "Integer";
+		}
+		else if(buttonMap.get("Decimal").isSelected())	{
+			multiMenu.choosedecimal();
+			type = "Decimal";
+		}
+		else if(buttonMap.get("Fraction").isSelected())	{
+			multiMenu.choosefraction();
+			type = "Fraction";
+		}
+		else	{//default
+			multiMenu.chooseinteger();
+			type = "Integer";
+		}
+		//etc.
+		System.out.println("MULTIPLAYER GAME SPECS: \n\tPLAYERS: "+players
+				+"\n\tROUNDS: "+rounds
+				+"\n\tDIFF: "+diff
+				+"\n\tSCORING: "+scoring
+				+"\n\tTYPE: "+type);
+		multiMenu.addGame(scoring);
+		//FOR DEBUGGING PURPOSES ONLY: 
+		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);
 		//TODO go directly to game and make sure game waits for another player
 		System.out.println("ENTER GAME");
 	}

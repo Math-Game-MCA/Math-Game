@@ -79,7 +79,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	Panel innerPanel; 
 	
 	static HostMenu hostMenu;
-	private ArrayList<String> usersArray = new ArrayList<String>();
+	private ArrayList<String> usersArray;
+	private ArrayList<GameCard> games;
 	
 	//constructor
 	public void init(MathGame mg, TypeManager tn)	{
@@ -143,14 +144,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	    gamesList.setBounds(100, 100, 500, 400);
 	    gamesList.setVisible(true);
 		
-		//TODO SAMPLE GAMES, delete later; add games instead through host menu
-	    gamesList.add(new GameCard("TEST1", "Timed Scoring"));
-	    gamesList.add(new GameCard("TEST2", "Timed Scoring"));
-	    gamesList.add(new GameCard("TEST3", "Win Scoring"));
-	    gamesList.add(new GameCard("TEST4", "Timed Scoring"));
-	    gamesList.add(new GameCard("TEST5", "Win Scoring"));
-	    gamesList.add(new GameCard("TEST6", "Win Scoring"));
-		
 		usersList = new JPanel();
 		usersList.setBounds(650, 100, 150, 400);
 		usersList.setVisible(true);
@@ -162,7 +155,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		usersList.setLayout(columnLayout);
 		usersList.add(innerPanel);
 		
-				
+		usersArray = new ArrayList<String>();
+		games = new ArrayList<GameCard>();
 	    
 		try {
 		    home.setIcon(buttonImage);
@@ -215,8 +209,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		refresh.addMouseMotionListener(this);
 		refresh.addMouseListener(this);
 		
-		
-		
 		System.out.println("Menu Init Complete");
 	}
 	
@@ -243,6 +235,12 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 			//choosemixed();
 			//startgame();
 		}
+	}
+	
+	public void addGame(String scoring)	{//later consider users naming their games...
+		games.add(new GameCard("Game"+((Integer)games.size() + 1), scoring));
+		gamesList.add(games.get(games.size() - 1));
+		//TODO add game to database
 	}
 	
 	public void addThisUser(){
