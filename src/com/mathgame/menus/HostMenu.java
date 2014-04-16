@@ -1,17 +1,3 @@
-/*
- * Author: David Schildkraut
- * Date created: 2/27/14
- * Date last Edited: 2/28/14
- * Purpose: Selection menu to choose settings for game
- * NOTE: PLEASE READ ALL COMMENTS AND TODO's
- */
-
-
-//TODO: get menu to be a pop up
-//TODO: link variables from menu to other variables (i.e. difficulty & number type variables)
-//TODO: get user input for name of game & create the location to do that
-//TODO: check/make buttons look pressed/selected when clicked
-//TODO: change colors to match the color scheme of rest of game
 
 package com.mathgame.menus;
 
@@ -32,7 +18,9 @@ import java.util.Map;
  * opponent(s) join
  * Select # of players, type of game, scoring, # of rounds (up to 5 for now), difficulty
  * @author David S., Roland
- *
+ * TODO link variables from menu to other variables (i.e. difficulty & number type variables)
+ * TODO get user input for name of game & create the location to do that
+ * TODO Work on actions to put choice into var
  */
 public class HostMenu extends JPanel implements ActionListener {
 	
@@ -49,7 +37,13 @@ public class HostMenu extends JPanel implements ActionListener {
 	final int BUTTON_HEIGHT = 30;
 	
 	final String backgroundFile = "/images/background2.png";
+	final String buttonImageFile = "/images/MenuButtonImg1.png";
+	final String buttonRollOverImageFile = "/images/MenuButtonImg2.png";
+	final String buttonPressedImageFile = "/images/MenuButtonImg3.png";
 	static ImageIcon background;
+	static ImageIcon buttonImage;
+	static ImageIcon buttonRollOverImage;
+	static ImageIcon buttonPressedImage;
 	
 	ButtonGroup diffGroup;//Easy, Medium, Hard
 	ButtonGroup scoringGroup;//Complexity, Speed, Mix
@@ -74,7 +68,7 @@ public class HostMenu extends JPanel implements ActionListener {
 	JPanel typePanel;
 	JPanel diffPanel;
 	
-	JLabel playerLabel;
+	JLabel playersLabel;
 	JLabel scoringLabel;
 	JLabel typeLabel;
 	JLabel roundLabel;
@@ -82,6 +76,10 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	JButton cancel;
 	JButton finish;
+
+	Font eurostile24;
+	
+	GridBagConstraints gbc;
 	
 	/**
 	 * Constructor
@@ -89,7 +87,7 @@ public class HostMenu extends JPanel implements ActionListener {
 	 */
 	public HostMenu(MathGame mg)	{
 		
-		//this.setLayout(null);
+		this.setLayout(new GridBagLayout());
 		mathGame = mg;
 		//TODO use typemanager?
 		
@@ -101,18 +99,45 @@ public class HostMenu extends JPanel implements ActionListener {
 		
 		//image initialization
 		background = new ImageIcon(OptionMenu.class.getResource(backgroundFile));
+		buttonImage = new ImageIcon(OptionMenu.class.getResource(buttonImageFile));
+		buttonRollOverImage = new ImageIcon(OptionMenu.class.getResource(buttonRollOverImageFile));
+		buttonPressedImage = new ImageIcon(OptionMenu.class.getResource(buttonPressedImageFile));
+		eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
 		
-		playerLabel = new JLabel("# Players:");
+		gbc = new GridBagConstraints();
+		
+		playersLabel = new JLabel("# Players:");
 		scoringLabel = new JLabel("Scoring:");
 		typeLabel = new JLabel("Number Type:");
 		roundLabel = new JLabel("# Rounds:");
 		diffLabel = new JLabel("Difficulty:");
 		
 		finish = new JButton("Finish");
+		finish.setFont(eurostile24);
+	    finish.setHorizontalTextPosition(JButton.CENTER);
+	    finish.setVerticalTextPosition(JButton.CENTER);
+	    finish.setBorderPainted(false);
+	    finish.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		finish.addActionListener(this);
 		cancel = new JButton("Cancel");
+		cancel.setFont(eurostile24);
+	    cancel.setHorizontalTextPosition(JButton.CENTER);
+	    cancel.setVerticalTextPosition(JButton.CENTER);
+	    cancel.setBorderPainted(false);
+	    cancel.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		cancel.addActionListener(this);
 
+		try {
+		    finish.setIcon(buttonImage);
+		    finish.setRolloverIcon(buttonRollOverImage);
+		    finish.setPressedIcon(buttonPressedImage);
+		    cancel.setIcon(buttonImage);
+		    cancel.setRolloverIcon(buttonRollOverImage);
+		    cancel.setPressedIcon(buttonPressedImage);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		//button creation
 		buttonMap = new HashMap<String, JToggleButton>();
 		
@@ -122,20 +147,38 @@ public class HostMenu extends JPanel implements ActionListener {
 		initRoundPanel();
 		initScoringPanel();
 		
-		add(playerPanel);
-		add(typePanel);
-		add(diffPanel);
-		add(roundPanel);
-		add(scoringPanel);
-		
-		add(finish);
-		add(cancel);
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		add(playerPanel, gbc);
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		add(typePanel, gbc);
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		add(diffPanel, gbc);
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		add(roundPanel, gbc);
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		add(scoringPanel, gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		add(finish, gbc);
+		gbc.gridx = 2;
+		gbc.gridy = 2;
+		add(cancel, gbc);
 	}
 	
 	private void initPlayerPanel()	{
 		playerPanel = new JPanel();
 		playersModel = new SpinnerNumberModel(2, 2, 6, 1);//2 to 6 players, default 2
 		playersSpinner = new JSpinner(playersModel);
+		playersSpinner.setFont(eurostile24);
+		playersLabel = new JLabel("# Players:");
+		playersLabel.setFont(eurostile24);
+		playerPanel.add(playersLabel);
 		playerPanel.add(playersSpinner);
 	}
 	
@@ -145,7 +188,10 @@ public class HostMenu extends JPanel implements ActionListener {
 			types.add(new JCheckBox(s));
 		}
 		typePanel = new JPanel();
-		typePanel.setLayout(new GridBagLayout());
+		typeLabel = new JLabel("Number Type:");
+		typeLabel.setFont(eurostile24);
+		typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.PAGE_AXIS));
+		typePanel.add(typeLabel);
 		typePanel.setOpaque(false);
 		for(int i = 0; i < types.size(); i++)	{
 			typePanel.add(types.get(i));
@@ -162,7 +208,10 @@ public class HostMenu extends JPanel implements ActionListener {
 		}
 		diffPanel = new JPanel();
 		diffGroup = new ButtonGroup();
-		diffPanel.setLayout(new GridBagLayout());
+		diffLabel = new JLabel("Difficulty:");
+		diffLabel.setFont(eurostile24);;
+		diffPanel.setLayout(new BoxLayout(diffPanel, BoxLayout.PAGE_AXIS));
+		diffPanel.add(diffLabel);
 		diffPanel.setOpaque(false);
 		for(int i = 0; i < diffs.size(); i++)	{
 			diffGroup.add(diffs.get(i));
@@ -177,6 +226,10 @@ public class HostMenu extends JPanel implements ActionListener {
 		roundPanel = new JPanel();
 		roundsModel = new SpinnerNumberModel(3, 1, 5, 1);//1 to 5 rounds, default 3
 		roundsSpinner = new JSpinner(roundsModel);
+		roundsSpinner.setFont(eurostile24);
+		roundLabel = new JLabel("# Rounds:");
+		roundLabel.setFont(eurostile24);
+		roundPanel.add(roundLabel);
 		roundPanel.add(roundsSpinner);
 	}
 	
@@ -187,7 +240,10 @@ public class HostMenu extends JPanel implements ActionListener {
 		}
 		scoringPanel = new JPanel();
 		scoringGroup = new ButtonGroup();
-		scoringPanel.setLayout(new GridBagLayout());
+		scoringPanel.setLayout(new BoxLayout(scoringPanel, BoxLayout.PAGE_AXIS));
+		scoringLabel = new JLabel("Scoring:");
+		scoringLabel.setFont(eurostile24);
+		scoringPanel.add(scoringLabel);
 		scoringPanel.setOpaque(false);
 		for(int i = 0; i < scorings.size(); i++)	{
 			scoringGroup.add(scorings.get(i));
@@ -213,7 +269,6 @@ public class HostMenu extends JPanel implements ActionListener {
 	public void startgame() {
 		this.setVisible(false);
 		//TODO go directly to game and make sure game waits for another player
-		//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAMETYPEMENU);
 		System.out.println("ENTER GAME");
 	}
 	
