@@ -295,7 +295,10 @@ public class TypeManager {
 	 */
 	public void randomize() {
 		try {
+			if(mathGame.sql.connect == null)
+				mathGame.sql.connect();
 			mathGame.sql.getVals();
+			//mathGame.sql.close();
 		} catch (Exception e) {
 			System.out.println("Get vals from DB failed");
 			e.printStackTrace();

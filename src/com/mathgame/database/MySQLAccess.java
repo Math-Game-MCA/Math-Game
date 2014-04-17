@@ -69,6 +69,7 @@ public class MySQLAccess{
 				          "MySQL server: " + host);
 				 return true;
 			}
+			
 		}
 		catch(Exception e){
 			System.out.println("ErrorO: " + e.getMessage());
