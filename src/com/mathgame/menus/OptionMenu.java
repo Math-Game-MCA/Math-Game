@@ -24,6 +24,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
 
 import com.mathgame.math.MathGame;
+import com.mathgame.math.MathGame.GameState;
 import com.mathgame.math.TypeManager;
 import com.mathgame.math.TypeManager.Difficulty;
 import com.mathgame.math.TypeManager.GameType;
@@ -117,6 +118,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 		modes.get(0).setSelected(true);
 		types.get(0).setSelected(true);
 		diffs.get(0).setSelected(true);
+		mathGame.setGameState(GameState.PRACTICE);
 		
 		play = new JButton("Play");
 		play.setFont(eurostile24);
@@ -237,7 +239,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
 		System.out.println("ENTER GAME");
 		
-		mathGame.sidePanel.startTimer("complexity");//hardcoded to complexity scoring; change to combine speed/complexity
+		mathGame.sidePanel.startTimer("Mix");//hardcoded to mixed scoring
 		
 		tm.init(mathGame.cardPanel);
 	}
@@ -268,11 +270,13 @@ public class OptionMenu extends JPanel implements ActionListener {
 		if(e.getSource() == play)	{
 			
 			if(buttonMap.get("Competitive").isSelected())	{
+				mathGame.setGameState(GameState.COMPETITIVE);
 				mathGame.multimenu.refreshDatabase();
 				mathGame.multimenu.addThisUser();
 				mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);
 			}
 			else	{
+				mathGame.setGameState(GameState.PRACTICE);
 				startGame();
 			}
 			
