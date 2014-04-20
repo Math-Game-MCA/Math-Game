@@ -6,9 +6,11 @@ import javax.swing.*;
 import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
 import com.mathgame.cardmanager.UndoButton;
+import com.mathgame.database.MatchesAccess;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager;
 import com.mathgame.math.ScoringSystem;
+import com.mathgame.math.MathGame.GameState;
 import com.mathgame.menus.MainMenu;
 
 import java.awt.*;
@@ -60,6 +62,8 @@ public class SidePanel extends JPanel implements ActionListener {
 	static ImageIcon buttonPressedImage;
 	
 	static ImageIcon background;
+	
+	static MatchesAccess matchesAccess;
 
 	// JTextArea error;
 
@@ -278,7 +282,23 @@ public class SidePanel extends JPanel implements ActionListener {
 					}
 				}
 				
-				//Player is done!  Tell database
+				if(mathGame.getGameState() == GameState.COMPETITIVE)	{
+					//Player is done!  Tell database
+					matchesAccess.updateScore(points);
+					//wait for player2 to finish and get player2 score
+					//display scores in round summary (for a 10 seconds)
+					//assume 2 players
+					
+					String playerPoints = new String("");
+					for(int i = 1; i <= 2; i++)	{
+						playerPoints.concat("Player "+i+": "+matchesAccess.getScores().get(i - 1));
+						playerPoints.concat("\n");
+					}
+					//make this message stay for 5 seconds... somehow...
+					JOptionPane.showMessageDialog(this, 
+							playerPoints, "Round Summary",
+							JOptionPane.PLAIN_MESSAGE);
+				}
 			}
 			else {
 				JOptionPane.showMessageDialog(this,

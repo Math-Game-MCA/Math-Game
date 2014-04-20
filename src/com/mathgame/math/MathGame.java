@@ -32,6 +32,7 @@ public class MathGame extends Container implements ActionListener {
 	
 	public enum GameState {PRACTICE, COMPETITIVE};
 	private GameState gs;
+	private Game game;//game variables held here for multiplayer game
 
 	public JPanel cardLayoutPanels;// uses CardLayout to switch between menu and game
 	public CardLayout cl;
@@ -160,6 +161,8 @@ public class MathGame extends Container implements ActionListener {
 		multimenu = new MultiMenu();
 		multimenu.init(this, typeManager);
 		multimenu.setBounds(0, 0, appWidth, appHeight);
+		
+		game = new Game(this);//TODO pass MatchesAccess
 		
 		hostmenu = new HostMenu(this);
 		hostmenu.setBounds(0, 0, appWidth, appHeight);
