@@ -9,6 +9,26 @@ import java.sql.SQLException;
  */
 public class MatchesAccess extends MySQLAccess{
 	
+	public void hostGame(){
+		try {
+			statement = connect.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches (ID, Name)"
+					+ " VALUES (NULL, '"+mathGame.thisUser.getName()+"')");
+			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches "
+					+ "(Player1, Type, Difficulty, Rounds)"
+					+ " VALUES ('"+mathGame.thisUser.getName()+"', 'int', 'easy', '3')" );
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public void updateScore(){
 		try {
