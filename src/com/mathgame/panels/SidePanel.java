@@ -320,6 +320,7 @@ public class SidePanel extends JPanel implements ActionListener {
 								playerPoints, "Game Summary",
 								JOptionPane.PLAIN_MESSAGE);*/
 						SummaryDialog sd = new SummaryDialog((JFrame) this.getTopLevelAncestor(), "Game Summary", playerPoints);
+						mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);//go back to multimenu after game ends
 					}
 				}
 			}

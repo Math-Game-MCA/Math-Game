@@ -459,6 +459,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					//this is when the user chooses to join the game
+					//TODO add code for this user (a "second" user) to join the game
 				}
 
 				@Override
