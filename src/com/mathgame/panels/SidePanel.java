@@ -277,6 +277,8 @@ public class SidePanel extends JPanel implements ActionListener {
 						score.setText(Integer.toString(points));
 					}
 				}
+				
+				//Player is done!  Tell database
 			}
 			else {
 				JOptionPane.showMessageDialog(this,

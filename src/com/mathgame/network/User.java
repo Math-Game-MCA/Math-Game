@@ -14,6 +14,7 @@ public class User {
 	private int rankvalue;	
 	private int gameswon;	
 	private int gameslost;
+	private int playerID;//1 for host, 2+ for additional player
 		
 	public User(String username, String pass)
 	{
@@ -79,5 +80,19 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	/**
+	 * @return the playerID
+	 */
+	public int getPlayerID() {
+		return playerID;
+	}
+
+	/**
+	 * @param playerID the playerID to set
+	 */
+	public void setPlayerID(int playerID) {
+		this.playerID = playerID;
 	}
 }
