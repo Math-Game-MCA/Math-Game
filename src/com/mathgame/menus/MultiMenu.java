@@ -222,6 +222,12 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		}
 		
 		else if(e.getSource() == host){
+
+			/*MatchesAccess ma = new MatchesAccess(mathGame, mathGame.sql.connect);
+			ma.hostGame();
+			System.out.println("matCH NUMBER1 " + ma.matchNum);
+			ma.storeMatchNum();
+			System.out.println("matCH NUMBER2 " + ma.matchNum);*/
 			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.HOSTMENU);
 			//startgame();
 		}

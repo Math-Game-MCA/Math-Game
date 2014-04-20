@@ -15,7 +15,7 @@ import com.mathgame.math.MathGame;
  *
  */
 public class MatchesAccess extends MySQLAccess{
-	int matchNum=-1;
+	public int matchNum=-1;
 	
 	private MathGame mathGame;
 	private Connection connect = null;
@@ -63,7 +63,7 @@ public class MatchesAccess extends MySQLAccess{
 		}
 		try {
 		
-			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where Player1="+mathGame.thisUser.getName());
+			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1="+mathGame.thisUser.getName());
 			
 			matchNum = resultSet.getInt("ID");			
 			
@@ -140,6 +140,17 @@ public class MatchesAccess extends MySQLAccess{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void endGame(){
+		try {
+			statement.executeUpdate("DELETE FROM sofiav_mathgame.matches "
+					+ "WHERE sofiav_mathgame.matches.ID = '"
+		+ matchNum +"'");
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 
