@@ -217,6 +217,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		System.out.println("Menu Init Complete");
 	}
 	
+	public void setGameManager(GameManager gameManager){
+		this.gameManager = gameManager;
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		//TODO program functionality of buttons
 		if(e.getSource() == home )	{
@@ -245,6 +249,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	public void addGame(Game g)	{//later consider users naming their games...
 		games.add(new GameCard("Game"+((Integer)games.size() + 1), g.getScoring()));
 		gamesList.add(games.get(games.size() - 1));
+		gameManager.toString();
 		gameManager.setGame(g);//now game manager knows what game it's managing
 		//TODO add game to database
 	}

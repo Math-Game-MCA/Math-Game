@@ -30,7 +30,8 @@ public class GameManager {
 		this.mathGame = mathGame;
 		matchesAccess = new MatchesAccess(mathGame, mathGame.sql.connect);
 		
-		scores = new ArrayList<Integer>(game.getNumberOfPlayers());
+		scores = new ArrayList<Integer>(2);//game.getNumberOfPlayers());//Game is not initialized yet
+		mathGame.multimenu.setGameManager(this);
 	}
 	
 	
