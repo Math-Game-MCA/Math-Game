@@ -6,6 +6,7 @@ import javax.swing.*;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager;
 import com.mathgame.math.TypeManager.GameType;
+import com.mathgame.network.Game;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -308,7 +309,7 @@ public class HostMenu extends JPanel implements ActionListener {
 				+"\n\tDIFF: "+diff
 				+"\n\tSCORING: "+scoring
 				+"\n\tTYPE: "+type);
-		multiMenu.addGame(scoring);
+		multiMenu.addGame(new Game(players, type, scoring, diff, rounds));
 		//FOR DEBUGGING PURPOSES ONLY: 
 		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);
 		//TODO go directly to game and make sure game waits for another player

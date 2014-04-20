@@ -23,6 +23,14 @@ public class Game {
 		}
 	}
 
+	/**
+	 * 
+	 * @param players
+	 * @param type
+	 * @param scoring
+	 * @param diff
+	 * @param rounds
+	 */
 	public Game(int players, String type, String scoring, String diff, int rounds) {
 		this.players = players;
 		this.rounds = rounds;
@@ -34,13 +42,13 @@ public class Game {
 	/**
 	 * @return the players
 	 */
-	public int getPlayers() {
+	public int getNumberOfPlayers() {
 		return players;
 	}
 	/**
 	 * @param players the players to set
 	 */
-	public void setPlayers(int players) {
+	public void setNumberOfPlayers(int players) {
 		this.players = players;
 	}
 	/**

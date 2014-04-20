@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.TimerTask;
 
 /**
  * 
@@ -292,19 +293,21 @@ public class SidePanel extends JPanel implements ActionListener {
 					gameManager.updateScores(points);
 					//wait for player2 to finish and get player2 score
 					//display scores in round summary (for a 10 seconds)
+					
 					//figure out when it's the last round to show the total match summary
 					//if not finished yet...
-					if(gameManager.getCurrentRound() != gameManager.getRounds()){
+					if(gameManager.getCurrentRound() != gameManager.getGame().getRounds()){
 						String playerPoints = new String("ROUND "+gameManager.getCurrentRound()+"\n");
 						//assume 2 players
 						for(int i = 1; i <= 2; i++)	{
 							playerPoints.concat("Player "+i+": "+gameManager.getRoundScores().get(i - 1));
 							playerPoints.concat("\n");
 						}
-						//make this message stay for 10 seconds... use TimerTask class?
-						JOptionPane.showMessageDialog(this, 
+						/*JOptionPane.showMessageDialog(this, 
 								playerPoints, "Round Summary",
 								JOptionPane.PLAIN_MESSAGE);
+						*/
+						SummaryDialog sd = new SummaryDialog((JFrame) this.getTopLevelAncestor(), "Round Summary", playerPoints);
 					}
 					else	{//if last match
 						String playerPoints = new String("GAME SUMMARY\n");
@@ -313,10 +316,10 @@ public class SidePanel extends JPanel implements ActionListener {
 							playerPoints.concat("Player "+i+": "+gameManager.getCumulativeScores().get(i - 1));
 							playerPoints.concat("\n");
 						}
-						//make this message stay for 10 seconds... use TimerTask class?
-						JOptionPane.showMessageDialog(this, 
+						/*JOptionPane.showMessageDialog(this, 
 								playerPoints, "Game Summary",
-								JOptionPane.PLAIN_MESSAGE);
+								JOptionPane.PLAIN_MESSAGE);*/
+						SummaryDialog sd = new SummaryDialog((JFrame) this.getTopLevelAncestor(), "Game Summary", playerPoints);
 					}
 				}
 			}
@@ -535,6 +538,27 @@ public class SidePanel extends JPanel implements ActionListener {
 		
 		timer.start();
 		startTime = System.currentTimeMillis();
+	}
+	
+	class SummaryDialog extends JDialog implements ActionListener {
+		
+		JOptionPane option;
+			
+		public SummaryDialog(JFrame frame, String title, String text)	{
+			super(frame, true);
+			option = new JOptionPane(text, JOptionPane.PLAIN_MESSAGE, JOptionPane.CANCEL_OPTION, null, null);
+			Timer timer = new Timer(10000, new SummaryDialog(frame, title, text));
+			timer.setRepeats(false);
+			timer.start();
+			if(isDisplayable())	{
+				setVisible(true);
+			}
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			this.dispose();
+		}
 	}
 
 }

@@ -37,6 +37,8 @@ import javax.swing.border.TitledBorder;
 import com.mathgame.database.MatchesAccess;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager;
+import com.mathgame.network.Game;
+import com.mathgame.network.GameManager;
 import com.mathgame.network.User;
 
 /**
@@ -79,6 +81,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	
 	Panel innerPanel; 
 	
+	static GameManager gameManager;
 	static HostMenu hostMenu;
 	private ArrayList<String> usersArray;
 	private ArrayList<GameCard> games;
@@ -94,6 +97,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		mathGame = mg;
 		typeManager = tn;
+		gameManager = mathGame.gameManager;
 		hostMenu = new HostMenu(mathGame);
 		
 		background = new ImageIcon(MultiMenu.class.getResource(imageFile));
@@ -238,9 +242,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		}
 	}
 	
-	public void addGame(String scoring)	{//later consider users naming their games...
-		games.add(new GameCard("Game"+((Integer)games.size() + 1), scoring));
+	public void addGame(Game g)	{//later consider users naming their games...
+		games.add(new GameCard("Game"+((Integer)games.size() + 1), g.getScoring()));
 		gamesList.add(games.get(games.size() - 1));
+		gameManager.setGame(g);//now game manager knows what game it's managing
 		//TODO add game to database
 	}
 	
@@ -429,7 +434,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 
 	private class GameCard extends JLabel	{
 		String name;
-		String type;//Timed Scoring vs. Win Scoring
+		String type;
 		int numberOfPlayers;//probably 2 for now, maybe introduce solo mode for 1 player
 		ArrayList<User>players;
 		

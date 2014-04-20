@@ -12,12 +12,8 @@ import com.mathgame.math.MathGame;
  * @author Roland
  * Class that holds specs for multiplayer game
  */
-public class GameManager {
-	private int players; //# of players = 2
-	private int rounds; //# of rounds
-	private String type; //number type
-	private String scoring; //scoring
-	private String diff; //difficulty
+public class GameManager {	
+	private Game game;
 	
 	private int score;//current running total score of player
 	
@@ -33,10 +29,8 @@ public class GameManager {
 	public GameManager(MathGame mathGame) {
 		this.mathGame = mathGame;
 		matchesAccess = new MatchesAccess(mathGame, mathGame.sql.connect);
-		matchesAccess.hostGame();
 		
-		players = matchesAccess.getScores().size();
-		scores = new ArrayList<Integer>(players);
+		scores = new ArrayList<Integer>(game.getNumberOfPlayers());
 	}
 	
 	
@@ -46,71 +40,11 @@ public class GameManager {
 	 */
 	public void updateScores(int score)	{
 		matchesAccess.updateScore(score);
-		for(int i = 0; i < players; i++)	{
+		for(int i = 0; i < game.getNumberOfPlayers(); i++)	{
 			scores.set(i, scores.get(i) + matchesAccess.getScores().get(i));
 		}
 	}
 	
-	/**
-	 * @return the players
-	 */
-	public int getPlayers() {
-		return players;
-	}
-	/**
-	 * @param players the players to set
-	 */
-	public void setPlayers(int players) {
-		this.players = players;
-	}
-	/**
-	 * @return the rounds
-	 */
-	public int getRounds() {
-		return rounds;
-	}
-	/**
-	 * @param rounds the rounds to set
-	 */
-	public void setRounds(int rounds) {
-		this.rounds = rounds;
-	}
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
-	/**
-	 * @return the scoring
-	 */
-	public String getScoring() {
-		return scoring;
-	}
-	/**
-	 * @param scoring the scoring to set
-	 */
-	public void setScoring(String scoring) {
-		this.scoring = scoring;
-	}
-	/**
-	 * @return the diff
-	 */
-	public String getDiff() {
-		return diff;
-	}
-	/**
-	 * @param diff the diff to set
-	 */
-	public void setDiff(String diff) {
-		this.diff = diff;
-	}
 	/**
 	 * @return the matchesAccess
 	 */
@@ -144,6 +78,23 @@ public class GameManager {
 	 */
 	public void setCurrentRound(int currentRound) {
 		this.currentRound = currentRound;
+	}
+
+
+	/**
+	 * @return the game
+	 */
+	public Game getGame() {
+		return game;
+	}
+
+
+	/**
+	 * @param game the game to set
+	 */
+	public void setGame(Game game) {
+		this.game = game;
+		matchesAccess.hostGame();//let the game begin! er... well when the other player gets here
 	}
 	
 	
