@@ -3,38 +3,26 @@
  */
 package com.mathgame.menus;
 
-import java.awt.Button;
-import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.border.TitledBorder;
 
-import com.mathgame.database.MatchesAccess;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager;
 import com.mathgame.network.Game;
@@ -84,7 +72,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	static GameManager gameManager;
 	static HostMenu hostMenu;
 	private ArrayList<String> usersArray;
-	private ArrayList<GameCard> games;
+	private ArrayList<Game> games;
+	private ArrayList<GameCard> gameCards;
 	
 	//constructor
 	public void init(MathGame mg, TypeManager tn)	{
@@ -100,6 +89,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		gameManager = mathGame.gameManager;
 		hostMenu = new HostMenu(mathGame);
 		
+		games = GameManager.getMatchesAccess().getCurrentGames();
+		gameCards = new ArrayList<GameCard>();
+		
 		background = new ImageIcon(MultiMenu.class.getResource(imageFile));
 		buttonImage = new ImageIcon(MultiMenu.class.getResource(buttonImageFile));
 		buttonRollOverImage = new ImageIcon(MultiMenu.class.getResource(buttonRollOverImageFile));
@@ -107,7 +99,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		Font titleFont = new Font("Arial", Font.BOLD, 24);
 		Font buttonFont = new Font("Arial", Font.PLAIN, 20);
-		Font infoFont = new Font("Arial", Font.BOLD, 12);
 		
 		mode = new JLabel("Lobby");
 		mode.setFont(titleFont);
@@ -161,7 +152,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		usersList.add(innerPanel);
 		
 		usersArray = new ArrayList<String>();
-		games = new ArrayList<GameCard>();
 	    
 		try {
 		    home.setIcon(buttonImage);
@@ -218,7 +208,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	}
 	
 	public void setGameManager(GameManager gameManager){
-		this.gameManager = gameManager;
+		MultiMenu.gameManager = gameManager;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -251,9 +241,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		int gameID = gameManager.setGame(g);//now game manager knows what game it's managing
 		g.setID(gameID);
-		
-		games.add(new GameCard("Game"+((Integer)games.size() + 1), g.getScoring()));
-		gamesList.add(games.get(games.size() - 1));
+		games.add(g);
+		gameCards.add(new GameCard("Game"+((Integer)games.size() + 1), g.getScoring()));
+		gamesList.add(gameCards.get(games.size() - 1));
 		//TODO add game to database
 	}
 	
@@ -302,7 +292,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	 */
 	public void startgame() {
 		//this.setVisible(false);
-		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
+		mathGame.cl.show(mathGame.cardLayoutPanels, MathGame.GAME);
 		System.out.println("ENTER GAME");
 		typeManager.init(mathGame.cardPanel);
 		typeManager.randomize();
