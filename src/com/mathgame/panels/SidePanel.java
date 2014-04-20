@@ -292,16 +292,31 @@ public class SidePanel extends JPanel implements ActionListener {
 					//wait for player2 to finish and get player2 score
 					//display scores in round summary (for a 10 seconds)
 					//figure out when it's the last round to show the total match summary
-					String playerPoints = new String("ROUND "+game.getCurrentRound()+"\n");
-					//assume 2 players
-					for(int i = 1; i <= 2; i++)	{
-						playerPoints.concat("Player "+i+": "+game.getRoundScores().get(i - 1));
-						playerPoints.concat("\n");
+					//if not finished yet...
+					if(game.getCurrentRound() != game.getRounds()){
+						String playerPoints = new String("ROUND "+game.getCurrentRound()+"\n");
+						//assume 2 players
+						for(int i = 1; i <= 2; i++)	{
+							playerPoints.concat("Player "+i+": "+game.getRoundScores().get(i - 1));
+							playerPoints.concat("\n");
+						}
+						//make this message stay for 10 seconds... use TimerTask class?
+						JOptionPane.showMessageDialog(this, 
+								playerPoints, "Round Summary",
+								JOptionPane.PLAIN_MESSAGE);
 					}
-					//make this message stay for 5 seconds... somehow...
-					JOptionPane.showMessageDialog(this, 
-							playerPoints, "Round Summary",
-							JOptionPane.PLAIN_MESSAGE);
+					else	{//if last match
+						String playerPoints = new String("GAME SUMMARY\n");
+						//assume 2 players
+						for(int i = 1; i <= 2; i++)	{
+							playerPoints.concat("Player "+i+": "+game.getCumulativeScores().get(i - 1));
+							playerPoints.concat("\n");
+						}
+						//make this message stay for 10 seconds... use TimerTask class?
+						JOptionPane.showMessageDialog(this, 
+								playerPoints, "Game Summary",
+								JOptionPane.PLAIN_MESSAGE);
+					}
 				}
 			}
 			else {
