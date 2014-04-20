@@ -28,7 +28,7 @@ public class MySQLAccess{
 	private final String pass = "Mathgames1";//"oL20wC06xd";
 	
 	public Connection connect = null;
-	private Statement statement = null;
+	protected Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	
@@ -322,4 +322,8 @@ public class MySQLAccess{
 	public void removeUser(){
 		gameAccess.removeUser(connect);	
 	}
+	
+	/*public boolean isConnected(){
+		return connect.
+	}*/
 }

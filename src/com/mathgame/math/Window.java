@@ -61,7 +61,7 @@ public class Window	{
 
 			System.out.println("window closing");
 			try {
-				if(mg.sql.connect == null)
+				if(mg.sql.connect.getWarnings() == null)
 					mg.sql.connect();
 				mg.sql.removeUser();
 			} catch (Exception e) {
