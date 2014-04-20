@@ -69,7 +69,7 @@ public class MatchesAccess extends MySQLAccess{
 		ArrayList<Game> gamesList = new ArrayList<Game>();		
 		
 		try {
-			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='"+mathGame.thisUser.getName()+"'");
+			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches ORDER BY ID");
 			
 			while(resultSet.next())
 				gamesList.add(new Game(resultSet.getInt("ID"), 2, resultSet.getString("Type"), "mixed", resultSet.getString("Difficulty"), resultSet.getInt("Rounds")));

@@ -102,5 +102,8 @@ public class GameManager {
 		matchesAccess.joinGame(gameID);
 	}
 	
+	public  ArrayList<Game> getCurrentGames(){
+		return matchesAccess.getCurrentGames();
+	}
 	
 }
