@@ -158,12 +158,11 @@ public class MathGame extends Container implements ActionListener {
 		layer.setBounds(5, 0, getSize().width, getSize().height);
 
 		typeManager = new TypeManager(this);
+		gameManager = new GameManager(this);
 
 		multimenu = new MultiMenu();
 		multimenu.init(this, typeManager);
 		multimenu.setBounds(0, 0, appWidth, appHeight);
-		
-		gameManager = new GameManager(this);//TODO pass MatchesAccess
 		
 		hostmenu = new HostMenu(this);
 		hostmenu.setBounds(0, 0, appWidth, appHeight);

@@ -31,7 +31,6 @@ public class GameManager {
 		matchesAccess = new MatchesAccess(mathGame, mathGame.sql.connect);
 		
 		scores = new ArrayList<Integer>(2);//game.getNumberOfPlayers());//Game is not initialized yet
-		mathGame.multimenu.setGameManager(this);
 	}
 	
 	
