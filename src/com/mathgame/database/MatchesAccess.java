@@ -92,9 +92,10 @@ public class MatchesAccess extends MySQLAccess{
 		}
 		
 		try {
-			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches "
-					+ "(Player2)"
-					+ " VALUES ('"+mathGame.thisUser.getName()+"')" );
+			statement.executeUpdate("Update sofiav_mathgame.matches "
+					+ "set Player2="
+					+ " '"+mathGame.thisUser.getName()+"' "
+					+ "where sofiav_mathgame.matches.ID="+matchNum );
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
