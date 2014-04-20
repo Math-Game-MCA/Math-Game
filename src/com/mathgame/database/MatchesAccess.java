@@ -9,6 +9,7 @@ import java.util.ArrayList;
  *
  */
 public class MatchesAccess extends MySQLAccess{
+	int matchNum=-1;
 	
 	public void hostGame(){
 		try {
@@ -22,6 +23,26 @@ public class MatchesAccess extends MySQLAccess{
 			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches "
 					+ "(Player1, Type, Difficulty, Rounds)"
 					+ " VALUES ('"+mathGame.thisUser.getName()+"', 'int', 'easy', '3')" );
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void storeMatchNum(){
+		try {
+			statement = connect.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+		
+			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where Player1="+mathGame.thisUser.getName());
+			
+			matchNum = resultSet.getInt("ID");			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -51,7 +72,7 @@ public class MatchesAccess extends MySQLAccess{
 		
 	}
 	
-	public ArrayList<Integer> getScores(int matchNumber){
+	public ArrayList<Integer> getScores(){
 		int numPlayers = 2;
 		ArrayList<Integer> scores = new ArrayList<Integer>(numPlayers);
 		
@@ -63,7 +84,7 @@ public class MatchesAccess extends MySQLAccess{
 		}
 		try {
 		
-			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNumber);
+			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
 			
 			for(int i=1; i<=numPlayers; i++)
 				scores.add(resultSet.getInt("Player"+i+"Score"));
@@ -84,11 +105,12 @@ public class MatchesAccess extends MySQLAccess{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("name " + mathGame.thisUser.getName());
+		
 		try {
+			int currentScore = getScores().get(mathGame.thisUser.getPlayerID()-1);
 			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches "
 					+ "(Player"+mathGame.thisUser.getPlayerID()+")"
-					+ " VALUES ('"+mathGame.thisUser.getName()+"')" );
+					+ " VALUES ('"+ (currentScore+score) +"')" );
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
