@@ -91,6 +91,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		games = GameManager.getMatchesAccess().getCurrentGames();
 		gameCards = new ArrayList<GameCard>();
+		for(Game game : games)	{//for each game, create a gamecard
+			gameCards.add(new GameCard("Game "+String.valueOf(game.getID()), game.getScoring()));
+		}
 		
 		background = new ImageIcon(MultiMenu.class.getResource(imageFile));
 		buttonImage = new ImageIcon(MultiMenu.class.getResource(buttonImageFile));
@@ -242,7 +245,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		int gameID = gameManager.setGame(g);//now game manager knows what game it's managing
 		g.setID(gameID);
 		games.add(g);
-		gameCards.add(new GameCard("Game"+((Integer)games.size() + 1), g.getScoring()));
+		gameCards.add(new GameCard("Game "+gameID, g.getScoring()));
 		gamesList.add(gameCards.get(games.size() - 1));
 		
 		 ArrayList<Game> test = gameManager.getCurrentGames();
