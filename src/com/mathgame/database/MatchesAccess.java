@@ -33,6 +33,14 @@ public class MatchesAccess extends MySQLAccess{
 		mathGame = game;
 		mathGame.getAlignmentX();
 		connect = c;
+		
+		try {
+			statement = connect.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**
@@ -40,12 +48,6 @@ public class MatchesAccess extends MySQLAccess{
 	 * @return The match number from the database
 	 */
 	public int hostGame(){
-		try {
-			statement = connect.createStatement();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		try {
 			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches "
