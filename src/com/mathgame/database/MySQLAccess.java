@@ -28,9 +28,9 @@ public class MySQLAccess{
 	private final String pass = "Mathgames1";//"oL20wC06xd";
 	
 	public Connection connect = null;
-	protected Statement statement = null;
+	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
-	protected ResultSet resultSet = null;
+	private ResultSet resultSet = null;
 	
 	private int id;
 	private String num1;
@@ -52,6 +52,10 @@ public class MySQLAccess{
 	
 	//Only used for SQLProject
 	protected MySQLAccess(){}
+	
+	protected Connection getConnection(){
+		return connect;
+	}
 	
 	
 	

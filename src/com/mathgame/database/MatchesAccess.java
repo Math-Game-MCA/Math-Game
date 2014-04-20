@@ -1,7 +1,13 @@
 package com.mathgame.database;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+
+import com.mathgame.math.MathGame;
 
 /**
  * For interfacing with the online matches table
@@ -10,6 +16,23 @@ import java.util.ArrayList;
  */
 public class MatchesAccess extends MySQLAccess{
 	int matchNum=-1;
+	
+	private MathGame mathGame;
+	private Connection connect = null;
+	private Statement statement = null;
+	private PreparedStatement preparedStatement = null;
+	private ResultSet resultSet = null;
+	
+	/**
+	 * 
+	 * @param game Should be passed from the sql object of MySQLAccess
+	 * @param c Should be passed from the sql object of MySQLAccess
+	 */
+	public MatchesAccess(MathGame game, Connection c){
+		mathGame = game;
+		mathGame.getAlignmentX();
+		connect = c;
+	}
 	
 	public void hostGame(){
 		try {
@@ -23,6 +46,7 @@ public class MatchesAccess extends MySQLAccess{
 			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches "
 					+ "(Player1, Type, Difficulty, Rounds)"
 					+ " VALUES ('"+mathGame.thisUser.getName()+"', 'int', 'easy', '3')" );
+			System.out.println("Created online game");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
