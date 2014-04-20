@@ -7,6 +7,7 @@ import com.mathgame.math.MathGame;
 
 public class Game {
 	
+	private int ID; //which # game
 	private int players; //# of players = 2
 	private int rounds; //# of rounds
 	private String type; //number type
@@ -31,12 +32,26 @@ public class Game {
 	 * @param diff
 	 * @param rounds
 	 */
-	public Game(int players, String type, String scoring, String diff, int rounds) {
+	public Game(int ID, int players, String type, String scoring, String diff, int rounds) {
+		this.ID = ID;
 		this.players = players;
 		this.rounds = rounds;
 		this.type = type;
 		this.scoring = scoring;
 		this.diff = diff;
+	}
+	
+	/**
+	 * @return the game ID
+	 */
+	public int getID() {
+		return ID;
+	}
+	/**
+	 * @param ID the game number
+	 */
+	public void setID(int ID) {
+		this.ID = ID;
 	}
 		
 	/**

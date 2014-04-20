@@ -35,7 +35,11 @@ public class MatchesAccess extends MySQLAccess{
 		connect = c;
 	}
 	
-	public void hostGame(){
+	/**
+	 * 
+	 * @return The match number from the database
+	 */
+	public int hostGame(){
 		try {
 			statement = connect.createStatement();
 		} catch (SQLException e) {
@@ -58,7 +62,7 @@ public class MatchesAccess extends MySQLAccess{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		return matchNum;
 	}
 	
 	public ArrayList<Game> getCurrentGames(){
@@ -68,7 +72,7 @@ public class MatchesAccess extends MySQLAccess{
 			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='"+mathGame.thisUser.getName()+"'");
 			
 			while(resultSet.next())
-				gamesList.add(new Game(2, resultSet.getString("Type"), "mixed", resultSet.getString("Difficulty"), resultSet.getInt("Rounds")));
+				gamesList.add(new Game(resultSet.getInt("ID"), 2, resultSet.getString("Type"), "mixed", resultSet.getString("Difficulty"), resultSet.getInt("Rounds")));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,7 +87,7 @@ public class MatchesAccess extends MySQLAccess{
 	/**
 	 * Only for use by the second person to join the game
 	 */
-	public void joinGame(){
+	public void joinGame(int gameID){
 		try {
 			statement = connect.createStatement();
 		} catch (SQLException e) {
@@ -95,7 +99,7 @@ public class MatchesAccess extends MySQLAccess{
 			statement.executeUpdate("Update sofiav_mathgame.matches "
 					+ "set Player2="
 					+ " '"+mathGame.thisUser.getName()+"' "
-					+ "where sofiav_mathgame.matches.ID="+matchNum );
+					+ "where sofiav_mathgame.matches.ID="+gameID );
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

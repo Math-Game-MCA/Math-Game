@@ -247,10 +247,13 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	}
 	
 	public void addGame(Game g)	{//later consider users naming their games...
+		
+		
+		int gameID = gameManager.setGame(g);//now game manager knows what game it's managing
+		g.setID(gameID);
+		
 		games.add(new GameCard("Game"+((Integer)games.size() + 1), g.getScoring()));
 		gamesList.add(games.get(games.size() - 1));
-		gameManager.toString();
-		gameManager.setGame(g);//now game manager knows what game it's managing
 		//TODO add game to database
 	}
 	
@@ -440,6 +443,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	private class GameCard extends JLabel	{
 		String name;
 		String type;
+		int gameID;
 		int numberOfPlayers;//probably 2 for now, maybe introduce solo mode for 1 player
 		ArrayList<User>players;
 		
@@ -465,6 +469,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 				public void mouseClicked(MouseEvent e) {
 					//this is when the user chooses to join the game
 					//TODO add code for this user (a "second" user) to join the game
+					gameManager.joinGame(22);
 				}
 
 				@Override

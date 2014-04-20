@@ -93,9 +93,13 @@ public class GameManager {
 	/**
 	 * @param game the game to set
 	 */
-	public void setGame(Game game) {
+	public int setGame(Game game) {
 		this.game = game;
-		matchesAccess.hostGame();//let the game begin! er... well when the other player gets here
+		return matchesAccess.hostGame();//let the game begin! er... well when the other player gets here
+	}
+	
+	public void joinGame(int gameID){
+		matchesAccess.joinGame(gameID);
 	}
 	
 	

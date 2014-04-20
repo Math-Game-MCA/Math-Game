@@ -268,7 +268,7 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == finish)	{
-			startgame();
+			addGame();
 		}
 		else if(e.getSource() == cancel) {
 			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);//open the menu
@@ -276,9 +276,9 @@ public class HostMenu extends JPanel implements ActionListener {
 	}
 	
 	/**
-	 * Starts the game
+	 * Adds a new game
 	 */
-	public void startgame() {
+	public void addGame() {
 		this.setVisible(false);
 		//players = (Integer) playersSpinner.getModel().getValue();
 		players = 2;
@@ -292,7 +292,7 @@ public class HostMenu extends JPanel implements ActionListener {
 			type = "Integer";
 		}
 		else if(buttonMap.get("Decimal").isSelected())	{
-			multiMenu.choosedecimal();
+			multiMenu.choosedecimal();	
 			type = "Decimal";
 		}
 		else if(buttonMap.get("Fraction").isSelected())	{
@@ -304,16 +304,17 @@ public class HostMenu extends JPanel implements ActionListener {
 			type = "Integer";
 		}
 		//etc.
-		System.out.println("MULTIPLAYER GAME SPECS: \n\tPLAYERS: "+players
+		System.out.println("MULTIPLAYER GAME SPECS: "								
+				+ "\n\tPLAYERS: "+players
 				+"\n\tROUNDS: "+rounds
 				+"\n\tDIFF: "+diff
 				+"\n\tSCORING: "+scoring
 				+"\n\tTYPE: "+type);
-		multiMenu.addGame(new Game(players, type, scoring, diff, rounds));
+		multiMenu.addGame(new Game(-1, players, type, scoring, diff, rounds));
 		//FOR DEBUGGING PURPOSES ONLY: 
 		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);
 		//TODO go directly to game and make sure game waits for another player
-		System.out.println("ENTER GAME");
+		System.out.println("CREATED NEW GAME");
 	}
 	
 	@Override
