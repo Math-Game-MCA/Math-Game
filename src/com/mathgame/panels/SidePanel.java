@@ -13,6 +13,7 @@ import com.mathgame.math.ScoringSystem;
 import com.mathgame.math.MathGame.GameState;
 import com.mathgame.menus.MainMenu;
 import com.mathgame.network.Game;
+import com.mathgame.network.GameManager;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -65,7 +66,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	static ImageIcon background;
 	
 	static MatchesAccess matchesAccess;
-	static Game game;
+	static GameManager gameManager;
 
 	// JTextArea error;
 
@@ -94,8 +95,8 @@ public class SidePanel extends JPanel implements ActionListener {
 		this.mathGame = mathGame;
 		this.typeManager = mathGame.typeManager;
 		scorekeeper = new ScoringSystem();
-		game = mathGame.game;
-		matchesAccess = Game.getMatchesAccess();
+		gameManager = mathGame.gameManager;
+		matchesAccess = GameManager.getMatchesAccess();
 
 		// this.setBorder(new LineBorder(Color.BLACK));
 		this.setBounds(750, 0, 150, 620);
@@ -288,16 +289,16 @@ public class SidePanel extends JPanel implements ActionListener {
 				
 				if(mathGame.getGameState() == GameState.COMPETITIVE)	{
 					//Player is done!  Tell database
-					game.updateScores(points);
+					gameManager.updateScores(points);
 					//wait for player2 to finish and get player2 score
 					//display scores in round summary (for a 10 seconds)
 					//figure out when it's the last round to show the total match summary
 					//if not finished yet...
-					if(game.getCurrentRound() != game.getRounds()){
-						String playerPoints = new String("ROUND "+game.getCurrentRound()+"\n");
+					if(gameManager.getCurrentRound() != gameManager.getRounds()){
+						String playerPoints = new String("ROUND "+gameManager.getCurrentRound()+"\n");
 						//assume 2 players
 						for(int i = 1; i <= 2; i++)	{
-							playerPoints.concat("Player "+i+": "+game.getRoundScores().get(i - 1));
+							playerPoints.concat("Player "+i+": "+gameManager.getRoundScores().get(i - 1));
 							playerPoints.concat("\n");
 						}
 						//make this message stay for 10 seconds... use TimerTask class?
@@ -309,7 +310,7 @@ public class SidePanel extends JPanel implements ActionListener {
 						String playerPoints = new String("GAME SUMMARY\n");
 						//assume 2 players
 						for(int i = 1; i <= 2; i++)	{
-							playerPoints.concat("Player "+i+": "+game.getCumulativeScores().get(i - 1));
+							playerPoints.concat("Player "+i+": "+gameManager.getCumulativeScores().get(i - 1));
 							playerPoints.concat("\n");
 						}
 						//make this message stay for 10 seconds... use TimerTask class?

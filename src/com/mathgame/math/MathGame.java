@@ -33,7 +33,7 @@ public class MathGame extends Container implements ActionListener {
 	public enum GameState {PRACTICE, COMPETITIVE};
 	private GameState gs;
 
-	private GameManager gameManager;//game variables held here for multiplayer game
+	public GameManager gameManager;//game variables held here for multiplayer game
 
 	public JPanel cardLayoutPanels;// uses CardLayout to switch between menu and game
 	public CardLayout cl;

@@ -115,7 +115,7 @@ public class MatchesAccess extends MySQLAccess{
 		try {
 		
 			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
-			
+			resultSet.next();
 			for(int i=1; i<=numPlayers; i++)
 				scores.add(resultSet.getInt("Player"+i+"Score"));
 			
