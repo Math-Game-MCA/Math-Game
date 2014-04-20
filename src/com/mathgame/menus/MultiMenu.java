@@ -244,13 +244,25 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	}
 	
 	public void addThisUser(){
-		mathGame.sql.addUser();
+		try {
+			if(mathGame.sql.connect == null)
+				mathGame.sql.connect();
+			mathGame.sql.addUser();
+			//mathGame.sql.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void refreshDatabase(){
 		try {
+			if(mathGame.sql.connect == null)
+				mathGame.sql.connect();
 			usersArray = mathGame.sql.getUsersGame();
 			updateUsersList();
+			//mathGame.sql.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -60,7 +60,14 @@ public class Window	{
 		public void windowClosing(WindowEvent arg0) {
 
 			System.out.println("window closing");
-			mg.sql.removeUser();
+			try {
+				if(mg.sql.connect.getWarnings() == null)
+					mg.sql.connect();
+				mg.sql.removeUser();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	
 			
 		}

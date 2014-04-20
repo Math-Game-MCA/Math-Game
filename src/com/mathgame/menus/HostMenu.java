@@ -29,7 +29,7 @@ public class HostMenu extends JPanel implements ActionListener {
 	static MathGame mathGame;
 	static MultiMenu multiMenu;
 	
-	int players; //# of players (2-6)
+	int players; //# of players = 2
 	int rounds; //# of rounds (1-5)
 	String type; //number type (frac, dec, int)
 	String scoring; //scoring (complexity, speed, mix)
@@ -58,13 +58,13 @@ public class HostMenu extends JPanel implements ActionListener {
 	String[] scoringNames = {"Complexity", "Speed", "Mix"};//mixed scoring is a combination of speed/complexity
 	
 	JSpinner roundsSpinner;//displaying number of rounds
-	JSpinner playersSpinner;//displaying number of players
+	//JSpinner playersSpinner;//displaying number of players
 	SpinnerNumberModel roundsModel;
 	SpinnerNumberModel playersModel;
 	
 	Map<String, JToggleButton> buttonMap;//used to associate button with it's name for easy locating
 	
-	JPanel playerPanel;
+	//JPanel playerPanel;
 	JPanel scoringPanel;
 	JPanel roundPanel;
 	JPanel typePanel;
@@ -144,7 +144,7 @@ public class HostMenu extends JPanel implements ActionListener {
 		//button creation
 		buttonMap = new HashMap<String, JToggleButton>();
 		
-		initPlayerPanel();
+		//initPlayerPanel();
 		initTypePanel();
 		initDiffPanel();
 		initRoundPanel();
@@ -152,7 +152,7 @@ public class HostMenu extends JPanel implements ActionListener {
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		add(playerPanel, gbc);
+		//add(playerPanel, gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		add(typePanel, gbc);
@@ -179,7 +179,7 @@ public class HostMenu extends JPanel implements ActionListener {
 		scorings.get(0).setSelected(true);
 	}
 	
-	private void initPlayerPanel()	{
+	/*private void initPlayerPanel()	{
 		playerPanel = new JPanel();
 		playersModel = new SpinnerNumberModel(2, 2, 6, 1);//2 to 6 players, default 2
 		playersSpinner = new JSpinner(playersModel);
@@ -188,7 +188,7 @@ public class HostMenu extends JPanel implements ActionListener {
 		playersLabel.setFont(eurostile24);
 		playerPanel.add(playersLabel);
 		playerPanel.add(playersSpinner);
-	}
+	}*/
 	
 	private void initTypePanel()	{
 		types = new ArrayList<JCheckBox>();
@@ -279,7 +279,8 @@ public class HostMenu extends JPanel implements ActionListener {
 	 */
 	public void startgame() {
 		this.setVisible(false);
-		players = (Integer) playersSpinner.getModel().getValue();
+		//players = (Integer) playersSpinner.getModel().getValue();
+		players = 2;
 		rounds = (Integer) roundsSpinner.getModel().getValue();
 		diff = diffGroup.getSelection().getActionCommand();
 		scoring = scoringGroup.getSelection().getActionCommand();
