@@ -30,7 +30,7 @@ public class MySQLAccess{
 	public Connection connect = null;
 	protected Statement statement = null;
 	private PreparedStatement preparedStatement = null;
-	private ResultSet resultSet = null;
+	protected ResultSet resultSet = null;
 	
 	private int id;
 	private String num1;
