@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.mathgame.math.MathGame;
+import com.mathgame.network.Game;
 
 /**
  * For interfacing with the online matches table
@@ -47,6 +48,12 @@ public class MatchesAccess extends MySQLAccess{
 					+ "(Player1, Type, Difficulty, Rounds)"
 					+ " VALUES ('"+mathGame.thisUser.getName()+"', 'int', 'easy', '3')" );
 			System.out.println("Created online game");
+			
+			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='"+mathGame.thisUser.getName()+"'");
+			
+			resultSet.next();
+			matchNum = resultSet.getInt("ID");	
+			System.out.println("match number is "+matchNum);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,25 +61,24 @@ public class MatchesAccess extends MySQLAccess{
 		
 	}
 	
-	public void storeMatchNum(){
-		try {
-			statement = connect.createStatement();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
+	public ArrayList<Game> getCurrentGames(){
+		ArrayList<Game> gamesList = new ArrayList<Game>();		
 		
-			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1="+mathGame.thisUser.getName());
+		try {
+			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='"+mathGame.thisUser.getName()+"'");
 			
-			matchNum = resultSet.getInt("ID");			
-			
+			while(resultSet.next())
+				gamesList.add(new Game(2, resultSet.getString("Type"), "mixed", resultSet.getString("Difficulty"), resultSet.getInt("Rounds")));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+			
+		return gamesList;
 	}
+
+	
 	
 	/**
 	 * Only for use by the second person to join the game

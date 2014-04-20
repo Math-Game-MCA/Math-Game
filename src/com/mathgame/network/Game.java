@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.mathgame.network;
 
 import java.util.ArrayList;
@@ -8,52 +5,32 @@ import java.util.ArrayList;
 import com.mathgame.database.MatchesAccess;
 import com.mathgame.math.MathGame;
 
-/**
- * @author Roland
- * Class that holds specs for multiplayer game
- */
 public class Game {
+	
 	private int players; //# of players = 2
 	private int rounds; //# of rounds
 	private String type; //number type
 	private String scoring; //scoring
 	private String diff; //difficulty
-	
-	private ArrayList<Integer> scores;//scores of all players (in order of what's in database, i.e. 1 is host, not necessarily 'this' player
-	private int currentRound;
-	
-	static MatchesAccess matchesAccess;
-	static MathGame mathGame;
-	
-	/**
-	 * 
-	 */
-	public Game(MathGame mathGame) {
-		this.mathGame = mathGame;
-		matchesAccess = new MatchesAccess(mathGame, mathGame.sql.connect);
-		matchesAccess.hostGame();
-		matchesAccess.storeMatchNum();
-		
+
+
+	public Game() {
 		try {
-			players = matchesAccess.getScores().size();
-			scores = new ArrayList<Integer>(players);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * Adds round scores to cumulative along with latest player score
-	 * @param score
-	 */
-	public void updateScores(int score)	{
-		matchesAccess.updateScore(score);
-		for(int i = 0; i < players; i++)	{
-			scores.set(i, scores.get(i) + matchesAccess.getScores().get(i));
-		}
+
+	public Game(int players, String type, String scoring, String diff, int rounds) {
+		this.players = players;
+		this.rounds = rounds;
+		this.type = type;
+		this.scoring = scoring;
+		this.diff = diff;
 	}
-	
+		
 	/**
 	 * @return the players
 	 */
@@ -115,40 +92,8 @@ public class Game {
 		this.diff = diff;
 	}
 
-	/**
-	 * @return the matchesAccess
-	 */
-	public static MatchesAccess getMatchesAccess() {
-		return matchesAccess;
-	}
 
-	/**
-	 * @return the cumulative scores
-	 */
-	public ArrayList<Integer> getCumulativeScores() {
-		return scores;
-	}
-	
-	/**
-	 * @returns the round scores
-	 */
-	public ArrayList<Integer> getRoundScores() {
-		return matchesAccess.getScores();
-	}
-
-	/**
-	 * @return the currentRound
-	 */
-	public int getCurrentRound() {
-		return currentRound;
-	}
-
-	/**
-	 * @param currentRound the currentRound to set
-	 */
-	public void setCurrentRound(int currentRound) {
-		this.currentRound = currentRound;
-	}
 	
 	
+
 }
