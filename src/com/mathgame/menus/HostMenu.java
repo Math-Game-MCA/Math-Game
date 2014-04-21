@@ -269,6 +269,16 @@ public class HostMenu extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == finish)	{
 			addGame();
+			mathGame.cardPanel.hideCards();//hide cards until next player joins
+			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);//go to the game (but wait?)
+			Thread waitForPlayer = new Thread()	{
+					public void run()	{
+						if(mathGame.gameManager.gameFilled())
+						{
+							mathGame.cardPanel.showCards();
+							return;
+						}
+					}};
 		}
 		else if(e.getSource() == cancel) {
 			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);//open the menu

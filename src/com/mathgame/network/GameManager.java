@@ -105,4 +105,14 @@ public class GameManager {
 		return matchesAccess.getCurrentGames();
 	}
 	
+	/**
+	 * Checks to see if game is filled.
+	 * If filled, return true.
+	 * If not filled, return false
+	 * @return filled
+	 */
+	public Boolean gameFilled()	{
+		//put card to check database here
+		return false;
+	}
 }
