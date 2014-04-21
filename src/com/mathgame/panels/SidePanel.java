@@ -274,9 +274,16 @@ public class SidePanel extends JPanel implements ActionListener {
 							//Player is done!  Tell database
 							points = (int) scorekeeper.getTotalScore();
 							gameManager.updateScores(points);
-							//wait for player2 to finish and get player2 score
+							//TODO wait for player2 to finish and get player2 score
+							Thread waitForPlayer = new Thread()	{
+									public void run()	{
+										while(true)//wait for other player to finish; get from database
+											System.out.println("waiting");//loop until it is filled
+										//then continue
+									}
+							};
+							waitForPlayer.start();
 							//display scores in round summary (for a 10 seconds)
-							
 							//figure out when it's the last round to show the total match summary
 							//if not finished yet...
 							if(gameManager.getCurrentRound() != gameManager.getGame().getRounds()){
@@ -290,7 +297,10 @@ public class SidePanel extends JPanel implements ActionListener {
 										playerPoints, "Round Summary",
 										JOptionPane.PLAIN_MESSAGE);
 								*/
+								System.out.println("SUMMARY DIALOG; player points: "+playerPoints);
 								SummaryDialog sd = new SummaryDialog((JFrame) this.getTopLevelAncestor(), "Round Summary", playerPoints);
+								sd.pack();
+								sd.setVisible(true);
 							}
 							else	{//if last match
 								String playerPoints = new String("GAME SUMMARY\n");
@@ -303,6 +313,8 @@ public class SidePanel extends JPanel implements ActionListener {
 										playerPoints, "Game Summary",
 										JOptionPane.PLAIN_MESSAGE);*/
 								SummaryDialog sd = new SummaryDialog((JFrame) this.getTopLevelAncestor(), "Game Summary", playerPoints);
+								sd.pack();
+								sd.setVisible(true);
 								mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);//go back to multimenu after game ends
 							}
 						}
@@ -553,7 +565,10 @@ public class SidePanel extends JPanel implements ActionListener {
 		public SummaryDialog(JFrame frame, String title, String text)	{
 			super(frame, true);
 			option = new JOptionPane(text, JOptionPane.PLAIN_MESSAGE, JOptionPane.CANCEL_OPTION, null, null);
-			Timer timer = new Timer(10000, new SummaryDialog(frame, title, text));
+			setContentPane(option);
+			setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+			Timer timer = new Timer(10000, this);
+			timer.addActionListener(this);
 			timer.setRepeats(false);
 			timer.start();
 			if(isDisplayable())	{
@@ -563,6 +578,8 @@ public class SidePanel extends JPanel implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			System.out.println("CLOSE DIALOG");
+			this.setVisible(false);
 			this.dispose();
 		}
 	}
