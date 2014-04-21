@@ -234,7 +234,19 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		else if(e.getSource() == refresh)
 		{
 			refreshDatabase();
-			//choosemixed();
+
+			games = gameManager.getCurrentGames();
+			gameCards.clear();
+			for(Game g:games)
+				gameCards.add(new GameCard("Game "+g.getID(), g.getScoring()));
+			gamesList.removeAll();
+			
+			for(GameCard card:gameCards)
+				gamesList.add(card);
+			gamesList.revalidate();
+			
+			System.out.println("updated currentgames");
+			
 			//startgame();
 		}
 	}
