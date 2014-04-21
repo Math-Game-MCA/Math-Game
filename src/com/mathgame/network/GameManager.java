@@ -112,7 +112,6 @@ public class GameManager {
 	 * @return filled
 	 */
 	public Boolean gameFilled()	{
-		//put card to check database here
-		return false;
+		return matchesAccess.checkForFullGame();
 	}
 }
