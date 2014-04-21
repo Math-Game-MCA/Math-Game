@@ -272,12 +272,12 @@ public class SidePanel extends JPanel implements ActionListener {
 									.parseNumFromText(computedAns)) {
 						if(mathGame.getGameState() == GameState.COMPETITIVE)	{
 							//Player is done!  Tell database
-							points = (int) scorekeeper.getTotalScore();
+							points = (int) scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex()+1);
 							gameManager.updateScores(points);
 							//TODO wait for player2 to finish and get player2 score
 							Thread waitForPlayer = new Thread()	{
 									public void run()	{
-										while(true)//wait for other player to finish; get from database
+										while(!GameManager.getMatchesAccess().checkForPlayersScoresUpdated())//wait for other player to finish; get from database
 											System.out.println("waiting");//loop until it is filled
 										//then continue
 									}
