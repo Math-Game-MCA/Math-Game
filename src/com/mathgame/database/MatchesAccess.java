@@ -166,5 +166,46 @@ public class MatchesAccess extends MySQLAccess{
 		
 	}
 	
+	public boolean checkForFullGame(){
+		boolean gameStart = false;
+		
+		try {
+			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
+			
+			resultSet.next();
+			if(! resultSet.getString("Player2").equals(""))
+			{
+				System.out.println("Game is now full and can start");
+				gameStart = true;
+			}
+			
+			/*
+			 * final SwingWorker worker = new SwingWorker() {
+        ImageIcon icon = null;
+
+        public Object construct() {
+            icon = new ImageIcon(getURL(imagePath));
+            return icon; //return value not used by this program
+        }
+
+        //Runs on the event-dispatching thread.
+        public void finished() {
+            Photo pic = (Photo)pictures.elementAt(index);
+            pic.setIcon(icon);
+            if (index == current)
+                updatePhotograph(index, pic);
+        }
+    };
+    worker.start(); 
+			 */
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return gameStart;
+	}
 
 }

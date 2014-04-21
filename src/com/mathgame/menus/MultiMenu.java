@@ -265,7 +265,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		 ArrayList<Game> test = gameManager.getCurrentGames();
 		 for(int i=0; i<test.size(); i++)
-			 System.out.println("GAME IS " + test.get(i).getID());
+			 System.out.println("GAMEs are " + test.get(i).getID());
+		 GameManager.getMatchesAccess().checkForFullGame();
 	}
 	
 	public void addThisUser(){
