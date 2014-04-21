@@ -278,7 +278,7 @@ public class SidePanel extends JPanel implements ActionListener {
 							Thread waitForPlayer = new Thread()	{
 									public void run()	{
 										while(!GameManager.getMatchesAccess().checkForPlayersScoresUpdated())//wait for other player to finish; get from database
-											System.out.println("waiting");//loop until it is filled
+											System.out.println("waiting for other player");//loop until it is filled
 										//then continue
 									}
 							};

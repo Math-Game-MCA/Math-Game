@@ -120,7 +120,7 @@ public class MatchesAccess extends MySQLAccess{
 			e.printStackTrace();
 		}
 		try {
-		
+			System.out.println("the matchnum for getScores is " + matchNum);
 			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
 			resultSet.next();
 			System.out.println("THE SCORE IS for match " + matchNum + " ::::: " + resultSet.getInt("Player"+1+"Score"));

@@ -45,7 +45,7 @@ public class GameManager {
 			scores.add(0);
 			scores.add(0);
 		}
-		for(int i = 0; i < game.getNumberOfPlayers(); i++)	{
+		for(int i = 0; i < 2; i++)	{
 			scores.set(i, scores.get(i) + matchesAccess.getScores().get(i));
 		}
 	}
