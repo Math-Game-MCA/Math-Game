@@ -482,8 +482,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 				public void mouseClicked(MouseEvent e) {
 					GameCard tempCard = (GameCard)e.getComponent();
 					System.out.println("game card clicked " + tempCard.gameID);
+					mathGame.thisUser.setPlayerID(2);
 					mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
 					gameManager.joinGame(tempCard.getGameID());
+					
 				}
 
 				@Override

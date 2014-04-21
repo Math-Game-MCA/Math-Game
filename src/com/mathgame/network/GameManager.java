@@ -40,6 +40,11 @@ public class GameManager {
 	 */
 	public void updateScores(int score)	{
 		matchesAccess.updateScore(score);
+		if(scores.size()==0)
+		{
+			scores.add(0);
+			scores.add(0);
+		}
 		for(int i = 0; i < game.getNumberOfPlayers(); i++)	{
 			scores.set(i, scores.get(i) + matchesAccess.getScores().get(i));
 		}

@@ -144,10 +144,13 @@ public class MatchesAccess extends MySQLAccess{
 		}
 		
 		try {
+			System.out.println("size is " + getScores().size());
+			System.out.println("this id " + mathGame.thisUser.getPlayerID());
 			int currentScore = getScores().get(mathGame.thisUser.getPlayerID()-1);
-			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches "
-					+ "(Player"+mathGame.thisUser.getPlayerID()+")"
-					+ " VALUES ('"+ (currentScore+score) +"')" );
+			statement.executeUpdate("Update sofiav_mathgame.matches "
+					+ "set Player"+mathGame.thisUser.getPlayerID()+"Score="
+					+ " '"+ (currentScore+score) +"' "
+					+ "where sofiav_mathgame.matches.ID="+matchNum);		
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

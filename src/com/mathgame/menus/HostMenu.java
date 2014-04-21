@@ -279,6 +279,7 @@ public class HostMenu extends JPanel implements ActionListener {
 					}
 			};
 			waitForPlayer.start();
+			mathGame.thisUser.setPlayerID(1);
 		}
 		else if(e.getSource() == cancel) {
 			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);//open the menu
