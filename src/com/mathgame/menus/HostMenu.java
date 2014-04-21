@@ -273,11 +273,9 @@ public class HostMenu extends JPanel implements ActionListener {
 			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);//go to the game (but wait?)
 			Thread waitForPlayer = new Thread()	{
 					public void run()	{
-						if(mathGame.gameManager.gameFilled())
-						{
-							mathGame.cardPanel.showCards();
-							return;
-						}
+						while(!mathGame.gameManager.gameFilled())
+							System.out.println("waiting");//loop until it is filled
+						mathGame.cardPanel.showCards();
 					}
 			};
 			waitForPlayer.start();
