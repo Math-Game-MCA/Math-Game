@@ -89,12 +89,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		gameManager = mathGame.gameManager;
 		hostMenu = new HostMenu(mathGame);
 		
-		games = GameManager.getMatchesAccess().getCurrentGames();
-		gameCards = new ArrayList<GameCard>();
-		for(Game game : games)	{//for each game, create a gamecard
-			gameCards.add(new GameCard("Game "+String.valueOf(game.getID()), game.getScoring()));
-		}
-		
 		background = new ImageIcon(MultiMenu.class.getResource(imageFile));
 		buttonImage = new ImageIcon(MultiMenu.class.getResource(buttonImageFile));
 		buttonRollOverImage = new ImageIcon(MultiMenu.class.getResource(buttonRollOverImageFile));
@@ -155,6 +149,15 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		usersList.add(innerPanel);
 		
 		usersArray = new ArrayList<String>();
+		
+		games = GameManager.getMatchesAccess().getCurrentGames();
+		gameCards = new ArrayList<GameCard>();
+		for(Game game : games)	{//for each game, create a gamecard
+			gameCards.add(new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), game.getScoring()));
+		}
+
+		for(GameCard card:gameCards)
+			gamesList.add(card);
 	    
 		try {
 		    home.setIcon(buttonImage);
@@ -238,7 +241,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 			games = gameManager.getCurrentGames();
 			gameCards.clear();
 			for(Game g:games)
-				gameCards.add(new GameCard("Game "+g.getID(), g.getScoring()));
+				gameCards.add(new GameCard(g.getID(), "Game "+g.getID(), g.getScoring()));
 			gamesList.removeAll();
 			
 			for(GameCard card:gameCards)
@@ -257,7 +260,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		int gameID = gameManager.setGame(g);//now game manager knows what game it's managing
 		g.setID(gameID);
 		games.add(g);
-		gameCards.add(new GameCard("Game "+gameID, g.getScoring()));
+		gameCards.add(new GameCard(gameID, "Game "+gameID, g.getScoring()));
 		gamesList.add(gameCards.get(games.size() - 1));
 		
 		 ArrayList<Game> test = gameManager.getCurrentGames();
@@ -459,8 +462,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		 * @param name
 		 * @param type
 		 */
-		public GameCard(String name, String type) {
+		public GameCard(int ID, String name, String type) {
 			super();
+			this.gameID = ID;
 			this.name = name;
 			this.type = type;
 			this.setLayout(null);
@@ -475,9 +479,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					//this is when the user chooses to join the game
-					//TODO add code for this user (a "second" user) to join the game
-					gameManager.joinGame(22);
+					GameCard tempCard = (GameCard)e.getComponent();
+					System.out.println("game card clicked " + tempCard.gameID);
+					gameManager.joinGame(tempCard.getGameID());
 				}
 
 				@Override
@@ -539,6 +543,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		 */
 		public void setNumberOfPlayers(int numberOfPlayers) {
 			this.numberOfPlayers = numberOfPlayers;
+		}
+		
+		public int getGameID() {
+			return gameID;
 		}
 		/* (non-Javadoc)
 		 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)

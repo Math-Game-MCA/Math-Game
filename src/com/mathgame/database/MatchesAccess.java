@@ -155,7 +155,7 @@ public class MatchesAccess extends MySQLAccess{
 		}
 	}
 	
-	public void endGame(){
+	public void removeGame(){
 		try {
 			statement.executeUpdate("DELETE FROM sofiav_mathgame.matches "
 					+ "WHERE sofiav_mathgame.matches.ID = '"

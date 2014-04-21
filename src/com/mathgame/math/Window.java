@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import com.mathgame.network.GameManager;
+
 
 public class Window	{
 
@@ -64,6 +66,7 @@ public class Window	{
 				if(mg.sql.connect.getWarnings() == null)
 					mg.sql.connect();
 				mg.sql.removeUser();
+				GameManager.getMatchesAccess().removeGame();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
