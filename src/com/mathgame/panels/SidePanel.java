@@ -270,9 +270,47 @@ public class SidePanel extends JPanel implements ActionListener {
 							|| mathGame.cardPanel.ans
 									.parseNumFromText(actualAns) == finalAnsCard
 									.parseNumFromText(computedAns)) {
-						JOptionPane.showMessageDialog(this,
-								"Congratulations!  Victory is yours! Points earned: " + scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex()+1));
-						// later on change to something else... victory song? who knows...
+						if(mathGame.getGameState() == GameState.COMPETITIVE)	{
+							//Player is done!  Tell database
+							gameManager.updateScores(points);
+							//wait for player2 to finish and get player2 score
+							//display scores in round summary (for a 10 seconds)
+							
+							//figure out when it's the last round to show the total match summary
+							//if not finished yet...
+							if(gameManager.getCurrentRound() != gameManager.getGame().getRounds()){
+								String playerPoints = new String("ROUND "+gameManager.getCurrentRound()+"\n");
+								//assume 2 players
+								for(int i = 1; i <= 2; i++)	{
+									playerPoints.concat("Player "+i+": "+gameManager.getRoundScores().get(i - 1));
+									playerPoints.concat("\n");
+								}
+								/*JOptionPane.showMessageDialog(this, 
+										playerPoints, "Round Summary",
+										JOptionPane.PLAIN_MESSAGE);
+								*/
+								SummaryDialog sd = new SummaryDialog((JFrame) this.getTopLevelAncestor(), "Round Summary", playerPoints);
+							}
+							else	{//if last match
+								String playerPoints = new String("GAME SUMMARY\n");
+								//assume 2 players
+								for(int i = 1; i <= 2; i++)	{
+									playerPoints.concat("Player "+i+": "+gameManager.getCumulativeScores().get(i - 1));
+									playerPoints.concat("\n");
+								}
+								/*JOptionPane.showMessageDialog(this, 
+										playerPoints, "Game Summary",
+										JOptionPane.PLAIN_MESSAGE);*/
+								SummaryDialog sd = new SummaryDialog((JFrame) this.getTopLevelAncestor(), "Game Summary", playerPoints);
+								mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);//go back to multimenu after game ends
+							}
+						}
+						else	{
+							JOptionPane.showMessageDialog(this,
+									"Congratulations!  Victory is yours! Points earned: " + scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex()+1));
+							//TODO use sound not dialog
+							//TODO fix single player scoring system
+						}
 						System.out.println("Cards used: " + (undo.getIndex()+1));
 						
 						resetFunction();
@@ -288,41 +326,7 @@ public class SidePanel extends JPanel implements ActionListener {
 					}
 				}
 				
-				if(mathGame.getGameState() == GameState.COMPETITIVE)	{
-					//Player is done!  Tell database
-					gameManager.updateScores(points);
-					//wait for player2 to finish and get player2 score
-					//display scores in round summary (for a 10 seconds)
-					
-					//figure out when it's the last round to show the total match summary
-					//if not finished yet...
-					if(gameManager.getCurrentRound() != gameManager.getGame().getRounds()){
-						String playerPoints = new String("ROUND "+gameManager.getCurrentRound()+"\n");
-						//assume 2 players
-						for(int i = 1; i <= 2; i++)	{
-							playerPoints.concat("Player "+i+": "+gameManager.getRoundScores().get(i - 1));
-							playerPoints.concat("\n");
-						}
-						/*JOptionPane.showMessageDialog(this, 
-								playerPoints, "Round Summary",
-								JOptionPane.PLAIN_MESSAGE);
-						*/
-						SummaryDialog sd = new SummaryDialog((JFrame) this.getTopLevelAncestor(), "Round Summary", playerPoints);
-					}
-					else	{//if last match
-						String playerPoints = new String("GAME SUMMARY\n");
-						//assume 2 players
-						for(int i = 1; i <= 2; i++)	{
-							playerPoints.concat("Player "+i+": "+gameManager.getCumulativeScores().get(i - 1));
-							playerPoints.concat("\n");
-						}
-						/*JOptionPane.showMessageDialog(this, 
-								playerPoints, "Game Summary",
-								JOptionPane.PLAIN_MESSAGE);*/
-						SummaryDialog sd = new SummaryDialog((JFrame) this.getTopLevelAncestor(), "Game Summary", playerPoints);
-						mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);//go back to multimenu after game ends
-					}
-				}
+				
 			}
 			else {
 				JOptionPane.showMessageDialog(this,
