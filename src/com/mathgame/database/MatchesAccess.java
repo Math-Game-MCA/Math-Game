@@ -276,5 +276,17 @@ public class MatchesAccess extends MySQLAccess{
 		
 		return g;
 	}
+	
+	public void incrementRound(){
+		try{
+				statement.executeUpdate("Update sofiav_mathgame.matches "		
+					+ "set CurrentRound="
+					+ " '"+ (getCurrentRound()+1) +"' "
+					+ "where sofiav_mathgame.matches.ID="+matchNum);	
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
 
 }

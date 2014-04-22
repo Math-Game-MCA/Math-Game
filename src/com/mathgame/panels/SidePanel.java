@@ -305,6 +305,8 @@ public class SidePanel extends JPanel implements ActionListener {
 											}
 											score1=gameManager.getRoundScores().get(0);
 											score2=gameManager.getRoundScores().get(1);
+											if(mathGame.thisUser.getPlayerID() == 1)
+												GameManager.getMatchesAccess().incrementRound();
 											/*JOptionPane.showMessageDialog(this, 
 													playerPoints, "Round Summary",
 													JOptionPane.PLAIN_MESSAGE);
