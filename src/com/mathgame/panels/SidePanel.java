@@ -279,7 +279,7 @@ public class SidePanel extends JPanel implements ActionListener {
 									public void run()	{
 										mathGame.cardPanel.hideCards();//hide cards from the next round
 										
-										while(!GameManager.getMatchesAccess().checkForPlayersScoresUpdated())//wait for other player to finish; get from database
+										while(!GameManager.getMatchesAccess().checkForPlayersScoresUpdated(gameManager.getRoundScores().get(0), gameManager.getRoundScores().get(1)))//wait for other player to finish; get from database
 											System.out.println("waiting for other player");//loop until it is filled
 										
 										exit.setEnabled(true);//temporarily enable back button in case user wants to exit

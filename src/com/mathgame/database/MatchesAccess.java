@@ -216,7 +216,7 @@ public class MatchesAccess extends MySQLAccess{
 	 * 
 	 * @return True when both players' scores are updated
 	 */
-	public boolean checkForPlayersScoresUpdated(){
+	public boolean checkForPlayersScoresUpdated(int currentScore1, int currentScore2){
 		boolean scoresUpdated = false;
 		
 		try {
@@ -224,7 +224,7 @@ public class MatchesAccess extends MySQLAccess{
 			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
 			
 			resultSet.next();
-			if(resultSet.getInt("Player1Score") != 0 && resultSet.getInt("Player2Score") != 0 )
+			if(resultSet.getInt("Player1Score") != currentScore1 && resultSet.getInt("Player2Score") != currentScore2 )
 			{
 				System.out.println("Both players' scores have updated");
 				scoresUpdated = true;
