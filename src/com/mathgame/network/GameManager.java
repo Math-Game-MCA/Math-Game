@@ -75,7 +75,7 @@ public class GameManager {
 	 * @return the currentRound
 	 */
 	public int getCurrentRound() {
-		return currentRound;
+		return matchesAccess.getCurrentRound();
 	}
 
 	/**

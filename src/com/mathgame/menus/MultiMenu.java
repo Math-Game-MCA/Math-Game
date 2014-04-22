@@ -486,7 +486,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 					mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
 					gameManager.joinGame(tempCard.getGameID());
 					GameManager.getMatchesAccess().matchNum = tempCard.getGameID(); 
-					
+					mathGame.sidePanel.startTimer(tempCard.getType());
 				}
 
 				@Override

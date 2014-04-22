@@ -276,6 +276,7 @@ public class HostMenu extends JPanel implements ActionListener {
 						while(!mathGame.gameManager.gameFilled())
 							System.out.println("waiting");//loop until it is filled
 						mathGame.cardPanel.showCards();
+						mathGame.sidePanel.startTimer(type);
 					}
 			};
 			waitForPlayer.start();
