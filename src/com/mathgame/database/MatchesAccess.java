@@ -253,6 +253,10 @@ public class MatchesAccess extends MySQLAccess{
 		return currentRound;
 	}
 	
+	public void setMatchNum(int matchNum)	{
+		this.matchNum = matchNum;
+	}
+	
 	public Game getGame(int matchID){
 		Game g = new Game();
 		try {
