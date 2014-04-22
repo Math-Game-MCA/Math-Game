@@ -252,5 +252,25 @@ public class MatchesAccess extends MySQLAccess{
 		}
 		return currentRound;
 	}
+	
+	public Game getGame(int matchID){
+		Game g = new Game();
+		try {
+			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchID);
+			
+			resultSet.next();
+			g.setDiff(resultSet.getString("Difficulty"));
+			g.setID(matchID);
+			g.setNumberOfPlayers(2);
+			g.setRounds(resultSet.getInt("Rounds"));
+			g.setScoring("mixed");
+			g.setType(resultSet.getString("Type"));
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		
+		return g;
+	}
 
 }
