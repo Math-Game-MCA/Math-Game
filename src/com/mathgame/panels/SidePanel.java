@@ -283,6 +283,7 @@ public class SidePanel extends JPanel implements ActionListener {
 									}
 							};
 							waitForPlayer.start();
+							exit.setEnabled(true);//temporarily enable back button in case user wants to exit
 							//display scores in round summary (for a 10 seconds)
 							//figure out when it's the last round to show the total match summary
 							//if not finished yet...
@@ -375,7 +376,12 @@ public class SidePanel extends JPanel implements ActionListener {
 					"Are you sure you want to exit?", "Exit",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, null, null) == 0) {
-				mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MAINMENU);//open the menu
+				if(mathGame.getGameState() == GameState.PRACTICE)	{
+					mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MAINMENU);//open the menu
+				}
+				else if(mathGame.getGameState() == GameState.COMPETITIVE)	{
+					mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);
+				}
 				score.setText("0.0");//reset the score
 				resetFunction();//reset the workspace and cardpanels
 				//reset data validation boxes
@@ -560,6 +566,15 @@ public class SidePanel extends JPanel implements ActionListener {
 		startTime = System.currentTimeMillis();
 	}
 	
+	/**
+	 * Set up multiplayer environment
+	 */
+	public void setUpMultiplayer()	{
+		exit.setEnabled(false);
+		reset.setEnabled(false);
+		//TODO display opponent's name
+	}
+	
 	class SummaryDialog extends JDialog implements ActionListener {
 		
 		JOptionPane option;
@@ -581,6 +596,7 @@ public class SidePanel extends JPanel implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			System.out.println("CLOSE DIALOG");
+			exit.setEnabled(false);//set back to disabled when dialog is finished
 			this.setVisible(false);
 			this.dispose();
 		}
