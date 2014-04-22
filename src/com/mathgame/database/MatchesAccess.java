@@ -220,6 +220,7 @@ public class MatchesAccess extends MySQLAccess{
 		boolean scoresUpdated = false;
 		
 		try {
+			System.out.println("matchnum in checkscores is " + matchNum);
 			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
 			
 			resultSet.next();

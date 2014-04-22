@@ -287,8 +287,6 @@ public class SidePanel extends JPanel implements ActionListener {
 							//display scores in round summary (for a 10 seconds)
 							//figure out when it's the last round to show the total match summary
 							//if not finished yet...
-							gameManager.toString();
-							gameManager.getGame();
 							System.out.println("ROUND "+gameManager.getCurrentRound()+"/"+gameManager.getGame().getRounds());
 							if(gameManager.getCurrentRound() != gameManager.getGame().getRounds()){
 								String playerPoints = new String("ROUND "+gameManager.getCurrentRound()+"\n");
