@@ -69,6 +69,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	static MatchesAccess matchesAccess;
 	static GameManager gameManager;
 
+	int score1=0, score2=0;
 	// JTextArea error;
 
 	JButton toggle;
@@ -254,7 +255,7 @@ public class SidePanel extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(this, "Instructions go here");
 			// perhaps link to a help webpage on the website? maybe turn into a hint button?
 		}
-
+		
 		if (e.getSource() == checkAns) {
 			if (mathGame.workPanel.getComponentCount() == 1) {
 				NumberCard finalAnsCard;
@@ -275,11 +276,16 @@ public class SidePanel extends JPanel implements ActionListener {
 							points = (int) scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex()+1);
 							gameManager.updateScores(points);
 							//wait for others to finish and get score
+
+							
+
 							Thread waitForPlayer = new Thread()	{
+
 									public void run()	{
 										mathGame.cardPanel.hideCards();//hide cards from the next round
 										
-										while(!GameManager.getMatchesAccess().checkForPlayersScoresUpdated(gameManager.getRoundScores().get(0), gameManager.getRoundScores().get(1)))//wait for other player to finish; get from database
+										
+										while(!GameManager.getMatchesAccess().checkForPlayersScoresUpdated(score1, score2))//wait for other player to finish; get from database
 											System.out.println("waiting for other player");//loop until it is filled
 										
 										exit.setEnabled(true);//temporarily enable back button in case user wants to exit
@@ -293,12 +299,15 @@ public class SidePanel extends JPanel implements ActionListener {
 											for(int i = 1; i <= 2; i++)	{
 												System.out.println("concating");
 												playerPoints = playerPoints + "Player "+i+": "+gameManager.getRoundScores().get(i - 1)+"\n";
+												
 											}
+											score1=gameManager.getRoundScores().get(0);
+											score2=gameManager.getRoundScores().get(1);
 											/*JOptionPane.showMessageDialog(this, 
 													playerPoints, "Round Summary",
 													JOptionPane.PLAIN_MESSAGE);
 											*/
-											System.out.println("SUMMARY DIALOG; player points: "+playerPoints);
+											System.out.println	("SUMMARY DIALOG; player points: "+playerPoints);
 											SummaryDialog sd = new SummaryDialog((JFrame) mathGame.sidePanel.getTopLevelAncestor(), "Round Summary", playerPoints);
 											sd.pack();
 											sd.setVisible(true);

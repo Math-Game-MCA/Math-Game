@@ -123,7 +123,7 @@ public class MatchesAccess extends MySQLAccess{
 			System.out.println("the matchnum for getScores is " + matchNum);
 			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
 			resultSet.next();
-			System.out.println("THE SCORE IS for match " + matchNum + " ::::: " + resultSet.getInt("Player"+1+"Score"));
+			System.out.println("THE SCORE IS for match " + matchNum + " ::::: " + resultSet.getInt("Player1Score"));
 			for(int i=1; i<=numPlayers; i++)
 				scores.add(resultSet.getInt("Player"+i+"Score"));
 			
@@ -224,6 +224,9 @@ public class MatchesAccess extends MySQLAccess{
 			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
 			
 			resultSet.next();
+			resultSet.toString();
+			resultSet.getInt("Player1Score");
+			resultSet.getInt("Player2Score");
 			if(resultSet.getInt("Player1Score") != currentScore1 && resultSet.getInt("Player2Score") != currentScore2 )
 			{
 				System.out.println("Both players' scores have updated");
