@@ -271,57 +271,58 @@ public class SidePanel extends JPanel implements ActionListener {
 									.parseNumFromText(actualAns) == finalAnsCard
 									.parseNumFromText(computedAns)) {
 						if(mathGame.getGameState() == GameState.COMPETITIVE)	{
-							//Player is done!  Tell database
+							//This player is done!  Tell database
 							points = (int) scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex()+1);
 							gameManager.updateScores(points);
-							//TODO wait for player2 to finish and get player2 score
+							//wait for others to finish and get score
 							Thread waitForPlayer = new Thread()	{
 									public void run()	{
 										while(!GameManager.getMatchesAccess().checkForPlayersScoresUpdated())//wait for other player to finish; get from database
 											System.out.println("waiting for other player");//loop until it is filled
-										//then continue
+										exit.setEnabled(true);//temporarily enable back button in case user wants to exit
+										//display scores in round summary (for a 10 seconds)
+										//figure out when it's the last round to show the total match summary
+										//if not finished yet...
+										System.out.println("ROUND "+gameManager.getCurrentRound()+"/"+gameManager.getGame().getRounds());
+										if(gameManager.getCurrentRound() != gameManager.getGame().getRounds()){
+											String playerPoints = new String("ROUND "+gameManager.getCurrentRound()+"\n");
+											//assume 2 players
+											for(int i = 1; i <= 2; i++)	{
+												System.out.println("concating");
+												playerPoints.concat("Player "+i+": "+gameManager.getRoundScores().get(i - 1));
+												playerPoints.concat("\n");
+											}
+											/*JOptionPane.showMessageDialog(this, 
+													playerPoints, "Round Summary",
+													JOptionPane.PLAIN_MESSAGE);
+											*/
+											System.out.println("SUMMARY DIALOG; player points: "+playerPoints);
+											SummaryDialog sd = new SummaryDialog((JFrame) mathGame.sidePanel.getTopLevelAncestor(), "Round Summary", playerPoints);
+											sd.pack();
+											sd.setVisible(true);
+										}
+										else	{//if last match
+											String playerPoints = new String("GAME SUMMARY\n");
+											//assume 2 players
+											for(int i = 1; i <= 2; i++)	{
+												playerPoints.concat("Player "+i+": "+gameManager.getCumulativeScores().get(i - 1));
+												playerPoints.concat("\n");
+											}
+											/*JOptionPane.showMessageDialog(this, 
+													playerPoints, "Game Summary",
+													JOptionPane.PLAIN_MESSAGE);*/
+											SummaryDialog sd = new SummaryDialog((JFrame) mathGame.sidePanel.getTopLevelAncestor(), "Game Summary", playerPoints);
+											sd.pack();
+											sd.setVisible(true);
+											exit.setEnabled(true);
+											reset.setEnabled(true);
+											toggle.setEnabled(true);
+											mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);//go back to multimenu after game ends
+										}
 									}
 							};
 							waitForPlayer.start();
-							exit.setEnabled(true);//temporarily enable back button in case user wants to exit
-							//display scores in round summary (for a 10 seconds)
-							//figure out when it's the last round to show the total match summary
-							//if not finished yet...
-							System.out.println("ROUND "+gameManager.getCurrentRound()+"/"+gameManager.getGame().getRounds());
-							if(gameManager.getCurrentRound() != gameManager.getGame().getRounds()){
-								String playerPoints = new String("ROUND "+gameManager.getCurrentRound()+"\n");
-								//assume 2 players
-								for(int i = 1; i <= 2; i++)	{
-									playerPoints.concat("Player "+i+": "+gameManager.getRoundScores().get(i - 1));
-									playerPoints.concat("\n");
-								}
-								/*JOptionPane.showMessageDialog(this, 
-										playerPoints, "Round Summary",
-										JOptionPane.PLAIN_MESSAGE);
-								*/
-								System.out.println("SUMMARY DIALOG; player points: "+playerPoints);
-								SummaryDialog sd = new SummaryDialog((JFrame) this.getTopLevelAncestor(), "Round Summary", playerPoints);
-								sd.pack();
-								sd.setVisible(true);
-							}
-							else	{//if last match
-								String playerPoints = new String("GAME SUMMARY\n");
-								//assume 2 players
-								for(int i = 1; i <= 2; i++)	{
-									playerPoints.concat("Player "+i+": "+gameManager.getCumulativeScores().get(i - 1));
-									playerPoints.concat("\n");
-								}
-								/*JOptionPane.showMessageDialog(this, 
-										playerPoints, "Game Summary",
-										JOptionPane.PLAIN_MESSAGE);*/
-								SummaryDialog sd = new SummaryDialog((JFrame) this.getTopLevelAncestor(), "Game Summary", playerPoints);
-								sd.pack();
-								sd.setVisible(true);
-								exit.setEnabled(true);
-								reset.setEnabled(true);
-								toggle.setEnabled(true);
-								mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);//go back to multimenu after game ends
-							}
+							
 						}
 						else	{
 							JOptionPane.showMessageDialog(this,
