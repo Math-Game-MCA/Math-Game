@@ -22,7 +22,7 @@ public class MatchesAccess extends MySQLAccess{
 	private Connection connect = null;
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
-	private ResultSet resultSet = null;
+	//private ResultSet resultSet = null;
 	
 	/**
 	 * 
@@ -55,7 +55,7 @@ public class MatchesAccess extends MySQLAccess{
 					+ " VALUES ('"+mathGame.thisUser.getName()+"', 'int', 'easy', '3')" );
 			System.out.println("Created online game");
 			
-			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='"+mathGame.thisUser.getName()+"'");
+			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='"+mathGame.thisUser.getName()+"'");
 			
 			resultSet.next();
 			matchNum = resultSet.getInt("ID");	
@@ -71,7 +71,7 @@ public class MatchesAccess extends MySQLAccess{
 		ArrayList<Game> gamesList = new ArrayList<Game>();		
 		
 		try {
-			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches ORDER BY ID");
+			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches ORDER BY ID");
 			
 			while(resultSet.next())
 				gamesList.add(new Game(resultSet.getInt("ID"), 2, resultSet.getString("Type"), "mixed", resultSet.getString("Difficulty"), resultSet.getInt("Rounds")));
@@ -121,7 +121,7 @@ public class MatchesAccess extends MySQLAccess{
 		}
 		try {
 			System.out.println("the matchnum for getScores is " + matchNum);
-			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
+			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
 			resultSet.next();
 			System.out.println("THE SCORE IS for match " + matchNum + " ::::: " + resultSet.getInt("Player"+1+"Score"));
 			for(int i=1; i<=numPlayers; i++)
@@ -174,7 +174,7 @@ public class MatchesAccess extends MySQLAccess{
 		boolean gameStart = false;
 		
 		try {
-			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
+			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
 			
 			resultSet.next();
 			if(! resultSet.getString("Player2").equals(""))
@@ -220,7 +220,7 @@ public class MatchesAccess extends MySQLAccess{
 		boolean scoresUpdated = false;
 		
 		try {
-			resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
+			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
 			
 			resultSet.next();
 			if(resultSet.getInt("Player1Score") != 0 && resultSet.getInt("Player2Score") != 0 )
@@ -233,6 +233,20 @@ public class MatchesAccess extends MySQLAccess{
 			e.printStackTrace();
 		}
 		return scoresUpdated;
+	}
+	
+	public int getCurrentRound(){
+		int currentRound = 0;
+		try {
+			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
+			
+			resultSet.next();
+			currentRound = resultSet.getInt("CurrentRound");
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return currentRound;
 	}
 
 }
