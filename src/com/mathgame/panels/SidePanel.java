@@ -289,6 +289,7 @@ public class SidePanel extends JPanel implements ActionListener {
 							//if not finished yet...
 							gameManager.toString();
 							gameManager.getGame();
+							System.out.println("ROUND "+gameManager.getCurrentRound()+"/"+gameManager.getGame().getRounds());
 							if(gameManager.getCurrentRound() != gameManager.getGame().getRounds()){
 								String playerPoints = new String("ROUND "+gameManager.getCurrentRound()+"\n");
 								//assume 2 players
@@ -318,6 +319,9 @@ public class SidePanel extends JPanel implements ActionListener {
 								SummaryDialog sd = new SummaryDialog((JFrame) this.getTopLevelAncestor(), "Game Summary", playerPoints);
 								sd.pack();
 								sd.setVisible(true);
+								exit.setEnabled(true);
+								reset.setEnabled(true);
+								toggle.setEnabled(true);
 								mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);//go back to multimenu after game ends
 							}
 						}
@@ -572,6 +576,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	public void setUpMultiplayer()	{
 		exit.setEnabled(false);
 		reset.setEnabled(false);
+		toggle.setEnabled(false);
 		//TODO display opponent's name
 	}
 	
