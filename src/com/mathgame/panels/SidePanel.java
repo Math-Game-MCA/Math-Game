@@ -277,8 +277,11 @@ public class SidePanel extends JPanel implements ActionListener {
 							//wait for others to finish and get score
 							Thread waitForPlayer = new Thread()	{
 									public void run()	{
+										mathGame.cardPanel.hideCards();//hide cards from the next round
+										
 										while(!GameManager.getMatchesAccess().checkForPlayersScoresUpdated())//wait for other player to finish; get from database
 											System.out.println("waiting for other player");//loop until it is filled
+										
 										exit.setEnabled(true);//temporarily enable back button in case user wants to exit
 										//display scores in round summary (for a 10 seconds)
 										//figure out when it's the last round to show the total match summary
@@ -289,8 +292,7 @@ public class SidePanel extends JPanel implements ActionListener {
 											//assume 2 players
 											for(int i = 1; i <= 2; i++)	{
 												System.out.println("concating");
-												playerPoints.concat("Player "+i+": "+gameManager.getRoundScores().get(i - 1));
-												playerPoints.concat("\n");
+												playerPoints = playerPoints + "Player "+i+": "+gameManager.getRoundScores().get(i - 1)+"\n";
 											}
 											/*JOptionPane.showMessageDialog(this, 
 													playerPoints, "Round Summary",
@@ -305,8 +307,7 @@ public class SidePanel extends JPanel implements ActionListener {
 											String playerPoints = new String("GAME SUMMARY\n");
 											//assume 2 players
 											for(int i = 1; i <= 2; i++)	{
-												playerPoints.concat("Player "+i+": "+gameManager.getCumulativeScores().get(i - 1));
-												playerPoints.concat("\n");
+												playerPoints = playerPoints + "Player "+i+": "+gameManager.getCumulativeScores().get(i - 1)+"\n";
 											}
 											/*JOptionPane.showMessageDialog(this, 
 													playerPoints, "Game Summary",
@@ -601,6 +602,7 @@ public class SidePanel extends JPanel implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			System.out.println("CLOSE DIALOG");
 			exit.setEnabled(false);//set back to disabled when dialog is finished
+			mathGame.cardPanel.showCards();//now show the cards!
 			this.setVisible(false);
 			this.dispose();
 		}
