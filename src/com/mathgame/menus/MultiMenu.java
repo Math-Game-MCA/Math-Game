@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.mathgame.math.MathGame;
@@ -483,15 +484,23 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 				public void mouseClicked(MouseEvent e) {
 					GameCard tempCard = (GameCard)e.getComponent();
 					System.out.println("game card clicked " + tempCard.gameID);
-					mathGame.thisUser.setPlayerID(2);
-					mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
-					gameManager.joinGame(tempCard.getGameID());
-					System.out.println("GAME SET: "+tempCard.getGameID());
-					gameManager.setGame(GameManager.getMatchesAccess().getGame(tempCard.getGameID()));
-					GameManager.getMatchesAccess().setMatchNum(tempCard.getGameID()); 
-					System.out.println("MATCHNUM "+GameManager.getMatchesAccess().matchNum);
-					mathGame.sidePanel.startTimer(tempCard.getType());
-					mathGame.sidePanel.setUpMultiplayer();
+					GameManager.getMatchesAccess().setMatchNum(tempCard.getGameID());
+					if(!GameManager.getMatchesAccess().checkForFullGame())	{
+						mathGame.thisUser.setPlayerID(2);
+						mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
+						gameManager.joinGame(tempCard.getGameID());
+						System.out.println("GAME SET: "+tempCard.getGameID());
+						gameManager.setGame(GameManager.getMatchesAccess().getGame(tempCard.getGameID()));
+						GameManager.getMatchesAccess().setMatchNum(tempCard.getGameID()); 
+						System.out.println("MATCHNUM "+GameManager.getMatchesAccess().matchNum);
+						mathGame.sidePanel.startTimer(tempCard.getType());
+						mathGame.sidePanel.setUpMultiplayer();
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(mathGame.multimenu.getTopLevelAncestor(), "This game is full");
+						GameManager.getMatchesAccess().setMatchNum(-1);//game is full, do not join
+					}
 				}
 
 				@Override

@@ -276,14 +276,14 @@ public class SidePanel extends JPanel implements ActionListener {
 							points = (int) scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex()+1);
 							gameManager.updateScores(points);
 							//wait for others to finish and get score
-
 							
+							timer.stop();
+							pressed = false;
 
 							Thread waitForPlayer = new Thread()	{
 
 									public void run()	{
 										mathGame.cardPanel.hideCards();//hide cards from the next round
-										
 										
 										while(!GameManager.getMatchesAccess().checkForPlayersScoresUpdated(score1, score2))//wait for other player to finish; get from database
 											System.out.println("waiting for other player");//loop until it is filled
@@ -596,16 +596,33 @@ public class SidePanel extends JPanel implements ActionListener {
 	class SummaryDialog extends JDialog implements ActionListener {
 		
 		JOptionPane option;
+		JLabel count;
+		JLabel playerPoints;
 			
 		public SummaryDialog(JFrame frame, String title, String text)	{
 			super(frame, true);
-			option = new JOptionPane(text, JOptionPane.PLAIN_MESSAGE, JOptionPane.CANCEL_OPTION, null, null);
+			playerPoints = new JLabel(text);
+			count = new JLabel("00:10");
+			Object items[] = {text, count};
+			option = new JOptionPane(items, JOptionPane.PLAIN_MESSAGE, JOptionPane.CANCEL_OPTION, null, null);
 			setContentPane(option);
 			setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-			Timer timer = new Timer(10000, this);
-			timer.addActionListener(this);
-			timer.setRepeats(false);
+			Timer timer1 = new Timer(10000, this);
+			timer1.addActionListener(this);
+			timer1.setRepeats(false);
+			timer.stop();
+			startTime = System.currentTimeMillis();
+			timer1.start();
 			timer.start();
+			Thread dialogTimer = new Thread()	{
+				public void run()	{
+					while(timer.isRunning()){
+						endTime = System.currentTimeMillis();
+						count.setText(timeFormat((int) (10000 - (endTime - startTime))));
+					}
+				}
+			};
+			dialogTimer.start();
 			if(isDisplayable())	{
 				setVisible(true);
 			}
@@ -616,6 +633,13 @@ public class SidePanel extends JPanel implements ActionListener {
 			System.out.println("CLOSE DIALOG");
 			exit.setEnabled(false);//set back to disabled when dialog is finished
 			mathGame.cardPanel.showCards();//now show the cards!
+			timer.stop();//stop timer from previous thread
+			//start timer
+			timer.start();
+			startTime = System.currentTimeMillis();
+			scorekeeper.setTimeStart(startTime);
+			pressed = true;
+			//destroy dialog
 			this.setVisible(false);
 			this.dispose();
 		}
