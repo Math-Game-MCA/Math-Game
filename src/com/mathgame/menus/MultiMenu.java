@@ -154,7 +154,12 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		games = GameManager.getMatchesAccess().getCurrentGames();
 		gameCards = new ArrayList<GameCard>();
 		for(Game game : games)	{//for each game, create a gamecard
-			gameCards.add(new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), game.getScoring()));
+			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), game.getScoring());
+			//TODO: For demonstration purposes only for reducing clutter.  delete the if statement
+			if(game.getID() < 159)//DELETE
+				gc.setVisible(false);//DELETE
+			gameCards.add(gc);
+			
 		}
 
 		for(GameCard card:gameCards)

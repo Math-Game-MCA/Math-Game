@@ -331,6 +331,8 @@ public class SidePanel extends JPanel implements ActionListener {
 											exit.setEnabled(true);
 											reset.setEnabled(true);
 											toggle.setEnabled(true);
+											if(mathGame.thisUser.getPlayerID() == 1)//host deletes game, so it deletes only once
+												GameManager.getMatchesAccess().removeGame();
 											mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);//go back to multimenu after game ends
 										}
 									}
