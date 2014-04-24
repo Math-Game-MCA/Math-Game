@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager;
@@ -216,6 +217,21 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		refresh.addMouseMotionListener(this);
 		refresh.addMouseListener(this);
 		
+		//start refresh thread
+		Thread refreshThread = new Thread()	{
+			public void run()	{
+				Timer refreshTimer = new Timer(500, new ActionListener()	{
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						refresh();
+					}
+				});
+				refreshTimer.start();
+			}
+		};
+		//refreshThread.start();//TODO enable when we get a better refresh algorithm
+		//i suggest checking database for changes, if ther eare changes, refresh, otherwise do nothing.
+		
 		System.out.println("Menu Init Complete");
 	}
 	
@@ -242,22 +258,32 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		}
 		else if(e.getSource() == refresh)
 		{
-			refreshDatabase();
-
-			games = gameManager.getCurrentGames();
-			gameCards.clear();
-			for(Game g:games)
-				gameCards.add(new GameCard(g.getID(), "Game "+g.getID(), g.getScoring()));
-			gamesList.removeAll();
-			
-			for(GameCard card:gameCards)
-				gamesList.add(card);
-			gamesList.revalidate();
-			
-			System.out.println("updated currentgames");
-			
-			//startgame();
+			refresh();
 		}
+	}
+	
+	public void refresh()	{
+		refreshDatabase();
+
+		games = gameManager.getCurrentGames();
+		gameCards.clear();
+		for(Game game:games)
+		{
+			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), game.getScoring());
+			//TODO: For demonstration purposes only for reducing clutter.  delete the if statement
+			if(game.getID() < 159)//DELETE
+				gc.setVisible(false);//DELETE
+			gameCards.add(gc);
+		}
+		gamesList.removeAll();
+		
+		for(GameCard card:gameCards)
+			gamesList.add(card);
+		gamesList.revalidate();
+		
+		System.out.println("updated currentgames");
+		
+		//startgame();
 	}
 	
 	public void addGame(Game g)	{//later consider users naming their games...
