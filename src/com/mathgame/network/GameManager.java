@@ -33,6 +33,9 @@ public class GameManager {
 		scores = new ArrayList<Integer>(2);//game.getNumberOfPlayers());//Game is not initialized yet
 	}
 	
+	/*public void reconnectStatement(){
+		matchesAccess.reconnectStatement(mathGame.sql.connect);
+	}*/
 	
 	/**
 	 * Adds round scores to cumulative along with latest player score

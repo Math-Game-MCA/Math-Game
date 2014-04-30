@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.sql.Connection;
 
 import com.mathgame.math.MathGame;
+import com.mathgame.network.GameManager;
 
 public class GameAccess extends MySQLAccess{
 	
@@ -92,7 +93,17 @@ public class GameAccess extends MySQLAccess{
 			
 		}
 		catch (Exception e){
-			System.out.println("SQLException: " + e.getMessage());
+			//System.out.println("SQLException: " + e.getMessage());
+			if(e.getMessage().equals("No operations allowed after connection closed."))
+			{
+				if (!mathGame.sql.connect())
+					throw new Exception("couldn't connect");
+				else
+				{
+					System.out.println("CONNECTED ONCE AGAIN");					
+					GameManager.getMatchesAccess().reconnectStatement();
+				}
+			}
 			throw e;
 		}
 	}

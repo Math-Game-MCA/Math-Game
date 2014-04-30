@@ -43,6 +43,17 @@ public class MatchesAccess extends MySQLAccess{
 		
 	}
 	
+	public void reconnectStatement(){
+		try {
+			connect = mathGame.sql.connect;
+			statement = connect.createStatement();
+			System.out.println("REDO STATEMENT SUCCESS");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * 
 	 * @return The match number from the database
