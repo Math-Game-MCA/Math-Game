@@ -78,6 +78,22 @@ public class TypeManager {
 
 
 	}
+	public void setType(String type) {
+		if(type.equals("Integer"))
+			gameType = GameType.INTEGERS;
+		else if(type.equals("Fraction"))
+			gameType = GameType.FRACTIONS;
+		else if(type.equals("Decimal"))
+			gameType = GameType.DECIMALS;
+		else if(type.equals("Mixed"))
+			gameType = GameType.MIXED;
+		else
+			System.err.println("GAME TYPE NOT FOUND ABORT");
+		
+		System.out.println("GameType " + gameType);
+
+
+	}
 	
 	public GameType getType() {
 		return gameType;

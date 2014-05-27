@@ -289,7 +289,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	public void addGame(Game g)	{//later consider users naming their games...
 		
 		
-		int gameID = gameManager.setGame(g);//now game manager knows what game it's managing
+		gameManager.setGame(g);
+		int gameID = gameManager.hostGame();//now game manager knows what game it's managing
 		g.setID(gameID);
 		games.add(g);
 		gameCards.add(new GameCard(gameID, "Game "+gameID, g.getScoring()));
@@ -522,7 +523,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 						mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
 						gameManager.joinGame(tempCard.getGameID());
 						System.out.println("GAME SET: "+tempCard.getGameID());
-						//gameManager.setGame(GameManager.getMatchesAccess().getGame(tempCard.getGameID()));
+						gameManager.setGame(GameManager.getMatchesAccess().getGame(tempCard.getGameID()));
+						typeManager.setType(gameManager.getGame().getType());
+						typeManager.randomize();
 						GameManager.getMatchesAccess().setMatchNum(tempCard.getGameID()); 
 						System.out.println("MATCHNUM "+GameManager.getMatchesAccess().matchNum);
 						mathGame.sidePanel.startTimer(tempCard.getType());

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.mathgame.database.MatchesAccess;
 import com.mathgame.math.MathGame;
+import com.mathgame.math.TypeManager.GameType;
 
 public class Game {
 	
@@ -13,7 +14,7 @@ public class Game {
 	private String type; //number type
 	private String scoring; //scoring
 	private String diff; //difficulty
-
+	
 
 	public Game() {
 		try {
@@ -39,6 +40,8 @@ public class Game {
 		this.type = type;
 		this.scoring = scoring;
 		this.diff = diff;
+		
+		
 	}
 	
 	/**
@@ -90,6 +93,7 @@ public class Game {
 	public void setType(String type) {
 		this.type = type;
 	}
+	
 	/**
 	 * @return the scoring
 	 */

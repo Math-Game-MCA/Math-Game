@@ -324,6 +324,9 @@ public class HostMenu extends JPanel implements ActionListener {
 				+"\n\tSCORING: "+scoring
 				+"\n\tTYPE: "+type);
 		multiMenu.addGame(new Game(-1, players, type, scoring, diff, rounds));
+		
+		mathGame.typeManager.setType(type);
+		mathGame.typeManager.randomize();
 		//FOR DEBUGGING PURPOSES ONLY: 
 		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);
 		//TODO go directly to game and make sure game waits for another player
