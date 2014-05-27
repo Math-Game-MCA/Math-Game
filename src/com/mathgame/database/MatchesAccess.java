@@ -63,7 +63,7 @@ public class MatchesAccess extends MySQLAccess{
 		try {
 			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches "
 					+ "(Player1, Type, Difficulty, Rounds)"
-					+ " VALUES ('"+mathGame.thisUser.getName()+"', 'int', 'easy', '3')" );
+					+ " VALUES ('"+mathGame.thisUser.getName()+"', '"+mathGame.gameManager.getGame().getType()+"', '"+mathGame.gameManager.getGame().getDiff() +"', '"+mathGame.gameManager.getGame().getRounds()+"')" );
 			System.out.println("Created online game");
 			
 			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='"+mathGame.thisUser.getName()+"'");

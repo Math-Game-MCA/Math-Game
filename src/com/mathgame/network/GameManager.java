@@ -9,8 +9,7 @@ import com.mathgame.database.MatchesAccess;
 import com.mathgame.math.MathGame;
 
 /**
- * @author Roland
- * Class that holds specs for multiplayer game
+ *  Class that holds specs for multiplayer game
  */
 public class GameManager {	
 	private Game game;
@@ -102,6 +101,7 @@ public class GameManager {
 	 */
 	public int setGame(Game game) {
 		this.game = game;
+		
 		return matchesAccess.hostGame();//let the game begin! er... well when the other player gets here
 	}
 	
