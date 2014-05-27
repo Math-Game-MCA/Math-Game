@@ -9,6 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
+import com.mathgame.math.MathGame;
+
 /**
  * 
  * Card class for holding numbers
@@ -25,12 +27,11 @@ public class NumberCard extends JLabel{
 	private String strValue;
 	private int width = 80;
 	private int height = 100;
-	private final double epsilon = 0.00000000000001;//max value error until rounding; i.e. 14 decimal places
-	public int numberTag;
+	private int numberTag;
 	final Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 22);
 	//sizes can be overridden with setWidth and setHeight methods
-	public String type = "none";
-	public String home;//hold or home (i.e. was it a created card or a new card?)
+	private String type = "none";
+	private String home;//hold or home (i.e. was it a created card or a new card?)
 	//image processing
 	private final String imageFile;
 	private ImageIcon img;
@@ -166,9 +167,9 @@ public class NumberCard extends JLabel{
 	 */
 	public double round(double n)	{
 		//rounding algorithm for increment epsilon
-		double q = n / epsilon;
+		double q = n / MathGame.epsilon;
 		q = Math.floor(q + 0.5);//round to nearest integer
-		n = q * epsilon;
+		n = q * MathGame.epsilon;
 		return n;
 	}
 	

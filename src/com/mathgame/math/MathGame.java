@@ -23,7 +23,10 @@ public class MathGame extends Container implements ActionListener {
 	private static final long serialVersionUID = 412526093812019078L;
 	int appWidth = 900;// 1300 or 900
 	int appHeight = 620;
-
+	
+	public static final double epsilon = 0.000000000001;//1*10^-12, equivalent to TI-84 precision
+	public static final String operations[] = {"+", "-", "*", "/"};
+	
 	public static final String GAME = "CardLayoutPanel Game";
 	public static final String MAINMENU = "CardLayoutPanel MainMenu";
 	public static final String MULTIMENU = "CardLayoutPanel Multiplayer";
@@ -84,8 +87,6 @@ public class MathGame extends Container implements ActionListener {
 	String[] cardVals = new String[11];
 
 	public TypeManager typeManager;
-
-	String[] operations = { "+", "-", "*", "/" };
 
 	CompMover mover;
 

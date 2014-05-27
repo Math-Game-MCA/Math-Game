@@ -130,7 +130,7 @@ public class TypeManager {
 		return cardValues;
 	}
 	
-	public Double convertFractiontoDecimal(String input){
+	public static Double convertFractiontoDecimal(String input){
 		Double ans= -1.0;
 		
 		int split = input.indexOf("/");
@@ -144,7 +144,7 @@ public class TypeManager {
 		
 	}
 	
-	public String convertDecimaltoFraction(double input) { //TODO Zero equals one when calculating...
+	public static String convertDecimaltoFraction(double input) { //TODO Zero equals one when calculating...
 		/*boolean negative = false;
 		if (input < 0) {
 			negative = true;

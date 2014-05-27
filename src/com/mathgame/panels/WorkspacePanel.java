@@ -209,8 +209,8 @@ public class WorkspacePanel extends JPanel{
 		else if(op.equals("divide"))
 			op = "/";
 		AnswerDialog ansInput = new AnswerDialog((JFrame) this.getTopLevelAncestor(), answer, 
-				((NumberCard)this.getComponent(0)).getValue()+" "+op+" "+
-				((NumberCard)this.getComponent(2)).getValue()+"= ");
+				((NumberCard)this.getComponent(0)).getStrValue()+" "+op+" "+
+				((NumberCard)this.getComponent(2)).getStrValue()+"= ");
 		ansInput.pack();
 		ansInput.setVisible(true);
 	}
@@ -319,7 +319,11 @@ public class WorkspacePanel extends JPanel{
 				//TODO make a sound when user enters right/wrong answer
 				input = text.getText();
 				System.out.println("TEXT ENTER: "+input+" "+answer);
-				if(answer == Double.parseDouble(input))	{
+				if(input.contains("/") || input.contains("\\"))	{
+					if(Math.abs(answer - TypeManager.convertFractiontoDecimal(input)) <= MathGame.epsilon)
+						finish();
+				}
+				else if(Math.abs(answer - Double.parseDouble(input)) <= MathGame.epsilon)	{
 					finish();
 				}
 			}

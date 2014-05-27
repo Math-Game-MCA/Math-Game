@@ -6,6 +6,12 @@ package com.mathgame.math;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
+import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
@@ -53,15 +59,34 @@ public class Window	{
 
 		@Override
 		public void windowClosed(WindowEvent arg0) {
-
 			System.out.println("window closed");
 			
 		}
 
 		@Override
 		public void windowClosing(WindowEvent arg0) {
-
+			/*TODO put this into a separate (static?) function to be
+			 * called upon an exception that terminates the game
+			 * so as to prevent database clogging up
+			 */
+			
 			System.out.println("window closing");
+			
+			//delete card0file
+			Path path = Paths.get("card0file");
+			//TODO find way to go around this problem (i.e. deleting the file within ImageGenerator when not in use...?
+			try {
+			    System.out.println("DELETING "+path.toString());
+			    Files.delete(path);
+			} catch (NoSuchFileException x) {
+			    System.err.format("%s: no such" + " file or directory%n", path);
+			} catch (DirectoryNotEmptyException x) {
+			    System.err.format("%s not empty%n", path);
+			} catch (IOException x) {
+			    // File permission problems are caught here.
+			    System.err.println(x);
+			}
+			
 			try {
 				if(mg.sql.connect.getWarnings() == null)
 					mg.sql.connect();
@@ -71,7 +96,6 @@ public class Window	{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	
 			
 		}
 

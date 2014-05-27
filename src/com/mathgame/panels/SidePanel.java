@@ -42,7 +42,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	JLabel clock;
 	JLabel pass;// count how many you get right
 	JLabel fail;// how many you got wrong
-	JLabel score;// TODO: Determine how to calculate the score!
+	JLabel score;
 	JLabel vs;
 
 	JButton help;
