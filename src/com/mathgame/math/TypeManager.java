@@ -303,6 +303,7 @@ public class TypeManager {
 			System.out.println("Get vals from DB failed");
 			e.printStackTrace();
 		}
+		System.out.println("\n\n\n\n*******GAMETYPE=="+gameType+"**********\n\n\n");
 		if(gameType == GameType.FRACTIONS) {
 			ArrayList<Double> newValues = randomFractionValues();
 
