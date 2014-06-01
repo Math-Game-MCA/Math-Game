@@ -35,6 +35,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 import com.mathgame.math.MathGame;
+import com.mathgame.math.SoundManager;
 import com.mathgame.math.TypeManager;
 import com.mathgame.network.User;
 
@@ -221,6 +222,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof JButton) {
+			SoundManager.playSound(SoundManager.SoundType.Button);
+		}
 		//TODO program functionality of buttons
 		if(e.getSource() == home )	{
 			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MAINMENU);//open the menu

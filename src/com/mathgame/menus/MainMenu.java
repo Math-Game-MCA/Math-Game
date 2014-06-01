@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import com.mathgame.math.MathGame;
+import com.mathgame.math.SoundManager;
 import com.mathgame.network.User;
 
 import java.io.IOException;
@@ -242,6 +243,10 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof JButton) {
+			SoundManager.playSound(SoundManager.SoundType.Button);
+		}
+		
 		if(e.getSource() == enter)	{
 			startgame();
 		}

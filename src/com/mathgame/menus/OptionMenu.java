@@ -24,6 +24,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
 
 import com.mathgame.math.MathGame;
+import com.mathgame.math.SoundManager;
 import com.mathgame.math.TypeManager;
 import com.mathgame.math.TypeManager.Difficulty;
 import com.mathgame.math.TypeManager.GameType;
@@ -244,6 +245,9 @@ public class OptionMenu extends JPanel implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof JButton) {
+			SoundManager.playSound(SoundManager.SoundType.Button);
+		}
 		//allow options only for practice mode (competitive decided through in game menu)
 		if(e.getSource() == buttonMap.get("Practice"))	{
 			if(buttonMap.get("Practice").isSelected())	{

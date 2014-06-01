@@ -24,6 +24,7 @@ import com.mathgame.cards.OperationCard;
 import com.mathgame.math.Calculate;
 import com.mathgame.math.CompMover;
 import com.mathgame.math.MathGame;
+import com.mathgame.math.SoundManager;
 import com.mathgame.math.TypeManager;
 import com.mathgame.math.TypeManager.GameType;
 /**
@@ -184,6 +185,7 @@ public class WorkspacePanel extends JPanel{
 		else
 			op = "error";
 		System.out.println("CURRENT OP: "+op);
+		SoundManager.playSound(SoundManager.SoundType.Merge);
 		return op;//returns add, subtract, multiply, divide etc.
 	}
 

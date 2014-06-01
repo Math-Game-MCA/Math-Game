@@ -18,6 +18,7 @@ package com.mathgame.menus;
 import javax.swing.*;
 
 import com.mathgame.math.MathGame;
+import com.mathgame.math.SoundManager;
 
 import java.awt.*;
 import java.awt.color.*;
@@ -259,6 +260,9 @@ public class GameSelectMenu extends JDialog implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof JButton) {
+			SoundManager.playSound(SoundManager.SoundType.Button);
+		}
 		if(e.getSource() == finish)	{
 			startgame();
 		}
@@ -268,6 +272,7 @@ public class GameSelectMenu extends JDialog implements ActionListener {
 		}
 		//TODO: confirm whether or not the .setSelected function will have any impact on showing if a button is selected or not
 		//ANSWER to to do: use a radiogroup instead and you won't have to worry about which is selected.  I'll handle it
+		//NOTE: This should be cleaned up soon
 		else if(e.getSource() == two) {
 			System.out.println("2-players");
 			two.setSelected(true);

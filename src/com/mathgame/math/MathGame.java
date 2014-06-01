@@ -90,6 +90,8 @@ public class MathGame extends Container implements ActionListener {
 	
 	public Font arial20;
 	public Font eurostile36;
+	
+	public SoundManager sounds;
 
 	/**
 	 * Initializes the window & game
@@ -322,12 +324,14 @@ public class MathGame extends Container implements ActionListener {
 		 * setCursor(lightPenCursor); layer.setCursor(imageCursor);
 		 */
 
+		sounds = new SoundManager(this);
+		
 		System.out.println("init done");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent evt) {
-
+		
 	}
 
 	public URL getDocBase() {

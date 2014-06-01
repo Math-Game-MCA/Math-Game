@@ -7,6 +7,7 @@ import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
 import com.mathgame.cardmanager.UndoButton;
 import com.mathgame.math.MathGame;
+import com.mathgame.math.SoundManager;
 import com.mathgame.math.TypeManager;
 import com.mathgame.math.ScoringSystem;
 import com.mathgame.menus.MainMenu;
@@ -228,6 +229,9 @@ public class SidePanel extends JPanel implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof JButton && e.getSource() != checkAns) { //checkAns has two other sound effects
+			SoundManager.playSound(SoundManager.SoundType.Button);
+		}
 		if (e.getSource() == toggle) {
 
 			if (!pressed) {
@@ -260,6 +264,7 @@ public class SidePanel extends JPanel implements ActionListener {
 							|| mathGame.cardPanel.ans
 									.parseNumFromText(actualAns) == finalAnsCard
 									.parseNumFromText(computedAns)) {
+						SoundManager.playSound(SoundManager.SoundType.Success);
 						JOptionPane.showMessageDialog(this,
 								"Congratulations!  Victory is yours! Points earned: " + scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex()+1));
 						// later on change to something else... victory song? who knows...
@@ -271,6 +276,7 @@ public class SidePanel extends JPanel implements ActionListener {
 						score.setText(Integer.toString(points));
 					}
 					else {
+						SoundManager.playSound(SoundManager.SoundType.Incorrect);
 						JOptionPane.showMessageDialog(this, "Incorrect answer.  Try again.");
 						scorekeeper.uponDeduction(1);
 						points = (int) scorekeeper.getTotalScore();
