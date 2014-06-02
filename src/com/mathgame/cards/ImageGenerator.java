@@ -215,7 +215,6 @@ public class ImageGenerator {
 		this.imgFile = "images"+fileSeparator+imgFile;
 		//hima, it didn't work b/c i needed the "fileseparator" - no idea what it does...
 		outf = new File(imgFile);
-		
 		try {
 		    outf.createNewFile();
 		} catch (IOException ioe) {

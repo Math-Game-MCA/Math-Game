@@ -7,6 +7,8 @@ import com.mathgame.menus.*;
 import com.mathgame.network.*;
 import com.mathgame.panels.*;
 
+
+
 import java.awt.*;
 import java.awt.dnd.DropTarget;
 import java.awt.event.*;
@@ -21,34 +23,36 @@ public class MathGame extends Container implements ActionListener {
 	private static final long serialVersionUID = 412526093812019078L;
 	int appWidth = 900;// 1300 or 900
 	int appHeight = 620;
-
+	
+	public static final double epsilon = 0.000000000001;//1*10^-12, equivalent to TI-84 precision
+	public static final String operations[] = {"+", "-", "*", "/"};
+	
 	public static final String GAME = "CardLayoutPanel Game";
 	public static final String MAINMENU = "CardLayoutPanel MainMenu";
-	public static final String GAMETYPEMENU = "CardLayoutPanel GameTypeMenu";
-	public static final String DIFFMENU = "CardLayoutPanel DifficultyMenu";
 	public static final String MULTIMENU = "CardLayoutPanel Multiplayer";
 	public static final String OPTIONMENU = "CardLayoutPanel OptionMenu";
+	public static final String HOSTMENU = "CardLayoutPanel HostMenu";
+	
+	public enum GameState {PRACTICE, COMPETITIVE};
+	private GameState gs;
 
-	public JPanel cardLayoutPanels;// uses CardLayout to switch between menu and
-									// game
+	public GameManager gameManager;//game variables held here for multiplayer game
+
+	public JPanel cardLayoutPanels;// uses CardLayout to switch between menu and game
 	public CardLayout cl;
 
 	// Panel Declarations
-	public JLayeredPane layer;// Master panel - particularly for moving cards
-								// across entire screen
+	public JLayeredPane layer;// Master panel - particularly for moving cards across entire screen
 	public SidePanel sidePanel;// control panel on the side
 	public OperationPanel opPanel;// panel that holds operations + - / *
 	public CardPanel cardPanel;// holds cards at top
-	public WorkspacePanel workPanel;// center of screen where cards are morphed
-									// together
-	public HoldPanel holdPanel;// holds intermediate sums, differences,
-								// products, and quotients
+	public WorkspacePanel workPanel;// center of screen where cards are morphed together
+	public HoldPanel holdPanel;// holds intermediate sums, differences, products, and quotients
 
 	MainMenu mainMenu;
-	GameTypeMenu gameTypeMenu;
-	DifficultyMenu diffMenu;
 	public MultiMenu multimenu;
 	public OptionMenu optionmenu;
+	public HostMenu hostmenu;
 
 	Rectangle home1;
 	Rectangle home2;
@@ -84,12 +88,7 @@ public class MathGame extends Container implements ActionListener {
 
 	public TypeManager typeManager;
 
-	String[] operations = { "+", "-", "*", "/" };
-
 	CompMover mover;
-	
-	public Font arial20;
-	public Font eurostile36;
 	
 	public SoundManager sounds;
 
@@ -98,6 +97,7 @@ public class MathGame extends Container implements ActionListener {
 	 */
 	public MathGame() {
 		System.out.println("initing");
+		
 		thisUser = new User("blank", "pass");
 		setPreferredSize(new Dimension(appWidth, appHeight));
 		//setSize(appWidth, appHeight);
@@ -161,19 +161,14 @@ public class MathGame extends Container implements ActionListener {
 		layer.setBounds(5, 0, getSize().width, getSize().height);
 
 		typeManager = new TypeManager(this);
-
-		gameTypeMenu = new GameTypeMenu();
-		gameTypeMenu.init(this, typeManager);
-		gameTypeMenu.setBounds(0, 0, appWidth, appHeight);
-
-		diffMenu = new DifficultyMenu();
-		diffMenu.init(this);
-		;
-		diffMenu.setBounds(0, 0, appWidth, appHeight);
+		gameManager = new GameManager(this);
 
 		multimenu = new MultiMenu();
 		multimenu.init(this, typeManager);
 		multimenu.setBounds(0, 0, appWidth, appHeight);
+		
+		hostmenu = new HostMenu(this);
+		hostmenu.setBounds(0, 0, appWidth, appHeight);
 		
 		optionmenu = new OptionMenu(this);
 		optionmenu.setBounds(0, 0, appWidth, appHeight);
@@ -200,11 +195,10 @@ public class MathGame extends Container implements ActionListener {
 
 		// adding panels to the game
 		cardLayoutPanels.add(mainMenu, MAINMENU);
-		cardLayoutPanels.add(gameTypeMenu, GAMETYPEMENU);
-		cardLayoutPanels.add(diffMenu, DIFFMENU);
 		cardLayoutPanels.add(layer, GAME);
 		cardLayoutPanels.add(multimenu, MULTIMENU);
 		cardLayoutPanels.add(optionmenu, OPTIONMENU);
+		cardLayoutPanels.add(hostmenu, HOSTMENU);
 		cl = (CardLayout) cardLayoutPanels.getLayout();
 		// cl.show(cardLayoutPanels, MENU);
 		add(cardLayoutPanels);
@@ -309,10 +303,6 @@ public class MathGame extends Container implements ActionListener {
 		layer.add(opPanel.subtract, new Integer(1));
 		layer.add(opPanel.multiply, new Integer(1));
 		layer.add(opPanel.divide, new Integer(1));
-		
-		//leave fonts in mathGame.java for consistency among all classes
-		arial20 = new Font("Arial", Font.PLAIN, 20);
-		eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
 
 		/*
 		 * //Code for a different Cursor Toolkit toolkit = getToolkit(); Image
@@ -336,6 +326,20 @@ public class MathGame extends Container implements ActionListener {
 
 	public URL getDocBase() {
 		return getDocBase();
+	}
+
+	/**
+	 * @return the game state
+	 */
+	public GameState getGameState() {
+		return gs;
+	}
+
+	/**
+	 * @param gs the game state to set
+	 */
+	public void setGameState(GameState gs) {
+		this.gs = gs;
 	}
 
 }// class file

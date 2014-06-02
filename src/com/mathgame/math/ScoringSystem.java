@@ -38,8 +38,10 @@ public class ScoringSystem {
 		long totalTime = EndTime - StartTime;
 		if (gameType == "Speed")
 			roundScore = scoringAlgorithm(totalTime / 1000);//divide by 1000 to get seconds
-		else
+		else if(gameType == "Complexity")
 			roundScore = cardCount * 20;
+		else//"Mix" scoring
+			roundScore = scoringAlgorithm(totalTime / 1000) * cardCount;//cards used is a multiplier
 		System.out.println(cardCount + " " + roundScore);
 		totalScore += roundScore;
 		return roundScore;

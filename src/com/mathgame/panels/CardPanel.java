@@ -312,6 +312,46 @@ public class CardPanel extends JPanel{
 		v_ans.reset();
 	}
 	
+	/**
+	 * Sets visibility of cards to false
+	 */
+	public void hideCards()	{
+		card1.setVisible(false);
+		card2.setVisible(false);
+		card3.setVisible(false);
+		card4.setVisible(false);
+		card5.setVisible(false);
+		card6.setVisible(false);
+		ans.setVisible(false);
+		v1.setVisible(false);
+		v2.setVisible(false);
+		v3.setVisible(false);
+		v4.setVisible(false);
+		v5.setVisible(false);
+		v6.setVisible(false);
+		v_ans.setVisible(false);
+	}
+	
+	/**
+	 * Sets visibility of cards to true
+	 */
+	public void showCards()	{
+		card1.setVisible(true);
+		card2.setVisible(true);
+		card3.setVisible(true);
+		card4.setVisible(true);
+		card5.setVisible(true);
+		card6.setVisible(true);
+		ans.setVisible(true);
+		v1.setVisible(true);
+		v2.setVisible(true);
+		v3.setVisible(true);
+		v4.setVisible(true);
+		v5.setVisible(true);
+		v6.setVisible(true);
+		v_ans.setVisible(true);
+	}
+	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);

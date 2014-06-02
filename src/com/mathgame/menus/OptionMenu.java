@@ -25,6 +25,7 @@ import javax.swing.JToggleButton;
 
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
+import com.mathgame.math.MathGame.GameState;
 import com.mathgame.math.TypeManager;
 import com.mathgame.math.TypeManager.Difficulty;
 import com.mathgame.math.TypeManager.GameType;
@@ -34,9 +35,9 @@ import com.mathgame.math.TypeManager.GameType;
  * Option menu for selecting game mode, number types, difficulty; all in one!
  * Multiple options for type can be selected (i.e. combine integers and decimals, etc.), will need 
  * database sheet support or a class that can convert between forms (preferred)
- * Use tooltips when hovering over button.
+ * TODO Use tooltips when hovering over button.
  * TODO Undecided about scoring... will sort it out later
- * TODO beautify layout some more (i.e. customize jradiobuttons
+ * TODO beautify layout some more (i.e. customize jradiobuttons)
  */
 public class OptionMenu extends JPanel implements ActionListener {
 
@@ -78,16 +79,16 @@ public class OptionMenu extends JPanel implements ActionListener {
 	
 	Font eurostile24;
 	
-	MathGame mathgame;
+	MathGame mathGame;
 	TypeManager tm;
 	
 	/**
 	 * Constructor
-	 * @param mathgame
+	 * @param mathGame
 	 */
-	public OptionMenu(MathGame mathgame) {
-		this.mathgame = mathgame;
-		this.tm = mathgame.typeManager;//change to "getTypeManager()" for data hiding; good coding practice
+	public OptionMenu(MathGame mathGame) {
+		this.mathGame = mathGame;
+		this.tm = mathGame.typeManager;//change to "getTypeManager()" for data hiding; good coding practice
 		
 		this.setLayout(new GridBagLayout());
 		//this.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -98,15 +99,15 @@ public class OptionMenu extends JPanel implements ActionListener {
 		
 		//set size
 		Dimension size = getPreferredSize();
-		size.width = 900;
-		size.height = 620;
+		size.width = mathGame.getWidth();
+		size.height = mathGame.getHeight();
 		setPreferredSize(size);
 		
 		//image initialization
-		background = new ImageIcon(GameTypeMenu.class.getResource(backgroundFile));
-		buttonImage = new ImageIcon(MainMenu.class.getResource(buttonImageFile));
-		buttonRollOverImage = new ImageIcon(MainMenu.class.getResource(buttonRollOverImageFile));
-		buttonPressedImage = new ImageIcon(MainMenu.class.getResource(buttonPressedImageFile));
+		background = new ImageIcon(OptionMenu.class.getResource(backgroundFile));
+		buttonImage = new ImageIcon(OptionMenu.class.getResource(buttonImageFile));
+		buttonRollOverImage = new ImageIcon(OptionMenu.class.getResource(buttonRollOverImageFile));
+		buttonPressedImage = new ImageIcon(OptionMenu.class.getResource(buttonPressedImageFile));
 		
 		//button creation
 		buttonMap = new HashMap<String, JToggleButton>();
@@ -118,6 +119,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 		modes.get(0).setSelected(true);
 		types.get(0).setSelected(true);
 		diffs.get(0).setSelected(true);
+		mathGame.setGameState(GameState.PRACTICE);
 		
 		play = new JButton("Play");
 		play.setFont(eurostile24);
@@ -235,12 +237,12 @@ public class OptionMenu extends JPanel implements ActionListener {
 	 */
 	private void startGame() {		
 		
-		mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.GAME);
+		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
 		System.out.println("ENTER GAME");
 		
-		mathgame.sidePanel.startTimer("complexity");//hardcoded to complexity scoring; change to combine speed/complexity
+		mathGame.sidePanel.startTimer("Mix");//hardcoded to mixed scoring
 		
-		tm.init(mathgame.cardPanel);
+		tm.init(mathGame.cardPanel);
 	}
 	
 	@Override
@@ -251,24 +253,34 @@ public class OptionMenu extends JPanel implements ActionListener {
 		//allow options only for practice mode (competitive decided through in game menu)
 		if(e.getSource() == buttonMap.get("Practice"))	{
 			if(buttonMap.get("Practice").isSelected())	{
-				typePanel.setVisible(true);
-				diffPanel.setVisible(true);
+				for(JRadioButton rb : diffs)	{
+					rb.setEnabled(true);
+				}
+				for(JCheckBox cb : types)	{
+					cb.setEnabled(true);
+				}
 			}
 		}
 		if(e.getSource() == buttonMap.get("Competitive"))	{
 			if(buttonMap.get("Competitive").isSelected())	{
-				typePanel.setVisible(false);
-				diffPanel.setVisible(false);
+				for(JRadioButton rb : diffs)	{
+					rb.setEnabled(false);
+				}
+				for(JCheckBox cb : types)	{
+					cb.setEnabled(false);
+				}
 			}
 		}
 		if(e.getSource() == play)	{
 			
 			if(buttonMap.get("Competitive").isSelected())	{
-				mathgame.multimenu.refreshDatabase();
-				mathgame.multimenu.addThisUser();
-				mathgame.cl.show(mathgame.cardLayoutPanels, mathgame.MULTIMENU);
+				mathGame.setGameState(GameState.COMPETITIVE);
+				mathGame.multimenu.refreshDatabase();
+				mathGame.multimenu.addThisUser();
+				mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MULTIMENU);
 			}
 			else	{
+				mathGame.setGameState(GameState.PRACTICE);
 				startGame();
 			}
 			
@@ -280,6 +292,9 @@ public class OptionMenu extends JPanel implements ActionListener {
 			}
 			else if(buttonMap.get("Fraction").isSelected())	{
 				tm.setType(GameType.FRACTIONS);
+			}
+			else	{
+				tm.setType(GameType.INTEGERS);
 			}
 			//etc.
 			

@@ -14,8 +14,6 @@ import com.mathgame.cards.OperationCard;
  */
 public class Calculate {
 	
-	String[] ops = {"+", "-", "*", "/"};
-	
 	public Double calculate(Component c1, Component oper, Component c2, MathGame game){
 		NumberCard card1=null;
 		NumberCard card2=null;
@@ -58,6 +56,9 @@ public class Calculate {
 		return null;
 	}
 	
+	/**
+	@deprecated
+	*/
 	public Double getAnswer(ArrayList<String> container)
 	{
 		double answer=0;
@@ -72,7 +73,7 @@ public class Calculate {
 		{
 			
 			int randomOp = generator.nextInt(4);
-			String op = ops[randomOp];
+			String op = MathGame.operations[randomOp];
 			if(op.equals("+"))
 				answer += values.get(i);
 			else if(op.equals("-"))

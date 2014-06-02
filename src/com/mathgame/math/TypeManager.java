@@ -78,6 +78,22 @@ public class TypeManager {
 
 
 	}
+	public void setType(String type) {
+		if(type.equals("Integer"))
+			gameType = GameType.INTEGERS;
+		else if(type.equals("Fraction"))
+			gameType = GameType.FRACTIONS;
+		else if(type.equals("Decimal"))
+			gameType = GameType.DECIMALS;
+		else if(type.equals("Mixed"))
+			gameType = GameType.MIXED;
+		else
+			System.err.println("GAME TYPE NOT FOUND ABORT");
+		
+		System.out.println("GameType " + gameType);
+
+
+	}
 	
 	public GameType getType() {
 		return gameType;
@@ -130,7 +146,7 @@ public class TypeManager {
 		return cardValues;
 	}
 	
-	public Double convertFractiontoDecimal(String input){
+	public static Double convertFractiontoDecimal(String input){
 		Double ans= -1.0;
 		
 		int split = input.indexOf("/");
@@ -144,7 +160,7 @@ public class TypeManager {
 		
 	}
 	
-	public String convertDecimaltoFraction(double input) { //TODO Zero equals one when calculating...
+	public static String convertDecimaltoFraction(double input) { //TODO Zero equals one when calculating...
 		/*boolean negative = false;
 		if (input < 0) {
 			negative = true;
@@ -295,11 +311,15 @@ public class TypeManager {
 	 */
 	public void randomize() {
 		try {
+			if(mathGame.sql.connect == null)
+				mathGame.sql.connect();
 			mathGame.sql.getVals();
+			//mathGame.sql.close();
 		} catch (Exception e) {
 			System.out.println("Get vals from DB failed");
 			e.printStackTrace();
 		}
+		System.out.println("\n\n\n\n*******GAMETYPE=="+gameType+"**********\n\n\n");
 		if(gameType == GameType.FRACTIONS) {
 			ArrayList<Double> newValues = randomFractionValues();
 

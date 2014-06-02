@@ -3,40 +3,33 @@
  */
 package com.mathgame.menus;
 
-import java.awt.Button;
-import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.border.TitledBorder;
+import javax.swing.Timer;
 
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
 import com.mathgame.math.TypeManager;
+import com.mathgame.network.Game;
+import com.mathgame.network.GameManager;
 import com.mathgame.network.User;
 
 /**
@@ -79,8 +72,11 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	
 	Panel innerPanel; 
 	
-	static GameSelectMenu gsm;
-	private ArrayList<String> usersArray = new ArrayList<String>();
+	static GameManager gameManager;
+	static HostMenu hostMenu;
+	private ArrayList<String> usersArray;
+	private ArrayList<Game> games;
+	private ArrayList<GameCard> gameCards;
 	
 	//constructor
 	public void init(MathGame mg, TypeManager tn)	{
@@ -93,7 +89,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		mathGame = mg;
 		typeManager = tn;
-		gsm = new GameSelectMenu(mathGame);
+		gameManager = mathGame.gameManager;
+		hostMenu = new HostMenu(mathGame);
 		
 		background = new ImageIcon(MultiMenu.class.getResource(imageFile));
 		buttonImage = new ImageIcon(MultiMenu.class.getResource(buttonImageFile));
@@ -102,7 +99,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		Font titleFont = new Font("Arial", Font.BOLD, 24);
 		Font buttonFont = new Font("Arial", Font.PLAIN, 20);
-		Font infoFont = new Font("Arial", Font.BOLD, 12);
 		
 		mode = new JLabel("Lobby");
 		mode.setFont(titleFont);
@@ -144,14 +140,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	    gamesList.setBounds(100, 100, 500, 400);
 	    gamesList.setVisible(true);
 		
-		//TODO SAMPLE GAMES, delete later; add games instead through host menu
-	    gamesList.add(new GameCard("TEST1", "Timed Scoring"));
-	    gamesList.add(new GameCard("TEST2", "Timed Scoring"));
-	    gamesList.add(new GameCard("TEST3", "Win Scoring"));
-	    gamesList.add(new GameCard("TEST4", "Timed Scoring"));
-	    gamesList.add(new GameCard("TEST5", "Win Scoring"));
-	    gamesList.add(new GameCard("TEST6", "Win Scoring"));
-		
 		usersList = new JPanel();
 		usersList.setBounds(650, 100, 150, 400);
 		usersList.setVisible(true);
@@ -163,7 +151,21 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		usersList.setLayout(columnLayout);
 		usersList.add(innerPanel);
 		
-				
+		usersArray = new ArrayList<String>();
+		
+		games = GameManager.getMatchesAccess().getCurrentGames();
+		gameCards = new ArrayList<GameCard>();
+		for(Game game : games)	{//for each game, create a gamecard
+			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), game.getScoring());
+			//TODO: For demonstration purposes only for reducing clutter.  delete the if statement
+			if(game.getID() < 159)//DELETE
+				gc.setVisible(false);//DELETE
+			gameCards.add(gc);
+			
+		}
+
+		for(GameCard card:gameCards)
+			gamesList.add(card);
 	    
 		try {
 		    home.setIcon(buttonImage);
@@ -216,9 +218,26 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		refresh.addMouseMotionListener(this);
 		refresh.addMouseListener(this);
 		
-		
+		//start refresh thread
+		Thread refreshThread = new Thread()	{
+			public void run()	{
+				Timer refreshTimer = new Timer(500, new ActionListener()	{
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						refresh();
+					}
+				});
+				refreshTimer.start();
+			}
+		};
+		//refreshThread.start();//TODO enable when we get a better refresh algorithm
+		//i suggest checking database for changes, if ther eare changes, refresh, otherwise do nothing.
 		
 		System.out.println("Menu Init Complete");
+	}
+	
+	public void setGameManager(GameManager gameManager){
+		MultiMenu.gameManager = gameManager;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -233,11 +252,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		}
 		
 		else if(e.getSource() == host){
-			gsm.pack();
-			gsm.fit();
-			gsm.setVisible(true);
-			gsm.toFront();//TODO combine tofront and setvisible into one function (init?) and then return a gamecard
-			//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAMETYPEMENU);
+			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.HOSTMENU);
 			//startgame();
 		}
 		
@@ -247,20 +262,71 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		}
 		else if(e.getSource() == refresh)
 		{
-			refreshDatabase();
-			//choosemixed();
-			//startgame();
+			refresh();
 		}
 	}
 	
+	public void refresh()	{
+		refreshDatabase();
+
+		games = gameManager.getCurrentGames();
+		gameCards.clear();
+		for(Game game:games)
+		{
+			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), game.getScoring());
+			//TODO: For demonstration purposes only for reducing clutter.  delete the if statement
+			if(game.getID() < 159)//DELETE
+				gc.setVisible(false);//DELETE
+			gameCards.add(gc);
+		}
+		gamesList.removeAll();
+		
+		for(GameCard card:gameCards)
+			gamesList.add(card);
+		gamesList.revalidate();
+		
+		System.out.println("updated currentgames");
+		
+		//startgame();
+	}
+	
+	public void addGame(Game g)	{//later consider users naming their games...
+		
+		
+		gameManager.setGame(g);
+		int gameID = gameManager.hostGame();//now game manager knows what game it's managing
+		g.setID(gameID);
+		games.add(g);
+		gameCards.add(new GameCard(gameID, "Game "+gameID, g.getScoring()));
+		gamesList.add(gameCards.get(games.size() - 1));
+		GameManager.getMatchesAccess().matchNum = gameID; 
+		
+		 ArrayList<Game> test = gameManager.getCurrentGames();
+		 for(int i=0; i<test.size(); i++)
+			 System.out.println("GAMEs are " + test.get(i).getID());
+		 GameManager.getMatchesAccess().checkForFullGame();
+	}
+	
 	public void addThisUser(){
-		mathGame.sql.addUser();
+		try {
+			if(mathGame.sql.connect == null)
+				mathGame.sql.connect();
+			mathGame.sql.addUser();
+			//mathGame.sql.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void refreshDatabase(){
 		try {
+			if(mathGame.sql.connect == null)
+				mathGame.sql.connect();
 			usersArray = mathGame.sql.getUsersGame();
 			updateUsersList();
+			//mathGame.sql.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -286,8 +352,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	 */
 	public void startgame() {
 		//this.setVisible(false);
-		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
+		mathGame.cl.show(mathGame.cardLayoutPanels, MathGame.GAME);
 		System.out.println("ENTER GAME");
+		System.out.println("type1 " + typeManager.getType());
 		typeManager.init(mathGame.cardPanel);
 		typeManager.randomize();
 	}
@@ -426,7 +493,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 
 	private class GameCard extends JLabel	{
 		String name;
-		String type;//Timed Scoring vs. Win Scoring
+		String type;
+		int gameID;
 		int numberOfPlayers;//probably 2 for now, maybe introduce solo mode for 1 player
 		ArrayList<User>players;
 		
@@ -434,8 +502,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		 * @param name
 		 * @param type
 		 */
-		public GameCard(String name, String type) {
+		public GameCard(int ID, String name, String type) {
 			super();
+			this.gameID = ID;
 			this.name = name;
 			this.type = type;
 			this.setLayout(null);
@@ -450,7 +519,27 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					//this is when the user chooses to join the game
+					GameCard tempCard = (GameCard)e.getComponent();
+					System.out.println("game card clicked " + tempCard.gameID);
+					GameManager.getMatchesAccess().setMatchNum(tempCard.getGameID());
+					if(!GameManager.getMatchesAccess().checkForFullGame())	{
+						mathGame.thisUser.setPlayerID(2);
+						mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
+						gameManager.joinGame(tempCard.getGameID());
+						System.out.println("GAME SET: "+tempCard.getGameID());
+						gameManager.setGame(GameManager.getMatchesAccess().getGame(tempCard.getGameID()));
+						typeManager.setType(gameManager.getGame().getType());
+						typeManager.randomize();
+						GameManager.getMatchesAccess().setMatchNum(tempCard.getGameID()); 
+						System.out.println("MATCHNUM "+GameManager.getMatchesAccess().matchNum);
+						mathGame.sidePanel.startTimer(tempCard.getType());
+						mathGame.sidePanel.setUpMultiplayer();
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(mathGame.multimenu.getTopLevelAncestor(), "This game is full");
+						GameManager.getMatchesAccess().setMatchNum(-1);//game is full, do not join
+					}
 				}
 
 				@Override
@@ -512,6 +601,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		 */
 		public void setNumberOfPlayers(int numberOfPlayers) {
 			this.numberOfPlayers = numberOfPlayers;
+		}
+		
+		public int getGameID() {
+			return gameID;
 		}
 		/* (non-Javadoc)
 		 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)

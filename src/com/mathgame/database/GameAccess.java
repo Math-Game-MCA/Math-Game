@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.sql.Connection;
 
 import com.mathgame.math.MathGame;
+import com.mathgame.network.GameManager;
 
 public class GameAccess extends MySQLAccess{
 	
@@ -41,6 +42,27 @@ public class GameAccess extends MySQLAccess{
 			e.printStackTrace();
 		}
 	}
+	
+	public void removeUser(Connection c){
+		try {
+			statement = c.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("removing name: " + mathGame.thisUser.getName());
+		try {
+			statement.executeUpdate("DELETE FROM sofiav_mathgame.online_users "
+					+ "WHERE sofiav_mathgame.online_users.Name = '"
+		+ mathGame.thisUser.getName() +"'");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
+
 	/**
 	 * gets users values from the database
 	 * 
@@ -71,7 +93,17 @@ public class GameAccess extends MySQLAccess{
 			
 		}
 		catch (Exception e){
-			System.out.println("SQLException: " + e.getMessage());
+			//System.out.println("SQLException: " + e.getMessage());
+			if(e.getMessage().equals("No operations allowed after connection closed."))
+			{
+				if (!mathGame.sql.connect())
+					throw new Exception("couldn't connect");
+				else
+				{
+					System.out.println("CONNECTED ONCE AGAIN");					
+					GameManager.getMatchesAccess().reconnectStatement();
+				}
+			}
 			throw e;
 		}
 	}
