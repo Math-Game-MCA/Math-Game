@@ -14,6 +14,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -147,18 +149,19 @@ public class WorkspacePanel extends JPanel{
 				
 				return;
 			}
-
+			
+			boolean ansState = true;
 			//in practice mode, user must evaluate the answer too
 			if(mathGame.getGameState() == GameState.PRACTICE)	{
-				askAnswer(answer);
+				ansState = askAnswer(answer);
 			}
 			
 			NumberCard answerCard = new NumberCard(answer);
 			if(typeManager.getType() == GameType.FRACTIONS) {
-				String temp = typeManager.convertDecimaltoFraction(answer);
+				String temp = TypeManager.convertDecimaltoFraction(answer);
 				answerCard.setValue(temp);
 				answerCard.setStrValue(temp);
-				System.out.println("as fraction: " + typeManager.convertDecimaltoFraction(answer));
+				System.out.println("as fraction: " + TypeManager.convertDecimaltoFraction(answer));
 			}
 			else
 				answerCard.setValue(""+answer);
@@ -186,20 +189,22 @@ public class WorkspacePanel extends JPanel{
 			System.out.println("NUM:"+this.getComponentCount());
 			this.remove(0);
 			this.remove(0);
-			
+
 			add(answerCard);
+			
+			if(!ansState)//if false, undo; means user cancelled inputting function
+				mathGame.sidePanel.undoFunction();
 			
 			//System.out.println(answerCard.getParent());
 		}	
 	}
 	
-	private void askAnswer(Double answer)	{
+	private Boolean askAnswer(Double answer)	{
 		//TODO ask user for answer, if correct, then continue showing card.
 		/*JOptionPane.showInputDialog(this, "Answer "+tempnum1.getStrValue()+" "+
 				((OperationCard) this.getComponent(1)).getOperation()+" "+
 				tempnum2.getStrValue()+" = ", "Answer", JOptionPane.PLAIN_MESSAGE, null, null, null);*/
 		//TODO this is temporary... change to user inputting answer within a card (somehow...)
-		//this code is so ugly i wanna puke
 		String  op = ((OperationCard)this.getComponent(1)).getOperation();
 		if(op.equals("add"))
 			op = "+";
@@ -213,7 +218,9 @@ public class WorkspacePanel extends JPanel{
 				((NumberCard)this.getComponent(0)).getStrValue()+" "+op+" "+
 				((NumberCard)this.getComponent(2)).getStrValue()+"= ");
 		ansInput.pack();
+		ansInput.setModal(true);
 		ansInput.setVisible(true);
+		return ansInput.getValue();
 	}
 	
 	public String currentOperation()	{
@@ -245,10 +252,13 @@ public class WorkspacePanel extends JPanel{
 	//TODO make give up button to automatically make answer (and subtract points?)
 	class AnswerDialog extends JDialog implements ActionListener	{
 		private String input;//what user puts
-		private String equation;//what dialog will display
+		private String equation;//equation to display
 		private Double answer;//the answer to equation
 		private JTextField text;
-		private JOptionPane option;
+		private JButton cancel;
+		private JPanel panel;
+		private JLabel incorrect;
+		private boolean value;//true = correct, false = cancelled
 		
 		/**
 		 * Constructor
@@ -262,27 +272,42 @@ public class WorkspacePanel extends JPanel{
 			this.equation = equation;
 			text = new JTextField(10);//size 10
 			text.addActionListener(this);
-			JPanel panel = new JPanel();
+			incorrect = new JLabel("Incorrect");
+			cancel = new JButton("Cancel");
+			cancel.addActionListener(this);
+			panel = new JPanel();
 			panel.add(new JLabel(equation));
 			panel.add(text);
-			option = new JOptionPane(panel, JOptionPane.PLAIN_MESSAGE, JOptionPane.CANCEL_OPTION, null, null);
-			setContentPane(option);
-			setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-			addWindowListener(new WindowAdapter()	{
+			panel.add(incorrect);
+			panel.add(cancel);
+			incorrect.setVisible(false);
+			setContentPane(panel);
+			setAutoRequestFocus(true);
+			/*addWindowListener(new WindowAdapter()	{
 				public void windowClosing(WindowEvent we)	{
 					option.setValue(new Integer(JOptionPane.CLOSED_OPTION));
 				}
-			});
+			});*/
 			
 			addComponentListener(new ComponentAdapter()	{
 				public void componentShown(ComponentEvent ce)	{
 					text.requestFocusInWindow();
 				}
 			});
+			addWindowStateListener(new WindowStateListener()	{
+				@Override
+				public void windowStateChanged(WindowEvent we) {
+					value = false;
+				}
+			});
 		}
 		
+		/**
+		 * Resets the dialog
+		 */
 		private void finish()	{
 			text.setText(null);
+			incorrect.setVisible(false);
 			setVisible(false);
 		}
 		
@@ -306,6 +331,14 @@ public class WorkspacePanel extends JPanel{
 		public Double getAnswer() {
 			return answer;
 		}
+		
+		/**
+		 * Value of dialog is dependent on whether user inputted correct answer (true) or cancelled (false)
+		 * @return the value
+		 */
+		public boolean getValue()	{
+			return value;
+		}
 
 		/**
 		 * @param answer the answer to set
@@ -317,17 +350,29 @@ public class WorkspacePanel extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == text)	{
-				//TODO accept different forms of input, not just decimal
-				//TODO make a sound when user enters right/wrong answer
 				input = text.getText();
-				System.out.println("TEXT ENTER: "+input+" "+answer);
 				if(input.contains("/") || input.contains("\\"))	{
-					if(Math.abs(answer - TypeManager.convertFractiontoDecimal(input)) <= MathGame.epsilon)
+					if(Math.abs(answer - TypeManager.convertFractiontoDecimal(input)) <= MathGame.epsilon)	{
+						value = true;
 						finish();
+					}
+					else	{
+						incorrect.setVisible(true);
+						pack();
+					}
 				}
 				else if(Math.abs(answer - Double.parseDouble(input)) <= MathGame.epsilon)	{
+					value = true;
 					finish();
 				}
+				else	{
+					incorrect.setVisible(true);
+					pack();
+				}
+			}
+			else if(e.getSource() == cancel)	{
+				value = false;
+				finish();
 			}
 		}
 		
