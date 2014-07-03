@@ -1,7 +1,3 @@
-
-/**
- * 
- */
 package com.mathgame.cardmanager;
 
 import java.util.ArrayList;
@@ -9,66 +5,53 @@ import java.util.ArrayList;
 import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
 
-/*
- * Note: This class is fully up to date with Javadoc documentation
- * for the sole purpose of demonstrating how other classes should
- * be documented. ~Roland
- */
-
 /**
- * Class responsible for tracking moves made by user
- * @author Roland
- * 
+ * The MoveTracker class is responsible for recording the move history of the user during a round
+ * @author Roland Fong
  */
 public class MoveTracker {
 
-	ArrayList<Moves> moves;
-	int indexNum;
+	private ArrayList<Moves> moves;
+	private int indexPointer;
 	
-	/**
-	 * Creates a new instance of MoveTracker, initializing index and arraylist
-	 */
 	public MoveTracker() {
-		indexNum = 0;
+		indexPointer = 0;
 		moves = new ArrayList<Moves>();
 	}
 	
 	/**
-	 * Registers a new move into arraylist
-	 * @param card1
-	 * @param op
-	 * @param card2
-	 * @param newNum
+	 * Registers a new move, storing it into an ArrayList
+	 * @param card1 - The lefthand NumberCard
+	 * @param card2 - The righthand NumberCard
+	 * @param op - The OperationCard
+	 * @param newNum - The NumberCard formed after evaluating the expression
 	 */
-	public void registerMove(NumberCard card1, OperationCard op, NumberCard card2, NumberCard newNum)	{
-		Moves temp = new Moves(card1, card2, op, newNum);
-		Boolean newEntry = false;
-		//the add function will move everything in front of it; this code will instead replace existing element
-		try {
-			moves.get(indexNum);
-		} catch (IndexOutOfBoundsException e) {
-			moves.add(indexNum, temp);
-			newEntry = true;
-		}
-		if(newEntry == false)	{
-			moves.set(indexNum, temp);
+	public void registerMove(NumberCard card1, OperationCard op, NumberCard card2, NumberCard newNum) {
+		Moves temp = new Moves(card1, op, card2, newNum);
+
+		if (indexPointer < moves.size()) {
+			// If the index is within bounds, replace the move at the current indexNum
+			moves.set(indexPointer, temp);
+		} else {
+			// If the index is out of bounds, add a new move to the ArrayList
+			moves.add(indexPointer, temp);
 		}
 		
-		indexNum++;
+		indexPointer++;
 		System.out.println("Tracking New Move");
 	}
 	
 	/**
-	 * Returns the previous move
-	 * @return previous move
+	 * Returns the last move registered (primarily for the purpose of undoing a move)
+	 * @return The last move (as a Moves object)
 	 */
-	public Moves getPreviousMove()	{//primarily for the purpose of undoing a move
-		System.out.println("index: "+indexNum);
-		if(indexNum <= 0)	{//protect against too many undos
+	public Moves getPreviousMove() {
+		System.out.println("index: " + indexPointer);
+		if(indexPointer <= 0) {
+			// Protect against too many undos
 			System.out.println("Too many undos!");
 			return null;
 		}
-		Moves prevMove = moves.get(indexNum - 1);
 		
 		/* Note: if redo capability is added,
 		 * and user makes a new move after undoing several moves,
@@ -80,21 +63,24 @@ public class MoveTracker {
 		 * ~Roland
 		 */
 		
-		return prevMove;
+		return moves.get(indexPointer - 1);
+	}
+	
+	public int getIndexPointer() {
+		return indexPointer;
 	}
 	
 	/**
-	 * Decreases index upon completion of undo operation
+	 * Decrements the index pointer (upon completion of undo operation)
 	 */
-	public void decrementIndex()	{
-		indexNum--;
+	public void decrementIndex() {
+		indexPointer--;
 	}
 	
 	/**
-	 * Clears the arraylist of all moves
+	 * Clears the ArrayList of all moves
 	 */
-	public void clearMoves()	{
+	public void clearMoves() {
 		moves.clear();
 	}
-
 }

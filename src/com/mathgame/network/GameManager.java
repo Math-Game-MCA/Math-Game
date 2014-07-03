@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.mathgame.network;
 
 import java.util.ArrayList;
@@ -9,79 +6,78 @@ import com.mathgame.database.MatchesAccess;
 import com.mathgame.math.MathGame;
 
 /**
- *  Class that holds specs for multiplayer game
+ *  The GameManager class holds the details (specs) for multiplayer games
  */
 public class GameManager {	
 	private Game game;
 	
-	private int score;//current running total score of player
+	private int score; // Current running total score of player (not used yet..)
 	
 	static MatchesAccess matchesAccess;
 	static MathGame mathGame;
 	
-	private ArrayList<Integer> scores;//scores of all players (in order of what's in database, i.e. 1 is host, not necessarily 'this' player
-	private int currentRound;
-	
-	/**
-	 * 
-	 */
+	private ArrayList<Integer> scores; // The scores of all players (in the order of what's in database (i.e. 1 is the host and not necessarily 'this' player)
+	private int currentRound; //TODO Use this variable
+
 	public GameManager(MathGame mathGame) {
-		this.mathGame = mathGame;
+		GameManager.mathGame = mathGame;
 		matchesAccess = new MatchesAccess(mathGame, mathGame.sql.connect);
 		
-		scores = new ArrayList<Integer>(2);//game.getNumberOfPlayers());//Game is not initialized yet
+		scores = new ArrayList<Integer>(2); // game.getNumberOfPlayers()); // Game is not initialized yet
 	}
 	
-	/*public void reconnectStatement(){
+	/*
+	public void reconnectStatement() {
 		matchesAccess.reconnectStatement(mathGame.sql.connect);
-	}*/
+	}
+	*/
 	
 	/**
-	 * Adds round scores to cumulative along with latest player score
-	 * @param score
+	 * Adds the round score(s) to the cumulative score, along with the latest player score
+	 * @param score - The (user) score to update
 	 */
 	public void updateScores(int score)	{
 		matchesAccess.updateScore(score);
-		if(scores.size()==0)
-		{
+		
+		if (scores.size() == 0) {
 			scores.add(0);
 			scores.add(0);
 		}
-		for(int i = 0; i < 2; i++)	{
+		for (int i = 0; i < 2; i++) {
 			scores.set(i, scores.get(i) + matchesAccess.getScores().get(i));
 		}
 	}
 	
 	/**
-	 * @return the matchesAccess
+	 * @return The MatchesAccess object associated with the GameManager class
 	 */
 	public static MatchesAccess getMatchesAccess() {
 		return matchesAccess;
 	}
 
 	/**
-	 * @return the cumulative scores
+	 * @return An ArrayList of the cumulative scores
 	 */
 	public ArrayList<Integer> getCumulativeScores() {
 		return scores;
 	}
 	
 	/**
-	 * @returns the round scores
+	 * @return An ArrayList of the round scores
 	 */
 	public ArrayList<Integer> getRoundScores() {
 		return matchesAccess.getScores();
 	}
 
 	/**
-	 * @return the currentRound
+	 * @return The current round number
 	 */
 	public int getCurrentRound() {
 		return matchesAccess.getCurrentRound();
 	}
 
 	/**
-	 * @param currentRound the currentRound to set
+	 * @param currentRound - The round number to set as the current
 	 */
 	public void setCurrentRound(int currentRound) {
 		this.currentRound = currentRound;
@@ -89,7 +85,7 @@ public class GameManager {
 
 
 	/**
-	 * @return the game
+	 * @return The current Game
 	 */
 	public Game getGame() {
 		return game;
@@ -97,31 +93,40 @@ public class GameManager {
 
 
 	/**
-	 * @param game the game to set
+	 * @param game - The Game to set
 	 */
 	public void setGame(Game game) {
 		this.game = game;
 		
-		//return matchesAccess.hostGame();//let the game begin! er... well when the other player gets here
+		// return matchesAccess.hostGame(); // Let the game begin! Er... well, when the other player gets here
 	}
 	
-	public int hostGame(){
+	/**
+	 * Hosts a new game
+	 * @return The match number (ID?) of the new game (from the database)
+	 */
+	public int hostGame() {
 		return matchesAccess.hostGame();
 	}
 	
-	public void joinGame(int gameID){
+	/**
+	 * Join a game (of the given gameID) that is being hosted
+	 */
+	public void joinGame(int gameID) {
 		matchesAccess.joinGame(gameID);
 	}
 	
-	public  ArrayList<Game> getCurrentGames(){
+	/**
+	 * Retrieves the list of current games from the database
+	 * @return An ArrayList of Games from the database
+	 */
+	public ArrayList<Game> getCurrentGames() {
 		return matchesAccess.getCurrentGames();
 	}
 	
 	/**
-	 * Checks to see if game is filled.
-	 * If filled, return true.
-	 * If not filled, return false
-	 * @return filled
+	 * Checks whether the game is full (yet)
+	 * @return Whether the game is filled (true) or not
 	 */
 	public Boolean gameFilled()	{
 		return matchesAccess.checkForFullGame();

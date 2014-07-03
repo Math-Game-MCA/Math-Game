@@ -1,8 +1,8 @@
-/**
- * Authors: David Schildkraut, Roland Fong, Hima T.
- * Notes: working on listeners & eliminating the "double-menu" where 2 menus are seen, but only one is 
+/*TODO
+ * Working on listeners & eliminating the "double-menu" where 2 menus are seen, but only one is 
  * functional.
  */
+
 package com.mathgame.menus;
 
 import java.awt.Dimension;
@@ -36,39 +36,36 @@ import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 /**
- * Class that creates the game Menu
+ * The MainMenu class displays the main menu
+ * @author David Schildkraut, Roland Fong, Hima T.
  */
-
 public class MainMenu extends JPanel implements ActionListener, MouseMotionListener, MouseListener{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3036828086937465893L;
 
 	static MathGame mathGame;
 	
-	final String imageFile = "/images/backa.png";
-	final String buttonImageFile = "/images/MenuButtonImg1.png";
-	final String buttonRollOverImageFile = "/images/MenuButtonImg2.png";
-	final String buttonPressedImageFile = "/images/MenuButtonImg3.png";
-	final int BUTTON_WIDTH = 130;
-	final int BUTTON_HEIGHT = 30;
+	static final String IMAGE_FILE = "/images/backa.png";
+	static final String BUTTON_IMAGE_FILE = "/images/MenuButtonImg1.png";
+	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/MenuButtonImg2.png";
+	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/MenuButtonImg3.png";
+	static final int BUTTON_WIDTH = 130;
+	static final int BUTTON_HEIGHT = 30;
 	static ImageIcon background;
 	static ImageIcon buttonImage;
 	static ImageIcon buttonRollOverImage;
 	static ImageIcon buttonPressedImage;
 	
-	//mouse coordinates
+	// Mouse coordinates
 	int mx;
 	int my;
 	
-	JButton enter;//press to enter the game;
-	JButton help;//press for game help
-	JButton about;//press for "stuff"
-	JButton exit;//press to leave game :(
+	JButton enter; // Press to enter the game;
+	JButton help; // Press for game help
+	JButton about; // Press for "stuff"
+	JButton exit; // Press to leave game :(
 	
-//	JLabel epsilon;//self-explanatory
+	// JLabel epsilon; // Self-explanatory
 	JPanel carda;
 	JPanel cardb;
 	JPanel cardc;
@@ -77,9 +74,8 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	JTextArea infob;
 	JTextArea infoc;
 	JTextArea infod;
-	
-	//constructor
-	public void init(MathGame mg)	{
+
+	public void init(MathGame mg) {
 		
 		this.setLayout(null);
 		Dimension size = getPreferredSize();
@@ -89,20 +85,20 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		
 		mathGame = mg;
 		
-		background = new ImageIcon(MainMenu.class.getResource(imageFile));
-		buttonImage = new ImageIcon(MainMenu.class.getResource(buttonImageFile));
-		buttonRollOverImage = new ImageIcon(MainMenu.class.getResource(buttonRollOverImageFile));
-		buttonPressedImage = new ImageIcon(MainMenu.class.getResource(buttonPressedImageFile));
-		background = new ImageIcon(MainMenu.class.getResource(imageFile));
+		background = new ImageIcon(MainMenu.class.getResource(IMAGE_FILE));
+		buttonImage = new ImageIcon(MainMenu.class.getResource(BUTTON_IMAGE_FILE));
+		buttonRollOverImage = new ImageIcon(MainMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
+		buttonPressedImage = new ImageIcon(MainMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
+		background = new ImageIcon(MainMenu.class.getResource(IMAGE_FILE));
 		
 		
-//		Font titleFont = new Font("Arial", Font.BOLD, 36);
+		// Font titleFont = new Font("Arial", Font.BOLD, 36);
 		Font buttonFont = new Font("Arial", Font.PLAIN, 20);
 		Font infoFont = new Font("Arial", Font.BOLD, 12);
 		
-//		epsilon = new JLabel("Epsilon");
-//		epsilon.setFont(titleFont);
-//		epsilon.setBounds(185, 205, 130, 60);
+		// epsilon = new JLabel("Epsilon");
+		// epsilon.setFont(titleFont);
+		// epsilon.setBounds(185, 205, 130, 60);
 		
 		enter = new JButton("Enter");
 		enter.setFont(buttonFont);
@@ -148,15 +144,14 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		/**
-		 * TODO get the text in the label to wrap if it is longer than the label width.
-		 */
-//Info Box for Enter Box
+		//TODO Get the text in the label to wrap if it is longer than the label width.
+		
+		// Info Box for Enter Box
 		infoa = new JTextArea("Welcome to Epsilon, the mathematical card game!");
 		infoa.setFont(infoFont);
 		infoa.setBounds(95, 525, 90, 130);
-		infoa.setLineWrap(true);//sets word wrap
-		infoa.setWrapStyleWord(true);//wraps at end of word
+		infoa.setLineWrap(true); // Sets word wrap
+		infoa.setWrapStyleWord(true); // Wraps at end of word
 		infoa.setEditable(false);
 
 		carda = new JPanel();
@@ -164,12 +159,12 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		carda.add(infoa);
 		carda.setVisible(false);
 		
-//Info Box for Help Button		
+		// Info Box for Help Button		
 		infob = new JTextArea("Help Text...");
 		infob.setFont(infoFont);
 		infob.setBounds(295, 525, 90, 130);
-		infob.setLineWrap(true);//sets word wrap
-		infob.setWrapStyleWord(true);//wraps at end of word
+		infob.setLineWrap(true); // Sets word wrap
+		infob.setWrapStyleWord(true); // Wraps at end of word
 		infob.setEditable(false);
 		
 		cardb = new JPanel();
@@ -177,12 +172,12 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		cardb.add(infob);
 		cardb.setVisible(false);
 		
-//Info Box for Help Button		
+		// Info Box for About Button		
 		infoc = new JTextArea("Info About the Game");
 		infoc.setFont(infoFont);
 		infoc.setBounds(490, 525, 90, 130);
-		infoc.setLineWrap(true);//sets word wrap
-		infoc.setWrapStyleWord(true);//wraps at end of word
+		infoc.setLineWrap(true); // Sets word wrap
+		infoc.setWrapStyleWord(true); // Wraps at end of word
 		infoc.setEditable(false);
 		
 		cardc = new JPanel();
@@ -190,12 +185,12 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		cardc.add(infoc);
 		cardc.setVisible(false);
 		
-//Info Box for Exit Button		
+		// Info Box for Exit Button		
 		infod = new JTextArea("Exit the Game");
 		infod.setFont(infoFont);
 		infod.setBounds(680, 525, 90, 130);
-		infod.setLineWrap(true);//sets word wrap
-		infod.setWrapStyleWord(true);//wraps at end of word
+		infod.setLineWrap(true); // Sets word wrap
+		infod.setWrapStyleWord(true); // Wraps at end of word
 		infod.setEditable(false);
 			
 		cardd = new JPanel();
@@ -203,7 +198,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		cardd.add(infod);
 		cardd.setVisible(false);
 		
-//		add(epsilon);
+		// add(epsilon);
 
 		add(enter);
 		add(help);
@@ -215,9 +210,9 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		add(cardc);
 		add(cardd);
 
-		//p1.setBorder(new TitledBorder("Epsilon"));
+		// p1.setBorder(new TitledBorder("Epsilon"));
 		
-		//add(epsilon);
+		// add(epsilon);
 		
 		enter.addActionListener(this);
 		enter.addMouseMotionListener(this);
@@ -230,13 +225,16 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		exit.addMouseMotionListener(this);
 		exit.addMouseListener(this);
 		
-		//get username before playing
+		// get username before playing
 		getUser();
 		
 		System.out.println("Menu Init Complete");
 	}
 	
-	public void getUser()	{
+	/**
+	 * Prompts the user for their username
+	 */
+	public void getUser() {
 		String name = JOptionPane.showInputDialog(this, "User Name");
 		System.out.println("user name is " + name);
 		mathGame.thisUser.setName(name);
@@ -247,22 +245,23 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 			SoundManager.playSound(SoundManager.SoundType.Button);
 		}
 		
-		if(e.getSource() == enter)	{
-			startgame();
+		if(e.getSource() == enter) {
+			startGame();
 		}
-		//else if(e.getSource() == help)
-			//helpbox();
-		//else if(e.getSource() == about)
-			//aboutinfo();
+		// else if(e.getSource() == help)
+			// helpbox();
+		// else if(e.getSource() == about)
+			// aboutinfo();
 
-		else if(e.getSource() == exit)
+		else if(e.getSource() == exit) {
 			exit();
+		}
 	}
 	
 	/**
-	 * Starts the game
+	 * Leads to the option (game setup) menu 
 	 */
-	public void startgame() {
+	public void startGame() {
 		//this.setVisible(false);
 		/*Object[] options = {"Single Player", "Multiplayer"};
 		
@@ -285,14 +284,15 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 			mathGame.multimenu.addThisUser();
 		}
 		//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.SUBMENU);*/
-		mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.OPTIONMENU);
+		
+		mathGame.showMenu(MathGame.Menu.OPTIONMENU);
 		System.out.println("ENTER GAME");
 	}
 	
 	/**
-	 * Begining Message
+	 * Display the enter button info 
 	 */
-	public void enterinfo(){
+	public void enterInfo() {
 		carda.setVisible(true);
 		cardb.setVisible(false);
 		cardc.setVisible(false);
@@ -300,9 +300,9 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	}
 	
 	/**
-	 * Displays help box
+	 * Displays the help box info
 	 */
-	public void helpbox() {
+	public void helpInfo() {
 //		info.setText("Help goes here. We need help to get the correct text here. Thank you for helping us out. - The Math Games Team");
 		carda.setVisible(false);
 		cardb.setVisible(true);
@@ -312,19 +312,19 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	}
 	
 	/**
-	 * Displays info about game
+	 * Displays the about button info (about the game)
 	 */
 	public void aboutinfo() {
-//		info.setText("Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
+		// info.setText("Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
 		carda.setVisible(false);
 		cardb.setVisible(false);
 		cardc.setVisible(true);
 		cardd.setVisible(false);
-		//JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
+		// JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
 	}
 	
 	/**
-	 * Turns down all the cards
+	 * Hides all info
 	 */
 	public void hideInfo()	{
 		carda.setVisible(false);
@@ -333,20 +333,23 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		cardd.setVisible(false);
 	}
 	
+	/**
+	 * Displays the exit button info
+	 */
 	public void exitinfo() {
-//		info.setText("Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
+		// info.setText("Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
 		carda.setVisible(false);
 		cardb.setVisible(false);
 		cardc.setVisible(false);
 		cardd.setVisible(true);
-		//JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
+		// JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
 	}
 	
 	/**
 	 * Exits game
 	 */
 	public void exit() {
-		//TODO decide on exit implementation - perhaps show an html webpage "thanks for playing" ?
+		//TODO Decide on exit implementation (perhaps show an html webpage "thanks for playing")?
 		JOptionPane.showMessageDialog(this, "Game cannot exit from this button yet. Please use the x button @ top right", null, JOptionPane.WARNING_MESSAGE, null);
 	}
 	
@@ -367,13 +370,13 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		my = e.getY();
 		
 		if(e.getSource() == help)	{
-			helpbox();
+			helpInfo();
 		}
 		else if(e.getSource() == about)	{
 			aboutinfo();
 		}
 		else if(e.getSource() == enter)	{
-			enterinfo();
+			enterInfo();
 		}
 		else if(e.getSource() == exit)	{
 			exitinfo();
@@ -396,11 +399,11 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		System.out.println("Mouse Exited Button");
 		hideInfo();
 		if(e.getSource() == help)	{
-//			info.setText("Welcome to Epsilon, the mathematical card game!");
+			// info.setText("Welcome to Epsilon, the mathematical card game!");
 		}
 		else if(e.getSource() == about)
 		{
-//			info.setText("Welcome to Epsilon, the mathematical card game!");
+			// info.setText("Welcome to Epsilon, the mathematical card game!");
 		}
 	}
 

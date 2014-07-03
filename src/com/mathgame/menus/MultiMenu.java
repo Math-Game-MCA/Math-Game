@@ -1,6 +1,3 @@
-/**
- * Multiplayer Menu
- */
 package com.mathgame.menus;
 
 import java.awt.Color;
@@ -33,41 +30,38 @@ import com.mathgame.network.GameManager;
 import com.mathgame.network.User;
 
 /**
- * Class that creates the game Menu
+ * The MultiMenu class represents the menu for setting up multiplayer games
  */
 
-public class MultiMenu extends JPanel implements ActionListener, MouseMotionListener, MouseListener{
+public class MultiMenu extends JPanel implements ActionListener, MouseMotionListener, MouseListener {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3036828086937465893L;
 
 	private MathGame mathGame;
 	private TypeManager typeManager;
 	
-	final String imageFile = "/images/backMulti.png";
-	final String buttonImageFile = "/images/MenuButtonImg1.png";
-	final String buttonRollOverImageFile = "/images/MenuButtonImg2.png";
-	final String buttonPressedImageFile = "/images/MenuButtonImg3.png";
-	final int BUTTON_WIDTH = 130;
-	final int BUTTON_HEIGHT = 30;
+	static final String IMAGE_FILE = "/images/backMulti.png";
+	static final String BUTTON_IMAGE_FILE = "/images/MenuButtonImg1.png";
+	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/MenuButtonImg2.png";
+	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/MenuButtonImg3.png";
+	static final int BUTTON_WIDTH = 130;
+	static final int BUTTON_HEIGHT = 30;
 	static ImageIcon background;
 	static ImageIcon buttonImage;
 	static ImageIcon buttonRollOverImage;
 	static ImageIcon buttonPressedImage;
 	
-	//mouse coordinates
+	// Mouse coordinates
 	int mx;
 	int my;
 	
 	JPanel gamesList;
 	JPanel usersList;
-	JButton home;//press to enter the game;
-	JButton host;//press to host game
-	JButton join;//press to join game
-	JButton refresh;//updates from database
-	JLabel mode;//self-explanatory
+	JButton home; // Press to enter a game;
+	JButton host; // Press to host a game
+	JButton join; // Press to join a game
+	JButton refresh; // Updates from database
+	JLabel mode;
 	JLabel friend;
 	
 	Panel innerPanel; 
@@ -78,8 +72,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	private ArrayList<Game> games;
 	private ArrayList<GameCard> gameCards;
 	
-	//constructor
-	public void init(MathGame mg, TypeManager tn)	{
+	public void init(MathGame mg, TypeManager tn) {
 		
 		this.setLayout(null);
 		Dimension size = getPreferredSize();
@@ -89,13 +82,13 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		mathGame = mg;
 		typeManager = tn;
-		gameManager = mathGame.gameManager;
+		gameManager = mathGame.getGameManager();
 		hostMenu = new HostMenu(mathGame);
 		
-		background = new ImageIcon(MultiMenu.class.getResource(imageFile));
-		buttonImage = new ImageIcon(MultiMenu.class.getResource(buttonImageFile));
-		buttonRollOverImage = new ImageIcon(MultiMenu.class.getResource(buttonRollOverImageFile));
-		buttonPressedImage = new ImageIcon(MultiMenu.class.getResource(buttonPressedImageFile));
+		background = new ImageIcon(MultiMenu.class.getResource(IMAGE_FILE));
+		buttonImage = new ImageIcon(MultiMenu.class.getResource(BUTTON_IMAGE_FILE));
+		buttonRollOverImage = new ImageIcon(MultiMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
+		buttonPressedImage = new ImageIcon(MultiMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
 		
 		Font titleFont = new Font("Arial", Font.BOLD, 24);
 		Font buttonFont = new Font("Arial", Font.PLAIN, 20);
@@ -155,17 +148,22 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		games = GameManager.getMatchesAccess().getCurrentGames();
 		gameCards = new ArrayList<GameCard>();
-		for(Game game : games)	{//for each game, create a gamecard
+		
+		for(Game game : games) {
+			// For each game, create a gamecard
 			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), game.getScoring());
-			//TODO: For demonstration purposes only for reducing clutter.  delete the if statement
-			if(game.getID() < 159)//DELETE
-				gc.setVisible(false);//DELETE
-			gameCards.add(gc);
 			
+			//TODO For demonstration purposes only (reducing clutter); delete the if statement
+			if(game.getID() < 159) {
+				//TODO DELETE
+				gc.setVisible(false);
+			}
+			gameCards.add(gc);
 		}
 
-		for(GameCard card:gameCards)
+		for(GameCard card : gameCards) {
 			gamesList.add(card);
+		}
 	    
 		try {
 		    home.setIcon(buttonImage);
@@ -187,11 +185,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		/*
-		 * TODO get the text in the label to wrap if it is longer than the label width.
-		 */
-//Info Box for Enter Box
-
+		//TODO Get the text in the label to wrap if it is longer than the label width
+		
+		// Info Box for Enter Box
 		add(mode);
 		add(friend);
 		add(home);
@@ -201,9 +197,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		add(gamesList);
 		add(usersList);
 
-		//p1.setBorder(new TitledBorder("Epsilon"));
+		// p1.setBorder(new TitledBorder("Epsilon"));
 		
-		//add(epsilon);
+		// add(epsilon);
 		
 		home.addActionListener(this);
 		home.addMouseMotionListener(this);
@@ -218,7 +214,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		refresh.addMouseMotionListener(this);
 		refresh.addMouseListener(this);
 		
-		//start refresh thread
+		// Start refresh thread
 		Thread refreshThread = new Thread()	{
 			public void run()	{
 				Timer refreshTimer = new Timer(500, new ActionListener()	{
@@ -230,13 +226,13 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 				refreshTimer.start();
 			}
 		};
-		//refreshThread.start();//TODO enable when we get a better refresh algorithm
-		//i suggest checking database for changes, if ther eare changes, refresh, otherwise do nothing.
+		// refreshThread.start(); //TODO Enable when we get a better refresh algorithm
+		// I suggest checking database for changes. If there are changes, refresh; otherwise, do nothing.
 		
 		System.out.println("Menu Init Complete");
 	}
-	
-	public void setGameManager(GameManager gameManager){
+
+	public void setGameManager(GameManager gameManager) {
 		MultiMenu.gameManager = gameManager;
 	}
 	
@@ -244,99 +240,113 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		if (e.getSource() instanceof JButton) {
 			SoundManager.playSound(SoundManager.SoundType.Button);
 		}
-		//TODO program functionality of buttons
-		if(e.getSource() == home )	{
-			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.MAINMENU);//open the menu
-			//choosefraction();
-			//startgame();
+		//TODO Program functionality of buttons?
+		if(e.getSource() == home) {
+			mathGame.showMenu(MathGame.Menu.MAINMENU); // Return to the main menu
+			// choosefraction();
+			// startgame();
+		} else if(e.getSource() == host) {
+			mathGame.showMenu(MathGame.Menu.HOSTMENU);
+			// startgame();
+		} else if(e.getSource() == join) {
+			// choosedecimal();
+			// startgame();
 		}
-		
-		else if(e.getSource() == host){
-			mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.HOSTMENU);
-			//startgame();
-		}
-		
-		else if(e.getSource() == join){
-			//choosedecimal();
-			//startgame();
-		}
-		else if(e.getSource() == refresh)
-		{
+		else if(e.getSource() == refresh) {
 			refresh();
 		}
 	}
 	
-	public void refresh()	{
+	/**
+	 * Refresh the list of games
+	 */
+	public void refresh() {
 		refreshDatabase();
 
 		games = gameManager.getCurrentGames();
 		gameCards.clear();
-		for(Game game:games)
-		{
+		
+		for(Game game : games) {
 			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), game.getScoring());
-			//TODO: For demonstration purposes only for reducing clutter.  delete the if statement
-			if(game.getID() < 159)//DELETE
-				gc.setVisible(false);//DELETE
+			//TODO For demonstration purposes only (reducing clutter); delete the if statement
+			if(game.getID() < 159) {
+				//TODO DELETE
+				gc.setVisible(false);
+			}
 			gameCards.add(gc);
 		}
 		gamesList.removeAll();
 		
-		for(GameCard card:gameCards)
+		for(GameCard card : gameCards)
 			gamesList.add(card);
 		gamesList.revalidate();
 		
 		System.out.println("updated currentgames");
 		
-		//startgame();
+		// startgame();
 	}
 	
-	public void addGame(Game g)	{//later consider users naming their games...
-		
+	/**
+	 * Add a new game to the list of games
+	 * @param g - The Game to be added
+	 */
+	public void addGame(Game g)	{
+		//TODO Later consider users naming their games...		
 		
 		gameManager.setGame(g);
-		int gameID = gameManager.hostGame();//now game manager knows what game it's managing
+		int gameID = gameManager.hostGame(); // Needed so the game manager knows what game it's managing
 		g.setID(gameID);
 		games.add(g);
 		gameCards.add(new GameCard(gameID, "Game "+gameID, g.getScoring()));
 		gamesList.add(gameCards.get(games.size() - 1));
 		GameManager.getMatchesAccess().matchNum = gameID; 
 		
-		 ArrayList<Game> test = gameManager.getCurrentGames();
-		 for(int i=0; i<test.size(); i++)
-			 System.out.println("GAMEs are " + test.get(i).getID());
-		 GameManager.getMatchesAccess().checkForFullGame();
+		ArrayList<Game> test = gameManager.getCurrentGames();
+		for (int i = 0; i < test.size(); i++) {
+			System.out.println("GAMEs are " + test.get(i).getID());
+		}
+		GameManager.getMatchesAccess().checkForFullGame();
 	}
 	
+	/**
+	 * Add the current user to the list of users
+	 */
 	public void addThisUser(){
 		try {
 			if(mathGame.sql.connect == null)
 				mathGame.sql.connect();
 			mathGame.sql.addUser();
-			//mathGame.sql.close();
+			// mathGame.sql.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	
-	public void refreshDatabase(){
+	/**
+	 * Refresh the database
+	 */
+	public void refreshDatabase() {
 		try {
-			if(mathGame.sql.connect == null)
+			if (mathGame.sql.connect == null) {
 				mathGame.sql.connect();
+			}
 			usersArray = mathGame.sql.getUsersGame();
 			updateUsersList();
-			//mathGame.sql.close();
+			// mathGame.sql.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void updateUsersList(){
-		//usersList.removeAll();
+	/**
+	 * Updates the list of users
+	 */
+	public void updateUsersList() {
+		// usersList.removeAll();
 		System.out.println("updating users " + usersArray.size());
 		innerPanel.removeAll();
-		for(int i=0; i<usersArray.size(); i++)
+		for (int i = 0; i < usersArray.size(); i++)
 		{
 			JLabel label = new JLabel(usersArray.get(i));
 			label.setPreferredSize(new Dimension(100, 20));
@@ -347,12 +357,13 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		usersList.repaint();
 		
 	}
+	
 	/**
 	 * Starts the game
 	 */
-	public void startgame() {
-		//this.setVisible(false);
-		mathGame.cl.show(mathGame.cardLayoutPanels, MathGame.GAME);
+	public void startGame() {
+		// this.setVisible(false);
+		mathGame.showMenu(MathGame.Menu.GAME);
 		System.out.println("ENTER GAME");
 		System.out.println("type1 " + typeManager.getType());
 		typeManager.init(mathGame.cardPanel);
@@ -360,79 +371,76 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	}
 	
 	/**
-	 * When you choose a fraction
+	 * When you choose the fraction option
 	 */
-	public void choosefraction() {
+	public void chooseFraction() {
 		//this.setVisible(false);
-		//code for choosing fraction
+		
 		typeManager.setType(TypeManager.GameType.FRACTIONS);
 		System.out.println("Selected: fraction");
 	}
 	
 	/**
-	 * When you choose decimal option
+	 * When you choose the decimal option
 	 */ 
-	public void choosedecimal() {
-		//this.setVisible(false);
-		//code for choosing decimal
+	public void chooseDecimal() {
+		// this.setVisible(false);
+
 		typeManager.setType(TypeManager.GameType.DECIMALS);
 		System.out.println("Selected: decimal");
 	}
 	
 	/**
-	 * When you choose integer option
+	 * When you choose the integer option
 	 */
-	public void chooseinteger() {
-		//this.setVisible(false);
-		//code for choosing integer
+	public void chooseInteger() {
+		// this.setVisible(false);
+
 		typeManager.setType(TypeManager.GameType.INTEGERS);
 		System.out.println("Selected: integer");
 	}
 	
 	/**
-	 * When you choose mixed option
+	 * When you choose the mixed option
 	 */
-	public void choosemixed() {
+	public void chooseMixed() {
 		//this.setVisible(false);
-		//code for choosing mixed
-		typeManager.setType(TypeManager.GameType.FRACTIONS);//temporary!!!!*******************
-		System.out.println("Selected: mixed"); //TODO implement mixed mode
-	}
-	
-	/**
-	 * Displays info on fractions
-	 */
-	public void fractioninfo() {
-//		info.setText("Choose this mode to work with fractions");
-	
-		//JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
-	}
-	
-	/**
-	 * Displays info on decimals
-	 */
-	public void decimalinfo() {
 
+		//TODO Implement a mixed mode; currently sets to Fraction mode
+		typeManager.setType(TypeManager.GameType.FRACTIONS);
+		System.out.println("Selected: mixed");
+	}
+	
+	//TODO Implement the modeInfo functions
+	/**
+	 * Displays info on the fraction mode
+	 */
+	public void fractionInfo() {
+		// info.setText("Choose this mode to work with fractions");
+		// JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
+	}
+	
+	/**
+	 * Displays info on the decimal mode
+	 */
+	public void decimalInfo() {
 		//JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
 	}
 	
 	/**
-	 * Displays info on integers
+	 * Displays info on the integer mode
 	 */
 	public void integerinfo() {
-
-//		info.setText("Choose this mode to work with integers");
-		//JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
+		// info.setText("Choose this mode to work with integers");
+		// JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
 	}
 	
 	/**
-	 * Displays info on mixed
+	 * Displays info on the mixed mode
 	 */
 	public void mixedinfo() {
-	
-	
-//		info.setText("Choose this mode to work with all of the types");
-		//JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
+		// info.setText("Choose this mode to work with all of the types");
+		// JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
 	}
 	
 	
@@ -451,17 +459,15 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	public void mouseMoved(MouseEvent e) {
 		mx = e.getX();
 		my = e.getY();
-		//TODO do we need this?
+		
+		//TODO Delete this soon...
 		if(e.getSource() == home) {
-			fractioninfo();
-		}
-		else if(e.getSource() == host) {
-			decimalinfo();
-		}
-		else if(e.getSource() == join) {
+			fractionInfo();
+		} else if(e.getSource() == host) {
+			decimalInfo();
+		} else if(e.getSource() == join) {
 			integerinfo();
-		}
-		else if(e.getSource() == refresh) {
+		} else if(e.getSource() == refresh) {
 			mixedinfo();
 		}
 	}
@@ -491,16 +497,20 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 	}
 
-	private class GameCard extends JLabel	{
+	/**
+	 * The GameCard class displays information about a game
+	 */
+	private class GameCard extends JLabel {
 		String name;
 		String type;
 		int gameID;
-		int numberOfPlayers;//probably 2 for now, maybe introduce solo mode for 1 player
-		ArrayList<User>players;
+		int numberOfPlayers; // 2 for now, but may introduce a solo mode or more than 2 players
+		ArrayList<User> players;
 		
 		/**
-		 * @param name
-		 * @param type
+		 * @param ID - The ID of the game
+		 * @param name - The name of the game
+		 * @param type - The type of the game (as a string)
 		 */
 		public GameCard(int ID, String name, String type) {
 			super();
@@ -516,29 +526,33 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 			this.setText("<html>"+name+"<br>"+type+"</html>");
 			
 			this.addMouseListener(new MouseListener() {
-
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					GameCard tempCard = (GameCard)e.getComponent();
+					GameCard tempCard = (GameCard)(e.getComponent());
 					System.out.println("game card clicked " + tempCard.gameID);
+					
 					GameManager.getMatchesAccess().setMatchNum(tempCard.getGameID());
-					if(!GameManager.getMatchesAccess().checkForFullGame())	{
+					
+					if(!GameManager.getMatchesAccess().checkForFullGame()) {
+						// If the game is not full
 						mathGame.thisUser.setPlayerID(2);
-						mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.GAME);
+						mathGame.showMenu(MathGame.Menu.GAME);
+						
 						gameManager.joinGame(tempCard.getGameID());
-						System.out.println("GAME SET: "+tempCard.getGameID());
+						System.out.println("GAME SET: " + tempCard.getGameID());						
 						gameManager.setGame(GameManager.getMatchesAccess().getGame(tempCard.getGameID()));
+						
 						typeManager.setType(gameManager.getGame().getType());
 						typeManager.randomize();
+						
 						GameManager.getMatchesAccess().setMatchNum(tempCard.getGameID()); 
-						System.out.println("MATCHNUM "+GameManager.getMatchesAccess().matchNum);
+						System.out.println("MATCHNUM " + GameManager.getMatchesAccess().matchNum);
+						
 						mathGame.sidePanel.startTimer(tempCard.getType());
 						mathGame.sidePanel.setUpMultiplayer();
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(mathGame.multimenu.getTopLevelAncestor(), "This game is full");
-						GameManager.getMatchesAccess().setMatchNum(-1);//game is full, do not join
+					} else {
+						JOptionPane.showMessageDialog(mathGame.multiMenu.getTopLevelAncestor(), "This game is full");
+						GameManager.getMatchesAccess().setMatchNum(-1); // The game is full, so do not join
 					}
 				}
 
@@ -562,58 +576,69 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 				
 			});
 		}
+		
+		/**
+		 * Add a player to a game
+		 * @param u - The User to be added
+		 */
 		public void addPlayer(User u)	{
 			players.add(u);
 			numberOfPlayers++;
 		}
+		
 		/**
-		 * @return the name
+		 * @return The name of the game
 		 */
 		public String getName() {
 			return name;
 		}
+		
 		/**
-		 * @param name the name to set
+		 * @param name - The name to set
 		 */
 		public void setName(String name) {
 			this.name = name;
 		}
+		
 		/**
-		 * @return the type
+		 * @return The type of game (as a string)
 		 */
 		public String getType() {
 			return type;
 		}
+		
 		/**
-		 * @param type the type to set
+		 * @param type - The type to set (as a string)
 		 */
 		public void setType(String type) {
 			this.type = type;
 		}
+		
 		/**
-		 * @return the numberOfPlayers
+		 * @return The number of players
 		 */
 		public int getNumberOfPlayers() {
 			return numberOfPlayers;
 		}
+		
 		/**
-		 * @param numberOfPlayers the numberOfPlayers to set
+		 * @param numberOfPlayers - The number of players to set
 		 */
 		public void setNumberOfPlayers(int numberOfPlayers) {
 			this.numberOfPlayers = numberOfPlayers;
 		}
 		
+		/**
+		 * @return The game's ID
+		 */
 		public int getGameID() {
 			return gameID;
 		}
-		/* (non-Javadoc)
-		 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-		 */
+		
 		@Override
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			setBackground(Color.green);
-			
+			setBackground(Color.green);			
 		}
 		
 	}

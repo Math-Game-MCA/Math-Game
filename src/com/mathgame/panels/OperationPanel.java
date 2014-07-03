@@ -16,37 +16,34 @@ import com.mathgame.cards.OperationCard;
 import com.mathgame.math.CompMover;
 import com.mathgame.math.MathGame;
 
-
+/**
+ * The OperationPanel class represents the panel that holds the usable operations
+ */
 public class OperationPanel extends JPanel
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3064558324578994872L;
-	/**
-	 * The panel that holds the operations that you can use
-	 */
+	
 	public OperationCard add;
 	public OperationCard subtract;
 	public OperationCard multiply;
 	public OperationCard divide;
 
-	final String imageFile = "/images/Operation bar.png";
+	static final String IMAGE_FILE = "/images/Operation bar.png";
 	static ImageIcon background;
 	
 	JLayeredPane masterLayer;
 	
 	/**
-	 * pass layeredpane layer so to regen operations
+	 * Initialize the OperationPanel, using the MathGame as a JLayeredPane
 	 * 
-	 * @param mathGame
-	 * @param mover
+	 * @param mathGame - The MathGame that contains the master layer
+	 * @param mover - The CompMover object that will handle the moving of cards
 	 */
-	public void init(MathGame mathGame, CompMover mover)//pass layeredpane layer so to regen operations
+	public void init(MathGame mathGame, CompMover mover)
 	{
 		setLayout(null);
-		//TitledBorder opBorder = BorderFactory.createTitledBorder("Operation Panel");
-		//this.setBorder(new LineBorder(Color.black));
+		// TitledBorder opBorder = BorderFactory.createTitledBorder("Operation Panel");
+		// this.setBorder(new LineBorder(Color.black));
 		
 		add = new OperationCard(mathGame, "add");
 		subtract = new OperationCard(mathGame, "subtract");
@@ -65,31 +62,28 @@ public class OperationPanel extends JPanel
 		this.add(multiply);
 		this.add(divide);
 		
-		masterLayer = mathGame.layer;//layered pane passed over
+		masterLayer = mathGame.layer;
 		
-		//background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
-		background = new ImageIcon(OperationPanel.class.getResource(imageFile));
+		// background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		background = new ImageIcon(OperationPanel.class.getResource(IMAGE_FILE));
 	}
 	
 	/**
-	 * primarily to regen operator after use
+	 * Adds an operator (back) to the operation panel
 	 * 
-	 * @param op
+	 * @param op - The operation to be added (or regenerated)
 	 */
-	public void addOperator(String op)	{//primarily to regen operator after use
-		if(op.contentEquals("add"))	{
+	public void addOperator(String op) {
+		if (op.equals("add")) {
 			add.setBounds(20, 160, 40, 40);
 			masterLayer.add(add, new Integer(1));
-		}
-		else if(op.contentEquals("subtract"))	{
+		} else if (op.equals("subtract")) {
 			subtract.setBounds(80, 160, 40, 40);
 			masterLayer.add(subtract, new Integer(1));
-		}
-		else if(op.contentEquals("multiply"))	{
+		} else if (op.equals("multiply")) {
 			multiply.setBounds(140, 160, 40, 40);
 			masterLayer.add(multiply, new Integer(1));
-		}
-		else if(op.contentEquals("divide"))	{
+		} else if (op.equals("divide")) {
 			divide.setBounds(200, 160, 40, 40);
 			masterLayer.add(divide, new Integer(1));
 		}
@@ -99,9 +93,5 @@ public class OperationPanel extends JPanel
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		g.drawImage(background.getImage(), 0, 0, OperationPanel.this);
-
-		
 	}
-	
-	
 }

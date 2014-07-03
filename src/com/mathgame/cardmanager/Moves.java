@@ -7,9 +7,8 @@ import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
 
 /**
- * Class that stores the contents of a single move
- * @author Roland
- *
+ * The Moves class represents individual moves, including information like which cards were involved
+ * @author Roland Fong
  */
 public class Moves {
 
@@ -19,13 +18,12 @@ public class Moves {
 	NumberCard newNum;
 
 	/**
-	 * Creates a new instance of Moves which holds information about a player move
-	 * @param num1
-	 * @param num2
-	 * @param op
-	 * @param newNum
+	 * @param num1 - The lefthand NumberCard
+	 * @param num2 - The righthand NumberCard
+	 * @param op - The OperationCard
+	 * @param newNum - The NumberCard formed after evaluating the expression
 	 */
-	public Moves(NumberCard num1, NumberCard num2, OperationCard op, NumberCard newNum) {
+	public Moves(NumberCard num1, OperationCard op, NumberCard num2, NumberCard newNum) {
 		super();
 		this.num1 = num1;
 		this.num2 = num2;
@@ -34,11 +32,11 @@ public class Moves {
 	}
 	
 	/**
-	 * Sets Number and Operation cards all at once
-	 * @param num1
-	 * @param num2
-	 * @param op
-	 * @param newNum
+	 * (Re)sets all cards
+	 * @param num1 - The lefthand NumberCard
+	 * @param num2 - The righthand NumberCard
+	 * @param op - The OperationCard
+	 * @param newNum - The NumberCard formed after evaluating the expression
 	 */
 	public void setMove(NumberCard num1, NumberCard num2, OperationCard op, NumberCard newNum)	{
 		setNum1(num1);
@@ -48,56 +46,56 @@ public class Moves {
 	}
 	
 	/**
-	 * @return the newNum
+	 * @return The newNum card (generally the "answer" of the expressions)
 	 */
 	public NumberCard getNewNum() {
 		return newNum;
 	}
 
 	/**
-	 * @param newNum the newNum to set
+	 * @param newNum - The NumberCard to set as the newNum (answer) card
 	 */
 	public void setNewNum(NumberCard newNum) {
 		this.newNum = newNum;
 	}
 
 	/**
-	 * @return the num1
+	 * @return The num1 card (the "first" or lefthand NumberCard)
 	 */
 	public NumberCard getNum1() {
 		return num1;
 	}
 	
 	/**
-	 * @param num1 the num1 to set
+	 * @param num1 - The NumberCard to set as the num1 card (the lefthand card)
 	 */
 	public void setNum1(NumberCard num1) {
 		this.num1 = num1;
 	}
 	
 	/**
-	 * @return the num2
+	 * @return The num2 card (the "second" or righthand NumberCard)
 	 */
 	public NumberCard getNum2() {
 		return num2;
 	}
 	
 	/**
-	 * @param num2 the num2 to set
+	 * @param num2 - The NumberCard to set as the num2 card (the righthand card)
 	 */
 	public void setNum2(NumberCard num2) {
 		this.num2 = num2;
 	}
 	
 	/**
-	 * @return the op
+	 * @return The OperationCard
 	 */
 	public OperationCard getOp() {
 		return op;
 	}
 	
 	/**
-	 * @param op the op to set
+	 * @param op - The OperationCard to set
 	 */
 	public void setOp(OperationCard op) {
 		this.op = op;

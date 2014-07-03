@@ -10,7 +10,11 @@ import java.sql.Connection;
 import com.mathgame.math.MathGame;
 import com.mathgame.network.GameManager;
 
-public class GameAccess extends MySQLAccess{
+/**
+ * The GameAccess class handles interactions between the client and the database.
+ * Specifically, this class adds, displays, and removes users.
+ */
+public class GameAccess extends MySQLAccess {
 	
 	private Connection connect = null;
 	private Statement statement = null;
@@ -25,38 +29,46 @@ public class GameAccess extends MySQLAccess{
 		connect = conn;
 	}
 	
-	public void addUser(){
+	/**
+	 * Add a user to the list of online users
+	 */
+	public void addUser() {
 		try {
 			statement = connect.createStatement();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		System.out.println("name " + mathGame.thisUser.getName());
+		
 		try {
 			statement.executeUpdate("INSERT INTO sofiav_mathgame.online_users (ID, Name)"
-					+ " VALUES (NULL, '"+mathGame.thisUser.getName()+"')");
+					+ " VALUES (NULL, '"+mathGame.thisUser.getName() + "')");
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public void removeUser(Connection c){
+	/**
+	 * Removes a user from the list of online users
+	 * @param c - The Connection to the database
+	 */
+	public void removeUser(Connection c) {
 		try {
 			statement = c.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		System.out.println("removing name: " + mathGame.thisUser.getName());
+		
 		try {
 			statement.executeUpdate("DELETE FROM sofiav_mathgame.online_users "
 					+ "WHERE sofiav_mathgame.online_users.Name = '"
-		+ mathGame.thisUser.getName() +"'");
+		+ mathGame.thisUser.getName() + "'");
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -64,42 +76,43 @@ public class GameAccess extends MySQLAccess{
 	
 
 	/**
-	 * gets users values from the database
-	 * 
+	 * Retrieves all user data from the database
 	 * @throws Exception
 	 */
 	public ArrayList<String> getUsers() throws Exception
 	{
-		//System.out.println(super.mathGame.getCursor());
-		String gameType;
-		if(mathGame != null)
-			gameType = mathGame.typeManager.getType().toString().toLowerCase();
-		else
-			gameType = "integers";
+		// System.out.println(super.mathGame.getCursor());
+		String gameType; //TODO The variable is initialized but never used
 		
-		try{
+		if(mathGame != null) {
+			gameType = mathGame.getTypeManager().getType().toString().toLowerCase();
+		}
+		else {
+			gameType = "integers";
+		}
+		
+		try {
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select * from sofiav_mathgame.online_users");
 			
-			while(resultSet.next())
-			{
+			while(resultSet.next()) {
 				onlineUsers.add(resultSet.getString("Name"));
 			}
-			//writeResultSet(resultSet);
-			for(int i=0; i<onlineUsers.size(); i++)
+			
+			// writeResultSet(resultSet);
+			
+			for (int i = 0; i < onlineUsers.size(); i++) {
 				System.out.println(onlineUsers.get(i));
+			}
 			
 			return onlineUsers;
-			
-		}
-		catch (Exception e){
-			//System.out.println("SQLException: " + e.getMessage());
-			if(e.getMessage().equals("No operations allowed after connection closed."))
-			{
-				if (!mathGame.sql.connect())
+		} catch (Exception e) {
+			// System.out.println("SQLException: " + e.getMessage());
+			if (e.getMessage().equals("No operations allowed after connection closed.")) {
+				if (!mathGame.sql.connect()) {
 					throw new Exception("couldn't connect");
-				else
-				{
+				}
+				else {
 					System.out.println("CONNECTED ONCE AGAIN");					
 					GameManager.getMatchesAccess().reconnectStatement();
 				}
@@ -107,6 +120,4 @@ public class GameAccess extends MySQLAccess{
 			throw e;
 		}
 	}
-	
-
 }

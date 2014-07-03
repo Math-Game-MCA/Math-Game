@@ -19,7 +19,9 @@ import javax.swing.WindowConstants;
 
 import com.mathgame.network.GameManager;
 
-
+/**
+ * The Window class is where execution of the Math Game begins.
+ */
 public class Window	{
 
 	static MathGame mg;
@@ -27,22 +29,21 @@ public class Window	{
 	private static void createAndShowGUI()	{
 		JFrame frame = new JFrame("Epsilon");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		mg = new MathGame();
 		frame.getContentPane().add(mg);
+		
 		frame.pack();
-		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new MathWindowListener());
+
+		frame.setVisible(true);
 	}
 	
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		
-		javax.swing.SwingUtilities.invokeLater(new Runnable()	{
-			public void run()	{
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
 				createAndShowGUI();
 			}
 		});
@@ -65,16 +66,17 @@ public class Window	{
 
 		@Override
 		public void windowClosing(WindowEvent arg0) {
-			/*TODO put this into a separate (static?) function to be
+			/*TODO
+			 * Put this into a separate (static?) function to be
 			 * called upon an exception that terminates the game
 			 * so as to prevent database clogging up
 			 */
 			
 			System.out.println("window closing");
 			
-			//delete card0file
-			Path path = Paths.get("card0file");
-			//TODO find way to go around this problem (i.e. deleting the file within ImageGenerator when not in use...?
+			//TODO find way to go around this problem (i.e. deleting the file within ImageGenerator when not in use...)?
+			// delete card0file
+			Path path = Paths.get("card0file");			
 			try {
 			    System.out.println("DELETING "+path.toString());
 			    Files.delete(path);
@@ -88,12 +90,12 @@ public class Window	{
 			}
 			
 			try {
-				if(mg.sql.connect.getWarnings() == null)
+				if(mg.sql.connect.getWarnings() == null) {
 					mg.sql.connect();
+				}
 				mg.sql.removeUser();
 				GameManager.getMatchesAccess().removeGame();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -122,7 +124,6 @@ public class Window	{
 			// TODO Auto-generated method stub
 			
 		}
-
 		
 	}
 

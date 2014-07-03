@@ -8,118 +8,127 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-
-
-public class ValidationBox extends JTextField implements FocusListener{
-
-	/**
-	 * The purpose of this class is to make a textfield that will be placed below NumberCards
-	 * that will allow a user to enter the number displayed on the card. If the number entered
-	 * matches the number assigned to the card, the box or text will turn green. If they do
-	 * not match, the box or text will turn red. This will be used for testing purposes.
-	 */
+/**
+ * The ValidationBox class represents the textfields that are placed below NumberCards.
+ * Users are required to type the values of each NumberCard in the appropriate ValidationBox, 
+ * and they must type the correct value
+ */
+public class ValidationBox extends JTextField implements FocusListener {
+	
+	private static final long serialVersionUID = 9194776692080250140L;
+	
 	double cardValue;
 	NumberCard numCard;
-	final String DEFAULT_TEXT = "Enter number";
-	private final double epsilon = 0.001;//maximum error of user input to actual value; i.e. 3 decimal places
 	
+	static final String DEFAULT_TEXT = "Enter number";
 	
-	public ValidationBox(){
+	// Don't confuse this with the MathGame epsilon, used for internal mathematical conversions
+	private static final double epsilon = 0.001; // Maximum error of user input to actual value (i.e. 3 decimal places)
+	
+	public ValidationBox() {
 		this.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		this.setHorizontalAlignment(JTextField.CENTER);
 	}
 	
-	public ValidationBox(NumberCard card){
-		
-		numCard = new NumberCard();
+	/**
+	 * Creates a ValidationBox, associating with it the corresponding NumberCard
+	 * @param card - The NumberCard to be connected with
+	 */
+	public ValidationBox(NumberCard card) {
 		numCard = card;
+		
 		this.setText(DEFAULT_TEXT);
 		this.addFocusListener(this);
 		this.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		this.setHorizontalAlignment(JTextField.CENTER);
 		
+		// If the input matches the value of the card, the ValidationBox becomes green
+		// Otherwise, the ValidationBox becomes red
 		this.getDocument().addDocumentListener(new DocumentListener(){
 
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				System.out.println("change update");
-				
 			}
 
 			@Override
 			public void insertUpdate(DocumentEvent arg0) {
 				System.out.println("insert update");
-				if(checkCard())
+				if(checkCard()) {
 					setBackground(Color.green);
-				else
+				} else {
 					setBackground(Color.red);
-				
-				
+				}
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent arg0) {
 				System.out.println("delete update");
-				if(checkCard())
+				if(checkCard()) {
 					setBackground(Color.green);
-				else
+				} else {
 					setBackground(Color.red);
-				
-				
+				}
 			}
-			
 		});
 		
 	}
 	
-	public boolean checkCard(){
-
+	/**
+	 * Checks if the inputted value matches the NumberCard's value
+	 * @return Whether the input matches the value (true) or not
+	 */
+	public boolean checkCard() {
 		System.out.println("this text " + this.getText());
 		System.out.println("card text " + numCard.getValue());
 		String ans = numCard.getValue();
 		
-		//alternative method of verifying value:
-		try
-		{
-			if(Math.abs(Double.parseDouble(this.getText()) - Double.parseDouble(ans)) < epsilon)	{
+		// Alternative method of verifying value
+		try {
+			if (Math.abs(Double.parseDouble(this.getText()) - Double.parseDouble(ans)) < epsilon) {
 				System.out.println("true");
 				return true;
-			}
-			else
-			{
+			} else {
 				System.out.println("false");
 				return false;
 			}
-		}catch(NumberFormatException e)	{
+		} catch(NumberFormatException e) {
 			System.out.println("false");
 			return false;
 		}
-		/*//second condition removes 0 in front of decimals (0.6 -> .6)
-		if( this.getText().equals(ans) || this.getText().equals(ans.substring(1,ans.length()))){
+		
+		/*
+		// Second condition removes 0 in front of decimals (0.6 -> .6)
+		if(this.getText().equals(ans) || this.getText().equals(ans.substring(1,ans.length()))) {
 			System.out.println("true");
 			return true;
-		}			
-		else{
+		} else {
 			System.out.println("false");
 			return false;
-		}*/
+		}
+		*/
 		
 	}
 	
-	public void reset(){
-		
+	/**
+	 * Resets the ValidationBox, clearing all input and reverting the color to white
+	 */
+	public void reset() {	
 		this.setText(DEFAULT_TEXT);
 		this.setBackground(Color.white);
 	}
 	
 	
-	public void setCardValue(String text){
-		
+	/**
+	 * @param text - The value to set the NumberCard (as a string)
+	 */
+	public void setCardValue(String text) {		
 		numCard.setValue(text);
 		
 	}
 	
-	/*@Override
+	/*
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if(checkCard())
@@ -127,18 +136,21 @@ public class ValidationBox extends JTextField implements FocusListener{
 		else
 			this.setBackground(Color.red);
 				
-	}*/
+	}
+	*/
 
 	@Override
 	public void focusGained(FocusEvent f) {
-		if(this.getText().equals(DEFAULT_TEXT))
+		if (this.getText().equals(DEFAULT_TEXT)) {
+			// When the user clicks on the box, the "hint text" disappears
 			this.setText("");
+		}
 	}
 
 	@Override
 	public void focusLost(FocusEvent f) {
-		if(this.getText().equals(""))
-		{
+		if (this.getText().equals("")) {
+			// When the user clicks away from an empty box, the "hint text" reappears
 			this.setText(DEFAULT_TEXT);
 			this.setBackground(Color.white);
 		}

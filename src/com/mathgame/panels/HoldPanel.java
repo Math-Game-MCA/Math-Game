@@ -20,39 +20,33 @@ import javax.swing.border.Border;
 import com.mathgame.math.MathGame;
 
 /**
- * The panel where the cards that have been made can be stored for later use
- *
+ * The HoldPanel class represents the panel where the cards that were made can be stored for later use
  */
 public class HoldPanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2013522168342802483L;
-	final String imageFile = "/images/card holder.png";
+	
+	static final String IMAGE_FILE = "/images/card holder.png";
 	static ImageIcon background;
 	
 	public void init(MathGame mathGame)	{
-
 		this.setLayout(new FlowLayout());
 		Border empty = BorderFactory.createEmptyBorder(10,10,10,10);
 		this.setBorder(empty);
-		//used as spacer so cards are placed in right position; if removed, cards will have to snap at different location
+		// Used as spacer so cards are placed in right position; if removed, cards will have to snap at different location
 		
 		Dimension size = getPreferredSize();
 		size.width = 750;
 		size.height = 150;
 		setPreferredSize(size);
 		
-		//background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
-		background = new ImageIcon(HoldPanel.class.getResource(imageFile));
+		// background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		background = new ImageIcon(HoldPanel.class.getResource(IMAGE_FILE));
 	}
 	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
 		g.drawImage(background.getImage(), 0, 0, HoldPanel.this);
-
-		
 	}
 }

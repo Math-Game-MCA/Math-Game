@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.mathgame.panels;
 
 import java.awt.Component;
@@ -43,84 +40,78 @@ import com.mathgame.math.SoundManager;
 import com.mathgame.math.MathGame.GameState;
 import com.mathgame.math.TypeManager;
 import com.mathgame.math.TypeManager.GameType;
-/**
- * The panel where the cards will be dragged in order to combine and use them
- *
- */
 
-public class WorkspacePanel extends JPanel{
-	
-	/**
-	 * 
-	 */
+/**
+ * The WorkspacePanel class represents the game panel where cards are dragged to in order to create new ones
+ */
+public class WorkspacePanel extends JPanel {
+
 	private static final long serialVersionUID = 7408931441173570326L;
-	MathGame mathGame;//holds the game so it can reference all the other panels
-	final String imageFile = "/images/Workspace.png";
+	
+	MathGame mathGame;
+	static final String IMAGE_FILE = "/images/Workspace.png";
 	static ImageIcon background;
 	
 	Calculate calc;
 	CompMover mover;
 	TypeManager typeManager;
 	
-	public void init(MathGame mathGame)	{
+	public void init(MathGame mathGame) {
 		this.setLayout(new FlowLayout());
 
 		Border empty = BorderFactory.createEmptyBorder(70,70,70,70);
 		this.setBorder(empty);
-		//used as spacer so cards are placed in right position; if removed, cards will have to snap at different location
+		// Used as spacer so cards are placed in right position; if removed, cards will have to snap at different location
 
 		Dimension size = getPreferredSize();
 		size.width = 750;
 		size.height = 260;
 		setPreferredSize(size);
 		
-		//background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
-		background = new ImageIcon(WorkspacePanel.class.getResource(imageFile));
+		// background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		background = new ImageIcon(WorkspacePanel.class.getResource(IMAGE_FILE));
 		
 		calc = new Calculate();
 		mover = new CompMover();
 		this.mathGame = mathGame;
-		this.typeManager = mathGame.typeManager;
+		this.typeManager = mathGame.getTypeManager();
 	}
 	
 	/** 
-	 * checks calculations in the workspace
+	 * Checks calculations in the workspace
 	 */
-	public void calcCheck(){
+	public void calcCheck() {
 		int count = this.getComponentCount();
 		System.out.println(" count is " + count);
 		
-		Double answer= null;
-		if(count == 3)
-		{
+		Double answer = null;
+		if (count == 3) {
 			answer = calc.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2), mathGame);
-			
 		}
 		
-		if(answer != null)
-		{
-			System.out.println("answer:"+answer);
+		if(answer != null) {
+			System.out.println("answer: " + answer);
 			if(answer.isInfinite() || answer.isNaN()) {
 				JOptionPane.showMessageDialog(this, "You can't divide by zero!");
 				
-				NumberCard tempnum1 = (NumberCard)this.getComponent(0);
-				NumberCard tempnum2 = (NumberCard)this.getComponent(2);
+				NumberCard tempnum1 = (NumberCard)(this.getComponent(0));
+				NumberCard tempnum2 = (NumberCard)(this.getComponent(2));
 
-				String restoreOperator = new String(currentOperation());
+				String restoreOperator = currentOperation();
 				mathGame.opPanel.addOperator(restoreOperator);
 				
-				if (tempnum1.getHome() == "home") {// originally in card panel
+				if (tempnum1.getHome() == "home") {
+					// The card was originally in the card panel
 					System.out.println("restore card1; value: " + tempnum1.getStrValue());
 					mathGame.cardPanel.restoreCard(tempnum1.getStrValue());
-				} else if (tempnum1.getHome() == "hold") {// new card in holding area
+				} else if (tempnum1.getHome() == "hold") {
+					// The card was originally in the holding area
 					for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
-						NumberCard temp = (NumberCard) mathGame.holdPanel
-								.getComponent(0);
+						NumberCard temp = (NumberCard)(mathGame.holdPanel.getComponent(0));
 						if (temp.getHome() == "home") {
+							// Check for cards that were dragged from home into workspace and restore them
 							mathGame.cardPanel.restoreCard(temp.getStrValue());
-							;
-						} // check for cards that were dragged from home into workspace
-							// and restores them
+						}
 					}
 					mathGame.holdPanel.add(tempnum1);
 				}
@@ -130,8 +121,7 @@ public class WorkspacePanel extends JPanel{
 					mathGame.cardPanel.restoreCard(tempnum2.getStrValue());
 				} else if (tempnum2.getHome() == "hold") {
 					for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
-						NumberCard temp = (NumberCard) mathGame.holdPanel
-								.getComponent(0);
+						NumberCard temp = (NumberCard)(mathGame.holdPanel.getComponent(0));
 						if (temp.getHome() == "home") {
 							mathGame.cardPanel.restoreCard(temp.getStrValue());
 						}
@@ -151,91 +141,110 @@ public class WorkspacePanel extends JPanel{
 			}
 			
 			boolean ansState = true;
-			//in practice mode, user must evaluate the answer too
-			if(mathGame.getGameState() == GameState.PRACTICE)	{
+			// In practice mode, the user must evaluate the answer too
+			if(mathGame.getGameState() == GameState.PRACTICE) {
 				ansState = askAnswer(answer);
 			}
 			
 			NumberCard answerCard = new NumberCard(answer);
-			if(typeManager.getType() == GameType.FRACTIONS) {
+			
+			if (typeManager.getType() == GameType.FRACTIONS) {
 				String temp = TypeManager.convertDecimaltoFraction(answer);
 				answerCard.setValue(temp);
 				answerCard.setStrValue(temp);
 				System.out.println("as fraction: " + TypeManager.convertDecimaltoFraction(answer));
-			}
-			else
+			} else {
 				answerCard.setValue(""+answer);
+			}
+			
 			answerCard.addMouseListener(mover);
 			answerCard.addMouseMotionListener(mover);
 			answerCard.setName("Answer");
-			answerCard.setHome("hold");//the hold panel will be it's original location
+			answerCard.setHome("hold"); // The hold panel will be it's original location
 			
-			//for undo
-			if(this.getComponentCount() == 3)	{
-				if(this.getComponent(0) instanceof NumberCard && this.getComponent(1) instanceof OperationCard &&
+			// For undo purposes
+			if (this.getComponentCount() == 3) {
+				if (this.getComponent(0) instanceof NumberCard && this.getComponent(1) instanceof OperationCard &&
 						this.getComponent(2) instanceof NumberCard)	{
 					NumberCard card1 = (NumberCard) this.getComponent(0);
 					NumberCard card2 = (NumberCard) this.getComponent(2);
 					OperationCard op = (OperationCard) this.getComponent(1);
 					System.out.println("Registering new Move");
 					mathGame.sidePanel.undo.registerNewMove(card1, op, card2, answerCard);
-					//when cards collide... it becomes a new move!
+					// When cards collide... it becomes a new move!
 				}
 			}
 			
-			String restoreOperator = new String(currentOperation());
+			String restoreOperator = currentOperation();
 			mathGame.opPanel.addOperator(restoreOperator);
 			
-			System.out.println("NUM:"+this.getComponentCount());
-			this.remove(0);
+			System.out.println("NUM:" + this.getComponentCount());
 			this.remove(0);
 
 			add(answerCard);
 			
-			if(!ansState)//if false, undo; means user cancelled inputting function
+			if (!ansState) {
+				// If false, undo (this means user cancelled inputting function)
 				mathGame.sidePanel.undoFunction();
+			}
 			
-			//System.out.println(answerCard.getParent());
+			// System.out.println(answerCard.getParent());
 		}	
 	}
 	
+	/**
+	 * Asks the user to evaluate the given expression
+	 * @param answer - The actual answer of the expression
+	 * @return Whether the user correctly evaluated the expression
+	 */
 	private Boolean askAnswer(Double answer)	{
-		//TODO ask user for answer, if correct, then continue showing card.
-		/*JOptionPane.showInputDialog(this, "Answer "+tempnum1.getStrValue()+" "+
-				((OperationCard) this.getComponent(1)).getOperation()+" "+
-				tempnum2.getStrValue()+" = ", "Answer", JOptionPane.PLAIN_MESSAGE, null, null, null);*/
-		//TODO this is temporary... change to user inputting answer within a card (somehow...)
-		String  op = ((OperationCard)this.getComponent(1)).getOperation();
-		if(op.equals("add"))
+		//TODO Ask user for answer; if correct, then continue showing card
+		
+		/*
+		JOptionPane.showInputDialog(this, "Answer "  +tempnum1.getStrValue() + " " +
+				((OperationCard)(this.getComponent(1))).getOperation() + " " +
+				tempnum2.getStrValue() + " = ", "Answer", JOptionPane.PLAIN_MESSAGE, null, null, null);
+		*/
+		
+		//TODO This is temporary... Change to have the user input the answer within a card (somehow...)
+		String  op = ((OperationCard)(this.getComponent(1))).getOperation();
+		if(op.equals("add")) {
 			op = "+";
-		else if(op.equals("subtract"))
+		} else if(op.equals("subtract")) {
 			op = "-";
-		else if(op.equals("multiply"))
+		} else if(op.equals("multiply")) {
 			op = "*";
-		else if(op.equals("divide"))
+		} else if(op.equals("divide")) {
 			op = "/";
+		}
+		
 		AnswerDialog ansInput = new AnswerDialog((JFrame) this.getTopLevelAncestor(), answer, 
-				((NumberCard)this.getComponent(0)).getStrValue()+" "+op+" "+
-				((NumberCard)this.getComponent(2)).getStrValue()+"= ");
+				((NumberCard)(this.getComponent(0))).getStrValue() + " " + op + " " +
+				((NumberCard)(this.getComponent(2))).getStrValue() + "= ");
 		ansInput.pack();
-		ansInput.setModal(true);
+		ansInput.setModalityType(AnswerDialog.DEFAULT_MODALITY_TYPE); // Replaces setModal(true)
 		ansInput.setVisible(true);
-		return ansInput.getValue();
+		return ansInput.checkAnswer();
 	}
 	
-	public String currentOperation()	{
+	/**
+	 * @return The current operation being used in the workspace
+	 */
+	public String currentOperation() {
 		String op;
 		Component opComp = this.getComponent(1);
 		OperationCard opCard;
-		if(opComp instanceof OperationCard)	{//ensure the second component is an operation
+		if(opComp instanceof OperationCard)	{
+			// Ensure that the second component is an operation
 			opCard = (OperationCard) opComp;
 			op = opCard.getOperation();
 		}
-		else
+		else {
 			op = "error";
-		System.out.println("CURRENT OP: "+op);
+		}
+		System.out.println("CURRENT OP: " + op);
 		SoundManager.playSound(SoundManager.SoundType.Merge);
-		return op;//returns add, subtract, multiply, divide etc.
+		return op; // Returns add, subtract, multiply, divide, etc.
 	}
 
 	@Override
@@ -249,55 +258,69 @@ public class WorkspacePanel extends JPanel{
 		g.drawImage(background.getImage(), 0, 0, WorkspacePanel.this);
 	}
 	
-	//TODO make give up button to automatically make answer (and subtract points?)
-	class AnswerDialog extends JDialog implements ActionListener	{
-		private String input;//what user puts
-		private String equation;//equation to display
-		private Double answer;//the answer to equation
+	/**
+	 * The AnswerDialog class is used to ask the user (during a practice game) of the value of
+	 * the expression they placed in the workspace
+	 */
+	class AnswerDialog extends JDialog implements ActionListener {
+		//TODO Implement a "give-up" button to reveal the correct answer (possibly at the cost of points)
+		
+		private String input; // What the user inputs as the answe
+		private String equation; // The equation to display
+		private Double answer; // The answer to the equation
 		private JTextField text;
 		private JButton cancel;
 		private JPanel panel;
 		private JLabel incorrect;
-		private boolean value;//true = correct, false = cancelled
+		private boolean isCorrect;
 		
 		/**
-		 * Constructor
-		 * @param frame
-		 * @param answer the answer to equation
-		 * @param equation the equation to display
+		 * @param fr - The JFrame that this dialog originates from
+		 * @param answer - The answer to the equation
+		 * @param equation - The equation to display
 		 */
-		public AnswerDialog(JFrame fr, Double answer, String equation)	{
+		public AnswerDialog(JFrame fr, Double answer, String equation) {
 			super(fr, true);
 			this.answer = answer;
 			this.equation = equation;
-			text = new JTextField(10);//size 10
+			
+			text = new JTextField(10); // Size 10 font
 			text.addActionListener(this);
+			
 			incorrect = new JLabel("Incorrect");
+			
 			cancel = new JButton("Cancel");
 			cancel.addActionListener(this);
+			
 			panel = new JPanel();
 			panel.add(new JLabel(equation));
 			panel.add(text);
 			panel.add(incorrect);
 			panel.add(cancel);
+			
 			incorrect.setVisible(false);
+			
 			setContentPane(panel);
 			setAutoRequestFocus(true);
-			/*addWindowListener(new WindowAdapter()	{
+			
+			/*
+			addWindowListener(new WindowAdapter()	{
 				public void windowClosing(WindowEvent we)	{
 					option.setValue(new Integer(JOptionPane.CLOSED_OPTION));
 				}
-			});*/
+			});
+			*/
 			
-			addComponentListener(new ComponentAdapter()	{
-				public void componentShown(ComponentEvent ce)	{
+			addComponentListener(new ComponentAdapter() {
+				public void componentShown(ComponentEvent ce) {
 					text.requestFocusInWindow();
 				}
 			});
-			addWindowStateListener(new WindowStateListener()	{
+			
+			addWindowStateListener(new WindowStateListener() {
 				@Override
 				public void windowStateChanged(WindowEvent we) {
-					value = false;
+					isCorrect = false;
 				}
 			});
 		}
@@ -312,69 +335,37 @@ public class WorkspacePanel extends JPanel{
 		}
 		
 		/**
-		 * @return the input
+		 * @return Whether the user's answer is correct (true) or not
 		 */
-		public String getInput() {
-			return input;
-		}
-
-		/**
-		 * @param input the input to set
-		 */
-		public void setInput(String input) {
-			this.input = input;
-		}
-
-		/**
-		 * @return the answer
-		 */
-		public Double getAnswer() {
-			return answer;
-		}
-		
-		/**
-		 * Value of dialog is dependent on whether user inputted correct answer (true) or cancelled (false)
-		 * @return the value
-		 */
-		public boolean getValue()	{
-			return value;
-		}
-
-		/**
-		 * @param answer the answer to set
-		 */
-		public void setAnswer(Double answer) {
-			this.answer = answer;
+		public boolean checkAnswer() {
+			return isCorrect;
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == text)	{
+			if(e.getSource() == text) {
 				input = text.getText();
-				if(input.contains("/") || input.contains("\\"))	{
-					if(Math.abs(answer - TypeManager.convertFractiontoDecimal(input)) <= MathGame.epsilon)	{
-						value = true;
+				if (input.contains("/") || input.contains("\\")) {
+					// Slashes in the input would indicate that the user inputted a fraction
+					if (Math.abs(answer - TypeManager.convertFractiontoDecimal(input)) <= MathGame.epsilon) {
+						// The epsilon value is needed to account for the imprecision in storing decimal values (when using floats or doubles)
+						isCorrect = true;
 						finish();
-					}
-					else	{
+					} else {
 						incorrect.setVisible(true);
 						pack();
 					}
-				}
-				else if(Math.abs(answer - Double.parseDouble(input)) <= MathGame.epsilon)	{
-					value = true;
+				} else if(Math.abs(answer - Double.parseDouble(input)) <= MathGame.epsilon) {
+					isCorrect = true;
 					finish();
-				}
-				else	{
+				} else { 
 					incorrect.setVisible(true);
 					pack();
 				}
-			}
-			else if(e.getSource() == cancel)	{
-				value = false;
+			} else if (e.getSource() == cancel) {
+				isCorrect = false;
 				finish();
 			}
 		}
-		
 	}
 }

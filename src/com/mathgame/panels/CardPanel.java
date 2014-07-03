@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.mathgame.panels;
 
 import java.awt.Dimension;
@@ -31,14 +28,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
+
+/**
+ * The CardPanel class represents the panel at the top of the game screen that holds the cards that players start out with
+ */
 public class CardPanel extends JPanel{
 
-	/** 
-	 * The purpose of this class is to create a panel that will be used at the top of the screen
-	 * to hold 6 cards that will be used as the starting numbers in the game
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3726881692277688183L;
+
 	MathGame mathGame;
 	
 	public NumberCard card1;
@@ -48,7 +45,7 @@ public class CardPanel extends JPanel{
 	public NumberCard card5;
 	public NumberCard card6;
 	public NumberCard ans;
-	final String imageFile = "/images/CardBar.png";
+	static final String IMAGE_FILE = "/images/CardBar.png";
 	static ImageIcon background;
 	
 	ValidationBox v1;
@@ -63,11 +60,11 @@ public class CardPanel extends JPanel{
 	
 	Calculate calc;
 	public ArrayList<String> values;
-	ArrayList<Boolean>	cardExists;
+	ArrayList<Boolean> cardExists;
 	
 	InputStream cardValueInput;
 	XSSFWorkbook cardValueWorkbook;
-	final String cardValueFile = "values.xlsx";
+	static final String CARD_VALUE_FILE = "values.xlsx";
 	XSSFSheet currentSheet;
 	int rowCount;
 	int currentRowNumber;
@@ -77,24 +74,25 @@ public class CardPanel extends JPanel{
 		
 	public CardPanel(MathGame mathGame){
 		this.mathGame = mathGame;
-		this.typeManager = mathGame.typeManager;
+		this.typeManager = mathGame.getTypeManager();
 	}
 	
 	/**
 	 * Initializes a card panel
-	 * @param masterLayer
+	 * @param masterLayer - The JLayeredPane that contains the CardPanel
 	 */
-	public void init(JLayeredPane masterLayer) {
+	public void init (JLayeredPane masterLayer) {
 		this.setBounds(0, 0, 750, 150);
 		setLayout(null);
 		this.masterLayer = masterLayer;
 		cardExists = new ArrayList<Boolean>();
-		for(int i = 0; i < 6; i++)	{
+		for (int i = 0; i < 6; i++)	{
 			cardExists.add(true);
 		}
-		//TitledBorder cardBorder = BorderFactory.createTitledBorder("My Cards");
-		//this.setBorder(cardBorder);//currently for visibility; may need to be removed later
-		//NumberCard testn = new NumberCard("2/3");
+		
+		// TitledBorder cardBorder = BorderFactory.createTitledBorder("My Cards");
+		// this.setBorder(cardBorder);//currently for visibility; may need to be removed later
+		// NumberCard testn = new NumberCard("2/3");
 		
 		card1 = new NumberCard(1);
 		card2 = new NumberCard(2);
@@ -151,8 +149,8 @@ public class CardPanel extends JPanel{
 		this.add(v6);
 		this.add(v_ans);
 		
-		//background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
-		background = new ImageIcon(CardPanel.class.getResource(imageFile));
+		// background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
+		background = new ImageIcon(CardPanel.class.getResource(IMAGE_FILE));
 		
 		values = new ArrayList<String>();
 		
@@ -169,38 +167,40 @@ public class CardPanel extends JPanel{
 	}
 	
 	/**
-	 * Returns an ArrayList of randomly-generated values (may be replaced in future versions when the database is completed
-	 * @return
+	 * @return An ArrayList of randomly-generated values (to be replaced in future versions when the database is completed)
 	 */
-	/*public ArrayList<String> randomValues() {
+	/*
+	public ArrayList<String> randomValues() {
 		Random generator = new Random();
-		currentRowNumber = (int) ( generator.nextFloat()*rowCount );
+		currentRowNumber = (int)(generator.nextFloat() * rowCount);
 		System.out.println("Current row: " + (currentRowNumber + 1));
 		currentRow = currentSheet.getRow(currentRowNumber);
 		ArrayList<String> cardValues = new ArrayList<String>();
 		for (int x = 0; x < 6; x++) {
 			cardValues.add(""+generator.nextInt(21));
 		}
-		int RandomInsert1 = (int) ( generator.nextFloat()*6 );
+		int RandomInsert1 = (int)(generator.nextFloat() * 6);
 		int RandomInsert2;
 		do {
-			RandomInsert2 = (int) ( generator.nextFloat()*6 );
-		} while (RandomInsert2 == RandomInsert1 );
+			RandomInsert2 = (int)(generator.nextFloat() * 6);
+		} while (RandomInsert2 == RandomInsert1);
 		
-		//cardValues.set(RandomInsert1, (int) currentRow.getCell(1).getNumericCellValue() );
-		//cardValues.set(RandomInsert2, (int) currentRow.getCell(3).getNumericCellValue() );
+		// cardValues.set(RandomInsert1, (int)currentRow.getCell(1).getNumericCellValue());
+		// cardValues.set(RandomInsert2, (int)currentRow.getCell(3).getNumericCellValue());
 		
-		cardValues.set(RandomInsert1, currentRow.getCell(1).getStringCellValue() );
-		cardValues.set(RandomInsert2, currentRow.getCell(3).getStringCellValue() );
+		cardValues.set(RandomInsert1, currentRow.getCell(1).getStringCellValue());
+		cardValues.set(RandomInsert2, currentRow.getCell(3).getStringCellValue());
 		
 		return cardValues;
-	} //generate a random arraylist of integers to be added to the cards; may be replaced in the future*/
+	}
+	*/
 	
 	/**
-	 * Takes in an ArrayList of integers (can be changed..) and assigns them to the cards
-	 * @param newValues
+	 * Takes in an ArrayList of values and assigns them to the cards
+	 * @param newValues - The ArrayList of values (as strings)
 	 */
-	/*public void randomize( ArrayList<String> newValues ){
+	/*
+	public void randomize(ArrayList<String> newValues){
 		card1.setText(newValues.get(0));
 		card2.setText(newValues.get(1));
 		card3.setText(newValues.get(2));
@@ -234,8 +234,8 @@ public class CardPanel extends JPanel{
 		v6.setCardValue(card6.getValue());
 		v_ans.setCardValue(ans.getValue());
 		
-		//card1.parseNumFromText(newValues.get(3))
-		//tag each card with "home" (cardpanel) being original location
+		// card1.parseNumFromText(newValues.get(3))
+		// Tag each card with "home" (cardpanel) as the original location
 		card1.setHome("home");
 		card2.setHome("home");
 		card3.setHome("home");
@@ -243,65 +243,72 @@ public class CardPanel extends JPanel{
 		card5.setHome("home");
 		card6.setHome("home");
 		ans.setHome("home");
-	}*/
+	}
+	*/
 	
+	/**
+	 * Change whether the card with the given index exists
+	 * @param index - The card's index
+	 * @param exists - Whether the card exists or not
+	 */
 	public void changeCardExistence(int index, Boolean exists)	{
 		cardExists.set(index, exists);
 	}
 	
+	/**
+	 * @param index - The card's index
+	 * @return Whether the given card exists or not
+	 */
 	public Boolean getCardExistence(int index)	{
 		return cardExists.get(index);
 	}
 	
-	public void restoreCard(String cardvalue)	{
-		//restores a card deleted during calculation; must ensure card exists first!
-		for(int i=0; i<6; i++)
+	/**
+	 * Restores a card deleted during calculations (but you must ensure the card exists first!)
+	 * @param cardValue - The card's value (as a string)
+	 */
+	public void restoreCard(String cardValue) {
+		for (int i = 0; i < 6; i++) {
 			System.out.println("values from reset " + values.get(i));
-		System.out.println("cardValue passed " + cardvalue);
-		if(cardvalue.equals(values.get(0)) && !cardExists.get(0))	{
+		}
+		System.out.println("cardValue passed " + cardValue);
+		
+		if (cardValue.equals(values.get(0)) && !cardExists.get(0)) {
 			System.out.println("reset 0");
 			card1.setBounds(20, 15, 80, 120);
 			masterLayer.add(card1, new Integer(1));
 			cardExists.set(0, true);
-			return;
-		}
-		if(cardvalue.equals(values.get(1)) && !cardExists.get(1))	{
+		} else if (cardValue.equals(values.get(1)) && !cardExists.get(1)) {
 			System.out.println("reset 1");
 			card2.setBounds(110, 15, 80, 120);
 			masterLayer.add(card2, new Integer(1));
 			cardExists.set(1, true);
-			return;
-		}
-		if(cardvalue.equals(values.get(2)) && !cardExists.get(2))	{
+		} else if (cardValue.equals(values.get(2)) && !cardExists.get(2)) {
 			System.out.println("reset 2");
 			card3.setBounds(200, 15, 80, 120);
 			masterLayer.add(card3, new Integer(1));
 			cardExists.set(2, true);
-			return;
-		}
-		if(cardvalue.equals(values.get(3)) && !cardExists.get(3))	{
+		} else if (cardValue.equals(values.get(3)) && !cardExists.get(3)) {
 			System.out.println("reset 3");
 			card4.setBounds(290, 15, 80, 120);
 			masterLayer.add(card4, new Integer(1));
 			cardExists.set(3, true);
-			return;
-		}
-		if(cardvalue.equals(values.get(4)) && !cardExists.get(4))	{
+		} else if(cardValue.equals(values.get(4)) && !cardExists.get(4)) {
 			System.out.println("reset 4");
 			card5.setBounds(380, 15, 80, 120);
 			masterLayer.add(card5, new Integer(1));
 			cardExists.set(4, true);
-			return;
-		}
-		if(cardvalue.equals(values.get(5)) && !cardExists.get(5))	{
+		} else if(cardValue.equals(values.get(5)) && !cardExists.get(5)) {
 			System.out.println("reset 5");
 			card6.setBounds(470, 15, 80, 120);
 			masterLayer.add(card6, new Integer(1));
 			cardExists.set(5, true);
-			return;
 		}
 	}
 	
+	/**
+	 * Resets all validation boxes
+	 */
 	public void resetValidationBoxes(){
 		v1.reset();
 		v2.reset();
@@ -313,7 +320,7 @@ public class CardPanel extends JPanel{
 	}
 	
 	/**
-	 * Sets visibility of cards to false
+	 * Sets the visibility of cards to false, meaning all cards are hidden
 	 */
 	public void hideCards()	{
 		card1.setVisible(false);
@@ -333,7 +340,7 @@ public class CardPanel extends JPanel{
 	}
 	
 	/**
-	 * Sets visibility of cards to true
+	 * Sets visibility of cards to true, meaning all cards are visible
 	 */
 	public void showCards()	{
 		card1.setVisible(true);
@@ -357,5 +364,4 @@ public class CardPanel extends JPanel{
 		super.paintComponents(g);
 		g.drawImage(background.getImage(), 0, 0, CardPanel.this);
 	}
-
 }
