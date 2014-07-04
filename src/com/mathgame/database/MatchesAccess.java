@@ -16,21 +16,24 @@ import com.mathgame.network.Game;
  */
 public class MatchesAccess extends MySQLAccess {
 	
-	public int matchNum = -1;
+	private int matchNum = -1;
 	
-	private MathGame mathGame;
-	private Connection connect = null;
+	static MathGame mathGame;
+	private Connection connection;
 	private Statement statement = null;
+	
+	@SuppressWarnings("unused")
 	private PreparedStatement preparedStatement = null;
 	// private ResultSet resultSet = null;
 	
 	public MatchesAccess(MathGame game, Connection c){
 		mathGame = game;
-		mathGame.getAlignmentX(); //Meaningless statement?
-		connect = c;
+		mathGame.getAlignmentX(); //TODO Meaningless statement?
+		
+		connection = c;
 		
 		try {
-			statement = connect.createStatement();
+			statement = connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -39,8 +42,8 @@ public class MatchesAccess extends MySQLAccess {
 	
 	public void reconnectStatement() {
 		try {
-			connect = mathGame.sql.connect;
-			statement = connect.createStatement();
+			connection = mathGame.getMySQLAccess().getConnection();
+			statement = connection.createStatement();
 			System.out.println("REDO STATEMENT SUCCESS");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -55,11 +58,11 @@ public class MatchesAccess extends MySQLAccess {
 		
 		try {
 			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches "+ "(Player1, Type, Difficulty, Rounds)" + 
-					" VALUES ('" + mathGame.thisUser.getName() + "', '" + mathGame.getGameManager().getGame().getType() + 
+					" VALUES ('" + mathGame.getUser().getName() + "', '" + mathGame.getGameManager().getGame().getType() + 
 					"', '" + mathGame.getGameManager().getGame().getDiff() + "', '" + mathGame.getGameManager().getGame().getRounds() + "')" );
 			System.out.println("Created online game");
 			
-			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='" + mathGame.thisUser.getName() + "'");
+			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='" + mathGame.getUser().getName() + "'");
 
 			resultSet.next();
 			matchNum = resultSet.getInt("ID");	
@@ -95,14 +98,14 @@ public class MatchesAccess extends MySQLAccess {
 	 */
 	public void joinGame (int gameID) {
 		try {
-			statement = connect.createStatement();
+			statement = connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		try {
 			statement.executeUpdate("Update sofiav_mathgame.matches " + 
-					"set Player2=" + " '"+mathGame.thisUser.getName() + "' " + 
+					"set Player2=" + " '"+mathGame.getUser().getName() + "' " + 
 					"where sofiav_mathgame.matches.ID=" + gameID);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -117,10 +120,11 @@ public class MatchesAccess extends MySQLAccess {
 		ArrayList<Integer> scores = new ArrayList<Integer>(numPlayers);
 		
 		try {
-			statement = connect.createStatement();
+			statement = connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		try {
 			System.out.println("the matchnum for getScores is " + matchNum);
 			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
@@ -141,17 +145,17 @@ public class MatchesAccess extends MySQLAccess {
 	 */
 	public void updateScore (int score) {
 		try {
-			statement = connect.createStatement();
+			statement = connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		try {
 			System.out.println("size is " + getScores().size());
-			System.out.println("this id " + mathGame.thisUser.getPlayerID());
-			int currentScore = getScores().get(mathGame.thisUser.getPlayerID()-1);
+			System.out.println("this id " + mathGame.getUser().getPlayerID());
+			int currentScore = getScores().get(mathGame.getUser().getPlayerID()-1);
 			statement.executeUpdate("Update sofiav_mathgame.matches " + 
-					"set Player"+mathGame.thisUser.getPlayerID() + "Score=" + 
+					"set Player"+mathGame.getUser().getPlayerID() + "Score=" + 
 					" '"+ (currentScore+score) + "' " + 
 					"where sofiav_mathgame.matches.ID=" + matchNum);		
 			
@@ -250,6 +254,13 @@ public class MatchesAccess extends MySQLAccess {
 		}
 		
 		return 0;
+	}
+	
+	/**
+	 * @return The current matchNum
+	 */
+	public int getMatchNum() {
+		return matchNum;
 	}
 	
 	/**

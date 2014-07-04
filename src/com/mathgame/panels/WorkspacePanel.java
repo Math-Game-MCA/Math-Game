@@ -4,21 +4,13 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
-import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,7 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 import com.mathgame.cards.NumberCard;
@@ -48,11 +39,12 @@ public class WorkspacePanel extends JPanel {
 
 	private static final long serialVersionUID = 7408931441173570326L;
 	
-	MathGame mathGame;
-	static final String IMAGE_FILE = "/images/Workspace.png";
-	static ImageIcon background;
+	static MathGame mathGame;
 	
-	Calculate calc;
+	private static final String IMAGE_FILE = "/images/Workspace.png";
+	
+	ImageIcon background;
+	
 	CompMover mover;
 	TypeManager typeManager;
 	
@@ -71,10 +63,10 @@ public class WorkspacePanel extends JPanel {
 		// background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
 		background = new ImageIcon(WorkspacePanel.class.getResource(IMAGE_FILE));
 		
-		calc = new Calculate();
 		mover = new CompMover();
-		this.mathGame = mathGame;
-		this.typeManager = mathGame.getTypeManager();
+		
+		WorkspacePanel.mathGame = mathGame;
+		typeManager = mathGame.getTypeManager();
 	}
 	
 	/** 
@@ -86,10 +78,10 @@ public class WorkspacePanel extends JPanel {
 		
 		Double answer = null;
 		if (count == 3) {
-			answer = calc.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2), mathGame);
+			answer = Calculate.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2), mathGame);
 		}
 		
-		if(answer != null) {
+		if (answer != null) {
 			System.out.println("answer: " + answer);
 			if(answer.isInfinite() || answer.isNaN()) {
 				JOptionPane.showMessageDialog(this, "You can't divide by zero!");
@@ -97,45 +89,46 @@ public class WorkspacePanel extends JPanel {
 				NumberCard tempnum1 = (NumberCard)(this.getComponent(0));
 				NumberCard tempnum2 = (NumberCard)(this.getComponent(2));
 
-				String restoreOperator = currentOperation();
-				mathGame.opPanel.addOperator(restoreOperator);
+				mathGame.getOperationPanel().addOperator(currentOperation());
 				
 				if (tempnum1.getHome() == "home") {
 					// The card was originally in the card panel
 					System.out.println("restore card1; value: " + tempnum1.getStrValue());
-					mathGame.cardPanel.restoreCard(tempnum1.getStrValue());
+					mathGame.getCardPanel().restoreCard(tempnum1.getStrValue());
 				} else if (tempnum1.getHome() == "hold") {
 					// The card was originally in the holding area
-					for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
-						NumberCard temp = (NumberCard)(mathGame.holdPanel.getComponent(0));
+					for (int x = 0; x < mathGame.getHoldPanel().getComponentCount(); x++) {
+						NumberCard temp = (NumberCard)(mathGame.getHoldPanel().getComponent(0));
 						if (temp.getHome() == "home") {
 							// Check for cards that were dragged from home into workspace and restore them
-							mathGame.cardPanel.restoreCard(temp.getStrValue());
+							mathGame.getCardPanel().restoreCard(temp.getStrValue());
 						}
 					}
-					mathGame.holdPanel.add(tempnum1);
+					mathGame.getHoldPanel().add(tempnum1);
 				}
 
 				if (tempnum2.getHome() == "home") {
 					System.out.println("restore card2; value: " + tempnum2.getStrValue());
-					mathGame.cardPanel.restoreCard(tempnum2.getStrValue());
+					mathGame.getCardPanel().restoreCard(tempnum2.getStrValue());
 				} else if (tempnum2.getHome() == "hold") {
-					for (int x = 0; x < mathGame.holdPanel.getComponentCount(); x++) {
-						NumberCard temp = (NumberCard)(mathGame.holdPanel.getComponent(0));
+					for (int x = 0; x < mathGame.getHoldPanel().getComponentCount(); x++) {
+						NumberCard temp = (NumberCard)(mathGame.getHoldPanel().getComponent(0));
 						if (temp.getHome() == "home") {
-							mathGame.cardPanel.restoreCard(temp.getStrValue());
+							mathGame.getCardPanel().restoreCard(temp.getStrValue());
 						}
 					}
-					mathGame.holdPanel.add(tempnum2);
+					mathGame.getHoldPanel().add(tempnum2);
+				} else {
+					System.out.println("HELP");
 				}
 				
 				this.removeAll();
 
-				mathGame.workPanel.revalidate();
-				mathGame.workPanel.repaint();
-				mathGame.holdPanel.revalidate();
-				mathGame.holdPanel.repaint();
-				mathGame.cardPanel.revalidate();
+				mathGame.getWorkspacePanel().revalidate();
+				mathGame.getWorkspacePanel().repaint();
+				mathGame.getHoldPanel().revalidate();
+				mathGame.getHoldPanel().repaint();
+				mathGame.getCardPanel().revalidate();
 				
 				return;
 			}
@@ -170,22 +163,21 @@ public class WorkspacePanel extends JPanel {
 					NumberCard card2 = (NumberCard) this.getComponent(2);
 					OperationCard op = (OperationCard) this.getComponent(1);
 					System.out.println("Registering new Move");
-					mathGame.sidePanel.undo.registerNewMove(card1, op, card2, answerCard);
+					mathGame.getSidePanel().undo.registerNewMove(card1, op, card2, answerCard);
 					// When cards collide... it becomes a new move!
 				}
 			}
-			
-			String restoreOperator = currentOperation();
-			mathGame.opPanel.addOperator(restoreOperator);
+
+			mathGame.getOperationPanel().addOperator(currentOperation());
 			
 			System.out.println("NUM:" + this.getComponentCount());
-			this.remove(0);
-
+			this.removeAll();
+			
 			add(answerCard);
 			
 			if (!ansState) {
 				// If false, undo (this means user cancelled inputting function)
-				mathGame.sidePanel.undoFunction();
+				mathGame.getSidePanel().undoFunction();
 			}
 			
 			// System.out.println(answerCard.getParent());
@@ -243,7 +235,7 @@ public class WorkspacePanel extends JPanel {
 			op = "error";
 		}
 		System.out.println("CURRENT OP: " + op);
-		SoundManager.playSound(SoundManager.SoundType.Merge);
+		SoundManager.playSound(SoundManager.SoundType.MERGE);
 		return op; // Returns add, subtract, multiply, divide, etc.
 	}
 
@@ -264,6 +256,8 @@ public class WorkspacePanel extends JPanel {
 	 */
 	class AnswerDialog extends JDialog implements ActionListener {
 		//TODO Implement a "give-up" button to reveal the correct answer (possibly at the cost of points)
+
+		private static final long serialVersionUID = -8292422603267484832L;
 		
 		private String input; // What the user inputs as the answe
 		private String equation; // The equation to display
@@ -293,7 +287,7 @@ public class WorkspacePanel extends JPanel {
 			cancel.addActionListener(this);
 			
 			panel = new JPanel();
-			panel.add(new JLabel(equation));
+			panel.add(new JLabel(this.equation));
 			panel.add(text);
 			panel.add(incorrect);
 			panel.add(cancel);

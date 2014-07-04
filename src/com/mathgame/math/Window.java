@@ -1,26 +1,20 @@
-/**
- * 
- */
 package com.mathgame.math;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.event.WindowStateListener;
 import java.io.IOException;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 
 import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
 import com.mathgame.network.GameManager;
 
 /**
- * The Window class is where execution of the Math Game begins.
+ * The Window class is where execution of Epsilon (the Math Game) begins
  */
 public class Window	{
 
@@ -41,7 +35,6 @@ public class Window	{
 	}
 	
 	public static void main(String[] args) {
-		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				createAndShowGUI();
@@ -75,6 +68,7 @@ public class Window	{
 			System.out.println("window closing");
 			
 			//TODO find way to go around this problem (i.e. deleting the file within ImageGenerator when not in use...)?
+			
 			// delete card0file
 			Path path = Paths.get("card0file");			
 			try {
@@ -90,10 +84,10 @@ public class Window	{
 			}
 			
 			try {
-				if(mg.sql.connect.getWarnings() == null) {
-					mg.sql.connect();
+				if(mg.getMySQLAccess().getConnection().getWarnings() == null) {
+					mg.getMySQLAccess().connect();
 				}
-				mg.sql.removeUser();
+				mg.getMySQLAccess().removeUser();
 				GameManager.getMatchesAccess().removeGame();
 			} catch (Exception e) {
 				e.printStackTrace();

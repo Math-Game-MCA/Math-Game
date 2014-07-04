@@ -7,12 +7,9 @@ import com.mathgame.menus.*;
 import com.mathgame.network.*;
 import com.mathgame.panels.*;
 
-
-
 import java.awt.*;
 import java.awt.dnd.DropTarget;
 import java.awt.event.*;
-import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -27,14 +24,36 @@ public class MathGame extends Container implements ActionListener {
 	public static final double epsilon = 0.000000000001; // 10^-12, equivalent to TI-84 precision
 	public static final String operations[] = {"+", "-", "*", "/"};
 	
+
+	private MainMenu mainMenu;
+	private MultiMenu multiMenu;
+	private OptionMenu optionMenu;
+	private HostMenu hostMenu;
+	
 	private static final String GAME = "CardLayoutPanel Game";
 	private static final String MAINMENU = "CardLayoutPanel MainMenu";
 	private static final String MULTIMENU = "CardLayoutPanel Multiplayer";
 	private static final String OPTIONMENU = "CardLayoutPanel OptionMenu";
 	private static final String HOSTMENU = "CardLayoutPanel HostMenu";
-	public static enum Menu {GAME, MAINMENU, MULTIMENU, OPTIONMENU, HOSTMENU};
 	
-	public static enum GameState {PRACTICE, COMPETITIVE};
+	/**
+	 * The Menu enumeration is used for selecting which menu to use
+	 */
+	public static enum Menu {
+		GAME,
+		MAINMENU,
+		MULTIMENU,
+		OPTIONMENU,
+		HOSTMENU
+	};	
+	
+	/**
+	 * The GameState enumeration is used for indicating the user's current game mode
+	 */
+	public static enum GameState {
+		PRACTICE,
+		COMPETITIVE
+	};
 	private GameState gs;
 
 	private GameManager gameManager; // Game variables held here for multiplayer games
@@ -43,24 +62,21 @@ public class MathGame extends Container implements ActionListener {
 	private CardLayout cl;
 
 	// Panel Declarations
-	public JLayeredPane layer; // Master panel, particularly for moving cards across entire screen
-	public SidePanel sidePanel; // Control panel on the side
-	public OperationPanel opPanel; // Panel that holds operations: + - / *
-	public CardPanel cardPanel; // Panel that holds cards at top
-	public WorkspacePanel workPanel; // Panel in the center of the screen where cards are morphed together
-	public HoldPanel holdPanel; // Panel that holds intermediate results
+	private JLayeredPane layer; // Master panel, particularly for moving cards across entire screen
+	private SidePanel sidePanel; // Control panel on the side
+	private OperationPanel opPanel; // Panel that holds operations: + - / *
+	private CardPanel cardPanel; // Panel that holds cards at top
+	private WorkspacePanel workPanel; // Panel in the center of the screen where cards are morphed together
+	private HoldPanel holdPanel; // Panel that holds intermediate results
 
-	MainMenu mainMenu;
-	public MultiMenu multiMenu;
-	public OptionMenu optionMenu;
-	public HostMenu hostMenu;
-
+	/*TODO Values never used
 	Rectangle home1;
 	Rectangle home2;
 	Rectangle home3;
 	Rectangle home4;
 	Rectangle home5;
 	Rectangle home6;
+	*/
 
 	Point[] placesHomes = new Point[12];
 
@@ -75,23 +91,23 @@ public class MathGame extends Container implements ActionListener {
 	JButton clear;
 
 	static boolean useDatabase = false;
-	public MySQLAccess sql;
+	private MySQLAccess sql;
 	private SwingWorker<Boolean, Void> backgroundConnect;
-	public User thisUser;
+	private User thisUser;
 
 	JLabel correction;
 
 	GridBagConstraints c;
 
-	JLabel[] cards = new JLabel[11]; // card1, card2..opA,S...
-	Rectangle[] cardHomes = new Rectangle[11]; // home1, home2...opA,S...
-	String[] cardVals = new String[11];
+	private JLabel[] cards = new JLabel[11]; // card1, card2..opA,S...
+	private Rectangle[] cardHomes = new Rectangle[11]; // home1, home2...opA,S...
+	private String[] cardVals = new String[11]; //TODO Use this variable or delete it
 
-	TypeManager typeManager;
+	private TypeManager typeManager;
 
-	CompMover mover;
+	private CompMover mover;
 	
-	public SoundManager sounds;
+	SoundManager sounds;
 
 	/**
 	 * Initializes the window & game
@@ -178,6 +194,8 @@ public class MathGame extends Container implements ActionListener {
 		optionMenu = new OptionMenu(this);
 		optionMenu.setBounds(0, 0, appWidth, appHeight);
 
+		mover = new CompMover(this);
+		
 		sidePanel = new SidePanel(); // Control bar
 		// sidePanel.setBounds(750, 0, 900, 620);//x, y, width, height
 		sidePanel.init(this);
@@ -216,12 +234,14 @@ public class MathGame extends Container implements ActionListener {
 		layer.add(workPanel, new Integer(0));
 		layer.add(holdPanel, new Integer(0));
 
+		/*
 		home1 = new Rectangle(cardPanel.card1.getBounds());
 		home2 = new Rectangle(cardPanel.card2.getBounds());
 		home3 = new Rectangle(cardPanel.card3.getBounds());
 		home4 = new Rectangle(cardPanel.card4.getBounds());
 		home5 = new Rectangle(cardPanel.card5.getBounds());
 		home6 = new Rectangle(cardPanel.card6.getBounds());
+		*/
 
 		cardHomes[0] = cardPanel.card1.getBounds();
 		cardHomes[1] = cardPanel.card2.getBounds();
@@ -264,9 +284,9 @@ public class MathGame extends Container implements ActionListener {
 		cardPanel.card5.setDropTarget(dt);
 		cardPanel.card6.setDropTarget(dt);
 		// cardPanel.ans.setDropTarget(dt);
-
-		// ACTION LISTENERS
-		mover = new CompMover(this);
+		
+		//ACTION LISTENERS
+		
 		// Handles 6 cards
 		cardPanel.card1.addMouseListener(mover);
 		cardPanel.card2.addMouseListener(mover);
@@ -351,9 +371,28 @@ public class MathGame extends Container implements ActionListener {
 			break;
 		}
 	}
+	
+	/**
+	 * @param menu - The Menu to get
+	 * @return The corresponding menu (as a JPanel)
+	 */
+	public JPanel getMenu(Menu menu) {
+		switch (menu) {
+		case MAINMENU:
+			return mainMenu;
+		case MULTIMENU:
+			return multiMenu;
+		case OPTIONMENU:
+			return optionMenu;
+		case HOSTMENU:
+			return hostMenu;
+		default:
+			return null;
+		}
+	}
 
 	/**
-	 * @return The game state of the math game
+	 * @return The game state of the MathGame object
 	 */
 	public GameState getGameState() {
 		return gs;
@@ -367,17 +406,100 @@ public class MathGame extends Container implements ActionListener {
 	}
 
 	/**
-	 * @return The TypeManager of the math game
+	 * @return The TypeManager of the MathGame object
 	 */
 	public TypeManager getTypeManager() {
 		return typeManager;
 	}
 
 	/**
-	 * @return The GameManager of the math game
+	 * @return The GameManager of the MathGame object
 	 */
 	public GameManager getGameManager() {
 		return gameManager;
 	}
 	
+	/**
+	 * @return The master panel (layer) of the MathGame object
+	 */
+	public JLayeredPane getMasterPane() {
+		return layer;
+	}
+	
+	/**
+	 * @return The SidePanel of the MathGame object
+	 */
+	public SidePanel getSidePanel() {
+		return sidePanel;
+	}
+	
+	/**
+	 * @return The OperationPanel of the MathGame object
+	 */
+	public OperationPanel getOperationPanel() {
+		return opPanel;
+	}
+	
+	/**
+	 * @return The CardPanel of the MathGame object
+	 */
+	public CardPanel getCardPanel() {
+		return cardPanel;
+	}
+	
+	/**
+	 * @return The WorkspacePanel of the MathGame object
+	 */
+	public WorkspacePanel getWorkspacePanel() {
+		return workPanel;
+	}
+	
+	/**
+	 * @return The HoldPanel of the MathGame object
+	 */
+	public HoldPanel getHoldPanel() {
+		return holdPanel;
+	}
+	
+	/**
+	 * @return A JLabel array of all Cards (NumberCards and OperationCards)
+	 */
+	public JLabel[] getCards() {
+		return cards;
+	}
+	
+	/**
+	 * @return A Rectangle array of all Card bounds
+	 */
+	public Rectangle[] getCardHomes() {
+		return cardHomes;
+	}
+
+	/**
+	 * @return A String array of all NumberCard values
+	 */
+	public String[] getCardVals() {
+		return cardVals;
+	}
+	
+	/**
+	 * @return The MySQLAccess object of the MathGame object
+	 */
+	public MySQLAccess getMySQLAccess() {
+		return sql;
+	}
+	
+	/**
+	 * @return The current user (associated with the MathGame object)
+	 */
+	public User getUser() {
+		return thisUser;
+	}
+	
+	/**
+	 * @return The CompMover object of the MathGame object
+	 */
+	public CompMover getCompMover() {
+		return mover;
+	}
 }

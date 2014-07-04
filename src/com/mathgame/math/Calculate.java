@@ -8,17 +8,19 @@ import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
 
 /**
- * The Calculate class calculates the result of combining two cards
+ * The Calculate class contains methods for calculating the result of combining two cards
  */
 public class Calculate {
+	
 	/**
+	 * Calculates the answer of the given expression
 	 * @param c1 - The number card on the left
 	 * @param oper - The card that contains the operation
 	 * @param c2 - The number card on the right
 	 * @param game - The MathGame object
 	 * @return The value of the given expression
 	 */
-	public Double calculate(Component c1, Component oper, Component c2, MathGame game) {
+	public static Double calculate(Component c1, Component oper, Component c2, MathGame game) {
 		NumberCard card1 = null;
 		NumberCard card2 = null;
 		OperationCard operation = null;
@@ -31,12 +33,12 @@ public class Calculate {
 			return null;
 		}
 		
-		double num1 = card1.parseNumFromText(card1.getValue());
-		double num2 = card1.parseNumFromText(card2.getValue());
+		double num1 = NumberCard.parseNumFromText(card1.getValue());
+		double num2 = NumberCard.parseNumFromText(card2.getValue());
 		System.out.println("num1 final : " + card1.getValue());
 		System.out.println("num2 final : " + num2);
-		System.out.println("op final: " + operation.operation);
-		String op = operation.operation;
+		System.out.println("op final: " + operation.getOperation());
+		String op = operation.getOperation();
 		double answer;
 		
 		if(op == "add")	{
@@ -56,8 +58,11 @@ public class Calculate {
 	
 	/**
 	 * @deprecated
+	 * Calculates the answer of the given expression
+	 * @param container - A string ArrayList containing the lefthand operand, operation, and righthand operand
+	 * @return The value of the given expression
 	 */
-	public Double getAnswer(ArrayList<String> container)
+	public static Double calculate(ArrayList<String> container)
 	{
 		double answer = 0;
 		ArrayList<Double> values = new ArrayList<Double>();

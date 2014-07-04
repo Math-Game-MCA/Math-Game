@@ -11,17 +11,20 @@ import com.mathgame.math.MathGame;
 public class GameManager {	
 	private Game game;
 	
-	private int score; // Current running total score of player (not used yet..)
+	@SuppressWarnings("unused")
+	private int score; // Current running total score of player //TODO Use this variable
 	
 	static MatchesAccess matchesAccess;
 	static MathGame mathGame;
 	
 	private ArrayList<Integer> scores; // The scores of all players (in the order of what's in database (i.e. 1 is the host and not necessarily 'this' player)
+	
+	@SuppressWarnings("unused")
 	private int currentRound; //TODO Use this variable
 
 	public GameManager(MathGame mathGame) {
 		GameManager.mathGame = mathGame;
-		matchesAccess = new MatchesAccess(mathGame, mathGame.sql.connect);
+		matchesAccess = new MatchesAccess(mathGame, mathGame.getMySQLAccess().getConnection());
 		
 		scores = new ArrayList<Integer>(2); // game.getNumberOfPlayers()); // Game is not initialized yet
 	}

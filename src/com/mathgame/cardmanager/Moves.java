@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.mathgame.cardmanager;
 
 import com.mathgame.cards.NumberCard;
@@ -12,10 +9,10 @@ import com.mathgame.cards.OperationCard;
  */
 public class Moves {
 
-	NumberCard num1;
-	NumberCard num2;
-	OperationCard op;
-	NumberCard newNum;
+	private NumberCard num1;
+	private NumberCard num2;
+	private OperationCard op;
+	private NumberCard newNum;
 
 	/**
 	 * @param num1 - The lefthand NumberCard

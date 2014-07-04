@@ -2,12 +2,7 @@ package com.mathgame.panels;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -29,7 +24,7 @@ public class OperationPanel extends JPanel
 	public OperationCard divide;
 
 	static final String IMAGE_FILE = "/images/Operation bar.png";
-	static ImageIcon background;
+	ImageIcon background;
 	
 	JLayeredPane masterLayer;
 	
@@ -62,7 +57,7 @@ public class OperationPanel extends JPanel
 		this.add(multiply);
 		this.add(divide);
 		
-		masterLayer = mathGame.layer;
+		masterLayer = mathGame.getMasterPane();
 		
 		// background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
 		background = new ImageIcon(OperationPanel.class.getResource(IMAGE_FILE));

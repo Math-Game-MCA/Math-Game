@@ -3,8 +3,6 @@ package com.mathgame.menus;
 import javax.swing.*;
 
 import com.mathgame.math.MathGame;
-import com.mathgame.math.TypeManager;
-import com.mathgame.math.TypeManager.GameType;
 import com.mathgame.network.Game;
 
 import java.awt.*;
@@ -30,7 +28,7 @@ public class HostMenu extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -5507870440809320516L;
 	
 	static MathGame mathGame;
-	static MultiMenu multiMenu;
+	MultiMenu multiMenu;
 	
 	int players; // # of players (currently 2)
 	int rounds; // # of rounds (1-5)
@@ -45,10 +43,22 @@ public class HostMenu extends JPanel implements ActionListener {
 	static final String BUTTON_IMAGE_FILE = "/images/MenuButtonImg1.png";
 	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/MenuButtonImg2.png";
 	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/MenuButtonImg3.png";
+	
 	static ImageIcon background;
 	static ImageIcon buttonImage;
 	static ImageIcon buttonRollOverImage;
 	static ImageIcon buttonPressedImage;
+	
+	static Font eurostile24;
+	
+	static {
+		// Image initialization
+		background = new ImageIcon(OptionMenu.class.getResource(BACKGROUND_FILE));
+		buttonImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_IMAGE_FILE));
+		buttonRollOverImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
+		buttonPressedImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
+		eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
+	}
 	
 	ButtonGroup diffGroup; // Easy, Medium, Hard
 	ButtonGroup scoringGroup; // Complexity, Speed, Mix
@@ -82,8 +92,6 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	JButton cancel;
 	JButton finish;
-
-	Font eurostile24;
 	
 	GridBagConstraints gbc;
 
@@ -91,7 +99,7 @@ public class HostMenu extends JPanel implements ActionListener {
 		
 		this.setLayout(new GridBagLayout());
 		mathGame = mg;
-		multiMenu = mathGame.multiMenu;
+		multiMenu = (MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU));
 		//TODO Use typemanager?
 		
 		// Set size
@@ -99,13 +107,6 @@ public class HostMenu extends JPanel implements ActionListener {
 		size.width = mathGame.getWidth();
 		size.height = mathGame.getHeight();
 		setPreferredSize(size);
-		
-		// Image initialization
-		background = new ImageIcon(OptionMenu.class.getResource(BACKGROUND_FILE));
-		buttonImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_IMAGE_FILE));
-		buttonRollOverImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
-		buttonPressedImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
-		eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
 		
 		gbc = new GridBagConstraints();
 		
@@ -282,20 +283,20 @@ public class HostMenu extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == finish)	{
 			addGame();
-			mathGame.cardPanel.hideCards(); // Hide cards until next player joins
+			mathGame.getCardPanel().hideCards(); // Hide cards until next player joins
 			mathGame.showMenu(MathGame.Menu.GAME); // Go to the game (but should it wait?)
 			Thread waitForPlayer = new Thread()	{
 					public void run() {
 						while(!mathGame.getGameManager().gameFilled()) {
 							System.out.println("waiting"); // Wait until the game is filled
 						}
-						mathGame.cardPanel.showCards();
-						mathGame.sidePanel.startTimer(type);
-						mathGame.sidePanel.setUpMultiplayer();
+						mathGame.getCardPanel().showCards();
+						mathGame.getSidePanel().startTimer(type);
+						mathGame.getSidePanel().setUpMultiplayer();
 					}
 			};
 			waitForPlayer.start();
-			mathGame.thisUser.setPlayerID(1);
+			mathGame.getUser().setPlayerID(1);
 		}
 		else if(e.getSource() == cancel) {
 			mathGame.showMenu(MathGame.Menu.MULTIMENU); // Return to the multiplayer menu

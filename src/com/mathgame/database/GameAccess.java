@@ -16,34 +16,37 @@ import com.mathgame.network.GameManager;
  */
 public class GameAccess extends MySQLAccess {
 	
-	private Connection connect = null;
-	private Statement statement = null;
+	MathGame mathGame;
+	private Connection connection;
+	
+	@SuppressWarnings("unused")
 	private PreparedStatement preparedStatement = null;
+
+	private Statement statement = null;
 	private ResultSet resultSet = null;
 	
-	ArrayList<String> onlineUsers = new ArrayList<String>();
-	MathGame mathGame;
+	private ArrayList<String> onlineUsers = new ArrayList<String>();
 	
 	public GameAccess(MathGame game, Connection conn){
 		mathGame = game;
-		connect = conn;
+		connection = conn;
 	}
 	
 	/**
-	 * Add a user to the list of online users
+	 * Adds a user to the list of online users
 	 */
 	public void addUser() {
 		try {
-			statement = connect.createStatement();
+			statement = connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println("name " + mathGame.thisUser.getName());
+		System.out.println("name " + mathGame.getUser().getName());
 		
 		try {
-			statement.executeUpdate("INSERT INTO sofiav_mathgame.online_users (ID, Name)"
-					+ " VALUES (NULL, '"+mathGame.thisUser.getName() + "')");
+			statement.executeUpdate("INSERT INTO sofiav_mathgame.online_users (ID, Name)" + 
+					" VALUES (NULL, '" + mathGame.getUser().getName() + "')");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -55,18 +58,19 @@ public class GameAccess extends MySQLAccess {
 	 * @param c - The Connection to the database
 	 */
 	public void removeUser(Connection c) {
+		// Why does a Connection object need to be passed?
+		
 		try {
 			statement = c.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println("removing name: " + mathGame.thisUser.getName());
+		System.out.println("removing name: " + mathGame.getUser().getName());
 		
 		try {
-			statement.executeUpdate("DELETE FROM sofiav_mathgame.online_users "
-					+ "WHERE sofiav_mathgame.online_users.Name = '"
-		+ mathGame.thisUser.getName() + "'");
+			statement.executeUpdate("DELETE FROM sofiav_mathgame.online_users " + 
+					"WHERE sofiav_mathgame.online_users.Name = '" + mathGame.getUser().getName() + "'");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -82,9 +86,11 @@ public class GameAccess extends MySQLAccess {
 	public ArrayList<String> getUsers() throws Exception
 	{
 		// System.out.println(super.mathGame.getCursor());
+		
+		@SuppressWarnings("unused")
 		String gameType; //TODO The variable is initialized but never used
 		
-		if(mathGame != null) {
+		if (mathGame != null) {
 			gameType = mathGame.getTypeManager().getType().toString().toLowerCase();
 		}
 		else {
@@ -92,10 +98,10 @@ public class GameAccess extends MySQLAccess {
 		}
 		
 		try {
-			statement = connect.createStatement();
+			statement = connection.createStatement();
 			resultSet = statement.executeQuery("select * from sofiav_mathgame.online_users");
 			
-			while(resultSet.next()) {
+			while (resultSet.next()) {
 				onlineUsers.add(resultSet.getString("Name"));
 			}
 			
@@ -108,8 +114,9 @@ public class GameAccess extends MySQLAccess {
 			return onlineUsers;
 		} catch (Exception e) {
 			// System.out.println("SQLException: " + e.getMessage());
+			
 			if (e.getMessage().equals("No operations allowed after connection closed.")) {
-				if (!mathGame.sql.connect()) {
+				if (!mathGame.getMySQLAccess().connect()) {
 					throw new Exception("couldn't connect");
 				}
 				else {

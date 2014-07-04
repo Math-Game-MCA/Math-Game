@@ -1,15 +1,8 @@
 package com.mathgame.panels;
 
-import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -19,14 +12,9 @@ import com.mathgame.math.Calculate;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager;
 
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.*;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 
 
 /**
@@ -46,7 +34,8 @@ public class CardPanel extends JPanel{
 	public NumberCard card6;
 	public NumberCard ans;
 	static final String IMAGE_FILE = "/images/CardBar.png";
-	static ImageIcon background;
+	
+	ImageIcon background;
 	
 	ValidationBox v1;
 	ValidationBox v2;

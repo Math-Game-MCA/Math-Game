@@ -1,96 +1,132 @@
-/**
- * 
- */
 package com.mathgame.network;
 
 /**
- * 
- *
+ * The User class represents the individual users
  */
 public class User {
 
 	private String name;	
 	private String password;	
-	private int rankvalue;	
-	private int gameswon;	
-	private int gameslost;
-	private int playerID;//1 for host, 2+ for additional player
+	private int rankValue;	
+	private int gamesWon;	
+	private int gamesLost;
+	private int playerID; // 1 for host, 2+ for additional player
 		
-	public User(String username, String pass)
-	{
-		name=username;		
-		password=pass;		
-		rankvalue=1;		
-		gameswon=0;		
-		gameslost=0;		
+	public User(String username, String pass) {
+		name = username;		
+		password = pass;		
+		rankValue = 1;		
+		gamesWon = 0;		
+		gamesLost = 0;		
 	}
 
-	public void GameEnd(Boolean won, int score, User rival)
-	{
+	/**
+	 * Updates user statistics upon the end of a game
+	 * @param won - Whether the user won the game (true) or not
+	 * @param score - The user's score
+	 * @param rival - The User representing the opponent
+	 */
+	public void uponGameEnd(Boolean won, int score, User rival) {
 		
-		int modifier=0;
+		int modifier = 0;
 		
-		if(won==true)
-		{
-			modifier = (rival.getRankvalue()/rankvalue);
-			gameswon++;
+		if (won) {
+			modifier = rival.getRankValue() / rankValue;
+			gamesWon++;
 			
-			rankvalue=(rankvalue+(score*modifier));	
-		}
-		if (won==false)
-		{
-			modifier = (rankvalue/rival.getRankvalue());
-			modifier= modifier*-1;
-			gameslost++;
+			rankValue = rankValue + (score * modifier);	
+		} else {
+			modifier = rankValue / rival.getRankValue();
+			modifier *= -1;
+			gamesLost++;
 			
-			rankvalue=(rankvalue+((1/score)*modifier));	
+			rankValue = rankValue + ((1 / score) * modifier);	
 		}
 		
-		if (rankvalue<1)
-			rankvalue=1;
+		if (rankValue < 1) {
+			rankValue = 1;
+		}
 	}
 	
-
+	/**
+	 * @return The User's name
+	 */
 	public String getName() {
 		return name;
 	}
+	
+	/**
+	 * @param name The name to set
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getRankvalue() {
-		return rankvalue;
+	
+	/**
+	 * @return The User's rank
+	 */
+	public int getRankValue() {
+		return rankValue;
 	}
-	public void setRankvalue(int rankvalue) {
-		this.rankvalue = rankvalue;
+	
+	/**
+	 * @param rankValue - The rank to set
+	 */
+	public void setRankValue(int rankValue) {
+		this.rankValue = rankValue;
 	}
-	public int getGameswon() {
-		return gameswon;
+	
+	/**
+	 * @return The number of games the User won
+	 */
+	public int getGamesWon() {
+		return gamesWon;
 	}
-	public void setGameswon(int gameswon) {
-		this.gameswon = gameswon;
+	
+	/**
+	 * @param gamesWon - The number of won games to set
+	 */
+	public void setGamesWon(int gamesWon) {
+		this.gamesWon = gamesWon;
 	}
-	public int getGameslost() {
-		return gameslost;
+	
+	/**
+	 * @return The number of games the User lost
+	 */
+	public int getGamesLost() {
+		return gamesLost;
 	}
-	public void setGameslost(int gameslost) {
-		this.gameslost = gameslost;
+	
+	/**
+	 * @param gamesLost - The number of lost games to set
+	 */
+	public void setGamesLost(int gamesLost) {
+		this.gamesLost = gamesLost;
 	}
+	
+	/**
+	 * @return The User's password
+	 */
 	public String getPassword() {
 		return password;
 	}
+	
+	/**
+	 * @param password - The password to set
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
 	/**
-	 * @return the playerID
+	 * @return The User's ID
 	 */
 	public int getPlayerID() {
 		return playerID;
 	}
 
 	/**
-	 * @param playerID the playerID to set
+	 * @param playerID - The ID to set
 	 */
 	public void setPlayerID(int playerID) {
 		this.playerID = playerID;

@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +19,9 @@ public class ImageGenerator {
 	
 	private BufferedImage img;
 	private Graphics2D g2d;
-	private Font sansSerif24;
-	private Font sansSerif20;
-	private Font sansSerif16;
+	private static Font sansSerif24 = new Font("SansSerif", Font.PLAIN, 24);
+	private static Font sansSerif20 = new Font("SansSerif", Font.PLAIN, 20);
+	private static Font sansSerif16 = new Font("SansSerif", Font.PLAIN, 16);
 	private String imgFile;
 	private File outf;
 	
@@ -38,9 +37,6 @@ public class ImageGenerator {
 		this.height = height;
 		this.width = width;
 		img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		sansSerif24 = new Font("SansSerif", Font.PLAIN, 24);
-		sansSerif20 = new Font("SansSerif", Font.PLAIN, 20);
-		sansSerif16 = new Font("SansSerif", Font.PLAIN, 16);
 	}
 	
 	/**
@@ -49,8 +45,7 @@ public class ImageGenerator {
 	 * @return The rendered BufferedImage
 	 */
 	public BufferedImage renderExpression(String e) {
-		
-		// Currently does not handle a mix between types
+		//TODO Currently does not handle a mix between types
 		
 		e = e.trim(); // Remove leading and trailing whitespaces
 		
@@ -66,7 +61,6 @@ public class ImageGenerator {
 		if (e.contains("/")) {
 			// The expression contains a fraction
 			String hold[] = e.split("/"); // Splits the expression into two components
-			
 			
 			hold[0] = hold[0].trim(); // The numerator
 			hold[1] = hold[1].trim(); // The denominator

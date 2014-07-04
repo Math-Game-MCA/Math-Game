@@ -20,10 +20,10 @@ public class ValidationBox extends JTextField implements FocusListener {
 	double cardValue;
 	NumberCard numCard;
 	
-	static final String DEFAULT_TEXT = "Enter number";
+	private static final String DEFAULT_TEXT = "Enter number";
 	
-	// Don't confuse this with the MathGame epsilon, used for internal mathematical conversions
-	private static final double epsilon = 0.001; // Maximum error of user input to actual value (i.e. 3 decimal places)
+	// Don't confuse this with the MathGame EPSILON (which is used for internal mathematical conversions)
+	private static final double EPSILON = 0.001; // Maximum error of user input to actual value (i.e. 3 decimal places)
 	
 	public ValidationBox() {
 		this.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -85,7 +85,7 @@ public class ValidationBox extends JTextField implements FocusListener {
 		
 		// Alternative method of verifying value
 		try {
-			if (Math.abs(Double.parseDouble(this.getText()) - Double.parseDouble(ans)) < epsilon) {
+			if (Math.abs(Double.parseDouble(this.getText()) - Double.parseDouble(ans)) < EPSILON) {
 				System.out.println("true");
 				return true;
 			} else {
@@ -107,7 +107,6 @@ public class ValidationBox extends JTextField implements FocusListener {
 			return false;
 		}
 		*/
-		
 	}
 	
 	/**
@@ -117,7 +116,6 @@ public class ValidationBox extends JTextField implements FocusListener {
 		this.setText(DEFAULT_TEXT);
 		this.setBackground(Color.white);
 	}
-	
 	
 	/**
 	 * @param text - The value to set the NumberCard (as a string)

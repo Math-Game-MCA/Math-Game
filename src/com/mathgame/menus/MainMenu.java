@@ -1,8 +1,3 @@
-/*TODO
- * Working on listeners & eliminating the "double-menu" where 2 menus are seen, but only one is 
- * functional.
- */
-
 package com.mathgame.menus;
 
 import java.awt.Dimension;
@@ -22,18 +17,6 @@ import javax.swing.JTextArea;
 
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
-import com.mathgame.network.User;
-
-import java.io.IOException;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.border.TitledBorder;
 
 /**
  * The MainMenu class displays the main menu
@@ -41,9 +24,11 @@ import javax.swing.border.TitledBorder;
  */
 public class MainMenu extends JPanel implements ActionListener, MouseMotionListener, MouseListener{
 	
+	//TODO Working on listeners & eliminating the "double-menu" where 2 menus are seen, but only one is functional.
+	
 	private static final long serialVersionUID = -3036828086937465893L;
-
-	static MathGame mathGame;
+	
+	MathGame mathGame;
 	
 	static final String IMAGE_FILE = "/images/backa.png";
 	static final String BUTTON_IMAGE_FILE = "/images/MenuButtonImg1.png";
@@ -51,10 +36,10 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/MenuButtonImg3.png";
 	static final int BUTTON_WIDTH = 130;
 	static final int BUTTON_HEIGHT = 30;
-	static ImageIcon background;
-	static ImageIcon buttonImage;
-	static ImageIcon buttonRollOverImage;
-	static ImageIcon buttonPressedImage;
+	ImageIcon background;
+	ImageIcon buttonImage;
+	ImageIcon buttonRollOverImage;
+	ImageIcon buttonPressedImage;
 	
 	// Mouse coordinates
 	int mx;
@@ -237,12 +222,12 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	public void getUser() {
 		String name = JOptionPane.showInputDialog(this, "User Name");
 		System.out.println("user name is " + name);
-		mathGame.thisUser.setName(name);
+		mathGame.getUser().setName(name);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof JButton) {
-			SoundManager.playSound(SoundManager.SoundType.Button);
+			SoundManager.playSound(SoundManager.SoundType.BUTTON);
 		}
 		
 		if(e.getSource() == enter) {

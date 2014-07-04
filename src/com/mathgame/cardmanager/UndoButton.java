@@ -10,7 +10,7 @@ import com.mathgame.math.MathGame;
  * The UndoButton class represents the undo button, which uses the MoveTracker class
  * @author Roland
  */
-public class UndoButton extends JButton{
+public class UndoButton extends JButton {
 
 	private static final long serialVersionUID = -1610472234274569185L;
 	
@@ -41,7 +41,7 @@ public class UndoButton extends JButton{
 	 * @param op - The OperationCard
 	 * @param answer - The NumberCard formed after evaluating the expression
 	 */
-	public void registerNewMove(NumberCard num1, OperationCard op, NumberCard num2, NumberCard answer)	{
+	public void registerNewMove(NumberCard num1, OperationCard op, NumberCard num2, NumberCard answer) {
 		tracker.registerMove(num1, op, num2, answer);
 	}
 	
@@ -52,8 +52,7 @@ public class UndoButton extends JButton{
 		try	{
 			NumberCard temp = tracker.getPreviousMove().getNum1();
 			return temp;
-		}
-		catch(NullPointerException e) {
+		} catch(NullPointerException e) {
 			return null;
 		}
 	}
@@ -61,12 +60,11 @@ public class UndoButton extends JButton{
 	/**
 	 * @return The previous second (righthand) NumberCard
 	 */
-	public NumberCard getPrevNum2()	{
+	public NumberCard getPrevNum2() {
 		try	{
 			NumberCard temp = tracker.getPreviousMove().getNum2();
 			return temp;
-		}
-		catch(NullPointerException e)	{
+		} catch(NullPointerException e) {
 			return null;
 		}
 	}
@@ -74,12 +72,11 @@ public class UndoButton extends JButton{
 	/**
 	 * @return The previous OperationCard
 	 */
-	public OperationCard getPrevOperation()	{
+	public OperationCard getPrevOperation() {
 		try	{
 			OperationCard temp = tracker.getPreviousMove().getOp();
 			return temp;
-		}
-		catch(NullPointerException e)	{
+		} catch(NullPointerException e) {
 			return null;
 		}
 	}
@@ -87,12 +84,11 @@ public class UndoButton extends JButton{
 	/**
 	 * @return The previous answer/result NumberCard
 	 */
-	public NumberCard getPrevNewNum()	{
+	public NumberCard getPrevNewNum() {
 		try	{
 			NumberCard temp = tracker.getPreviousMove().getNewNum();
 			return temp;
-		}
-		catch(NullPointerException e)	{
+		} catch(NullPointerException e) {
 			return null;
 		}
 	}
@@ -100,7 +96,7 @@ public class UndoButton extends JButton{
 	/**
 	 * @return The index of the MoveTracker
 	 */
-	public int getIndex()	{
+	public int getIndex() {
 		return tracker.getIndexPointer();
 	}
 }

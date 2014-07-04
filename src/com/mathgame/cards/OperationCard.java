@@ -1,7 +1,6 @@
 package com.mathgame.cards;
 
 import java.awt.Dimension;
-import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -18,7 +17,7 @@ public class OperationCard extends JLabel {
 	
 	private final int width = 40;
 	private final int height = 40;
-	public String operation;
+	private String operation;
 	
 	/**
 	 * Creates a new OperationCard with the given operation and position

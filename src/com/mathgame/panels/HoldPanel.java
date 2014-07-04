@@ -6,12 +6,7 @@ package com.mathgame.panels;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -27,7 +22,7 @@ public class HoldPanel extends JPanel {
 	private static final long serialVersionUID = -2013522168342802483L;
 	
 	static final String IMAGE_FILE = "/images/card holder.png";
-	static ImageIcon background;
+	ImageIcon background;
 	
 	public void init(MathGame mathGame)	{
 		this.setLayout(new FlowLayout());

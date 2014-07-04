@@ -48,10 +48,10 @@ public class OptionMenu extends JPanel implements ActionListener {
 	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/MenuButtonImg3.png";
 	static final int BUTTON_WIDTH = 130;
 	static final int BUTTON_HEIGHT = 30;
-	static ImageIcon background;
-	static ImageIcon buttonImage;
-	static ImageIcon buttonRollOverImage;
-	static ImageIcon buttonPressedImage;
+	ImageIcon background;
+	ImageIcon buttonImage;
+	ImageIcon buttonRollOverImage;
+	ImageIcon buttonPressedImage;
 	
 	ButtonGroup modeGroup; // Practice or Competitive (aka single player or multiplayer)
 	ButtonGroup diffGroup; // Easy, Medium, Hard
@@ -231,15 +231,15 @@ public class OptionMenu extends JPanel implements ActionListener {
 		mathGame.showMenu(MathGame.Menu.GAME);
 		System.out.println("ENTER GAME");
 		
-		mathGame.sidePanel.startTimer("Mix"); //TODO Hardcoded to mixed scoring
+		mathGame.getSidePanel().startTimer("Mix"); //TODO Hardcoded to mixed scoring
 		
-		tm.init(mathGame.cardPanel);
+		tm.init(mathGame.getCardPanel());
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof JButton) {
-			SoundManager.playSound(SoundManager.SoundType.Button);
+			SoundManager.playSound(SoundManager.SoundType.BUTTON);
 		}
 		
 		// Allow options only for practice mode (competitive decided through in game menu)
@@ -264,8 +264,8 @@ public class OptionMenu extends JPanel implements ActionListener {
 		} else if (e.getSource() == play) {			
 			if (buttonMap.get("Competitive").isSelected()) {
 				mathGame.setGameState(GameState.COMPETITIVE);
-				mathGame.multiMenu.refreshDatabase();
-				mathGame.multiMenu.addThisUser();
+				((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshDatabase();
+				((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).addThisUser();
 				mathGame.showMenu(MathGame.Menu.MULTIMENU);
 			} else {
 				mathGame.setGameState(GameState.PRACTICE);

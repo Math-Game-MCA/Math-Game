@@ -1,8 +1,5 @@
 package com.mathgame.database;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,7 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.mathgame.math.MathGame;
-import com.mathgame.math.TypeManager;
 
 /**
  * The MySQLAccess class handles connections to the MySQL database
@@ -26,7 +22,7 @@ public class MySQLAccess{
 	private final String user = "sofiav_user"; // "egarciao@localhost";
 	private final String pass = "Mathgames1"; //"oL20wC06xd";
 	
-	public Connection connect = null;
+	private Connection connection = null;
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
@@ -44,19 +40,19 @@ public class MySQLAccess{
 	
 	public MySQLAccess(MathGame mathGame) {
 		this.mathGame = mathGame;
-		gameAccess = new GameAccess(mathGame, connect);
+		gameAccess = new GameAccess(mathGame, connection);
 		System.out.println("11111111111" + mathGame.getBackground());
 	}
 	
 	protected MySQLAccess() {
-		// Only used for SQLProject
+		// Only used in the SQLProject class
 	}
 	
 	/**
 	 * @return The Connection with the database
 	 */
-	protected Connection getConnection() {
-		return connect;
+	public Connection getConnection() {
+		return connection;
 	}
 	
 	/**
@@ -64,13 +60,13 @@ public class MySQLAccess{
 	 * @return Whether the connection attempt was successful (true) or not
 	 */
 	public boolean connect() {
-		try{
+		try {
 			// 108.178.58.2
 			Class.forName("com.mysql.jdbc.Driver");
 			
-			connect = DriverManager.getConnection("jdbc:mysql://" + host + "/" + db, user, pass);
+			connection = DriverManager.getConnection("jdbc:mysql://" + host + "/" + db, user, pass);
 			
-			if (!connect.isClosed()) {
+			if (!connection.isClosed()) {
 				 System.out.println("Successfully connected to " + "MySQL server: " + host);
 				 return true;
 			}
@@ -144,7 +140,7 @@ public class MySQLAccess{
 		}
 		
 		try {
-			statement = connect.createStatement();
+			statement = connection.createStatement();
 			resultSet = statement.executeQuery("select * from sofiav_mathgame." + gameType);
 			
 			int offset = (int)((Math.random()*98) + 1);
@@ -184,24 +180,25 @@ public class MySQLAccess{
 			// Class.forName("com.mysql.jdbc.Driver");
 			// connect = DriverManager.getConnection("jdbc:MySQL://localhost/test", "root", "");
 			
-			statement = connect.createStatement();
+			statement = connection.createStatement();
 			System.out.println("here1");
 			resultSet = statement.executeQuery("select * from test.comments");
 			writeResultSet(resultSet);
 						
-			preparedStatement = connect.prepareStatement("INSERT INTO test.comments values(default, ?, ?, ?, ?, ?, ?)");
+			preparedStatement = connection.prepareStatement("INSERT INTO test.comments values(default, ?, ?, ?, ?, ?, ?)");
 			// Columns in test.comments
 			// myuser, email, webpage, datum, summary, COMMENTS
 			preparedStatement.setString(1, "Test");
 			preparedStatement.setString(2, "TestEmail");
 			preparedStatement.setString(3, "TestWebpage");
-			preparedStatement.setDate(4, new java.sql.Date(2009, 12, 11));
+			preparedStatement.setDate(4, java.sql.Date.valueOf("2009-12-11"));
+
 			preparedStatement.setString(5, "Test Summary");
 			preparedStatement.setString(6, "Test Comment");
 			System.out.println("here2");
 			preparedStatement.executeUpdate();
 			
-			preparedStatement = connect.prepareStatement("SELECT myuser, webpage, datum, summary, comments FROM test.comments");
+			preparedStatement = connection.prepareStatement("SELECT myuser, webpage, datum, summary, comments FROM test.comments");
 			System.out.println("here3");
 			resultSet = preparedStatement.executeQuery();
 			writeResultSet(resultSet);
@@ -301,8 +298,8 @@ public class MySQLAccess{
 			if (statement != null) {
 				statement.close();
 			}
-			if (connect != null) {
-				connect.close();
+			if (connection != null) {
+				connection.close();
 			}
 		}
 		catch(Exception e){
@@ -316,7 +313,7 @@ public class MySQLAccess{
 	 * @throws Exception
 	 */
 	public ArrayList<String> getUsersGame() throws Exception{
-		gameAccess = new GameAccess(mathGame, connect);
+		gameAccess = new GameAccess(mathGame, connection);
 		return gameAccess.getUsers();
 	}
 	
@@ -331,7 +328,7 @@ public class MySQLAccess{
 	 * Removes the user from the list
 	 */
 	public void removeUser() {
-		gameAccess.removeUser(connect);	
+		gameAccess.removeUser(connection);	
 	}
 	
 	/*

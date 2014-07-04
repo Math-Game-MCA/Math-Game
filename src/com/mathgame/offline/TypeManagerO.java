@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-import javax.swing.JLayeredPane;
-
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -21,7 +19,6 @@ import com.mathgame.panels.CardPanel;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.MathContext;
 import java.math.RoundingMode;
 
 /**
@@ -46,8 +43,24 @@ public class TypeManagerO {
 	
 	String numberTypeFile;
 	
-	public enum GameType {INTEGERS, DECIMALS, FRACTIONS, MIXED};
-	public enum Difficulty {EASY, MEDIUM, HARD};
+	/**
+	 * The GameType enumeration is used to distinguish between game types
+	 */
+	public static enum GameType {
+		INTEGERS,
+		DECIMALS,
+		FRACTIONS,
+		MIXED
+	};
+	
+	/**
+	 * The Difficulty enumeration is used to distinguish between levels of difficulty
+	 */
+	public static enum Difficulty {
+		EASY,
+		MEDIUM,
+		HARD
+	};
 	
 	GameType gameType;
 	Difficulty gameDiff;
@@ -385,7 +398,7 @@ public class TypeManagerO {
 			card4.setValue(String.valueOf(newValues.get(3)));
 			card5.setValue(String.valueOf(newValues.get(4)));
 			card6.setValue(String.valueOf(newValues.get(5)));
-			ans.setValue(String.valueOf(card1.parseNumFromText(ans.getStrValue())));
+			ans.setValue(String.valueOf(NumberCard.parseNumFromText(ans.getStrValue())));
 			// card1.parseNumFromText(newValues.get(3))
 		}
 		
@@ -415,7 +428,7 @@ public class TypeManagerO {
 			card4.setValue(String.valueOf(newValues.get(3)));
 			card5.setValue(String.valueOf(newValues.get(4)));
 			card6.setValue(String.valueOf(newValues.get(5)));
-			ans.setValue(String.valueOf(card1.parseNumFromText(ans.getStrValue())));
+			ans.setValue(String.valueOf(NumberCard.parseNumFromText(ans.getStrValue())));
 		}
 		
 		else{
@@ -444,7 +457,7 @@ public class TypeManagerO {
 			card4.setValue(String.valueOf(newValues.get(3)));
 			card5.setValue(String.valueOf(newValues.get(4)));
 			card6.setValue(String.valueOf(newValues.get(5)));
-			ans.setValue(String.valueOf(card1.parseNumFromText(ans.getStrValue())));
+			ans.setValue(String.valueOf(NumberCard.parseNumFromText(ans.getStrValue())));
 		}
 		
 		// Tag each card with "home" (cardPanel) being original location

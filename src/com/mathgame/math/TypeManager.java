@@ -1,26 +1,14 @@
 package com.mathgame.math;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
-import javax.swing.JLayeredPane;
-
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import com.mathgame.cards.NumberCard;
+import com.mathgame.database.MySQLAccess;
 import com.mathgame.panels.CardPanel;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.MathContext;
 import java.math.RoundingMode;
 
 /**
@@ -28,7 +16,8 @@ import java.math.RoundingMode;
  */
 public class TypeManager {
 	
-	MathGame mathGame;
+	static MathGame mathGame;
+	MySQLAccess sql;
 	
 	NumberCard card1;
 	NumberCard card2;
@@ -40,30 +29,34 @@ public class TypeManager {
 
 	CardPanel cP;
 
-	Calculate calc;
 	ArrayList<String> values;
-	ArrayList<Boolean> cardExists;	
+	ArrayList<Boolean> cardExists;
 	
-	String numberTypeFile;
+	/**
+	 * The GameType enumeration is used to distinguish between game types
+	 */
+	public static enum GameType {
+		INTEGERS,
+		DECIMALS,
+		FRACTIONS,
+		MIXED
+	};
 	
-	public enum GameType {INTEGERS, DECIMALS, FRACTIONS, MIXED};
-	public enum Difficulty {EASY, MEDIUM, HARD};
+	/**
+	 * The Difficulty enumeration is used to distinguish between levels of difficulty
+	 */
+	public static enum Difficulty {
+		EASY,
+		MEDIUM,
+		HARD
+	};
 	
 	GameType gameType;
 	Difficulty gameDiff;
 
-	InputStream cardValueInput;
-	XSSFWorkbook cardValueWorkbook;
-	static final String INTEGER_FILE = "images/Integers.xlsx";
-	static final String FRACTION_FILE = "images/Fractions.xlsx";
-	static final String DECIMAL_FILE = "images/Decimals.xlsx";
-	XSSFSheet currentSheet;
-	int rowCount;
-	int currentRowNumber;
-	XSSFRow currentRow;
-
 	public TypeManager(MathGame mathGame) {
-		this.mathGame = mathGame;
+		TypeManager.mathGame = mathGame;
+		sql = mathGame.getMySQLAccess();
 		gameType = GameType.INTEGERS;
 	}
 
@@ -154,8 +147,8 @@ public class TypeManager {
 			RandomInsert2 = (int)(generator.nextFloat() * 6);
 		} while (RandomInsert2 == RandomInsert1 ); // The two values must be in distinct NumberCards (i.e. not the same card!)
 
-		cardValues.set(RandomInsert1, convertFractiontoDecimal(mathGame.sql.getNum1()));
-		cardValues.set(RandomInsert2, convertFractiontoDecimal(mathGame.sql.getNum2()));
+		cardValues.set(RandomInsert1, convertFractiontoDecimal(sql.getNum1()));
+		cardValues.set(RandomInsert2, convertFractiontoDecimal(sql.getNum2()));
 
 		return cardValues;
 	}
@@ -305,8 +298,8 @@ public class TypeManager {
 			RandomInsert2 = (int)(generator.nextFloat() * 6);
 		}
 
-		cardValues.set(RandomInsert1, Double.valueOf(mathGame.sql.getNum1()));
-		cardValues.set(RandomInsert2, Double.valueOf(mathGame.sql.getNum2()));
+		cardValues.set(RandomInsert1, Double.valueOf(sql.getNum1()));
+		cardValues.set(RandomInsert2, Double.valueOf(sql.getNum2()));
 
 		return cardValues;
 	}
@@ -329,8 +322,8 @@ public class TypeManager {
 			RandomInsert2 = (int)(generator.nextFloat() * 6);
 		}
 
-		cardValues.set(RandomInsert1,  Integer.valueOf(mathGame.sql.getNum1()));
-		cardValues.set(RandomInsert2, Integer.valueOf(mathGame.sql.getNum2())); // (int)(currentRow.getCell(3).getNumericCellValue()));
+		cardValues.set(RandomInsert1,  Integer.valueOf(sql.getNum1()));
+		cardValues.set(RandomInsert2, Integer.valueOf(sql.getNum2())); // (int)(currentRow.getCell(3).getNumericCellValue()));
 
 		return cardValues;
 	}
@@ -340,9 +333,10 @@ public class TypeManager {
 	 */
 	public void randomize() {
 		try {
-			if(mathGame.sql.connect == null)
-				mathGame.sql.connect();
-			mathGame.sql.getVals();
+			if (sql.getConnection() == null) {
+				sql.connect();
+			}
+			sql.getVals();
 			// mathGame.sql.close();
 		} catch (Exception e) {
 			System.out.println("Get vals from DB failed");
@@ -351,7 +345,7 @@ public class TypeManager {
 		
 		System.out.println("\n\n\n\n*******GAMETYPE=="+gameType+"**********\n\n\n");
 		
-		if(gameType == GameType.FRACTIONS) {
+		if (gameType == GameType.FRACTIONS) {
 			ArrayList<Double> newValues = randomFractionValues();
 
 			card1.setStrValue(convertDecimaltoFraction(newValues.get(0)));
@@ -367,7 +361,7 @@ public class TypeManager {
 			values.set(3, card4.getStrValue());
 			values.set(4, card5.getStrValue());
 			values.set(5, card6.getStrValue());
-			ans.setStrValue(mathGame.sql.getAnswer());
+			ans.setStrValue(sql.getAnswer());
 			System.out.println(newValues.get(0));
 			
 			card1.setValue(String.valueOf(newValues.get(0)));
@@ -376,7 +370,7 @@ public class TypeManager {
 			card4.setValue(String.valueOf(newValues.get(3)));
 			card5.setValue(String.valueOf(newValues.get(4)));
 			card6.setValue(String.valueOf(newValues.get(5)));
-			ans.setValue(String.valueOf(card1.parseNumFromText(ans.getStrValue())));
+			ans.setValue(String.valueOf(NumberCard.parseNumFromText(ans.getStrValue())));
 			// card1.parseNumFromText(newValues.get(3))
 		}
 		
@@ -396,7 +390,7 @@ public class TypeManager {
 			values.set(3, card4.getStrValue());
 			values.set(4, card5.getStrValue());
 			values.set(5, card6.getStrValue());
-			ans.setStrValue(mathGame.sql.getAnswer());
+			ans.setStrValue(sql.getAnswer());
 			System.out.println(newValues.get(0));
 			
 			
@@ -406,7 +400,7 @@ public class TypeManager {
 			card4.setValue(String.valueOf(newValues.get(3)));
 			card5.setValue(String.valueOf(newValues.get(4)));
 			card6.setValue(String.valueOf(newValues.get(5)));
-			ans.setValue(String.valueOf(card1.parseNumFromText(ans.getStrValue())));
+			ans.setValue(String.valueOf(NumberCard.parseNumFromText(ans.getStrValue())));
 		}
 		
 		else{
@@ -425,7 +419,7 @@ public class TypeManager {
 			values.set(3, card4.getStrValue());
 			values.set(4, card5.getStrValue());
 			values.set(5, card6.getStrValue());
-			ans.setStrValue(mathGame.sql.getAnswer());
+			ans.setStrValue(sql.getAnswer());
 			System.out.println(newValues.get(0));
 			
 			
@@ -435,7 +429,7 @@ public class TypeManager {
 			card4.setValue(String.valueOf(newValues.get(3)));
 			card5.setValue(String.valueOf(newValues.get(4)));
 			card6.setValue(String.valueOf(newValues.get(5)));
-			ans.setValue(String.valueOf(card1.parseNumFromText(ans.getStrValue())));
+			ans.setValue(String.valueOf(NumberCard.parseNumFromText(ans.getStrValue())));
 		}
 		
 		// Tag each card with "home" (cardPanel) being original location

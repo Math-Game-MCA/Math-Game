@@ -6,8 +6,6 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
 import com.mathgame.cards.NumberCard;
@@ -29,46 +27,33 @@ import com.mathgame.cards.OperationCard;
 public class CompMover extends MouseInputAdapter {
 	Component selectedComponent;
 	Point offset;
-	boolean dragging;
+	boolean draggingCard;
 	boolean moved;
 
-	static MathGame view; // Components from the main class
-	static JLayeredPane layer;
+	static MathGame mathGame; // Components from the main class
+
 	JLabel[] cards = new JLabel[11]; // card1, card2..opA,S...
 	Rectangle[] cardHomes = new Rectangle[11]; // home1, home2...opA,S...
 
-	static JPanel workPanel;
-	static JPanel holdPanel;
-
 	/**
 	 * The constructor (which should only be called in the MathGame class)
-	 * @param view - The MathGame object. It is recommended to pass "MathGame.this" as an argument
+	 * @param mathGame - The MathGame object (It is recommended to pass "MathGame.this" as an argument)
 	 */
-	public CompMover(MathGame view) {
-		dragging = false;
+	public CompMover(MathGame mathGame) {
+		draggingCard = false;
 		moved = false;
-		this.view = view;
-		setViews();
+		CompMover.mathGame = mathGame;
+
+		cards = mathGame.getCards();
+		cardHomes = mathGame.getCardHomes();
 	}
 
 	/**
 	 * Initializes an instance of CompMover (without passing in a MathGame object)
 	 */
 	public CompMover() {
-		dragging = false;
+		draggingCard = false;
 		// setViews();
-	}
-
-	/**
-	 * Sets the view of the panels
-	 */
-	private void setViews() {
-		layer = view.layer;
-		cards = view.cards;
-		cardHomes = view.cardHomes;
-		workPanel = view.workPanel;
-		holdPanel = view.holdPanel;
-
 	}
 
 	/**
@@ -81,16 +66,16 @@ public class CompMover extends MouseInputAdapter {
 		// System.out.println(selectedComponent.getParent());
 		// Point tempPoint = selectedComponent.getLocation();
 		offset = e.getPoint();
-		dragging = true;
+		draggingCard = true;
 
 		try {
-			if (selectedComponent.getParent().equals(workPanel)) {
+			if (selectedComponent.getParent().equals(mathGame.getWorkspacePanel())) {
 
-				view.workPanel.remove(selectedComponent);
-				view.workPanel.revalidate();
-				view.layer.add(selectedComponent, new Integer(1));
-				view.layer.revalidate();
-				layer.repaint();
+				mathGame.getWorkspacePanel().remove(selectedComponent);
+				mathGame.getWorkspacePanel().revalidate();
+				mathGame.getMasterPane().add(selectedComponent, new Integer(1));
+				mathGame.getMasterPane().revalidate();
+				mathGame.getMasterPane().repaint();
 
 				// offset = selectedComponent.getLocationOnScreen();
 				// selectedComponent.setBounds(MouseInfo.getPointerInfo().getLocation().x,
@@ -109,14 +94,14 @@ public class CompMover extends MouseInputAdapter {
 				// selectedComponent.setSize(cardHomes[1].getSize().width,
 				// cardHomes[1].getSize().height);
 
-			} else if (selectedComponent.getParent().equals(holdPanel)) {
+			} else if (selectedComponent.getParent().equals(mathGame.getHoldPanel())) {
 				int tempX = selectedComponent.getX();
 				int tempY = selectedComponent.getLocationOnScreen().y;
-				view.holdPanel.remove(selectedComponent);
-				view.holdPanel.revalidate();
-				view.layer.add(selectedComponent, new Integer(1));
-				view.layer.revalidate();
-				layer.repaint();
+				mathGame.getHoldPanel().remove(selectedComponent);
+				mathGame.getHoldPanel().revalidate();
+				mathGame.getMasterPane().add(selectedComponent, new Integer(1));
+				mathGame.getMasterPane().revalidate();
+				mathGame.getMasterPane().repaint();
 
 				selectedComponent.setLocation(tempX, tempY);
 			}
@@ -137,7 +122,7 @@ public class CompMover extends MouseInputAdapter {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		dragging = false;
+		draggingCard = false;
 		Rectangle box1 = new Rectangle();
 		Rectangle box2 = new Rectangle();
 		Rectangle box3 = new Rectangle();
@@ -146,86 +131,79 @@ public class CompMover extends MouseInputAdapter {
 				selectedComponent.getWidth(), selectedComponent.getHeight());
 
 		try {
-			box2.setBounds(view.workPanel.getBounds());
-			box3.setBounds(view.holdPanel.getBounds());
-
+			box2.setBounds(mathGame.getWorkspacePanel().getBounds());
+			box3.setBounds(mathGame.getHoldPanel().getBounds());
 		} catch (Exception ex) {
 			System.out.println("Bounds could not be set");
-
 		}
 
 		if (box1.intersects(box2)) {
+			// The selectedComponent is above the WorkspacePanel
 			if (selectedComponent instanceof NumberCard) {				
-				NumberCard temp = (NumberCard) selectedComponent;
+				NumberCard temp = (NumberCard)selectedComponent;
 				if (temp.getHome() == "home") {
 					// Meaning the card originated from cardPanel
-					if (temp.getNumberTag() == view.cardPanel.card1
-							.getNumberTag()) {
-						view.cardPanel.changeCardExistence(0, false);
-					} else if (temp.getNumberTag() == view.cardPanel.card2
-							.getNumberTag()) {
-						view.cardPanel.changeCardExistence(1, false);
-					} else if (temp.getNumberTag() == view.cardPanel.card3
-							.getNumberTag()) {
-						view.cardPanel.changeCardExistence(2, false);
-					} else if (temp.getNumberTag() == view.cardPanel.card4
-							.getNumberTag()) {
-						view.cardPanel.changeCardExistence(3, false);
-					} else if (temp.getNumberTag() == view.cardPanel.card5
-							.getNumberTag()) {
-						view.cardPanel.changeCardExistence(4, false);
-					} else if (temp.getNumberTag() == view.cardPanel.card6
-							.getNumberTag()) {
-						view.cardPanel.changeCardExistence(5, false);
+					if (temp.getNumberTag() == mathGame.getCardPanel().card1.getNumberTag()) {
+						mathGame.getCardPanel().changeCardExistence(0, false);
+					} else if (temp.getNumberTag() == mathGame.getCardPanel().card2.getNumberTag()) {
+						mathGame.getCardPanel().changeCardExistence(1, false);
+					} else if (temp.getNumberTag() == mathGame.getCardPanel().card3.getNumberTag()) {
+						mathGame.getCardPanel().changeCardExistence(2, false);
+					} else if (temp.getNumberTag() == mathGame.getCardPanel().card4.getNumberTag()) {
+						mathGame.getCardPanel().changeCardExistence(3, false);
+					} else if (temp.getNumberTag() == mathGame.getCardPanel().card5.getNumberTag()) {
+						mathGame.getCardPanel().changeCardExistence(4, false);
+					} else if (temp.getNumberTag() == mathGame.getCardPanel().card6.getNumberTag()) {
+						mathGame.getCardPanel().changeCardExistence(5, false);
 					}
 				}
 				
-				if (view.workPanel.getComponentCount() == 1	&&
-						view.workPanel.getComponent(0) instanceof OperationCard) {
+				if (mathGame.getWorkspacePanel().getComponentCount() == 1	&&
+						mathGame.getWorkspacePanel().getComponent(0) instanceof OperationCard) {
 					// Force card to be placed BEFORE operator
-					OperationCard tempOpCard = (OperationCard)(view.workPanel.getComponent(0));
-					view.workPanel.remove(0); // Temporarily take out operation card
-					layer.remove(selectedComponent);
-					layer.revalidate();
-					view.workPanel.add(selectedComponent);// Put numbercard
-					view.workPanel.add(tempOpCard);// Put back operation AFTER numbercard
-					view.workPanel.revalidate();
-					view.layer.repaint();
+					OperationCard tempOpCard = (OperationCard)(mathGame.getWorkspacePanel().getComponent(0));
+					mathGame.getWorkspacePanel().remove(0); // Temporarily take out operation card
+					mathGame.getMasterPane().remove(selectedComponent);
+					mathGame.getMasterPane().revalidate();
+					mathGame.getWorkspacePanel().add(selectedComponent);// Put numbercard
+					mathGame.getWorkspacePanel().add(tempOpCard);// Put back operation AFTER numbercard
+					mathGame.getWorkspacePanel().revalidate();
+					mathGame.getMasterPane().repaint();
 				} else {
-					layer.remove(selectedComponent);
-					layer.revalidate();
-					view.workPanel.add(selectedComponent);
-					view.workPanel.revalidate();
-					view.layer.repaint();
+					mathGame.getMasterPane().remove(selectedComponent);
+					mathGame.getMasterPane().revalidate();
+					mathGame.getWorkspacePanel().add(selectedComponent);
+					mathGame.getWorkspacePanel().revalidate();
+					mathGame.getMasterPane().repaint();
 				}
 				
 			} else if (selectedComponent instanceof OperationCard) {
 				// Now attempt to put an operation card in between if necessary
-				if (view.workPanel.getComponentCount() == 0) {
-					// Nothing in work panel; do not put operatio 
+				if (mathGame.getWorkspacePanel().getComponentCount() == 0) {
+					// Nothing in work panel; do not put operation
 					restoreCard();
-				} else if (view.workPanel.getComponentCount() == 1) {
+				} else if (mathGame.getWorkspacePanel().getComponentCount() == 1) {
 					// There is presumably one NumberCard in there
-					layer.remove(selectedComponent);
-					layer.revalidate();
-					view.workPanel.add(selectedComponent);
-					view.workPanel.revalidate();
-					view.layer.repaint();
-				} else if (view.workPanel.getComponentCount() == 2) {
+					mathGame.getMasterPane().remove(selectedComponent);
+					mathGame.getMasterPane().revalidate();
+					mathGame.getWorkspacePanel().add(selectedComponent);
+					mathGame.getWorkspacePanel().revalidate();
+					mathGame.getMasterPane().repaint();
+				} else if (mathGame.getWorkspacePanel().getComponentCount() == 2) {
 					// Check if its two NumberCards or a NumberCard & OperationCard
-					if (view.workPanel.getComponent(0) instanceof NumberCard
-							&& view.workPanel.getComponent(1) instanceof NumberCard) {
+					if (mathGame.getWorkspacePanel().getComponent(0) instanceof NumberCard
+							&& mathGame.getWorkspacePanel().getComponent(1) instanceof NumberCard) {
 						OperationCard temp = (OperationCard) selectedComponent;
-						layer.remove(selectedComponent);
-						layer.revalidate();
-						NumberCard tempNumCard = (NumberCard)(view.workPanel.getComponent(1));
-						view.workPanel.remove(1); // Remove the second number card;
-						view.workPanel.revalidate();
-						view.workPanel.add(temp);
-						view.workPanel.revalidate();
-						view.workPanel.add(tempNumCard);
-						view.workPanel.revalidate();
-						view.layer.repaint();
+						mathGame.getMasterPane().remove(selectedComponent);
+						mathGame.getMasterPane().revalidate();
+						NumberCard tempNumCard = (NumberCard)(mathGame.getWorkspacePanel().getComponent(1));
+						mathGame.getWorkspacePanel().remove(1); // Remove the second number card;
+						mathGame.getWorkspacePanel().revalidate();
+						mathGame.getWorkspacePanel().add(temp);
+						mathGame.getWorkspacePanel().revalidate();
+						mathGame.getWorkspacePanel().add(tempNumCard);
+						mathGame.getWorkspacePanel().revalidate();
+						mathGame.getMasterPane().repaint();
 					} else {
 						restoreCard();
 					}
@@ -237,52 +215,48 @@ public class CompMover extends MouseInputAdapter {
 			// selectedComponent.setSize(cardHomes[1].getSize());
 			
 		} else if (box1.intersects(box3)) {
+			// The selectedComponent is above the HoldPanel
 			if (selectedComponent instanceof NumberCard) {
 				NumberCard temp = (NumberCard) selectedComponent;
 				if (temp.getHome() == "home") {
 					// Meaning it originated from cardPanel
-					if (temp.getNumberTag() == view.cardPanel.card1
-							.getNumberTag()) {
-						view.cardPanel.changeCardExistence(0, false);
-					} else if (temp.getNumberTag() == view.cardPanel.card2
-							.getNumberTag()) {
-						view.cardPanel.changeCardExistence(1, false);
-					} else if (temp.getNumberTag() == view.cardPanel.card3
-							.getNumberTag()) {
-						view.cardPanel.changeCardExistence(2, false);
-					} else if (temp.getNumberTag() == view.cardPanel.card4
-							.getNumberTag()) {
-						view.cardPanel.changeCardExistence(3, false);
-					} else if (temp.getNumberTag() == view.cardPanel.card5
-							.getNumberTag()) {
-						view.cardPanel.changeCardExistence(4, false);
-					} else if (temp.getNumberTag() == view.cardPanel.card6
-							.getNumberTag()) {
-						view.cardPanel.changeCardExistence(5, false);
+					if (temp.getNumberTag() == mathGame.getCardPanel().card1.getNumberTag()) {
+						mathGame.getCardPanel().changeCardExistence(0, false);
+					} else if (temp.getNumberTag() == mathGame.getCardPanel().card2.getNumberTag()) {
+						mathGame.getCardPanel().changeCardExistence(1, false);
+					} else if (temp.getNumberTag() == mathGame.getCardPanel().card3.getNumberTag()) {
+						mathGame.getCardPanel().changeCardExistence(2, false);
+					} else if (temp.getNumberTag() == mathGame.getCardPanel().card4.getNumberTag()) {
+						mathGame.getCardPanel().changeCardExistence(3, false);
+					} else if (temp.getNumberTag() == mathGame.getCardPanel().card5.getNumberTag()) {
+						mathGame.getCardPanel().changeCardExistence(4, false);
+					} else if (temp.getNumberTag() == mathGame.getCardPanel().card6.getNumberTag()) {
+						mathGame.getCardPanel().changeCardExistence(5, false);
 					}
 				}
-				layer.remove(selectedComponent);
-				layer.revalidate();
-				view.holdPanel.add(selectedComponent);
-				view.holdPanel.revalidate();
-				view.layer.repaint();
+				mathGame.getMasterPane().remove(selectedComponent);
+				mathGame.getMasterPane().revalidate();
+				mathGame.getHoldPanel().add(selectedComponent);
+				mathGame.getHoldPanel().revalidate();
+				mathGame.getMasterPane().repaint();
 			} else if (selectedComponent instanceof OperationCard) {
 				// Don't put operations card in hold
 				restoreCard();
 			}
 			
 		} else {
+			// The selectedComponent is above neither the WorkspacePanel nor the HoldPanel
 			restoreCard();
 			try {
 				if (selectedComponent.getName().equals(("Answer"))) {
-					layer.remove(selectedComponent);
-					layer.revalidate();
-					view.holdPanel.add(selectedComponent);
-					view.holdPanel.revalidate();
-					view.layer.repaint();
+					mathGame.getMasterPane().remove(selectedComponent);
+					mathGame.getMasterPane().revalidate();
+					mathGame.getHoldPanel().add(selectedComponent);
+					mathGame.getHoldPanel().revalidate();
+					mathGame.getMasterPane().repaint();
 				}
 			} catch (Exception ex) {
-				System.err.println("can't get selectedComponent name");
+				System.err.println("selectedComponent is unnamed");
 			}
 		}
 
@@ -307,7 +281,7 @@ public class CompMover extends MouseInputAdapter {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// System.out.println(e.getLocationOnScreen());
-		if (dragging) {
+		if (draggingCard) {
 			Rectangle r = selectedComponent.getBounds();
 
 			r.x += e.getX() - offset.x;

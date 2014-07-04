@@ -2,7 +2,7 @@ package com.mathgame.cards;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
+// import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
@@ -24,10 +24,10 @@ public class NumberCard extends JLabel {
 	private int height = 100;
 	private int numberTag;
 	
-	final Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 22);
+	// final Font sansSerif36 = new Font("SansSerif", Font.PLAIN, 22);
 	// Sizes can be overridden with setWidth and setHeight methods
 	
-	private String type = "none";
+	// private String type = "none";
 	private String home; // hold or home (i.e. was it a created card or a new card?)
 	
 	// Image processing
@@ -104,7 +104,7 @@ public class NumberCard extends JLabel {
 	 * @param s - The entered String expression
 	 * @return The value of the expression (as a double)
 	 */
-	public double parseNumFromText(String s){
+	public static double parseNumFromText(String s){
 		
 		double ans = 0;
 		
@@ -175,7 +175,7 @@ public class NumberCard extends JLabel {
 	 * @param n - The number to round
 	 * @return The rounded number
 	 */
-	public double round (double n) {
+	public static double round (double n) {
 		// Rounding algorithm for increment epsilon
 		
 		double q = n / MathGame.epsilon;
@@ -239,13 +239,6 @@ public class NumberCard extends JLabel {
 	public void setHeight(int height) {
 		this.height = height;
 		this.setPreferredSize(new Dimension(width, height));
-	}
-	
-	/**
-	 * @param type - The type of NumberCard (e.g. an answer card)
-	 */
-	public void setType(String type){
-		this.type = type;
 	}
 
 	/**
