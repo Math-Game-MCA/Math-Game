@@ -5,7 +5,6 @@ import java.applet.AudioClip;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.EnumMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,23 +28,39 @@ public class SoundManager implements ActionListener {
 	 * The SoundType enumeration is used to determine which sound effect to play
 	 */
 	public static enum SoundType {
-		BUTTON,
-		MERGE,
-		SUCCESS,
-		INCORRECT
+		/**
+		 * Whenever a (J)button is pressed
+		 * <p>
+		 * Source: https://www.freesound.org/people/fins/sounds/171521/
+		 */
+		BUTTON (Applet.newAudioClip(SoundManager.class.getResource("/audio/button.wav"))),
+		
+		/**
+		 * Whenever cards merge together
+		 * <p>
+		 * Source: https://www.freesound.org/people/toyoto/sounds/93759/
+		 */
+		MERGE (Applet.newAudioClip(SoundManager.class.getResource("/audio/merge.wav"))),
+		
+		/**
+		 * Whenever the user gets a correct answer
+		 * <p>
+		 * Source: https://www.freesound.org/people/grunz/sounds/109662/
+		 */
+		SUCCESS (Applet.newAudioClip(SoundManager.class.getResource("/audio/success.wav"))),
+		
+		/**
+		 * Whenever the user gets an incorrect answer
+		 * <p>
+		 * Source: https://www.freesound.org/people/timgormly/sounds/181857/
+		 */
+		INCORRECT (Applet.newAudioClip(SoundManager.class.getResource("/audio/incorrect.wav")));
+		
+		private final AudioClip sfx;
+		SoundType(AudioClip sfx) {
+			this.sfx = sfx;
+		}
 	};
-	
-	private static EnumMap<SoundType, AudioClip> audioMap = new EnumMap<SoundType, AudioClip>(SoundType.class);
-	static {
-		audioMap.put(SoundType.BUTTON, Applet.newAudioClip(SoundManager.class.getResource("/audio/button.wav")));
-		// https://www.freesound.org/people/fins/sounds/171521/
-		audioMap.put(SoundType.MERGE, Applet.newAudioClip(SoundManager.class.getResource("/audio/merge.wav")));
-		// https://www.freesound.org/people/toyoto/sounds/93759/
-		audioMap.put(SoundType.SUCCESS, Applet.newAudioClip(SoundManager.class.getResource("/audio/success.wav")));
-		// https://www.freesound.org/people/grunz/sounds/109662/
-		audioMap.put(SoundType.INCORRECT, Applet.newAudioClip(SoundManager.class.getResource("/audio/incorrect.wav")));
-		// https://www.freesound.org/people/timgormly/sounds/181857/
-	}
 	
 	JButton mButton;
 	
@@ -79,7 +94,7 @@ public class SoundManager implements ActionListener {
 	 */
 	public static void playSound(SoundType type) {
 		if (musicPlay) {
-			audioMap.get(type).play();
+			type.sfx.play();
 		}
 	}
 

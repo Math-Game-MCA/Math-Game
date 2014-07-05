@@ -19,9 +19,9 @@ public class ImageGenerator {
 	
 	private BufferedImage img;
 	private Graphics2D g2d;
-	private static Font sansSerif24 = new Font("SansSerif", Font.PLAIN, 24);
-	private static Font sansSerif20 = new Font("SansSerif", Font.PLAIN, 20);
-	private static Font sansSerif16 = new Font("SansSerif", Font.PLAIN, 16);
+	private static final Font sansSerif24 = new Font("SansSerif", Font.PLAIN, 24);
+	private static final Font sansSerif20 = new Font("SansSerif", Font.PLAIN, 20);
+	private static final Font sansSerif16 = new Font("SansSerif", Font.PLAIN, 16);
 	private String imgFile;
 	private File outf;
 	
@@ -205,14 +205,14 @@ public class ImageGenerator {
 	}
 
 	/**
-	 * @return the imgFile
+	 * @return the imgFile (path)
 	 */
 	public String getImgFile() {
 		return imgFile;
 	}
 
 	/**
-	 * @param imgFile - The imgFile to set (as a string)
+	 * @param imgFile - The imgFile (path) to set (as a string)
 	 */
 	public void setImgFile(String imgFile) {
 		String fileSeparator = System.getProperty("file.separator");

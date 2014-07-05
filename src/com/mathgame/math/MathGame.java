@@ -29,32 +29,57 @@ public class MathGame extends Container implements ActionListener {
 	private MultiMenu multiMenu;
 	private OptionMenu optionMenu;
 	private HostMenu hostMenu;
-	
-	private static final String GAME = "CardLayoutPanel Game";
-	private static final String MAINMENU = "CardLayoutPanel MainMenu";
-	private static final String MULTIMENU = "CardLayoutPanel Multiplayer";
-	private static final String OPTIONMENU = "CardLayoutPanel OptionMenu";
-	private static final String HOSTMENU = "CardLayoutPanel HostMenu";
-	
+
 	/**
 	 * The Menu enumeration is used for selecting which menu to use
 	 */
 	public static enum Menu {
-		GAME,
-		MAINMENU,
-		MULTIMENU,
-		OPTIONMENU,
-		HOSTMENU
+		/**
+		 * The game screen
+		 */
+		GAME ("CardLayoutPanel Game"),
+		
+		/**
+		 * The main (starting) menu
+		 */
+		MAINMENU ("CardLayoutPanel MainMenu"),
+		
+		/**
+		 * The multiplayer menu
+		 */
+		MULTIMENU ("CardLayoutPanel Multiplayer"),
+		
+		/**
+		 * The game options (aka setup) menu
+		 */
+		OPTIONMENU ("CardLayoutPanel OptionMenu"),
+		
+		/**
+		 * The menu for hosting new games
+		 */
+		HOSTMENU ("CardLayoutPanel HostMenu");
+		
+		public final String cardLayoutString;
+		Menu(String cardLayoutString) {
+			this.cardLayoutString = cardLayoutString;
+		}
 	};	
 	
 	/**
 	 * The GameState enumeration is used for indicating the user's current game mode
 	 */
 	public static enum GameState {
+		/**
+		 * Offline, solo play
+		 */
 		PRACTICE,
+		
+		/**
+		 * Online, multiplayer play
+		 */
 		COMPETITIVE
 	};
-	private GameState gs;
+	private GameState gs; // Keeps track of the user's game state
 
 	private GameManager gameManager; // Game variables held here for multiplayer games
 
@@ -62,7 +87,7 @@ public class MathGame extends Container implements ActionListener {
 	private CardLayout cl;
 
 	// Panel Declarations
-	private JLayeredPane layer; // Master panel, particularly for moving cards across entire screen
+	private JLayeredPane gameMasterLayer; // Master game panel, particularly for moving cards across entire screen
 	private SidePanel sidePanel; // Control panel on the side
 	private OperationPanel opPanel; // Panel that holds operations: + - / *
 	private CardPanel cardPanel; // Panel that holds cards at top
@@ -177,9 +202,9 @@ public class MathGame extends Container implements ActionListener {
 		mainMenu.init(this);
 		mainMenu.setBounds(0, 0, appWidth, appHeight);
 
-		layer = new JLayeredPane();
-		layer.setLayout(null);
-		layer.setBounds(5, 0, getSize().width, getSize().height);
+		gameMasterLayer = new JLayeredPane();
+		gameMasterLayer.setLayout(null);
+		gameMasterLayer.setBounds(5, 0, getSize().width, getSize().height);
 
 		typeManager = new TypeManager(this);
 		gameManager = new GameManager(this);
@@ -202,7 +227,7 @@ public class MathGame extends Container implements ActionListener {
 
 		cardPanel = new CardPanel(this); // Top card panel
 		// cardPanel.setBounds(0, 0, 750, 150);
-		cardPanel.init(layer);
+		cardPanel.init(gameMasterLayer);
 
 		opPanel = new OperationPanel(); // Operation panel
 		opPanel.setBounds(0, 150, 750, 60);
@@ -217,22 +242,22 @@ public class MathGame extends Container implements ActionListener {
 		holdPanel.init(this);
 
 		// Adding panels to the game
-		cardLayoutPanels.add(mainMenu, MAINMENU);
-		cardLayoutPanels.add(layer, GAME);
-		cardLayoutPanels.add(multiMenu, MULTIMENU);
-		cardLayoutPanels.add(optionMenu, OPTIONMENU);
-		cardLayoutPanels.add(hostMenu, HOSTMENU);
+		cardLayoutPanels.add(mainMenu, Menu.MAINMENU.cardLayoutString);
+		cardLayoutPanels.add(gameMasterLayer, Menu.GAME.cardLayoutString);
+		cardLayoutPanels.add(multiMenu, Menu.MULTIMENU.cardLayoutString);
+		cardLayoutPanels.add(optionMenu, Menu.OPTIONMENU.cardLayoutString);
+		cardLayoutPanels.add(hostMenu, Menu.HOSTMENU.cardLayoutString);
 		cl = (CardLayout) cardLayoutPanels.getLayout();
 		// cl.show(cardLayoutPanels, MENU);
 		add(cardLayoutPanels);
-		cl.show(cardLayoutPanels, MAINMENU);
+		showMenu(Menu.MAINMENU);
 		// add(layer);
 		// layer.add(menu, new Integer(2));
-		layer.add(sidePanel, new Integer(0));
-		layer.add(opPanel, new Integer(0));
-		layer.add(cardPanel, new Integer(0));
-		layer.add(workPanel, new Integer(0));
-		layer.add(holdPanel, new Integer(0));
+		gameMasterLayer.add(sidePanel, new Integer(0));
+		gameMasterLayer.add(opPanel, new Integer(0));
+		gameMasterLayer.add(cardPanel, new Integer(0));
+		gameMasterLayer.add(workPanel, new Integer(0));
+		gameMasterLayer.add(holdPanel, new Integer(0));
 
 		/*
 		home1 = new Rectangle(cardPanel.card1.getBounds());
@@ -315,18 +340,18 @@ public class MathGame extends Container implements ActionListener {
 		opPanel.multiply.addMouseMotionListener(mover);
 		opPanel.divide.addMouseMotionListener(mover);
 		// Adds to layered pane to facilitate movement across ALL panels
-		layer.add(cardPanel.card1, new Integer(1)); // Adding new integer ensures card is on top
-		layer.add(cardPanel.card2, new Integer(1));
-		layer.add(cardPanel.card3, new Integer(1));
-		layer.add(cardPanel.card4, new Integer(1));
-		layer.add(cardPanel.card5, new Integer(1));
-		layer.add(cardPanel.card6, new Integer(1));
+		gameMasterLayer.add(cardPanel.card1, new Integer(1)); // Adding new integer ensures card is on top
+		gameMasterLayer.add(cardPanel.card2, new Integer(1));
+		gameMasterLayer.add(cardPanel.card3, new Integer(1));
+		gameMasterLayer.add(cardPanel.card4, new Integer(1));
+		gameMasterLayer.add(cardPanel.card5, new Integer(1));
+		gameMasterLayer.add(cardPanel.card6, new Integer(1));
 
-		layer.add(cardPanel.ans, new Integer(1)); // Holds the answer
-		layer.add(opPanel.add, new Integer(1));
-		layer.add(opPanel.subtract, new Integer(1));
-		layer.add(opPanel.multiply, new Integer(1));
-		layer.add(opPanel.divide, new Integer(1));
+		gameMasterLayer.add(cardPanel.ans, new Integer(1)); // Holds the answer
+		gameMasterLayer.add(opPanel.add, new Integer(1));
+		gameMasterLayer.add(opPanel.subtract, new Integer(1));
+		gameMasterLayer.add(opPanel.multiply, new Integer(1));
+		gameMasterLayer.add(opPanel.divide, new Integer(1));
 
 		/*
 		 * //Code for a different Cursor Toolkit toolkit = getToolkit(); Image
@@ -353,23 +378,7 @@ public class MathGame extends Container implements ActionListener {
 	 * @param menu - The Menu to show
 	 */
 	public void showMenu(Menu menu) {
-		switch (menu) {
-		case GAME:
-			cl.show(cardLayoutPanels, GAME);
-			break;
-		case MAINMENU:
-			cl.show(cardLayoutPanels, MAINMENU);
-			break;
-		case MULTIMENU:
-			cl.show(cardLayoutPanels, MULTIMENU);
-			break;
-		case OPTIONMENU:
-			cl.show(cardLayoutPanels, OPTIONMENU);
-			break;
-		case HOSTMENU:
-			cl.show(cardLayoutPanels, HOSTMENU);
-			break;
-		}
+		cl.show(cardLayoutPanels, menu.cardLayoutString);
 	}
 	
 	/**
@@ -423,7 +432,7 @@ public class MathGame extends Container implements ActionListener {
 	 * @return The master panel (layer) of the MathGame object
 	 */
 	public JLayeredPane getMasterPane() {
-		return layer;
+		return gameMasterLayer;
 	}
 	
 	/**

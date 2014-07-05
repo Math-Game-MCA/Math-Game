@@ -42,20 +42,6 @@ public class NumberCard extends JLabel {
 		imgGen.setImgFile(imageFile);
 		img = new ImageIcon();
 	}
-	
-	/**
-	 * @return The home (panel) of the card
-	 */
-	public String getHome() {
-		return home;
-	}
-
-	/**
-	 * @param home - The home to set
-	 */
-	public void setHome(String home) {
-		this.home = home;
-	}
 
 	/**
 	 * Creates a new NumberCard, displaying the given value (a double)
@@ -79,7 +65,7 @@ public class NumberCard extends JLabel {
 	}
 	
 	/**
-	 * Creates a new NumberCard, displaying the given expression (a string expression)
+	 * Creates a new NumberCard, displaying the given expression (as a string)
 	 */
 	public NumberCard(String s) {
 		// The value of the expression is evaluated before being stored as a string
@@ -97,6 +83,20 @@ public class NumberCard extends JLabel {
 		imgGen.setImgFile(imageFile);
 		img = new ImageIcon();
 		renderText(strValue);
+	}
+	
+	/**
+	 * @return The home (panel) of the card
+	 */
+	public String getHome() {
+		return home;
+	}
+
+	/**
+	 * @param home - The home to set
+	 */
+	public void setHome(String home) {
+		this.home = home;
 	}
 
 	/**

@@ -11,12 +11,12 @@ import com.mathgame.cards.OperationCard;
  */
 public class MoveTracker {
 
-	private ArrayList<Moves> moves;
+	private ArrayList<Move> moves;
 	private int indexPointer;
 	
 	public MoveTracker() {
 		indexPointer = 0;
-		moves = new ArrayList<Moves>();
+		moves = new ArrayList<Move>();
 	}
 	
 	/**
@@ -27,7 +27,7 @@ public class MoveTracker {
 	 * @param newNum - The NumberCard formed after evaluating the expression
 	 */
 	public void registerMove(NumberCard card1, OperationCard op, NumberCard card2, NumberCard newNum) {
-		Moves temp = new Moves(card1, op, card2, newNum);
+		Move temp = new Move(card1, op, card2, newNum);
 
 		if (indexPointer < moves.size()) {
 			// If the index is within bounds, replace the move at the current indexNum
@@ -43,12 +43,12 @@ public class MoveTracker {
 	
 	/**
 	 * Returns the last move registered (primarily for the purpose of undoing a move)
-	 * @return The last move (as a Moves object)
+	 * @return The last Move (object)
 	 */
-	public Moves getPreviousMove() {
+	public Move getPreviousMove() {
 		System.out.println("index: " + indexPointer);
 		if(indexPointer <= 0) {
-			// Protect against too many undos
+			// Protects against too many undos
 			System.out.println("Too many undos!");
 			return null;
 		}
@@ -66,6 +66,9 @@ public class MoveTracker {
 		return moves.get(indexPointer - 1);
 	}
 	
+	/**
+	 * @return The MoveTracker's index pointer
+	 */
 	public int getIndexPointer() {
 		return indexPointer;
 	}

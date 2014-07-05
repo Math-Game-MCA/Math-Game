@@ -4,10 +4,10 @@ import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
 
 /**
- * The Moves class represents individual moves, including information like which cards were involved
+ * The Move class represents individual moves, including information like which cards were involved
  * @author Roland Fong
  */
-public class Moves {
+public class Move {
 
 	private NumberCard num1;
 	private NumberCard num2;
@@ -20,8 +20,7 @@ public class Moves {
 	 * @param op - The OperationCard
 	 * @param newNum - The NumberCard formed after evaluating the expression
 	 */
-	public Moves(NumberCard num1, OperationCard op, NumberCard num2, NumberCard newNum) {
-		super();
+	public Move(NumberCard num1, OperationCard op, NumberCard num2, NumberCard newNum) {
 		this.num1 = num1;
 		this.num2 = num2;
 		this.op = op;

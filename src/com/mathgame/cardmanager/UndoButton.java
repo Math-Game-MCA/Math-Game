@@ -14,21 +14,21 @@ public class UndoButton extends JButton {
 
 	private static final long serialVersionUID = -1610472234274569185L;
 	
-	MathGame mathGame;
+	static MathGame mathGame;
 	MoveTracker tracker;
 	
 	/**
 	 * @param text - The text to be displayed on the UndoButton
 	 * @param mathGame - THe current mathGame instance
 	 */
-	public UndoButton(String text, MathGame mathGame) {
+	public UndoButton(String text, MathGame game) {
 		this.setText(text);
-		this.mathGame = mathGame;
+		mathGame = game;
 		tracker = new MoveTracker();
 	}
 	
 	/**
-	 * Decrements the index in the MoveTracker to finish the undo process
+	 * Finishes the undo process (by decrementing the index in the MoveTracker)
 	 */
 	public void completeUndo() {
 		tracker.decrementIndex();

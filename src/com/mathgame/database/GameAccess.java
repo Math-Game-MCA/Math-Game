@@ -16,7 +16,7 @@ import com.mathgame.network.GameManager;
  */
 public class GameAccess extends MySQLAccess {
 	
-	MathGame mathGame;
+	static MathGame mathGame;
 	private Connection connection;
 	
 	@SuppressWarnings("unused")

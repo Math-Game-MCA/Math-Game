@@ -58,11 +58,11 @@ public class Calculate {
 	
 	/**
 	 * @deprecated
-	 * Calculates the answer of the given expression
+	 * Calculates the answer of the given expression (but does other things too...)
 	 * @param container - A string ArrayList containing the lefthand operand, operation, and righthand operand
 	 * @return The value of the given expression
 	 */
-	public static Double calculate(ArrayList<String> container)
+	public static Double calculateAndSomething(ArrayList<String> container)
 	{
 		double answer = 0;
 		ArrayList<Double> values = new ArrayList<Double>();
@@ -73,8 +73,7 @@ public class Calculate {
 		answer = values.get(0);
 		System.out.println(answer);
 		Random generator = new Random();
-		for(int i = 1; i < values.size(); i++)
-		{
+		for (int i = 1; i < values.size(); i++) {
 			
 			int randomOp = generator.nextInt(4);
 			String op = MathGame.operations[randomOp];

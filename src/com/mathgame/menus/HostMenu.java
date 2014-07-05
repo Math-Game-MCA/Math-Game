@@ -49,7 +49,7 @@ public class HostMenu extends JPanel implements ActionListener {
 	static ImageIcon buttonRollOverImage;
 	static ImageIcon buttonPressedImage;
 	
-	static Font eurostile24;
+	private static final Font eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
 	
 	static {
 		// Image initialization
@@ -57,7 +57,6 @@ public class HostMenu extends JPanel implements ActionListener {
 		buttonImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_IMAGE_FILE));
 		buttonRollOverImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
 		buttonPressedImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
-		eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
 	}
 	
 	ButtonGroup diffGroup; // Easy, Medium, Hard

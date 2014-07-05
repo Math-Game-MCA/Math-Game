@@ -40,11 +40,11 @@ public class SidePanel extends JPanel implements ActionListener {
 	JButton help;
 	JButton exit;
 	JButton checkAns;
-	public UndoButton undo; //TODO Why is this public?
+	UndoButton undo;
 	JButton reset;
 
-	Font eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
-	Font eurostile16 = new Font("Eurostile", Font.PLAIN, 16);
+	private static final Font eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
+	private static final Font eurostile16 = new Font("Eurostile", Font.PLAIN, 16);
 
 	static final String IMAGE_FILE = "/images/control bar.png";
 	static final String BUTTON_IMAGE_FILE = "/images/DefaultButtonImage1.png";

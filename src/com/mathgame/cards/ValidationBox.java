@@ -17,8 +17,7 @@ public class ValidationBox extends JTextField implements FocusListener {
 	
 	private static final long serialVersionUID = 9194776692080250140L;
 	
-	double cardValue;
-	NumberCard numCard;
+	private NumberCard numCard;
 	
 	private static final String DEFAULT_TEXT = "Enter number";
 	
@@ -56,6 +55,8 @@ public class ValidationBox extends JTextField implements FocusListener {
 				System.out.println("insert update");
 				if(checkCard()) {
 					setBackground(Color.green);
+				} else if(getText().equals("")) {
+					setBackground(Color.white); // The background shouldn't be red if nothing was typed in!
 				} else {
 					setBackground(Color.red);
 				}
@@ -66,6 +67,8 @@ public class ValidationBox extends JTextField implements FocusListener {
 				System.out.println("delete update");
 				if(checkCard()) {
 					setBackground(Color.green);
+				} else if(getText().equals("")) {
+					setBackground(Color.white);
 				} else {
 					setBackground(Color.red);
 				}
@@ -115,14 +118,6 @@ public class ValidationBox extends JTextField implements FocusListener {
 	public void reset() {	
 		this.setText(DEFAULT_TEXT);
 		this.setBackground(Color.white);
-	}
-	
-	/**
-	 * @param text - The value to set the NumberCard (as a string)
-	 */
-	public void setCardValue(String text) {		
-		numCard.setValue(text);
-		
 	}
 	
 	/*

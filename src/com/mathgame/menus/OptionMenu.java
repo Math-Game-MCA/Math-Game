@@ -73,7 +73,8 @@ public class OptionMenu extends JPanel implements ActionListener {
 	
 	GridBagConstraints gbc;
 	
-	Font eurostile24;
+	private static final Font eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
+	// IDK why, but using the font from the MathGame class isn't working
 	
 	MathGame mathGame;
 	TypeManager tm;
@@ -85,10 +86,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 		this.setLayout(new GridBagLayout());
 		// this.setLayout(new FlowLayout(FlowLayout.CENTER));
 		gbc = new GridBagConstraints();
-		
-		eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
-		// IDK why, but using the font from the MathGame class isn't working
-		
+		 
 		// Set size
 		Dimension size = getPreferredSize();
 		size.width = mathGame.getWidth();

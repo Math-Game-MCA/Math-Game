@@ -36,12 +36,12 @@ public class MySQLAccess{
 	GameAccess gameAccess;
 	
 	protected static String sqlError = "err:";
-	MathGame mathGame;
+	static MathGame mathGame;
 	
-	public MySQLAccess(MathGame mathGame) {
-		this.mathGame = mathGame;
-		gameAccess = new GameAccess(mathGame, connection);
-		System.out.println("11111111111" + mathGame.getBackground());
+	public MySQLAccess(MathGame game) {
+		mathGame = game;
+		gameAccess = new GameAccess(game, connection);
+		System.out.println("11111111111" + game.getBackground()); //TODO Just a test message? It often returns "null" anyway
 	}
 	
 	protected MySQLAccess() {
@@ -87,7 +87,7 @@ public class MySQLAccess{
 	 */
 	public int getId()
 	{
-		//System.out.println("ID " + id);
+		// System.out.println("ID " + id);
 		return id;
 	}
 	
@@ -165,10 +165,11 @@ public class MySQLAccess{
 			System.out.println("SQLException: " + e.getMessage());
 			throw e;
 		}
-		//finally { 
-		//	System.out.println("finally block");
-		//}
-		
+		/*
+		finally { 
+			System.out.println("finally block");
+		}
+		*/
 	}
 	
 	/**
@@ -254,8 +255,8 @@ public class MySQLAccess{
 		System.out.println("Op: " + op);
 		System.out.println("Num2: " + num2);
 		System.out.println("Answer: " + calc(num1, op, num2));
-		//System.out.println("Answer:" + (num1+num2) + "\n");
-		//System.out.println("comment: " + comment);
+		// System.out.println("Answer:" + (num1+num2) + "\n");
+		// System.out.println("comment: " + comment);
 		
 	}
 	
@@ -266,11 +267,10 @@ public class MySQLAccess{
 	 * @param n2 - The second operand
 	 * @return The result of the expression
 	 */
-	public Double calc(int n1, String op, int n2) {
-		//TODO Don't other methods in different classes perform the same function? 
-		
+	public Double calc(int n1, String op, int n2) {		
 		double num1 = (double)n1;
 		double num2 = (double)n2;
+		
 		if (op.equals("+")) {
 			return (num1 + num2);
 		} else if (op.equals("-")) {
@@ -278,7 +278,7 @@ public class MySQLAccess{
 		} else if (op.equals("*")) {
 			return (num1 * num2);
 		} else if (op.equals("/")) {
-			// This does NOT handle division by zero!
+			// Note: This does NOT handle division by zero!
 			return (num1 / num2);
 		} else {
 			System.err.println("ERROR: INVALID OPERATOR: " + op);
@@ -289,15 +289,16 @@ public class MySQLAccess{
 	/**
 	 * Close all connections
 	 */
-	public void close()
-	{
-		try{
+	public void close() {
+		try {
 			if (resultSet != null) {
 				resultSet.close();
 			}
+			
 			if (statement != null) {
 				statement.close();
 			}
+			
 			if (connection != null) {
 				connection.close();
 			}
@@ -312,7 +313,7 @@ public class MySQLAccess{
 	 * @return An ArrayList of all users on the database
 	 * @throws Exception
 	 */
-	public ArrayList<String> getUsersGame() throws Exception{
+	public ArrayList<String> getUsersGame() throws Exception {
 		gameAccess = new GameAccess(mathGame, connection);
 		return gameAccess.getUsers();
 	}
