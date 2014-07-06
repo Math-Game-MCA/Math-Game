@@ -129,9 +129,11 @@ public class MatchesAccess extends MySQLAccess {
 			System.out.println("the matchnum for getScores is " + matchNum);
 			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID="+matchNum);
 			resultSet.next();
-			System.out.println("THE SCORE IS for match " + matchNum + " ::::: " + resultSet.getInt("Player1Score"));
+			
 			for (int i = 1; i <= numPlayers; i++) {
-				scores.add(resultSet.getInt("Player" + i + "Score"));
+				int score = resultSet.getInt("Player" + i + "Score");
+				scores.add(score);
+				System.out.println("score"+i+ ":" + score);				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -151,12 +153,15 @@ public class MatchesAccess extends MySQLAccess {
 		}
 		
 		try {
-			System.out.println("size is " + getScores().size());
+			
 			System.out.println("this id " + mathGame.getUser().getPlayerID());
 			int currentScore = getScores().get(mathGame.getUser().getPlayerID()-1);
+			System.out.println("Current score from db: " + currentScore);
+			int newScore = currentScore + score;
+			System.out.println("round score: " + score + "---New total score: " + newScore);			
 			statement.executeUpdate("Update sofiav_mathgame.matches " + 
 					"set Player"+mathGame.getUser().getPlayerID() + "Score=" + 
-					" '"+ (currentScore+score) + "' " + 
+					" '"+ newScore + "' " + 
 					"where sofiav_mathgame.matches.ID=" + matchNum);		
 			
 		} catch (SQLException e) {

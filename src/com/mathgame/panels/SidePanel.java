@@ -269,10 +269,12 @@ public class SidePanel extends JPanel implements ActionListener {
 									public void run() {
 										mathGame.getCardPanel().hideCards(); // Hide cards for the next round
 										
+										System.out.println("WAIT FOR OTHER PLAYER START");
 										while(!GameManager.getMatchesAccess().checkForPlayersScoresUpdated(score1, score2)) {
 											// Wait for other player to finish; get from database
 											System.out.println("waiting for other player");
 										}
+										System.out.println("WAIT FOR OTHER PLAYER END");
 										
 										exit.setEnabled(true);										
 										// Temporarily enable back button in case user wants to exit
@@ -290,12 +292,14 @@ public class SidePanel extends JPanel implements ActionListener {
 											String playerPointsString = "ROUND " + gameManager.getCurrentRound() + "\n";
 											// Assume 2 players for now
 											for (int i = 1; i <= 2; i++) {
-												System.out.println("concating");
 												playerPointsString += "Player " + i + ": " + gameManager.getRoundScores().get(i - 1) + "\n";
 											}
 											score1 = gameManager.getRoundScores().get(0);
 											score2 = gameManager.getRoundScores().get(1);
+											System.out.println("score1 " + score1);
+											System.out.println("score2 " + score2);
 											
+											//Database should only be updated with the new round number once 
 											if (mathGame.getUser().getPlayerID() == 1) {
 												GameManager.getMatchesAccess().incrementRound();
 											}
@@ -312,7 +316,8 @@ public class SidePanel extends JPanel implements ActionListener {
 											String playerPointsString = new String("GAME SUMMARY\n");
 											// Assume 2 players for now
 											for(int i = 1; i <= 2; i++)	{
-												playerPointsString += "Player "+i+": "+gameManager.getCumulativeScores().get(i - 1)+"\n";
+												//playerPointsString += "Player "+i+": "+gameManager.getCumulativeScores().get(i - 1)+"\n";
+												playerPointsString += "Player "+i+": "+gameManager.getRoundScores().get(i - 1)+"\n";
 											}
 											
 											// JOptionPane.showMessageDialog(this, playerPointsString, "Game Summary", JOptionPane.PLAIN_MESSAGE);

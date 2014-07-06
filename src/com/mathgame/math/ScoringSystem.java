@@ -56,7 +56,7 @@ public class ScoringSystem {
 			// "Mix" scoring
 			roundScore = scoringAlgorithm(totalTime) * cardCount; // Cards used is a multiplier		
 		}
-		System.out.println(cardCount + " " + roundScore);
+		System.out.println("This round score: " + cardCount + " " + roundScore);
 		totalScore += roundScore;
 		return roundScore;
 	}

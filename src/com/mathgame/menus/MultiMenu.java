@@ -282,8 +282,12 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		gamesList.removeAll();
 		
 		for(GameCard card : gameCards)
+		{
 			gamesList.add(card);
+			System.out.println(card.gameID);
+		}
 		gamesList.revalidate();
+		gamesList.repaint();
 		
 		System.out.println("updated currentgames");
 		
