@@ -57,9 +57,10 @@ public class MatchesAccess extends MySQLAccess {
 	public int hostGame() {
 		
 		try {
-			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches "+ "(Player1, Type, Difficulty, Rounds)" + 
+			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches "+ "(Player1, Type, Difficulty, Scoring, NumPlayers, Rounds)" + 
 					" VALUES ('" + mathGame.getUser().getName() + "', '" + mathGame.getGameManager().getGame().getType() + 
-					"', '" + mathGame.getGameManager().getGame().getDiff() + "', '" + mathGame.getGameManager().getGame().getRounds() + "')" );
+					"', '" + mathGame.getGameManager().getGame().getDiff() + "', '" + mathGame.getGameManager().getGame().getScoring() + "', '" + 
+					mathGame.getGameManager().getGame().getNumberOfPlayers() + "', '"+ mathGame.getGameManager().getGame().getRounds() + "')" );
 			System.out.println("Created online game");
 			
 			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='" + mathGame.getUser().getName() + "'");
@@ -285,8 +286,7 @@ public class MatchesAccess extends MySQLAccess {
 			
 			resultSet.next();
 			
-			// Note that the number of players and 
-			return new Game(matchID, 2, resultSet.getString("Type"), "mixed",
+			return new Game(matchID, resultSet.getInt("NumPlayers"), resultSet.getString("Type"), resultSet.getString("Scoring"),
 					resultSet.getString("Difficulty"), resultSet.getInt("Rounds"));
 		} catch(SQLException e) {
 			e.printStackTrace();

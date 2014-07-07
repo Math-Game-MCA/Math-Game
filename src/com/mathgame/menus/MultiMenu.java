@@ -22,9 +22,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 // import javax.swing.Timer;
 
+
+
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
 import com.mathgame.math.TypeManager;
+import com.mathgame.math.TypeManager.Difficulty;
 import com.mathgame.network.Game;
 import com.mathgame.network.GameManager;
 import com.mathgame.network.User;
@@ -72,6 +75,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	JLabel friend;
 	
 	Panel innerPanel; 
+	
+	final int NUMBEROFPLAYERS = 2;//TOOD: get rid of this
 	
 	GameManager gameManager;
 	HostMenu hostMenu;
@@ -153,13 +158,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		for(Game game : games) {
 			// For each game, create a gamecard
-			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), game.getScoring());
+			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), NUMBEROFPLAYERS, 
+					game.getType(), game.getScoring(), game.getDiff(), game.getRounds());
 			
-			//TODO For demonstration purposes only (reducing clutter); delete the if statement
-			if(game.getID() < 159) {
-				//TODO DELETE
-				gc.setVisible(false);
-			}
+			
 			gameCards.add(gc);
 		}
 
@@ -271,7 +273,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		gameCards.clear();
 		
 		for(Game game : games) {
-			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), game.getScoring());
+			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), NUMBEROFPLAYERS, 
+					game.getType(), game.getScoring(), game.getDiff(), game.getRounds());
 			//TODO For demonstration purposes only (reducing clutter); delete the if statement
 			if(game.getID() < 159) {
 				//TODO DELETE
@@ -305,7 +308,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		int gameID = gameManager.hostGame(); // Needed so the game manager knows what game it's managing
 		g.setID(gameID);
 		games.add(g);
-		gameCards.add(new GameCard(gameID, "Game "+gameID, g.getScoring()));
+		gameCards.add(new GameCard(gameID, "Game "+gameID, NUMBEROFPLAYERS,
+				g.getType(), g.getScoring(), g.getDiff(), g.getRounds()));
 		gamesList.add(gameCards.get(games.size() - 1));
 		GameManager.getMatchesAccess().setMatchNum(gameID); 
 		
@@ -513,29 +517,39 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		private static final long serialVersionUID = 2993530244820621535L;
 		
+		int gameID;
+		int numPlayers; // 2 for now, but may introduce a solo mode or more than 2 players
 		String name;
 		String type;
-		int gameID;
-		int numberOfPlayers; // 2 for now, but may introduce a solo mode or more than 2 players
+		String scoring;
+		String diff;
+		int rounds; //Number of rounds
 		ArrayList<User> players;
 		
 		/**
-		 * @param ID - The ID of the game
+		 * @param ID - The ID of the game (the row number in database)
 		 * @param name - The name of the game
 		 * @param type - The type of the game (as a string)
+		 * @param scoring - How the game is scored 
+		 * @param diff - The difficulty of the game (as a Difficulty enumm)
 		 */
-		public GameCard(int ID, String name, String type) {
+		public GameCard(int ID, String name, int numPlayers, String type, String scoring, String diff, int rounds) {
 			super();
 			this.gameID = ID;
 			this.name = name;
+			this.numPlayers = numPlayers;
 			this.type = type;
+			this.scoring = scoring;
+			this.diff = diff;
+			this.rounds = rounds;
+			
 			this.setLayout(null);
 			Dimension size = getPreferredSize();
 			size.width = 100;
 			size.height = 100;
 			setPreferredSize(size);
 			setOpaque(true);
-			this.setText("<html>"+name+"<br>"+type+"</html>");
+			this.setText("<html>"+name+"<br>"+type+"<br>"+scoring+"<br>"+diff+"<br>Rounds: "+rounds+"</html>");
 			
 			this.addMouseListener(new MouseListener() {
 				@Override
@@ -547,7 +561,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 					
 					if(!GameManager.getMatchesAccess().checkForFullGame()) {
 						// If the game is not full
-						mathGame.getUser().setPlayerID(2);
+						mathGame.getUser().setPlayerID(2);//TODO: Update this for any number of players
 						mathGame.showMenu(MathGame.Menu.GAME);
 						
 						gameManager.joinGame(tempCard.getGameID());
@@ -596,7 +610,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		@SuppressWarnings("unused")
 		public void addPlayer(User u)	{
 			players.add(u);
-			numberOfPlayers++;
+			numPlayers++;
 		}
 		
 		/**
@@ -633,7 +647,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		 */
 		@SuppressWarnings("unused")
 		public int getNumberOfPlayers() {
-			return numberOfPlayers;
+			return numPlayers;
 		}
 		
 		/**
@@ -641,7 +655,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		 */
 		@SuppressWarnings("unused")
 		public void setNumberOfPlayers(int numberOfPlayers) {
-			this.numberOfPlayers = numberOfPlayers;
+			this.numPlayers = numberOfPlayers;
 		}
 		
 		/**
@@ -649,6 +663,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		 */
 		public int getGameID() {
 			return gameID;
+		}
+		
+		public String getScoring() {
+			return scoring;
 		}
 		
 		@Override

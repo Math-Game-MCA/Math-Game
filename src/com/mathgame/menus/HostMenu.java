@@ -34,7 +34,7 @@ public class HostMenu extends JPanel implements ActionListener {
 	int rounds; // # of rounds (1-5)
 	String type; // number type (Fraction, Decimal, Integer)
 	String scoring; // scoring (Complexity, Speed, Mix)
-	String diff; // difficulty (Easy, Medium, HARD)
+	String diff; // difficulty (easy, Medium, HARD)
 
 	static final int BUTTON_WIDTH = 130;
 	static final int BUTTON_HEIGHT = 30;
@@ -335,7 +335,8 @@ public class HostMenu extends JPanel implements ActionListener {
 				+ "\n\tROUNDS: "+rounds
 				+ "\n\tDIFF: "+diff
 				+ "\n\tSCORING: "+scoring
-				+ "\n\tTYPE: "+type);
+				+ "\n\tTYPE: "+type
+				+ "\n\tNUMPLAYERS: "+players);
 		
 		multiMenu.addGame(new Game(-1, players, type, scoring, diff, rounds));
 		
