@@ -1,5 +1,7 @@
 package com.mathgame.network;
 
+import java.util.ArrayList;
+
 /**
  * The Game class represents the various games and is used when
  * communicating with the database
@@ -8,6 +10,7 @@ public class Game {
 	
 	private int ID; // which # game
 	private int players; // # of players = 2
+	private ArrayList<String> playerNames; // Names of the players
 	private int rounds; // # of rounds
 	private String type; // number type
 	private String scoring; // scoring
@@ -35,6 +38,29 @@ public class Game {
 	}
 	
 	/**
+	 * @param ID - The game ID
+	 * @param players - The number of players
+	 * @param player1 - Name of player1
+	 * @param player2 - Name of player2
+	 * @param type - The type of game (integer, fraction, etc.)
+	 * @param scoring - The scoring method
+	 * @param diff - The difficulty
+	 * @param rounds - The number of rounds
+	 */
+	public Game (int ID, int players, ArrayList<String> playerNames,
+			String type, String scoring, String diff, int rounds) {
+		this.ID = ID;
+		this.players = players;
+		this.playerNames = playerNames;
+		this.rounds = rounds;
+		this.type = type;
+		this.scoring = scoring;
+		this.diff = diff;
+	}
+	
+	
+	
+	/**
 	 * @return The game ID
 	 */
 	public int getID() {
@@ -47,7 +73,7 @@ public class Game {
 	public void setID(int ID) {
 		this.ID = ID;
 	}
-		
+			
 	/**
 	 * @return The number of players
 	 */
@@ -60,6 +86,14 @@ public class Game {
 	 */
 	public void setNumberOfPlayers(int players) {
 		this.players = players;
+	}	
+
+	/**
+	 * @param id - Player number
+	 * @return Name of specified player
+	 */
+	public String getPlayer(int id){
+		return playerNames.get(id-1);
 	}
 	
 	/**

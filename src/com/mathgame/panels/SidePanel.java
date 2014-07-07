@@ -292,7 +292,7 @@ public class SidePanel extends JPanel implements ActionListener {
 											String playerPointsString = "ROUND " + gameManager.getCurrentRound() + "\n";
 											// Assume 2 players for now
 											for (int i = 1; i <= 2; i++) {
-												playerPointsString += "Player " + i + ": " + gameManager.getRoundScores().get(i - 1) + "\n";
+												playerPointsString += gameManager.getGame().getPlayer(i) + ": " + gameManager.getRoundScores().get(i - 1) + "\n";
 											}
 											score1 = gameManager.getRoundScores().get(0);
 											score2 = gameManager.getRoundScores().get(1);
@@ -317,7 +317,7 @@ public class SidePanel extends JPanel implements ActionListener {
 											// Assume 2 players for now
 											for(int i = 1; i <= 2; i++)	{
 												//playerPointsString += "Player "+i+": "+gameManager.getCumulativeScores().get(i - 1)+"\n";
-												playerPointsString += "Player "+i+": "+gameManager.getRoundScores().get(i - 1)+"\n";
+												playerPointsString += gameManager.getGame().getPlayer(i) +": "+gameManager.getRoundScores().get(i - 1)+"\n";
 											}
 											
 											// JOptionPane.showMessageDialog(this, playerPointsString, "Game Summary", JOptionPane.PLAIN_MESSAGE);

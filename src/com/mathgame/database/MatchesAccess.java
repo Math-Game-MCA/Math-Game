@@ -84,8 +84,13 @@ public class MatchesAccess extends MySQLAccess {
 		try {
 			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches ORDER BY ID");
 			
+			
 			while (resultSet.next()) {
-				gamesList.add(new Game(resultSet.getInt("ID"), resultSet.getInt("NumPlayers"), resultSet.getString("Type"), resultSet.getString("Scoring"), resultSet.getString("Difficulty"), resultSet.getInt("Rounds")));
+				ArrayList<String> playerNames = new ArrayList<String>();
+				int numPlayers = resultSet.getInt("NumPlayers");
+				for(int i=1; i<=numPlayers; i++)
+					playerNames.add(resultSet.getString("Player"+i));
+				gamesList.add(new Game(resultSet.getInt("ID"), numPlayers, playerNames, resultSet.getString("Type"), resultSet.getString("Scoring"), resultSet.getString("Difficulty"), resultSet.getInt("Rounds")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -286,8 +291,13 @@ public class MatchesAccess extends MySQLAccess {
 			
 			resultSet.next();
 			System.out.println("SCORING from db: " + resultSet.getString("Scoring"));
+			ArrayList<String> playerNames = new ArrayList<String>();
+			int numPlayers = resultSet.getInt("NumPlayers");
+			for(int i=1; i<=numPlayers; i++)
+				playerNames.add(resultSet.getString("Player"+i));
 			
-			return new Game(matchID, resultSet.getInt("NumPlayers"), resultSet.getString("Type"), resultSet.getString("Scoring"),
+			return new Game(matchID, numPlayers, playerNames,
+					resultSet.getString("Type"), resultSet.getString("Scoring"),
 					resultSet.getString("Difficulty"), resultSet.getInt("Rounds"));
 		} catch(SQLException e) {
 			e.printStackTrace();
