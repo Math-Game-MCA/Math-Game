@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import com.mathgame.math.MathGame;
 import com.mathgame.network.Game;
+import com.mathgame.network.GameManager;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -292,6 +293,14 @@ public class HostMenu extends JPanel implements ActionListener {
 						mathGame.getCardPanel().showCards();
 						mathGame.getSidePanel().startTimer(type);
 						mathGame.getSidePanel().setUpMultiplayer();
+						mathGame.getGameManager();
+						
+						//Get the names of the other players
+						int numPlayers = mathGame.getGameManager().getGame().getNumberOfPlayers();
+						for(int i=1; i<=numPlayers; i++)
+						{							
+							mathGame.getGameManager().getGame().addPlayer(GameManager.getMatchesAccess().getPlayerName(mathGame.getGameManager().getGame().getID(), i));
+						}
 					}
 			};
 			waitForPlayer.start();

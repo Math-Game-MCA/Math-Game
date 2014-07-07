@@ -31,6 +31,7 @@ public class Game {
 	public Game (int ID, int players, String type, String scoring, String diff, int rounds) {
 		this.ID = ID;
 		this.players = players;
+		playerNames = new ArrayList<String>();
 		this.rounds = rounds;
 		this.type = type;
 		this.scoring = scoring;
@@ -87,6 +88,22 @@ public class Game {
 	public void setNumberOfPlayers(int players) {
 		this.players = players;
 	}	
+	
+	/**
+	 * 
+	 * @param name - Name of the new player
+	 */
+	public void addPlayer(String name){
+		playerNames.add(name);
+	}
+	
+	/**
+	 * @param id - Player number (player1, player2 ....)
+	 * @param name - Player name
+	 */
+	public void setPlayer(int id, String name){
+		playerNames.set(id-1, name);
+	}
 
 	/**
 	 * @param id - Player number

@@ -319,4 +319,20 @@ public class MatchesAccess extends MySQLAccess {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * @param matchID - Match number
+	 * @param playerID - The id of the player you want (player1, player2....)
+	 * @return name of the player
+	 */
+	public String getPlayerName(int matchID, int playerID){
+		try {
+			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID=" + matchID);			
+			resultSet.next();
+			return resultSet.getString("Player"+playerID);
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return "DB Fail";
+	}
 }
