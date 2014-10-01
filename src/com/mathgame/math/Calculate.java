@@ -53,6 +53,8 @@ public class Calculate {
 			answer = -1;
 		}
 		
+		//TODO EXPONENT: Add the calculations for exponents
+		
 		return answer;
 	}
 	

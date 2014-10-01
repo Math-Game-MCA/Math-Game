@@ -63,6 +63,8 @@ public class OperationCard extends JLabel {
 			System.err.println("Invalid operation");
 		}
 		
+		//TODO EXPONENT: Add the exponent graphic
+		
 		this.operation = operation;
 		
 		// Image background = mathGame.getImage(mathGame.getDocumentBase(), "images/"+imageFile);

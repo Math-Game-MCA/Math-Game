@@ -127,6 +127,7 @@ public class MathGame extends Container implements ActionListener {
 	private JLabel[] cards = new JLabel[11]; // card1, card2..opA,S...
 	private Rectangle[] cardHomes = new Rectangle[11]; // home1, home2...opA,S...
 	private String[] cardVals = new String[11]; //TODO Use this variable or delete it
+	//TODO EXPONENT: Add in another card for exponents
 
 	private TypeManager typeManager;
 
@@ -292,6 +293,8 @@ public class MathGame extends Container implements ActionListener {
 		cards[9] = opPanel.multiply;
 		cards[10] = opPanel.divide;
 
+		//TODO EXPONENT: Initialize the new exponent card
+		
 		cardPanel.card1.setTransferHandler(new TransferHandler("text"));
 		cardPanel.card2.setTransferHandler(new TransferHandler("text"));
 		cardPanel.card3.setTransferHandler(new TransferHandler("text"));
@@ -339,6 +342,9 @@ public class MathGame extends Container implements ActionListener {
 		opPanel.subtract.addMouseMotionListener(mover);
 		opPanel.multiply.addMouseMotionListener(mover);
 		opPanel.divide.addMouseMotionListener(mover);
+		
+		//TODO EXPONENT: Give the exponent card a listener
+		
 		// Adds to layered pane to facilitate movement across ALL panels
 		gameMasterLayer.add(cardPanel.card1, new Integer(1)); // Adding new integer ensures card is on top
 		gameMasterLayer.add(cardPanel.card2, new Integer(1));
@@ -352,6 +358,8 @@ public class MathGame extends Container implements ActionListener {
 		gameMasterLayer.add(opPanel.subtract, new Integer(1));
 		gameMasterLayer.add(opPanel.multiply, new Integer(1));
 		gameMasterLayer.add(opPanel.divide, new Integer(1));
+		
+		//TODO EXPONENT: Add the exponent card to the layer
 
 		/*
 		 * //Code for a different Cursor Toolkit toolkit = getToolkit(); Image

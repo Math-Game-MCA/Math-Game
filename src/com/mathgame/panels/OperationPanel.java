@@ -22,6 +22,8 @@ public class OperationPanel extends JPanel
 	public OperationCard subtract;
 	public OperationCard multiply;
 	public OperationCard divide;
+	
+	//TODO EXPONENT: Add the exponent card
 
 	static final String IMAGE_FILE = "/images/Operation bar.png";
 	ImageIcon background;
@@ -57,6 +59,8 @@ public class OperationPanel extends JPanel
 		this.add(multiply);
 		this.add(divide);
 		
+		//TODO EXPONENT: Add and initialize the exponent card. Use the "operation bar.png" as reference
+		
 		masterLayer = mathGame.getMasterPane();
 		
 		// background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
@@ -82,6 +86,8 @@ public class OperationPanel extends JPanel
 			divide.setBounds(200, 160, 40, 40);
 			masterLayer.add(divide, new Integer(1));
 		}
+		
+		//TODO EXPONENT: Add the exponent card
 	}
 	
 	@Override
