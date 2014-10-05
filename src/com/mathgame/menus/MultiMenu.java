@@ -15,12 +15,14 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 // import javax.swing.Timer;
+
 
 
 
@@ -44,21 +46,30 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	TypeManager typeManager;
 	
 	static final String IMAGE_FILE = "/images/backMulti.png";
-	static final String BUTTON_IMAGE_FILE = "/images/MenuButtonImg1.png";
-	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/MenuButtonImg2.png";
-	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/MenuButtonImg3.png";
+	static final String BUTTON_IMAGE_FILE = "/images/buttonStandard.png";
+	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/buttonRollover.png";
+	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/buttonStandard.png";
+	static final String REFRESH_BUTTON_IMAGE_FILE = "/images/refreshButton.png";	//
+	static final String REFRESH_BUTTON_ROLLOVER_IMAGE_FILE = "/images/refresnButtonRollover.png";				//
+	
 	static final int BUTTON_WIDTH = 130;
 	static final int BUTTON_HEIGHT = 30;
+	static final int WIDE_BUTTON_WIDTH = 150;
+	
 	static ImageIcon background;
 	static ImageIcon buttonImage;
 	static ImageIcon buttonRollOverImage;
 	static ImageIcon buttonPressedImage;
+	static ImageIcon refreshButton;				// the refresh button is 150 pixels wide, while the others are 130
+	static ImageIcon refreshButtonRollover;	
 	
 	static {
 		background = new ImageIcon(MultiMenu.class.getResource(IMAGE_FILE));
 		buttonImage = new ImageIcon(MultiMenu.class.getResource(BUTTON_IMAGE_FILE));
 		buttonRollOverImage = new ImageIcon(MultiMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
 		buttonPressedImage = new ImageIcon(MultiMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
+		refreshButton = new ImageIcon(MultiMenu.class.getResource(REFRESH_BUTTON_IMAGE_FILE));
+		refreshButtonRollover = new ImageIcon(MultiMenu.class.getResource(REFRESH_BUTTON_ROLLOVER_IMAGE_FILE));
 	}
 	
 	// Mouse coordinates
@@ -110,38 +121,44 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		home = new JButton("Back");
 		home.setFont(buttonFont);
-		home.setBounds(105, 535, BUTTON_WIDTH, BUTTON_HEIGHT);
+		home.setBounds(99, 535, BUTTON_WIDTH, BUTTON_HEIGHT);
 	    home.setHorizontalTextPosition(JButton.CENTER);
 	    home.setVerticalTextPosition(JButton.CENTER);
 	    home.setBorderPainted(false);
 	    
 		host = new JButton("Host");
 		host.setFont(buttonFont);
-		host.setBounds(295, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
+		host.setBounds(284, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
 		host.setHorizontalTextPosition(JButton.CENTER);
 		host.setVerticalTextPosition(JButton.CENTER);
 		host.setBorderPainted(false);
 	    
 		join = new JButton("Join");
 		join.setFont(buttonFont);
-		join.setBounds(490, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
+		join.setBounds(469, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
 		join.setHorizontalTextPosition(JButton.CENTER);
 		join.setVerticalTextPosition(JButton.CENTER);
 		join.setBorderPainted(false);
 	    
 		refresh = new JButton("Refresh");
 		refresh.setFont(buttonFont);
-		refresh.setBounds(672, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
+		refresh.setBounds(650, 535, WIDE_BUTTON_WIDTH, BUTTON_HEIGHT);
 		refresh.setHorizontalTextPosition(JButton.CENTER);
 		refresh.setVerticalTextPosition(JButton.CENTER);
 		refresh.setBorderPainted(false);
 		
 	    gamesList = new JPanel();
 	    gamesList.setBounds(100, 100, 500, 400);
+	    gamesList.setBorder(BorderFactory.createLineBorder(Color.black)); 
+	    gamesList.setForeground(Color.black);	
+	    gamesList.setBackground(Color.lightGray);	
 	    gamesList.setVisible(true);
 		
 		usersList = new JPanel();
 		usersList.setBounds(650, 100, 150, 400);
+		usersList.setForeground(Color.black);
+		usersList.setBackground(Color.lightGray);	
+		usersList.setBorder(BorderFactory.createLineBorder(Color.black));	
 		usersList.setVisible(true);
 		
 		GridLayout columnLayout = new GridLayout(0, 1);
@@ -182,9 +199,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		    join.setRolloverIcon(buttonRollOverImage);
 		    join.setPressedIcon(buttonRollOverImage);
 		    
-		    refresh.setIcon(buttonImage);
-		    refresh.setRolloverIcon(buttonRollOverImage);
-		    refresh.setPressedIcon(buttonPressedImage);
+		    refresh.setIcon(refreshButton);					
+		    refresh.setRolloverIcon(refreshButtonRollover);	
+		    refresh.setPressedIcon(refreshButton);		
 		    
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -672,7 +689,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		@Override
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			setBackground(Color.green);			
+			setBackground(Color.lightGray);	// green before			
 		}
 		
 	}
