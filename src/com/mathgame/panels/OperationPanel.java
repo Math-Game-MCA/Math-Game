@@ -22,8 +22,8 @@ public class OperationPanel extends JPanel
 	public OperationCard subtract;
 	public OperationCard multiply;
 	public OperationCard divide;
-	
-	//TODO EXPONENT: Add the exponent card
+	public OperationCard exponent;
+	//TODO EXPONENT: Add the exponent card (DONE)
 
 	static final String IMAGE_FILE = "/images/Operation bar.png";
 	ImageIcon background;
@@ -46,11 +46,13 @@ public class OperationPanel extends JPanel
 		subtract = new OperationCard(mathGame, "subtract");
 		multiply = new OperationCard(mathGame, "multiply");
 		divide = new OperationCard(mathGame, "divide");
+		exponent = new OperationCard(mathGame, "exponent");
 		
 		add.setBounds(20, 160, 40, 40);
 		subtract.setBounds(80, 160, 40, 40);
 		multiply.setBounds(140, 160, 40, 40);
 		divide.setBounds(200, 160, 40, 40);
+		exponent.setBounds(260, 160, 40, 40);
 		
 		Dimension panelsize = new Dimension(750,60);
 		this.setPreferredSize(panelsize);
@@ -58,8 +60,8 @@ public class OperationPanel extends JPanel
 		this.add(subtract);
 		this.add(multiply);
 		this.add(divide);
-		
-		//TODO EXPONENT: Add and initialize the exponent card. Use the "operation bar.png" as reference
+		this.add(exponent);
+		//TODO EXPONENT: Add and initialize the exponent card. Use the "operation bar.png" as reference (DONE)
 		
 		masterLayer = mathGame.getMasterPane();
 		
@@ -85,9 +87,11 @@ public class OperationPanel extends JPanel
 		} else if (op.equals("divide")) {
 			divide.setBounds(200, 160, 40, 40);
 			masterLayer.add(divide, new Integer(1));
+		} else if (op.equals("exponent")) {
+			exponent.setBounds(260, 160, 40, 40);
+			masterLayer.add(exponent, new Integer(1));
 		}
-		
-		//TODO EXPONENT: Add the exponent card
+		//TODO EXPONENT: Add the exponent card (DONE)
 	}
 	
 	@Override

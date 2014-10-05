@@ -49,11 +49,12 @@ public class Calculate {
 			answer = num1 * num2;
 		} else if(op == "divide")	{
 			answer = num1 / num2;
+		} else if(op == "exponent") {
+			answer = Math.pow(num1, num2);
 		} else {
 			answer = -1;
 		}
-		
-		//TODO EXPONENT: Add the calculations for exponents
+		//TODO EXPONENT: Add the calculations for exponents (DONE)
 		
 		return answer;
 	}
