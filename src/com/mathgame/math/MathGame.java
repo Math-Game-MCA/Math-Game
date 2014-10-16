@@ -124,9 +124,10 @@ public class MathGame extends Container implements ActionListener {
 
 	GridBagConstraints c;
 
-	private JLabel[] cards = new JLabel[11]; // card1, card2..opA,S...
-	private Rectangle[] cardHomes = new Rectangle[11]; // home1, home2...opA,S...
-	private String[] cardVals = new String[11]; //TODO Use this variable or delete it
+	private JLabel[] cards = new JLabel[12]; // card1, card2..opA,S...
+	private Rectangle[] cardHomes = new Rectangle[12]; // home1, home2...opA,S...
+	private String[] cardVals = new String[12]; //TODO Use this variable or delete it
+	//TODO EXPONENT: Add in another card for exponents (DONE)
 
 	private TypeManager typeManager;
 
@@ -279,6 +280,7 @@ public class MathGame extends Container implements ActionListener {
 		cardHomes[8] = opPanel.subtract.getBounds();
 		cardHomes[9] = opPanel.multiply.getBounds();
 		cardHomes[10] = opPanel.divide.getBounds();
+		cardHomes[11] = opPanel.exponent.getBounds();
 
 		cards[0] = cardPanel.card1;
 		cards[1] = cardPanel.card2;
@@ -291,7 +293,9 @@ public class MathGame extends Container implements ActionListener {
 		cards[8] = opPanel.subtract;
 		cards[9] = opPanel.multiply;
 		cards[10] = opPanel.divide;
-
+		cards[11] = opPanel.exponent;
+		//TODO EXPONENT: Store the exponent card in the MathGame object (DONE)
+		
 		cardPanel.card1.setTransferHandler(new TransferHandler("text"));
 		cardPanel.card2.setTransferHandler(new TransferHandler("text"));
 		cardPanel.card3.setTransferHandler(new TransferHandler("text"));
@@ -334,11 +338,15 @@ public class MathGame extends Container implements ActionListener {
 		opPanel.subtract.addMouseListener(mover);
 		opPanel.multiply.addMouseListener(mover);
 		opPanel.divide.addMouseListener(mover);
+		opPanel.exponent.addMouseListener(mover);
 
 		opPanel.add.addMouseMotionListener(mover);
 		opPanel.subtract.addMouseMotionListener(mover);
 		opPanel.multiply.addMouseMotionListener(mover);
 		opPanel.divide.addMouseMotionListener(mover);
+		opPanel.exponent.addMouseMotionListener(mover);
+		//TODO EXPONENT: Give the exponent card a listener (DONE)
+		
 		// Adds to layered pane to facilitate movement across ALL panels
 		gameMasterLayer.add(cardPanel.card1, new Integer(1)); // Adding new integer ensures card is on top
 		gameMasterLayer.add(cardPanel.card2, new Integer(1));
@@ -352,6 +360,8 @@ public class MathGame extends Container implements ActionListener {
 		gameMasterLayer.add(opPanel.subtract, new Integer(1));
 		gameMasterLayer.add(opPanel.multiply, new Integer(1));
 		gameMasterLayer.add(opPanel.divide, new Integer(1));
+		gameMasterLayer.add(opPanel.exponent, new Integer(1));
+		//TODO EXPONENT: Add the exponent card to the layer (DONE)
 
 		/*
 		 * //Code for a different Cursor Toolkit toolkit = getToolkit(); Image

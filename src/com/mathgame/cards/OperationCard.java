@@ -59,9 +59,12 @@ public class OperationCard extends JLabel {
 			imageFile = "multiply.png";
 		} else if (operation.equals("divide")) {
 			imageFile = "divide.png";
-		} else {		
+		} else if (operation.equals("exponent")) {
+			imageFile = "exponent.png";
+		}  else {		
 			System.err.println("Invalid operation");
 		}
+		//TODO EXPONENT: Add the exponent graphic (DONE)
 		
 		this.operation = operation;
 		

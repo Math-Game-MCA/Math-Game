@@ -32,9 +32,10 @@ public class CompMover extends MouseInputAdapter {
 
 	static MathGame mathGame; // Components from the main class
 
-	JLabel[] cards = new JLabel[11]; // card1, card2..opA,S...
-	Rectangle[] cardHomes = new Rectangle[11]; // home1, home2...opA,S...
-
+	JLabel[] cards = new JLabel[12]; // card1, card2..opA,S...
+	Rectangle[] cardHomes = new Rectangle[12]; // home1, home2...opA,S...
+	//TODO EXPONENT: Add in another card for exponents (DONE)
+	
 	/**
 	 * The constructor (which should only be called in the MathGame class)
 	 * @param mathGame - The MathGame object (It is recommended to pass "MathGame.this" as an argument)
