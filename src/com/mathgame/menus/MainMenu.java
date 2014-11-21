@@ -211,7 +211,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		exit.addMouseListener(this);
 		
 		// get username before playing
-		getUser();
+		getUser();//superseded by login menu
 		
 		System.out.println("Menu Init Complete");
 	}

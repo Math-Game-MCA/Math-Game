@@ -24,7 +24,7 @@ public class MathGame extends Container implements ActionListener {
 	public static final double epsilon = 0.000000000001; // 10^-12, equivalent to TI-84 precision
 	public static final String operations[] = {"+", "-", "*", "/"};
 	
-
+	private LoginMenu loginMenu;
 	private MainMenu mainMenu;
 	private MultiMenu multiMenu;
 	private OptionMenu optionMenu;
@@ -40,7 +40,12 @@ public class MathGame extends Container implements ActionListener {
 		GAME ("CardLayoutPanel Game"),
 		
 		/**
-		 * The main (starting) menu
+		 * The login menu
+		 */
+		LOGIN ("CardLayoutPanel LoginMenu"),
+		
+		/**
+		 * The main menu
 		 */
 		MAINMENU ("CardLayoutPanel MainMenu"),
 		
@@ -197,7 +202,10 @@ public class MathGame extends Container implements ActionListener {
 		// Initiation of panels
 		cardLayoutPanels = new JPanel(new CardLayout());
 		cardLayoutPanels.setBounds(0, 0, appWidth, appHeight);
-
+		
+		loginMenu = new LoginMenu();
+		loginMenu.setBounds(0, 0, appWidth, appHeight);
+		
 		mainMenu = new MainMenu();
 		mainMenu.init(this);
 		mainMenu.setBounds(0, 0, appWidth, appHeight);
@@ -240,8 +248,9 @@ public class MathGame extends Container implements ActionListener {
 		holdPanel = new HoldPanel();
 		holdPanel.setBounds(0, 470, 750, 150);
 		holdPanel.init(this);
-
+		
 		// Adding panels to the game
+		cardLayoutPanels.add(loginMenu, Menu.LOGIN.cardLayoutString);
 		cardLayoutPanels.add(mainMenu, Menu.MAINMENU.cardLayoutString);
 		cardLayoutPanels.add(gameMasterLayer, Menu.GAME.cardLayoutString);
 		cardLayoutPanels.add(multiMenu, Menu.MULTIMENU.cardLayoutString);
@@ -250,7 +259,7 @@ public class MathGame extends Container implements ActionListener {
 		cl = (CardLayout) cardLayoutPanels.getLayout();
 		// cl.show(cardLayoutPanels, MENU);
 		add(cardLayoutPanels);
-		showMenu(Menu.MAINMENU);
+		showMenu(Menu.LOGIN);
 		// add(layer);
 		// layer.add(menu, new Integer(2));
 		gameMasterLayer.add(sidePanel, new Integer(0));
@@ -387,6 +396,8 @@ public class MathGame extends Container implements ActionListener {
 	 */
 	public JPanel getMenu(Menu menu) {
 		switch (menu) {
+		case LOGIN:
+			return loginMenu;
 		case MAINMENU:
 			return mainMenu;
 		case MULTIMENU:
