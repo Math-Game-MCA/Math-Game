@@ -26,6 +26,8 @@ import javax.swing.JPanel;
 
 
 
+import javax.swing.JTextArea;
+
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
 import com.mathgame.math.TypeManager;
@@ -47,7 +49,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	
 	static final String IMAGE_FILE = "/images/backMulti.png";
 	static final String BUTTON_IMAGE_FILE = "/images/buttonStandard.png";
-	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/buttonRollover.png";
+	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/buttonRollovver.png";
 	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/buttonStandard.png";
 	static final String REFRESH_BUTTON_IMAGE_FILE = "/images/refreshButton.png";	//
 	static final String REFRESH_BUTTON_ROLLOVER_IMAGE_FILE = "/images/refresnButtonRollover.png";				//
@@ -77,13 +79,15 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	int my;
 	
 	JPanel gamesList;
-	JPanel usersList;
 	JButton home; // Press to enter a game;
 	JButton host; // Press to host a game
 	JButton join; // Press to join a game
 	JButton refresh; // Updates from database
 	JLabel mode;
 	JLabel friend;
+	JLabel profiles;
+	JTextArea usersList;
+	JTextArea userProfile; // displays info about the selected user (win/loss, etc)
 	
 	Panel innerPanel; 
 	
@@ -111,13 +115,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		Font titleFont = new Font("Arial", Font.BOLD, 24);
 		Font buttonFont = new Font("Arial", Font.PLAIN, 20);
 		
-		mode = new JLabel("Lobby");
-		mode.setFont(titleFont);
-		mode.setBounds(305, 50, 100, 60);
 		
-		friend = new JLabel("Online");
-		friend.setFont(titleFont);
-		friend.setBounds(680, 50, 100, 60);
+		
+	
 		
 		home = new JButton("Back");
 		home.setFont(buttonFont);
@@ -154,16 +154,49 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	    gamesList.setBackground(Color.lightGray);	
 	    gamesList.setVisible(true);
 		
-		usersList = new JPanel();
+/*		usersList = new JPanel();
 		usersList.setBounds(650, 100, 150, 400);
 		usersList.setForeground(Color.black);
 		usersList.setBackground(Color.lightGray);	
 		usersList.setBorder(BorderFactory.createLineBorder(Color.black));	
 		usersList.setVisible(true);
+*/		
+		
+		usersList = new JTextArea();
+		usersList.setBounds(600, 200, 200, 300);
+		usersList.setForeground(Color.BLACK);
+		usersList.setBackground(Color.lightGray);
+		usersList.setBorder(BorderFactory.createLineBorder(Color.black));
+		usersList.setEditable(false);
+		usersList.setVisible(true);
+		
+		userProfile = new JTextArea();
+		userProfile.setBounds(600, 100, 200, 100);
+		userProfile.setForeground(Color.black);
+		userProfile.setBackground(Color.lightGray);
+		userProfile.setBorder(BorderFactory.createLineBorder(Color.black));
+		userProfile.setEditable(false);
+		userProfile.setVisible(true);
+		
+		friend = new JLabel("Online");
+		friend.setFont(titleFont);
+		friend.setBounds(640, 205, 100, 60);
+		
+		profiles = new JLabel("User Profile");
+		profiles.setFont(titleFont);
+		profiles.setBounds(630, 50, 200, 60);
+		
+		mode = new JLabel("Lobby");
+		mode.setFont(titleFont);
+		mode.setBounds(350, 50, 100, 60);
+		
 		
 		GridLayout columnLayout = new GridLayout(0, 1);
 		innerPanel = new Panel();
 		innerPanel.setLayout(new FlowLayout());
+		
+		usersList.setLayout(columnLayout);
+		usersList.add(innerPanel);
 		
 		usersList.setLayout(columnLayout);
 		usersList.add(innerPanel);
@@ -217,6 +250,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		add(refresh);
 		add(gamesList);
 		add(usersList);
+		add(userProfile);
+		add(profiles);
 
 		// p1.setBorder(new TitledBorder("Epsilon"));
 		
@@ -228,9 +263,11 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		host.addMouseMotionListener(this);
 		host.addMouseListener(this);
 		host.addActionListener(this);
+		
 		join.addMouseMotionListener(this);
 		join.addMouseListener(this);
 		join.addActionListener(this);
+		
 		refresh.addActionListener(this);
 		refresh.addMouseMotionListener(this);
 		refresh.addMouseListener(this);
@@ -372,7 +409,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	 * Updates the list of users
 	 */
 	public void updateUsersList() {
-		// usersList.removeAll();
+		//test.removeAll();
 		System.out.println("updating users " + usersArray.size());
 		innerPanel.removeAll();
 		for (int i = 0; i < usersArray.size(); i++) {
