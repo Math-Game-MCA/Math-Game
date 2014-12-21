@@ -27,6 +27,8 @@ import javax.swing.JPanel;
 
 
 import javax.swing.JTextArea;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
 
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
@@ -48,11 +50,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	TypeManager typeManager;
 	
 	static final String IMAGE_FILE = "/images/backMulti.png";
-	static final String BUTTON_IMAGE_FILE = "/images/buttonStandard.png";
-	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/buttonRollovver.png";
-	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/buttonStandard.png";
-	static final String REFRESH_BUTTON_IMAGE_FILE = "/images/refreshButton.png";	//
-	static final String REFRESH_BUTTON_ROLLOVER_IMAGE_FILE = "/images/refresnButtonRollover.png";				//
+	static final String BUTTON_IMAGE_FILE = "/images/DefaultButtonImage1.png";
+	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/DefaultButtonImage2.png";
+	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/DefaultButtonImage3.png";
 	
 	static final int BUTTON_WIDTH = 130;
 	static final int BUTTON_HEIGHT = 30;
@@ -62,16 +62,12 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	static ImageIcon buttonImage;
 	static ImageIcon buttonRollOverImage;
 	static ImageIcon buttonPressedImage;
-	static ImageIcon refreshButton;				// the refresh button is 150 pixels wide, while the others are 130
-	static ImageIcon refreshButtonRollover;	
 	
 	static {
 		background = new ImageIcon(MultiMenu.class.getResource(IMAGE_FILE));
 		buttonImage = new ImageIcon(MultiMenu.class.getResource(BUTTON_IMAGE_FILE));
 		buttonRollOverImage = new ImageIcon(MultiMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
 		buttonPressedImage = new ImageIcon(MultiMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
-		refreshButton = new ImageIcon(MultiMenu.class.getResource(REFRESH_BUTTON_IMAGE_FILE));
-		refreshButtonRollover = new ImageIcon(MultiMenu.class.getResource(REFRESH_BUTTON_ROLLOVER_IMAGE_FILE));
 	}
 	
 	// Mouse coordinates
@@ -79,13 +75,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	int my;
 	
 	JPanel gamesList;
-	JButton home; // Press to enter a game;
+	JButton home; // Press to enter a game
 	JButton host; // Press to host a game
 	JButton join; // Press to join a game
 	JButton refresh; // Updates from database
-	JLabel mode;
-	JLabel friend;
-	JLabel profiles;
 	JTextArea usersList;
 	JTextArea userProfile; // displays info about the selected user (win/loss, etc)
 	
@@ -112,94 +105,65 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		gameManager = mathGame.getGameManager();
 		hostMenu = new HostMenu(mathGame);
 		
-		Font titleFont = new Font("Arial", Font.BOLD, 24);
+		Font titleFont = new Font("Eurostile", Font.BOLD, 24);
 		Font buttonFont = new Font("Arial", Font.PLAIN, 20);
-		
-		
-		
-	
 		
 		home = new JButton("Back");
 		home.setFont(buttonFont);
-		home.setBounds(99, 535, BUTTON_WIDTH, BUTTON_HEIGHT);
+		home.setBounds(50, 535, BUTTON_WIDTH, BUTTON_HEIGHT);
 	    home.setHorizontalTextPosition(JButton.CENTER);
 	    home.setVerticalTextPosition(JButton.CENTER);
 	    home.setBorderPainted(false);
 	    
 		host = new JButton("Host");
 		host.setFont(buttonFont);
-		host.setBounds(284, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
+		host.setBounds(273, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
 		host.setHorizontalTextPosition(JButton.CENTER);
 		host.setVerticalTextPosition(JButton.CENTER);
 		host.setBorderPainted(false);
 	    
 		join = new JButton("Join");
 		join.setFont(buttonFont);
-		join.setBounds(469, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
+		join.setBounds(496, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
 		join.setHorizontalTextPosition(JButton.CENTER);
 		join.setVerticalTextPosition(JButton.CENTER);
 		join.setBorderPainted(false);
 	    
 		refresh = new JButton("Refresh");
 		refresh.setFont(buttonFont);
-		refresh.setBounds(650, 535, WIDE_BUTTON_WIDTH, BUTTON_HEIGHT);
+		refresh.setBounds(720, 535, BUTTON_WIDTH, BUTTON_HEIGHT);
 		refresh.setHorizontalTextPosition(JButton.CENTER);
 		refresh.setVerticalTextPosition(JButton.CENTER);
 		refresh.setBorderPainted(false);
 		
 	    gamesList = new JPanel();
-	    gamesList.setBounds(100, 100, 500, 400);
-	    gamesList.setBorder(BorderFactory.createLineBorder(Color.black)); 
-	    gamesList.setForeground(Color.black);	
-	    gamesList.setBackground(Color.lightGray);	
+	    gamesList.setBounds(50, 50, 600, 450);
+		gamesList.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createLineBorder(Color.GREEN, 2),
+				"Lobby", TitledBorder.CENTER, TitledBorder.BELOW_TOP, 
+				titleFont, Color.BLACK));
+	    gamesList.setBackground(Color.WHITE);
 	    gamesList.setVisible(true);
 		
-/*		usersList = new JPanel();
-		usersList.setBounds(650, 100, 150, 400);
-		usersList.setForeground(Color.black);
-		usersList.setBackground(Color.lightGray);	
-		usersList.setBorder(BorderFactory.createLineBorder(Color.black));	
-		usersList.setVisible(true);
-*/		
-		
 		usersList = new JTextArea();
-		usersList.setBounds(600, 200, 200, 300);
-		usersList.setForeground(Color.BLACK);
-		usersList.setBackground(Color.lightGray);
-		usersList.setBorder(BorderFactory.createLineBorder(Color.black));
+		usersList.setBounds(650, 200, 200, 300);
+		usersList.setBackground(Color.WHITE);
+		usersList.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createLineBorder(Color.GREEN, 2),
+				"Users", TitledBorder.CENTER, TitledBorder.BELOW_TOP, 
+				titleFont, Color.BLACK));
 		usersList.setEditable(false);
 		usersList.setVisible(true);
 		
 		userProfile = new JTextArea();
-		userProfile.setBounds(600, 100, 200, 100);
-		userProfile.setForeground(Color.black);
-		userProfile.setBackground(Color.lightGray);
-		userProfile.setBorder(BorderFactory.createLineBorder(Color.black));
+		userProfile.setBounds(650, 50, 200, 150);
+		userProfile.setBackground(Color.WHITE);
+		userProfile.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createLineBorder(Color.GREEN, 2), 
+				"User Profile", TitledBorder.CENTER, TitledBorder.BELOW_TOP, 
+				titleFont, Color.BLACK));
 		userProfile.setEditable(false);
 		userProfile.setVisible(true);
-		
-		friend = new JLabel("Online");
-		friend.setFont(titleFont);
-		friend.setBounds(640, 205, 100, 60);
-		
-		profiles = new JLabel("User Profile");
-		profiles.setFont(titleFont);
-		profiles.setBounds(630, 50, 200, 60);
-		
-		mode = new JLabel("Lobby");
-		mode.setFont(titleFont);
-		mode.setBounds(350, 50, 100, 60);
-		
-		
-		GridLayout columnLayout = new GridLayout(0, 1);
-		innerPanel = new Panel();
-		innerPanel.setLayout(new FlowLayout());
-		
-		usersList.setLayout(columnLayout);
-		usersList.add(innerPanel);
-		
-		usersList.setLayout(columnLayout);
-		usersList.add(innerPanel);
 		
 		usersArray = new ArrayList<String>();
 		
@@ -210,8 +174,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 			// For each game, create a gamecard
 			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), NUMBEROFPLAYERS, 
 					game.getType(), game.getScoring(), game.getDiff(), game.getRounds());
-			
-			
 			gameCards.add(gc);
 		}
 
@@ -226,15 +188,15 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		    
 		    host.setIcon(buttonImage);
 		    host.setRolloverIcon(buttonRollOverImage);
-		    host.setPressedIcon(buttonRollOverImage);
+		    host.setPressedIcon(buttonPressedImage);
 		    
 		    join.setIcon(buttonImage);
 		    join.setRolloverIcon(buttonRollOverImage);
-		    join.setPressedIcon(buttonRollOverImage);
+		    join.setPressedIcon(buttonPressedImage);
 		    
-		    refresh.setIcon(refreshButton);					
-		    refresh.setRolloverIcon(refreshButtonRollover);	
-		    refresh.setPressedIcon(refreshButton);		
+		    refresh.setIcon(buttonImage);					
+		    refresh.setRolloverIcon(buttonRollOverImage);	
+		    refresh.setPressedIcon(buttonPressedImage);		
 		    
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -242,8 +204,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		//TODO Get the text in the label to wrap if it is longer than the label width
 		
 		// Info Box for Enter Box
-		add(mode);
-		add(friend);
 		add(home);
 		add(host);
 		add(join);
@@ -251,11 +211,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		add(gamesList);
 		add(usersList);
 		add(userProfile);
-		add(profiles);
-
-		// p1.setBorder(new TitledBorder("Epsilon"));
-		
-		// add(epsilon);
 		
 		home.addActionListener(this);
 		home.addMouseMotionListener(this);
@@ -329,11 +284,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		for(Game game : games) {
 			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), NUMBEROFPLAYERS, 
 					game.getType(), game.getScoring(), game.getDiff(), game.getRounds());
-			//TODO For demonstration purposes only (reducing clutter); delete the if statement
-			if(game.getID() < 159) {
-				//TODO DELETE
-				gc.setVisible(false);
-			}
 			gameCards.add(gc);
 		}
 		gamesList.removeAll();
@@ -409,14 +359,11 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	 * Updates the list of users
 	 */
 	public void updateUsersList() {
-		//test.removeAll();
 		System.out.println("updating users " + usersArray.size());
-		innerPanel.removeAll();
+		usersList.setText("");
 		for (int i = 0; i < usersArray.size(); i++) {
-			System.out.println(usersArray.get(i));
-			JLabel label = new JLabel(usersArray.get(i));
-			label.setPreferredSize(new Dimension(100, 20));
-			innerPanel.add(label);
+			//System.out.println(usersArray.get(i));
+			usersList.append(usersArray.get(i)+'\n');
 		}
 		
 		usersList.revalidate();
