@@ -131,8 +131,6 @@ public class MathGame extends Container implements ActionListener {
 	private TypeManager typeManager;
 
 	private CompMover mover;
-	
-	SoundManager sounds;
 
 	/**
 	 * Initializes the window & game
@@ -363,7 +361,7 @@ public class MathGame extends Container implements ActionListener {
 		 * setCursor(lightPenCursor); layer.setCursor(imageCursor);
 		 */
 
-		sounds = new SoundManager(this);
+		SoundManager.initializeSoundManager(this);
 		
 		System.out.println("init done");
 	}

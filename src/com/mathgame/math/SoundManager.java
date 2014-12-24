@@ -2,20 +2,13 @@ package com.mathgame.math;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
 /**
  * The SoundManager class is responsible for the sound effects and volume control of the Math Game
  */
-public class SoundManager implements ActionListener {
+public class SoundManager {
 
 	private static Boolean musicPlay = true;
 	
@@ -62,29 +55,16 @@ public class SoundManager implements ActionListener {
 		}
 	};
 	
-	JButton mButton;
+	static MathGame mathgame;
 	
-	public SoundManager(MathGame mathgame) {
-		JFrame mButtonFrame = new JFrame("Audio");
-		mButtonFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		
-		JPanel mButtonPanel = new JPanel();
-		
-		mButton = new JButton(soundIcon);
-		mButton.addActionListener(this);
-		
-		mButtonPanel.add(mButton);
-		
-		mButtonFrame.getContentPane().add(mButtonPanel);
-		mButtonFrame.pack();
-		mButtonFrame.setLocation(new Point(mathgame.getX()+mathgame.appWidth, mathgame.getY()+mathgame.appHeight));
-		mButtonFrame.setVisible(true);
+	public static void initializeSoundManager(MathGame mathgame) {
+		SoundManager.mathgame = mathgame;
 	}
 	
 	/**
 	 * Toggles the music, turning it on or off
 	 */
-	public static void toggleMusic() {
+	private static void toggleMusic() {
 		musicPlay = !musicPlay;
 	}
 	
@@ -100,10 +80,17 @@ public class SoundManager implements ActionListener {
 
 	/**
 	 * When the volume button is pressed, it is toggled, also changing the icon image
+	 * @return The image icon that the button should be set to
 	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	public static ImageIcon volumeButtonPressed() {
 		toggleMusic();
-		mButton.setIcon(musicPlay? soundIcon : muteIcon);
+		return currentVolumeButtonImage();
+	}
+	
+	/**
+	 * @return The image icon that the button should be set to
+	 */
+	public static ImageIcon currentVolumeButtonImage() {
+		return (musicPlay? soundIcon : muteIcon);
 	}
 }
