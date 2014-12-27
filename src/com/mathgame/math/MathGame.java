@@ -18,17 +18,17 @@ import java.util.concurrent.ExecutionException;
 public class MathGame extends Container implements ActionListener {
 
 	private static final long serialVersionUID = 412526093812019078L;
-	int appWidth = 900; // 1300 or 900
-	int appHeight = 620;
+	static int appWidth = 900; // 1300 or 900
+	static int appHeight = 620;
 	
 	public static final double epsilon = 0.000000000001; // 10^-12, equivalent to TI-84 precision
 	public static final String operations[] = {"+", "-", "*", "/"};
 	
-	private LoginMenu loginMenu;
-	private MainMenu mainMenu;
-	private MultiMenu multiMenu;
-	private OptionMenu optionMenu;
-	private HostMenu hostMenu;
+	private static LoginMenu loginMenu;
+	private static MainMenu mainMenu;
+	private static MultiMenu multiMenu;
+	private static OptionMenu optionMenu;
+	private static HostMenu hostMenu;
 
 	/**
 	 * The Menu enumeration is used for selecting which menu to use
@@ -86,16 +86,16 @@ public class MathGame extends Container implements ActionListener {
 	};
 	private GameState gs; // Keeps track of the user's game state
 
-	private GameManager gameManager; // Game variables held here for multiplayer games
+	private static GameManager gameManager; // Game variables held here for multiplayer games
 
-	private JPanel cardLayoutPanels; // uses CardLayout to switch between menu and game
-	private CardLayout cl;
+	private static JPanel cardLayoutPanels; // uses CardLayout to switch between menu and game
+	private static CardLayout cl;
 
 	// Panel Declarations
 	private JLayeredPane gameMasterLayer; // Master game panel, particularly for moving cards across entire screen
-	private SidePanel sidePanel; // Control panel on the side
+	private static SidePanel sidePanel; // Control panel on the side
 	private OperationPanel opPanel; // Panel that holds operations: + - / *
-	private CardPanel cardPanel; // Panel that holds cards at top
+	private static CardPanel cardPanel; // Panel that holds cards at top
 	private WorkspacePanel workPanel; // Panel in the center of the screen where cards are morphed together
 	private HoldPanel holdPanel; // Panel that holds intermediate results
 
@@ -117,13 +117,12 @@ public class MathGame extends Container implements ActionListener {
 	float answerD;
 
 	int enterAction;// 0-3
-	JButton random;
-	JButton clear;
+	private static boolean dbConnected = false;
 
 	static boolean useDatabase = false;
-	private MySQLAccess sql;
+	private static MySQLAccess sql;
 	private SwingWorker<Boolean, Void> backgroundConnect;
-	private User thisUser;
+	private static User thisUser;
 
 	JLabel correction;
 
@@ -133,7 +132,7 @@ public class MathGame extends Container implements ActionListener {
 	private Rectangle[] cardHomes = new Rectangle[11]; // home1, home2...opA,S...
 	private String[] cardVals = new String[11]; //TODO Use this variable or delete it
 
-	private TypeManager typeManager;
+	private static TypeManager typeManager;
 
 	private CompMover mover;
 	
@@ -145,7 +144,7 @@ public class MathGame extends Container implements ActionListener {
 	public MathGame() {
 		System.out.println("initing");
 		
-		thisUser = new User("blank", "pass");
+		thisUser = new User("user", "pass");
 		setPreferredSize(new Dimension(appWidth, appHeight));
 		// setSize(appWidth, appHeight);
 		setLayout(null);
@@ -182,6 +181,7 @@ public class MathGame extends Container implements ActionListener {
 			@Override
 			protected void done() {
 				boolean connected = false;
+				System.out.println("trying");
 				try {
 					connected = get();
 				} catch (InterruptedException e) {
@@ -191,9 +191,22 @@ public class MathGame extends Container implements ActionListener {
 				}
 				System.out.println("Done connected status " + connected);
 
-				if (connected)
+				if (connected)	{
 					for (int i = 0; i < 10; i++)
 						System.out.println("CONNNNNNNNNECTEDDDDDD TO db");
+					dbConnected = true;
+				}
+				gameManager = new GameManager();//since this requires the connection to be established
+
+				multiMenu = new MultiMenu();
+				multiMenu.init(typeManager);//TODO get rid of the mathgame argument
+				multiMenu.setBounds(0, 0, appWidth, appHeight);
+				
+				hostMenu = new HostMenu();
+				hostMenu.setBounds(0, 0, appWidth, appHeight);
+				
+				cardLayoutPanels.add(multiMenu, Menu.MULTIMENU.cardLayoutString);
+				cardLayoutPanels.add(hostMenu, Menu.HOSTMENU.cardLayoutString);
 			}
 		};
 
@@ -215,14 +228,6 @@ public class MathGame extends Container implements ActionListener {
 		gameMasterLayer.setBounds(5, 0, getSize().width, getSize().height);
 
 		typeManager = new TypeManager(this);
-		gameManager = new GameManager(this);
-
-		multiMenu = new MultiMenu();
-		multiMenu.init(this, typeManager);
-		multiMenu.setBounds(0, 0, appWidth, appHeight);
-		
-		hostMenu = new HostMenu(this);
-		hostMenu.setBounds(0, 0, appWidth, appHeight);
 		
 		optionMenu = new OptionMenu(this);
 		optionMenu.setBounds(0, 0, appWidth, appHeight);
@@ -253,9 +258,7 @@ public class MathGame extends Container implements ActionListener {
 		cardLayoutPanels.add(loginMenu, Menu.LOGIN.cardLayoutString);
 		cardLayoutPanels.add(mainMenu, Menu.MAINMENU.cardLayoutString);
 		cardLayoutPanels.add(gameMasterLayer, Menu.GAME.cardLayoutString);
-		cardLayoutPanels.add(multiMenu, Menu.MULTIMENU.cardLayoutString);
 		cardLayoutPanels.add(optionMenu, Menu.OPTIONMENU.cardLayoutString);
-		cardLayoutPanels.add(hostMenu, Menu.HOSTMENU.cardLayoutString);
 		cl = (CardLayout) cardLayoutPanels.getLayout();
 		// cl.show(cardLayoutPanels, MENU);
 		add(cardLayoutPanels);
@@ -386,7 +389,7 @@ public class MathGame extends Container implements ActionListener {
 	 * Displays the desired menu/window
 	 * @param menu - The Menu to show
 	 */
-	public void showMenu(Menu menu) {
+	public static void showMenu(Menu menu) {
 		cl.show(cardLayoutPanels, menu.cardLayoutString);
 	}
 	
@@ -394,7 +397,7 @@ public class MathGame extends Container implements ActionListener {
 	 * @param menu - The Menu to get
 	 * @return The corresponding menu (as a JPanel)
 	 */
-	public JPanel getMenu(Menu menu) {
+	public static JPanel getMenu(Menu menu) {
 		switch (menu) {
 		case LOGIN:
 			return loginMenu;
@@ -428,14 +431,14 @@ public class MathGame extends Container implements ActionListener {
 	/**
 	 * @return The TypeManager of the MathGame object
 	 */
-	public TypeManager getTypeManager() {
+	public static TypeManager getTypeManager() {
 		return typeManager;
 	}
 
 	/**
 	 * @return The GameManager of the MathGame object
 	 */
-	public GameManager getGameManager() {
+	public static GameManager getGameManager() {
 		return gameManager;
 	}
 	
@@ -449,7 +452,7 @@ public class MathGame extends Container implements ActionListener {
 	/**
 	 * @return The SidePanel of the MathGame object
 	 */
-	public SidePanel getSidePanel() {
+	public static SidePanel getSidePanel() {
 		return sidePanel;
 	}
 	
@@ -463,7 +466,7 @@ public class MathGame extends Container implements ActionListener {
 	/**
 	 * @return The CardPanel of the MathGame object
 	 */
-	public CardPanel getCardPanel() {
+	public static CardPanel getCardPanel() {
 		return cardPanel;
 	}
 	
@@ -505,14 +508,14 @@ public class MathGame extends Container implements ActionListener {
 	/**
 	 * @return The MySQLAccess object of the MathGame object
 	 */
-	public MySQLAccess getMySQLAccess() {
+	public static MySQLAccess getMySQLAccess() {
 		return sql;
 	}
 	
 	/**
 	 * @return The current user (associated with the MathGame object)
 	 */
-	public User getUser() {
+	public static User getUser() {
 		return thisUser;
 	}
 	
@@ -521,5 +524,47 @@ public class MathGame extends Container implements ActionListener {
 	 */
 	public CompMover getCompMover() {
 		return mover;
+	}
+
+	/**
+	 * @return the dbConnected
+	 */
+	public static boolean isDbConnected() {
+		return dbConnected;
+	}
+
+	/**
+	 * @param dbConnected the dbConnected to set
+	 */
+	public static void setDbConnected(boolean dbConnected) {
+		MathGame.dbConnected = dbConnected;
+	}
+
+	/**
+	 * @return the appWidth
+	 */
+	public static int getAppWidth() {
+		return appWidth;
+	}
+
+	/**
+	 * @param appWidth the appWidth to set
+	 */
+	public void setAppWidth(int appWidth) {
+		this.appWidth = appWidth;
+	}
+
+	/**
+	 * @return the appHeight
+	 */
+	public static int getAppHeight() {
+		return appHeight;
+	}
+
+	/**
+	 * @param appHeight the appHeight to set
+	 */
+	public void setAppHeight(int appHeight) {
+		this.appHeight = appHeight;
 	}
 }

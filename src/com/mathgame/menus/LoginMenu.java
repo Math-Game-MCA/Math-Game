@@ -3,15 +3,20 @@
  */
 package com.mathgame.menus;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+
+
 
 
 
@@ -29,13 +34,6 @@ public class LoginMenu extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 7263913541929112166L;
 	
-	//HI NOAH!  Read all the comments
-	//TODO create JLabels: "Username:", "Password:"
-	//TODO create JTextFields to hold Username and Password
-	//TODO create JButton: "Log in"
-	
-	//GLOBAL variables (JLabel, JTextField, JButton declarations) go here
-	
 	JLabel title;
 	JLabel UsernameLabel;
 	JLabel PasswordLabel;
@@ -44,16 +42,10 @@ public class LoginMenu extends JPanel implements ActionListener {
 	JButton LoginButton;
 	
 	public LoginMenu()	{
-		//initialize global variables here
-		//TODO setlayout to null
-		//TODO place JLabels, JTextFields, and JButton in this section using "setBounds(x,y,w,l)" method
-
-		
 		setLayout(null);
 		
-		//LoginPanel = new JPanel();
-		
 		title = new JLabel("Epsilon");
+		title.setFont(new Font("Arial", Font.PLAIN, 24));
 		title.setBounds(110, 20, 100, 20);
 		this.add(title);
 		
@@ -75,12 +67,23 @@ public class LoginMenu extends JPanel implements ActionListener {
 		
 		LoginButton= new JButton("Log In");
 		LoginButton.setBounds(100, 140, 70, 20);
+		LoginButton.addActionListener(this);
 		this.add(LoginButton);
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == LoginButton)	{
+			if(UsernameField.getText().equals("") || PasswordField.getPassword().length == 0)	{
+				JOptionPane.showMessageDialog(this, "Please Enter a Username and Password");
+			}
+			else	{
+				System.out.println("user name is " + UsernameField.getText());
+				MathGame.getUser().setName(UsernameField.getText());
+				MathGame.getUser().setPassword(PasswordField.getPassword().toString());
+				MathGame.showMenu(MathGame.Menu.MAINMENU);
+			}
+		}
 		
 	}
 }

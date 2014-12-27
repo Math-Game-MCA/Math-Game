@@ -42,7 +42,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	
 	private static final long serialVersionUID = -3036828086937465893L;
 
-	static MathGame mathGame;
 	TypeManager typeManager;
 	
 	static final String IMAGE_FILE = "/images/backMulti.png";
@@ -95,7 +94,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	private ArrayList<Game> games;
 	private ArrayList<GameCard> gameCards;
 	
-	public void init(MathGame mg, TypeManager tn) {
+	public void init(TypeManager tn) {
 		
 		this.setLayout(null);
 		Dimension size = getPreferredSize();
@@ -103,10 +102,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		size.height = 620;
 		setPreferredSize(size);
 		
-		mathGame = mg;
 		typeManager = tn;
-		gameManager = mathGame.getGameManager();
-		hostMenu = new HostMenu(mathGame);
+		gameManager = MathGame.getGameManager();
+		hostMenu = new HostMenu();
 		
 		Font titleFont = new Font("Arial", Font.BOLD, 24);
 		Font buttonFont = new Font("Arial", Font.PLAIN, 20);
@@ -265,11 +263,11 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		}
 		//TODO Program functionality of buttons?
 		if(e.getSource() == home) {
-			mathGame.showMenu(MathGame.Menu.MAINMENU); // Return to the main menu
+			MathGame.showMenu(MathGame.Menu.MAINMENU); // Return to the main menu
 			// choosefraction();
 			// startgame();
 		} else if(e.getSource() == host) {
-			mathGame.showMenu(MathGame.Menu.HOSTMENU);
+			MathGame.showMenu(MathGame.Menu.HOSTMENU);
 			// startgame();
 		} else if(e.getSource() == join) {
 			// choosedecimal();
@@ -342,9 +340,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	 */
 	public void addThisUser(){
 		try {
-			if(mathGame.getMySQLAccess().getConnection() == null)
-				mathGame.getMySQLAccess().connect();
-			mathGame.getMySQLAccess().addUser();
+			if(MathGame.getMySQLAccess().getConnection() == null)
+				MathGame.getMySQLAccess().connect();
+			MathGame.getMySQLAccess().addUser();
 			// mathGame.sql.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -357,10 +355,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	 */
 	public void refreshDatabase() {
 		try {
-			if (mathGame.getMySQLAccess().getConnection() == null) {
-				mathGame.getMySQLAccess().connect();
+			if (MathGame.getMySQLAccess().getConnection() == null) {
+				MathGame.getMySQLAccess().connect();
 			}
-			usersArray = mathGame.getMySQLAccess().getUsersGame();
+			usersArray = MathGame.getMySQLAccess().getUsersGame();
 			updateUsersList();
 			// mathGame.sql.close();
 		} catch (Exception e) {
@@ -391,10 +389,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	 */
 	public void startGame() {
 		// this.setVisible(false);
-		mathGame.showMenu(MathGame.Menu.GAME);
+		MathGame.showMenu(MathGame.Menu.GAME);
 		System.out.println("ENTER GAME");
 		System.out.println("type1 " + typeManager.getType());
-		typeManager.init(mathGame.getCardPanel());
+		typeManager.init(MathGame.getCardPanel());
 		typeManager.randomize();
 	}
 	
@@ -578,8 +576,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 					
 					if(!GameManager.getMatchesAccess().checkForFullGame()) {
 						// If the game is not full
-						mathGame.getUser().setPlayerID(2);//TODO: Update this for any number of players
-						mathGame.showMenu(MathGame.Menu.GAME);
+						MathGame.getUser().setPlayerID(2);//TODO: Update this for any number of players
+						MathGame.showMenu(MathGame.Menu.GAME);
 						
 						gameManager.joinGame(tempCard.getGameID());
 						System.out.println("GAME SET: " + tempCard.getGameID());						
@@ -591,10 +589,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 						GameManager.getMatchesAccess().setMatchNum(tempCard.getGameID()); 
 						System.out.println("MATCHNUM " + GameManager.getMatchesAccess().getMatchNum());
 						
-						mathGame.getSidePanel().startTimer(tempCard.getType());
-						mathGame.getSidePanel().setUpMultiplayer();
+						MathGame.getSidePanel().startTimer(tempCard.getType());
+						MathGame.getSidePanel().setUpMultiplayer();
 					} else {
-						JOptionPane.showMessageDialog(mathGame.getMenu(MathGame.Menu.MULTIMENU).getTopLevelAncestor(), "This game is full");
+						JOptionPane.showMessageDialog(MathGame.getMenu(MathGame.Menu.MULTIMENU).getTopLevelAncestor(), "This game is full");
 						GameManager.getMatchesAccess().setMatchNum(-1); // The game is full, so do not join
 					}
 				}
