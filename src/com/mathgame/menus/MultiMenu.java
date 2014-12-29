@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 
 
 import javax.swing.JTextArea;
+import javax.swing.Timer;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
@@ -74,6 +75,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	int mx;
 	int my;
 	
+	Font titleFont;
+	Font buttonFont;
+	
 	JPanel gamesList;
 	JButton home; // Press to enter a game
 	JButton host; // Press to host a game
@@ -92,6 +96,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	private ArrayList<Game> games;
 	private ArrayList<GameCard> gameCards;
 	
+	Timer refreshTimer;
+	
 	public void init(MathGame mg, TypeManager tn) {
 		
 		this.setLayout(null);
@@ -105,8 +111,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		gameManager = mathGame.getGameManager();
 		hostMenu = new HostMenu(mathGame);
 		
-		Font titleFont = new Font("Eurostile", Font.BOLD, 24);
-		Font buttonFont = new Font("Arial", Font.PLAIN, 20);
+		titleFont = new Font("Eurostile", Font.BOLD, 24);
+		buttonFont = new Font("Arial", Font.PLAIN, 20);
 		
 		home = new JButton("Back");
 		home.setFont(buttonFont);
@@ -228,21 +234,14 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		refresh.addMouseListener(this);
 		
 		// Start refresh thread
-		/*
-		Thread refreshThread = new Thread()	{
-			public void run()	{
-				Timer refreshTimer = new Timer(500, new ActionListener()	{
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						refresh();
-					}
-				});
-				refreshTimer.start();
-			}
-		};
-		*/
-		// refreshThread.start(); //TODO Enable when we get a better refresh algorithm
-		// I suggest checking database for changes. If there are changes, refresh; otherwise, do nothing.
+		refreshTimer = new Timer(2000, new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				refresh();				
+			}			
+		});
+		refreshTimer.setInitialDelay(0);
+		//refreshTimer.start();
 		
 		System.out.println("Menu Init Complete");
 	}
@@ -258,6 +257,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		//TODO Program functionality of buttons?
 		if(e.getSource() == home) {
 			mathGame.showMenu(MathGame.Menu.MAINMENU); // Return to the main menu
+			refreshTimer.stop();
 			// choosefraction();
 			// startgame();
 		} else if(e.getSource() == host) {
@@ -368,6 +368,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		usersList.revalidate();
 		usersList.repaint();
+
 	}
 	
 	/**
@@ -562,6 +563,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 					
 					if(!GameManager.getMatchesAccess().checkForFullGame()) {
 						// If the game is not full
+						refreshTimer.stop();
 						mathGame.getUser().setPlayerID(2);//TODO: Update this for any number of players
 						mathGame.showMenu(MathGame.Menu.GAME);
 						

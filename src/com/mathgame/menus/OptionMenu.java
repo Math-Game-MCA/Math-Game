@@ -264,6 +264,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 				mathGame.setGameState(GameState.COMPETITIVE);
 				((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshDatabase();
 				((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).addThisUser();
+				((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshTimer.start();
 				mathGame.showMenu(MathGame.Menu.MULTIMENU);
 			} else {
 				mathGame.setGameState(GameState.PRACTICE);
