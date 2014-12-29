@@ -164,6 +164,8 @@ public class ImageGenerator {
 			ImageIO.write(img, "png", outf);
 		} catch (IOException ioe) {	
 			ioe.printStackTrace();
+		} catch (Exception e1){
+			e1.printStackTrace();
 		}
 		
 		return img;
