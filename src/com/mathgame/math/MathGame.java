@@ -15,15 +15,21 @@ import java.util.concurrent.ExecutionException;
 /**
  * The main class of the program
  */
-public class MathGame extends Container implements ActionListener {
+public class MathGame extends Container {
 
 	private static final long serialVersionUID = 412526093812019078L;
-	static int appWidth = 900; // 1300 or 900
-	static int appHeight = 620;
 	
+	//Global Variables (Public)
 	public static final double epsilon = 0.000000000001; // 10^-12, equivalent to TI-84 precision
 	public static final String operations[] = {"+", "-", "*", "/"};
+
+	public static final Font eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
+	public static final Font eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
+	public static final Font eurostile16 = new Font("Eurostile", Font.PLAIN, 16);
 	
+	private static final Dimension size = new Dimension(900, 620);
+	
+	//Menus
 	private static LoginMenu loginMenu;
 	private static MainMenu mainMenu;
 	private static MultiMenu multiMenu;
@@ -84,6 +90,7 @@ public class MathGame extends Container implements ActionListener {
 		 */
 		COMPETITIVE
 	};
+	
 	private static GameState gs; // Keeps track of the user's game state
 
 	private static GameManager gameManager; // Game variables held here for multiplayer games
@@ -99,34 +106,11 @@ public class MathGame extends Container implements ActionListener {
 	private static WorkspacePanel workPanel; // Panel in the center of the screen where cards are morphed together
 	private static HoldPanel holdPanel; // Panel that holds intermediate results
 
-	/*TODO Values never used
-	Rectangle home1;
-	Rectangle home2;
-	Rectangle home3;
-	Rectangle home4;
-	Rectangle home5;
-	Rectangle home6;
-	*/
-
-	Point[] placesHomes = new Point[12];
-
-	JLabel correct;
-	int answerA;
-	int answerS;
-	int answerM;
-	float answerD;
-
-	int enterAction;// 0-3
 	private static boolean dbConnected = false;
 
-	static boolean useDatabase = false;
 	private static MySQLAccess sql;
 	private SwingWorker<Boolean, Void> backgroundConnect;
 	private static User thisUser;
-
-	JLabel correction;
-
-	GridBagConstraints c;
 
 	private static JLabel[] cards = new JLabel[12]; // card1, card2..opA,S...
 	private static Rectangle[] cardHomes = new Rectangle[12]; // home1, home2...opA,S...
@@ -142,12 +126,8 @@ public class MathGame extends Container implements ActionListener {
 		System.out.println("initing");
 		
 		thisUser = new User("user", "pass");
-		setPreferredSize(new Dimension(appWidth, appHeight));
-		// setSize(appWidth, appHeight);
+		setPreferredSize(size);
 		setLayout(null);
-		// ((JComponent) getContentPane()).setBorder(new
-		// LineBorder(Color.yellow));
-		// setBorder(new LineBorder(Color.yellow));
 		sql = new MySQLAccess(this);
 		backgroundConnect = new SwingWorker<Boolean, Void>() {
 
@@ -196,11 +176,11 @@ public class MathGame extends Container implements ActionListener {
 				gameManager = new GameManager();//since this requires the connection to be established
 
 				multiMenu = new MultiMenu();
-				multiMenu.init(typeManager);//TODO get rid of the mathgame argument
-				multiMenu.setBounds(0, 0, appWidth, appHeight);
+				multiMenu.init(typeManager);
+				multiMenu.setBounds(0, 0, size.width, size.height);
 				
 				hostMenu = new HostMenu();
-				hostMenu.setBounds(0, 0, appWidth, appHeight);
+				hostMenu.setBounds(0, 0, size.width, size.height);
 				
 				cardLayoutPanels.add(multiMenu, Menu.MULTIMENU.cardLayoutString);
 				cardLayoutPanels.add(hostMenu, Menu.HOSTMENU.cardLayoutString);
@@ -211,32 +191,30 @@ public class MathGame extends Container implements ActionListener {
 		
 		// Initiation of panels
 		cardLayoutPanels = new JPanel(new CardLayout());
-		cardLayoutPanels.setBounds(0, 0, appWidth, appHeight);
+		cardLayoutPanels.setBounds(0, 0, size.width, size.height);
 		
 		loginMenu = new LoginMenu();
-		loginMenu.setBounds(0, 0, appWidth, appHeight);
+		loginMenu.setBounds(0, 0, size.width, size.height);
 		
 		mainMenu = new MainMenu();
 		mainMenu.init();
-		mainMenu.setBounds(0, 0, appWidth, appHeight);
+		mainMenu.setBounds(0, 0, size.width, size.height);
 
 		gameMasterLayer = new JLayeredPane();
 		gameMasterLayer.setLayout(null);
-		gameMasterLayer.setBounds(5, 0, getSize().width, getSize().height);
+		gameMasterLayer.setBounds(5, 0, size.width, size.height);//originally used getSize function
 
 		typeManager = new TypeManager();
 		
 		optionMenu = new OptionMenu();
-		optionMenu.setBounds(0, 0, appWidth, appHeight);
+		optionMenu.setBounds(0, 0, size.width, size.height);
 
 		mover = new CompMover();
 		
 		sidePanel = new SidePanel(); // Control bar
-		// sidePanel.setBounds(750, 0, 900, 620);//x, y, width, height
 		sidePanel.init(this);
 
 		cardPanel = new CardPanel(); // Top card panel
-		// cardPanel.setBounds(0, 0, 750, 150);
 		cardPanel.init(gameMasterLayer);
 
 		opPanel = new OperationPanel(); // Operation panel
@@ -368,11 +346,6 @@ public class MathGame extends Container implements ActionListener {
 		SoundManager.initializeSoundManager(this);
 		
 		System.out.println("init done");
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent evt) {
-		
 	}
 	
 	/**
@@ -527,27 +500,20 @@ public class MathGame extends Container implements ActionListener {
 	 * @return the appWidth
 	 */
 	public static int getAppWidth() {
-		return appWidth;
-	}
-
-	/**
-	 * @param appWidth the appWidth to set
-	 */
-	public static void setAppWidth(int appWidth) {
-		MathGame.appWidth = appWidth;
+		return MathGame.size.width;
 	}
 
 	/**
 	 * @return the appHeight
 	 */
 	public static int getAppHeight() {
-		return appHeight;
+		return MathGame.size.height;
 	}
-
+	
 	/**
-	 * @param appHeight the appHeight to set
+	 * @return the appSize
 	 */
-	public static void setAppHeight(int appHeight) {
-		MathGame.appHeight = appHeight;
+	public static Dimension getAppSize()	{
+		return MathGame.size;
 	}
 }

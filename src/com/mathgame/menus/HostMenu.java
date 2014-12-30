@@ -49,8 +49,6 @@ public class HostMenu extends JPanel implements ActionListener {
 	static ImageIcon buttonRollOverImage;
 	static ImageIcon buttonPressedImage;
 	
-	private static final Font eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
-	
 	static {
 		// Image initialization
 		background = new ImageIcon(OptionMenu.class.getResource(BACKGROUND_FILE));
@@ -115,14 +113,14 @@ public class HostMenu extends JPanel implements ActionListener {
 		diffLabel = new JLabel("Difficulty:");
 		
 		finish = new JButton("Finish");
-		finish.setFont(eurostile24);
+		finish.setFont(MathGame.eurostile24);
 	    finish.setHorizontalTextPosition(JButton.CENTER);
 	    finish.setVerticalTextPosition(JButton.CENTER);
 	    finish.setBorderPainted(false);
 	    finish.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		finish.addActionListener(this);
 		cancel = new JButton("Cancel");
-		cancel.setFont(eurostile24);
+		cancel.setFont(MathGame.eurostile24);
 	    cancel.setHorizontalTextPosition(JButton.CENTER);
 	    cancel.setVerticalTextPosition(JButton.CENTER);
 	    cancel.setBorderPainted(false);
@@ -183,9 +181,9 @@ public class HostMenu extends JPanel implements ActionListener {
 		playerPanel = new JPanel();
 		playersModel = new SpinnerNumberModel(2, 2, 6, 1); // 2 to 6 players, default 2
 		playersSpinner = new JSpinner(playersModel);
-		playersSpinner.setFont(eurostile24);
+		playersSpinner.setFont(MathGame.eurostile24);
 		playersLabel = new JLabel("# Players:");
-		playersLabel.setFont(eurostile24);
+		playersLabel.setFont(MathGame.eurostile24);
 		playerPanel.add(playersLabel);
 		playerPanel.add(playersSpinner);
 	}*/
@@ -200,7 +198,7 @@ public class HostMenu extends JPanel implements ActionListener {
 		}
 		typePanel = new JPanel();
 		typeLabel = new JLabel("Number Type:");
-		typeLabel.setFont(eurostile24);
+		typeLabel.setFont(MathGame.eurostile24);
 		typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.PAGE_AXIS));
 		typePanel.add(typeLabel);
 		typePanel.setOpaque(false);
@@ -224,7 +222,7 @@ public class HostMenu extends JPanel implements ActionListener {
 		diffPanel = new JPanel();
 		diffGroup = new ButtonGroup();
 		diffLabel = new JLabel("Difficulty:");
-		diffLabel.setFont(eurostile24);;
+		diffLabel.setFont(MathGame.eurostile24);;
 		diffPanel.setLayout(new BoxLayout(diffPanel, BoxLayout.PAGE_AXIS));
 		diffPanel.add(diffLabel);
 		diffPanel.setOpaque(false);
@@ -246,9 +244,9 @@ public class HostMenu extends JPanel implements ActionListener {
 		// Choose from 1 to 5 rounds, with a default of 3 rounds
 		roundsModel = new SpinnerNumberModel(3, 1, 5, 1);
 		roundsSpinner = new JSpinner(roundsModel);
-		roundsSpinner.setFont(eurostile24);
+		roundsSpinner.setFont(MathGame.eurostile24);
 		roundLabel = new JLabel("# Rounds:");
-		roundLabel.setFont(eurostile24);
+		roundLabel.setFont(MathGame.eurostile24);
 		roundPanel.add(roundLabel);
 		roundPanel.add(roundsSpinner);
 	}
@@ -265,7 +263,7 @@ public class HostMenu extends JPanel implements ActionListener {
 		scoringGroup = new ButtonGroup();
 		scoringPanel.setLayout(new BoxLayout(scoringPanel, BoxLayout.PAGE_AXIS));
 		scoringLabel = new JLabel("Scoring:");
-		scoringLabel.setFont(eurostile24);
+		scoringLabel.setFont(MathGame.eurostile24);
 		scoringPanel.add(scoringLabel);
 		scoringPanel.setOpaque(false);
 		for(int i = 0; i < scorings.size(); i++) {

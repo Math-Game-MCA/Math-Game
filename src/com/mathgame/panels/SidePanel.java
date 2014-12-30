@@ -43,9 +43,6 @@ public class SidePanel extends JPanel implements ActionListener {
 	UndoButton undo;
 	JButton reset;
 
-	private static final Font eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
-	private static final Font eurostile16 = new Font("Eurostile", Font.PLAIN, 16);
-
 	static final String IMAGE_FILE = "/images/control bar.png";
 	static final String BUTTON_IMAGE_FILE = "/images/DefaultButtonImage1.png";
 	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/DefaultButtonImage2.png";
@@ -125,43 +122,43 @@ public class SidePanel extends JPanel implements ActionListener {
 
 		// Define properties of controls
 		clock.setBounds(10, 10, 130, 60);
-		clock.setFont(eurostile36);
+		clock.setFont(MathGame.eurostile36);
 		clock.setHorizontalAlignment(SwingConstants.CENTER);
 
 		score.setBounds(10, 80, 130, 60);
-		score.setFont(eurostile36);
+		score.setFont(MathGame.eurostile36);
 		score.setHorizontalAlignment(SwingConstants.CENTER);
 
 		toggle.setBounds(10, 150, 130, 30);
 		toggle.addActionListener(this);
 	    toggle.setHorizontalTextPosition(JButton.CENTER);
 	    toggle.setVerticalTextPosition(JButton.CENTER);
-	    toggle.setFont(eurostile16);
+	    toggle.setFont(MathGame.eurostile16);
 		toggle.setBorderPainted(false);
 
 		undo.setBounds(10, 190, 130, 30);
 		undo.addActionListener(this);
 	    undo.setHorizontalTextPosition(JButton.CENTER);
 	    undo.setVerticalTextPosition(JButton.CENTER);
-	    undo.setFont(eurostile16);
+	    undo.setFont(MathGame.eurostile16);
 		undo.setBorderPainted(false);
 
 		reset.setBounds(10, 230, 130, 30);
 		reset.addActionListener(this);
 	    reset.setHorizontalTextPosition(JButton.CENTER);
 	    reset.setVerticalTextPosition(JButton.CENTER);
-	    reset.setFont(eurostile16);
+	    reset.setFont(MathGame.eurostile16);
 		reset.setBorderPainted(false);
 
 		checkAns.setBounds(10, 270, 130, 30);
 		checkAns.addActionListener(this);
 	    checkAns.setHorizontalTextPosition(JButton.CENTER);
 	    checkAns.setVerticalTextPosition(JButton.CENTER);
-	    checkAns.setFont(eurostile16);
+	    checkAns.setFont(MathGame.eurostile16);
 		checkAns.setBorderPainted(false);
 
 		vs.setBounds(10, 310, 130, 30);
-		vs.setFont(eurostile16);
+		vs.setFont(MathGame.eurostile16);
 		vs.setHorizontalAlignment(SwingConstants.CENTER);
 		vs.setText("Vs. " + "nobody"); //TODO When versing someone, replace "nobody" with opponent name
 		
@@ -170,7 +167,7 @@ public class SidePanel extends JPanel implements ActionListener {
 		help.addActionListener(this);
 	    help.setHorizontalTextPosition(JButton.CENTER);
 	    help.setVerticalTextPosition(JButton.CENTER);
-	    help.setFont(eurostile16);
+	    help.setFont(MathGame.eurostile16);
 		help.setBorderPainted(false);
 
 		exit.setBounds(10, 580, 130, 30);
@@ -178,7 +175,7 @@ public class SidePanel extends JPanel implements ActionListener {
 		exit.addActionListener(this);
 	    exit.setHorizontalTextPosition(JButton.CENTER);
 	    exit.setVerticalTextPosition(JButton.CENTER);
-	    exit.setFont(eurostile16);
+	    exit.setFont(MathGame.eurostile16);
 		exit.setBorderPainted(false);
 
 		timer = new Timer(1000, this);
