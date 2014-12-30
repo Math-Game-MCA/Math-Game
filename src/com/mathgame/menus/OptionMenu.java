@@ -28,7 +28,7 @@ import com.mathgame.math.TypeManager.Difficulty;
 import com.mathgame.math.TypeManager.GameType;
 
 /**
- * The OptionMenu class represents the menu for selecting game mode, number types, difficulty, and other game parameters
+ * The OptionMenu class represents the menu for selecting number types, difficulty, and other game parameters
  * <p>
  * Multiple options for type can be selected (i.e. combine integers and decimals, etc.), but we 
  * will need either database sheet support or a class that can convert between forms (the latter is preferred)
@@ -53,22 +53,19 @@ public class OptionMenu extends JPanel implements ActionListener {
 	ImageIcon buttonRollOverImage;
 	ImageIcon buttonPressedImage;
 	
-	ButtonGroup modeGroup; // Practice or Competitive (aka single player or multiplayer)
 	ButtonGroup diffGroup; // Easy, Medium, Hard
 	ArrayList<JCheckBox> types; // Integer, Decimal, Fraction (To be added: Negative, Exponents, Log)
-	ArrayList<JRadioButton> modes;
 	ArrayList<JRadioButton> diffs;
 	
-	String[] modeNames = {"Practice", "Competitive"};
 	String[] typeNames = {"Integer", "Decimal", "Fraction"};
 	String[] diffNames = {"Easy", "Medium", "Hard"};
 	
 	Map<String, JToggleButton> buttonMap; // Associate buttons with their names for easy locating
 	
-	JPanel modePanel;
 	JPanel typePanel;
 	JPanel diffPanel;
-	
+
+	JButton cancel; // go back
 	JButton play; // Click to play the game!
 	
 	GridBagConstraints gbc;
@@ -101,12 +98,10 @@ public class OptionMenu extends JPanel implements ActionListener {
 		
 		// Button creation
 		buttonMap = new HashMap<String, JToggleButton>();
-		initModes();
 		initTypes();
 		initDiffs();
 		
 		// Default selections
-		modes.get(0).setSelected(true);
 		types.get(0).setSelected(true);
 		diffs.get(0).setSelected(true);
 		mathGame.setGameState(GameState.PRACTICE);
@@ -118,21 +113,26 @@ public class OptionMenu extends JPanel implements ActionListener {
 	    play.setBorderPainted(false);
 	    play.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		play.addActionListener(this);
+		cancel = new JButton("Back");
+		cancel.setFont(eurostile24);
+	    cancel.setHorizontalTextPosition(JButton.CENTER);
+	    cancel.setVerticalTextPosition(JButton.CENTER);
+	    cancel.setBorderPainted(false);
+	    cancel.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		cancel.addActionListener(this);
 		
 		try {
 		    play.setIcon(buttonImage);
 		    play.setRolloverIcon(buttonRollOverImage);
 		    play.setPressedIcon(buttonPressedImage);
+		    cancel.setIcon(buttonImage);
+		    cancel.setRolloverIcon(buttonRollOverImage);
+		    cancel.setPressedIcon(buttonPressedImage);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		
 		gbc.insets = new Insets(5, 5, 5, 5);
-		gbc.gridwidth = 3;
-		gbc.gridheight = 3;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		add(modePanel, gbc);
 		gbc.gridx = 4;
 		gbc.gridy = 0;
 		gbc.gridwidth = 3;
@@ -147,31 +147,9 @@ public class OptionMenu extends JPanel implements ActionListener {
 		gbc.gridx = 4;
 		gbc.gridy = 3;
 		add(play, gbc);
-	}
-	
-	/**
-	 * Initialize the modes panel
-	 */
-	private void initModes() {
-		modes = new ArrayList<JRadioButton>();
-		for(String s : modeNames) {
-			modes.add(new JRadioButton(s));
-		}
-		modePanel = new JPanel();
-		modePanel.setOpaque(false);
-		modePanel.setLayout(new GridBagLayout());
-		modeGroup = new ButtonGroup();
-		for (int i = 0; i < modes.size(); i++) {
-			modeGroup.add(modes.get(i));
-			modes.get(i).setFont(eurostile24);
-			gbc.fill = GridBagConstraints.HORIZONTAL;
-			gbc.gridx = 0;
-			gbc.gridy = i; // Layout buttons going down same column
-			modePanel.add(modes.get(i), gbc);
-			buttonMap.put(modeNames[i], modes.get(i));
-			modes.get(i).setOpaque(false);
-			modes.get(i).addActionListener(this);
-		}
+		gbc.gridx = 8;
+		gbc.gridy = 3;
+		add(cancel, gbc);
 	}
 	
 	/**
@@ -241,36 +219,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 		}
 		
 		// Allow options only for practice mode (competitive decided through in game menu)
-		if (e.getSource() == buttonMap.get("Practice")) {
-			if (buttonMap.get("Practice").isSelected()) {
-				for (JRadioButton rb : diffs) {
-					rb.setEnabled(true);
-				}
-				for (JCheckBox cb : types) {
-					cb.setEnabled(true);
-				}
-			}
-		} else if(e.getSource() == buttonMap.get("Competitive")) {
-			if (buttonMap.get("Competitive").isSelected()) {
-				for (JRadioButton rb : diffs) {
-					rb.setEnabled(false);
-				}
-				for (JCheckBox cb : types) {
-					cb.setEnabled(false);
-				}
-			}
-		} else if (e.getSource() == play) {			
-			if (buttonMap.get("Competitive").isSelected()) {
-				mathGame.setGameState(GameState.COMPETITIVE);
-				((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshDatabase();
-				((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).addThisUser();
-				((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshTimer.start();
-				mathGame.showMenu(MathGame.Menu.MULTIMENU);
-			} else {
-				mathGame.setGameState(GameState.PRACTICE);
-				startGame();
-			}
-			
+		if (e.getSource() == play) {
 			if (buttonMap.get("Integer").isSelected()) {
 				tm.setType(GameType.INTEGERS);
 			} else if (buttonMap.get("Decimal").isSelected()) {
@@ -293,6 +242,11 @@ public class OptionMenu extends JPanel implements ActionListener {
 				tm.setDiff(Difficulty.HARD);
 				tm.randomize();
 			}
+			
+			startGame();
+		}
+		else if(e.getSource() == cancel) {
+			mathGame.showMenu(MathGame.Menu.MULTIMENU); // Return to the multiplayer menu
 		}
 	}
 	

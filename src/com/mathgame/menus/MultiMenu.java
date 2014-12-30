@@ -3,10 +3,8 @@ package com.mathgame.menus;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,20 +19,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-// import javax.swing.Timer;
-
-
-
-
 import javax.swing.JTextArea;
 import javax.swing.Timer;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
 import com.mathgame.math.TypeManager;
-import com.mathgame.math.TypeManager.Difficulty;
 import com.mathgame.network.Game;
 import com.mathgame.network.GameManager;
 import com.mathgame.network.User;
@@ -82,7 +73,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	JButton home; // Press to enter a game
 	JButton host; // Press to host a game
 	JButton join; // Press to join a game
-	JButton refresh; // Updates from database
+	JButton practice; // sends to practice mode
 	JTextArea usersList;
 	JTextArea userProfile; // displays info about the selected user (win/loss, etc)
 	
@@ -135,12 +126,12 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		join.setVerticalTextPosition(JButton.CENTER);
 		join.setBorderPainted(false);
 	    
-		refresh = new JButton("Refresh");
-		refresh.setFont(buttonFont);
-		refresh.setBounds(720, 535, BUTTON_WIDTH, BUTTON_HEIGHT);
-		refresh.setHorizontalTextPosition(JButton.CENTER);
-		refresh.setVerticalTextPosition(JButton.CENTER);
-		refresh.setBorderPainted(false);
+		practice = new JButton("Practice");
+		practice.setFont(buttonFont);
+		practice.setBounds(720, 535, BUTTON_WIDTH, BUTTON_HEIGHT);
+		practice.setHorizontalTextPosition(JButton.CENTER);
+		practice.setVerticalTextPosition(JButton.CENTER);
+		practice.setBorderPainted(false);
 		
 	    gamesList = new JPanel();
 	    gamesList.setBounds(50, 50, 600, 450);
@@ -200,9 +191,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		    join.setRolloverIcon(buttonRollOverImage);
 		    join.setPressedIcon(buttonPressedImage);
 		    
-		    refresh.setIcon(buttonImage);					
-		    refresh.setRolloverIcon(buttonRollOverImage);	
-		    refresh.setPressedIcon(buttonPressedImage);		
+		    practice.setIcon(buttonImage);					
+		    practice.setRolloverIcon(buttonRollOverImage);	
+		    practice.setPressedIcon(buttonPressedImage);		
 		    
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -213,7 +204,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		add(home);
 		add(host);
 		add(join);
-		add(refresh);
+		add(practice);
 		add(gamesList);
 		add(usersList);
 		add(userProfile);
@@ -229,9 +220,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		join.addMouseListener(this);
 		join.addActionListener(this);
 		
-		refresh.addActionListener(this);
-		refresh.addMouseMotionListener(this);
-		refresh.addMouseListener(this);
+		practice.addActionListener(this);
+		practice.addMouseMotionListener(this);
+		practice.addMouseListener(this);
 		
 		// Start refresh thread
 		refreshTimer = new Timer(2000, new ActionListener(){
@@ -254,7 +245,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		if (e.getSource() instanceof JButton) {
 			SoundManager.playSound(SoundManager.SoundType.BUTTON);
 		}
-		//TODO Program functionality of buttons?
 		if(e.getSource() == home) {
 			mathGame.showMenu(MathGame.Menu.MAINMENU); // Return to the main menu
 			refreshTimer.stop();
@@ -267,8 +257,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 			// choosedecimal();
 			// startgame();
 		}
-		else if(e.getSource() == refresh) {
-			refresh();
+		else if(e.getSource() == practice) {
+			mathGame.showMenu(MathGame.Menu.OPTIONMENU);// select practice options
+			refreshTimer.stop();
 		}
 	}
 	
@@ -472,17 +463,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	public void mouseMoved(MouseEvent e) {
 		mx = e.getX();
 		my = e.getY();
-		
-		//TODO Delete this soon...
-		if(e.getSource() == home) {
-			fractionInfo();
-		} else if(e.getSource() == host) {
-			decimalInfo();
-		} else if(e.getSource() == join) {
-			integerinfo();
-		} else if(e.getSource() == refresh) {
-			mixedinfo();
-		}
 	}
 
 	@Override
