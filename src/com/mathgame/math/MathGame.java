@@ -9,7 +9,6 @@ import com.mathgame.panels.*;
 
 import java.awt.*;
 import java.awt.dnd.DropTarget;
-import java.awt.event.*;
 import java.util.concurrent.ExecutionException;
 
 /**

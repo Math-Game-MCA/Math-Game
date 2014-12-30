@@ -47,7 +47,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	
 	static final int BUTTON_WIDTH = 130;
 	static final int BUTTON_HEIGHT = 30;
-	static final int WIDE_BUTTON_WIDTH = 150;
 	
 	static ImageIcon background;
 	static ImageIcon buttonImage;
