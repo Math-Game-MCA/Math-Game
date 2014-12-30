@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 
 
 
+
+
 import com.mathgame.math.MathGame;
 
 /**
@@ -81,6 +83,8 @@ public class LoginMenu extends JPanel implements ActionListener {
 				System.out.println("user name is " + UsernameField.getText());
 				MathGame.getUser().setName(UsernameField.getText());
 				MathGame.getUser().setPassword(PasswordField.getPassword().toString());
+				((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshDatabase();
+				((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).addThisUser();
 				MathGame.showMenu(MathGame.Menu.MAINMENU);
 			}
 		}

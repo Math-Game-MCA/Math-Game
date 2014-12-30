@@ -247,6 +247,7 @@ public class MathGame extends Container implements ActionListener {
 		workPanel.setBounds(0, 210, 750, 260);
 		workPanel.init();
 
+		
 		holdPanel = new HoldPanel();
 		holdPanel.setBounds(0, 470, 750, 150);
 		holdPanel.init();

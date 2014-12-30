@@ -279,7 +279,6 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		}
 		//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.SUBMENU);*/
 		((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshDatabase();
-		((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).addThisUser();
 		((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshTimer.start();
 		MathGame.showMenu(MathGame.Menu.MULTIMENU);
 		System.out.println("ENTER GAME");
