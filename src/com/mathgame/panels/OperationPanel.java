@@ -33,20 +33,19 @@ public class OperationPanel extends JPanel
 	/**
 	 * Initialize the OperationPanel, using the MathGame as a JLayeredPane
 	 * 
-	 * @param mathGame - The MathGame that contains the master layer
 	 * @param mover - The CompMover object that will handle the moving of cards
 	 */
-	public void init(MathGame mathGame, CompMover mover)
+	public void init(CompMover mover)
 	{
 		setLayout(null);
 		// TitledBorder opBorder = BorderFactory.createTitledBorder("Operation Panel");
 		// this.setBorder(new LineBorder(Color.black));
 		
-		add = new OperationCard(mathGame, "add");
-		subtract = new OperationCard(mathGame, "subtract");
-		multiply = new OperationCard(mathGame, "multiply");
-		divide = new OperationCard(mathGame, "divide");
-		exponent = new OperationCard(mathGame, "exponent");
+		add = new OperationCard("add");
+		subtract = new OperationCard("subtract");
+		multiply = new OperationCard("multiply");
+		divide = new OperationCard("divide");
+		exponent = new OperationCard("exponent");
 		
 		add.setBounds(20, 160, 40, 40);
 		subtract.setBounds(80, 160, 40, 40);
@@ -63,7 +62,7 @@ public class OperationPanel extends JPanel
 		this.add(exponent);
 		//TODO EXPONENT: Add and initialize the exponent card. Use the "operation bar.png" as reference (DONE)
 		
-		masterLayer = mathGame.getMasterPane();
+		masterLayer = MathGame.getMasterPane();
 		
 		// background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
 		background = new ImageIcon(OperationPanel.class.getResource(IMAGE_FILE));

@@ -16,7 +16,6 @@ import java.math.RoundingMode;
  */
 public class TypeManager {
 	
-	static MathGame mathGame;
 	MySQLAccess sql;
 	
 	NumberCard card1;
@@ -54,9 +53,8 @@ public class TypeManager {
 	GameType gameType;
 	Difficulty gameDiff;
 
-	public TypeManager(MathGame mathGame) {
-		TypeManager.mathGame = mathGame;
-		sql = mathGame.getMySQLAccess();
+	public TypeManager() {
+		sql = MathGame.getMySQLAccess();
 		gameType = GameType.INTEGERS;
 	}
 

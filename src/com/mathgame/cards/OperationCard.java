@@ -49,7 +49,7 @@ public class OperationCard extends JLabel {
 	 * @param mathGame
 	 * @param operation - The operation
 	 */
-	public OperationCard (MathGame mathGame, String operation) {
+	public OperationCard (String operation) {
 		String imageFile = null;
 		if (operation.equals("add")) {
 			imageFile = "add.png";
@@ -64,11 +64,8 @@ public class OperationCard extends JLabel {
 		}  else {		
 			System.err.println("Invalid operation");
 		}
-		//TODO EXPONENT: Add the exponent graphic (DONE)
 		
 		this.operation = operation;
-		
-		// Image background = mathGame.getImage(mathGame.getDocumentBase(), "images/"+imageFile);
 		
 		ImageIcon icon = new ImageIcon(OperationPanel.class.getResource("/images/"+imageFile));
 		this.setIcon(icon);

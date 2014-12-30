@@ -84,7 +84,7 @@ public class MathGame extends Container implements ActionListener {
 		 */
 		COMPETITIVE
 	};
-	private GameState gs; // Keeps track of the user's game state
+	private static GameState gs; // Keeps track of the user's game state
 
 	private static GameManager gameManager; // Game variables held here for multiplayer games
 
@@ -92,12 +92,12 @@ public class MathGame extends Container implements ActionListener {
 	private static CardLayout cl;
 
 	// Panel Declarations
-	private JLayeredPane gameMasterLayer; // Master game panel, particularly for moving cards across entire screen
+	private static JLayeredPane gameMasterLayer; // Master game panel, particularly for moving cards across entire screen
 	private static SidePanel sidePanel; // Control panel on the side
-	private OperationPanel opPanel; // Panel that holds operations: + - / *
+	private static OperationPanel opPanel; // Panel that holds operations: + - / *
 	private static CardPanel cardPanel; // Panel that holds cards at top
-	private WorkspacePanel workPanel; // Panel in the center of the screen where cards are morphed together
-	private HoldPanel holdPanel; // Panel that holds intermediate results
+	private static WorkspacePanel workPanel; // Panel in the center of the screen where cards are morphed together
+	private static HoldPanel holdPanel; // Panel that holds intermediate results
 
 	/*TODO Values never used
 	Rectangle home1;
@@ -128,14 +128,12 @@ public class MathGame extends Container implements ActionListener {
 
 	GridBagConstraints c;
 
-	private JLabel[] cards = new JLabel[12]; // card1, card2..opA,S...
-	private Rectangle[] cardHomes = new Rectangle[12]; // home1, home2...opA,S...
-	private String[] cardVals = new String[12]; //TODO Use this variable or delete it
-	//TODO EXPONENT: Add in another card for exponents (DONE)
+	private static JLabel[] cards = new JLabel[12]; // card1, card2..opA,S...
+	private static Rectangle[] cardHomes = new Rectangle[12]; // home1, home2...opA,S...
 
 	private static TypeManager typeManager;
 
-	private CompMover mover;
+	private static CompMover mover;
 
 	/**
 	 * Initializes the window & game
@@ -219,39 +217,39 @@ public class MathGame extends Container implements ActionListener {
 		loginMenu.setBounds(0, 0, appWidth, appHeight);
 		
 		mainMenu = new MainMenu();
-		mainMenu.init(this);
+		mainMenu.init();
 		mainMenu.setBounds(0, 0, appWidth, appHeight);
 
 		gameMasterLayer = new JLayeredPane();
 		gameMasterLayer.setLayout(null);
 		gameMasterLayer.setBounds(5, 0, getSize().width, getSize().height);
 
-		typeManager = new TypeManager(this);
+		typeManager = new TypeManager();
 		
-		optionMenu = new OptionMenu(this);
+		optionMenu = new OptionMenu();
 		optionMenu.setBounds(0, 0, appWidth, appHeight);
 
-		mover = new CompMover(this);
+		mover = new CompMover();
 		
 		sidePanel = new SidePanel(); // Control bar
 		// sidePanel.setBounds(750, 0, 900, 620);//x, y, width, height
 		sidePanel.init(this);
 
-		cardPanel = new CardPanel(this); // Top card panel
+		cardPanel = new CardPanel(); // Top card panel
 		// cardPanel.setBounds(0, 0, 750, 150);
 		cardPanel.init(gameMasterLayer);
 
 		opPanel = new OperationPanel(); // Operation panel
 		opPanel.setBounds(0, 150, 750, 60);
-		opPanel.init(this, mover);
+		opPanel.init(mover);
 
 		workPanel = new WorkspacePanel();
 		workPanel.setBounds(0, 210, 750, 260);
-		workPanel.init(this);
+		workPanel.init();
 
 		holdPanel = new HoldPanel();
 		holdPanel.setBounds(0, 470, 750, 150);
-		holdPanel.init(this);
+		holdPanel.init();
 		
 		// Adding panels to the game
 		cardLayoutPanels.add(loginMenu, Menu.LOGIN.cardLayoutString);
@@ -269,15 +267,6 @@ public class MathGame extends Container implements ActionListener {
 		gameMasterLayer.add(cardPanel, new Integer(0));
 		gameMasterLayer.add(workPanel, new Integer(0));
 		gameMasterLayer.add(holdPanel, new Integer(0));
-
-		/*
-		home1 = new Rectangle(cardPanel.card1.getBounds());
-		home2 = new Rectangle(cardPanel.card2.getBounds());
-		home3 = new Rectangle(cardPanel.card3.getBounds());
-		home4 = new Rectangle(cardPanel.card4.getBounds());
-		home5 = new Rectangle(cardPanel.card5.getBounds());
-		home6 = new Rectangle(cardPanel.card6.getBounds());
-		*/
 
 		cardHomes[0] = cardPanel.card1.getBounds();
 		cardHomes[1] = cardPanel.card2.getBounds();
@@ -304,7 +293,6 @@ public class MathGame extends Container implements ActionListener {
 		cards[9] = opPanel.multiply;
 		cards[10] = opPanel.divide;
 		cards[11] = opPanel.exponent;
-		//TODO EXPONENT: Store the exponent card in the MathGame object (DONE)
 		
 		cardPanel.card1.setTransferHandler(new TransferHandler("text"));
 		cardPanel.card2.setTransferHandler(new TransferHandler("text"));
@@ -312,7 +300,6 @@ public class MathGame extends Container implements ActionListener {
 		cardPanel.card4.setTransferHandler(new TransferHandler("text"));
 		cardPanel.card5.setTransferHandler(new TransferHandler("text"));
 		cardPanel.card6.setTransferHandler(new TransferHandler("text"));
-		// cardPanel.ans.setTransferHandler(new TransferHandler("text"));
 
 		DropTarget dt = new DropTarget();
 		dt.setActive(false);
@@ -322,7 +309,6 @@ public class MathGame extends Container implements ActionListener {
 		cardPanel.card4.setDropTarget(dt);
 		cardPanel.card5.setDropTarget(dt);
 		cardPanel.card6.setDropTarget(dt);
-		// cardPanel.ans.setDropTarget(dt);
 		
 		//ACTION LISTENERS
 		
@@ -333,7 +319,6 @@ public class MathGame extends Container implements ActionListener {
 		cardPanel.card4.addMouseListener(mover);
 		cardPanel.card5.addMouseListener(mover);
 		cardPanel.card6.addMouseListener(mover);
-		// cardPanel.ans.addMouseListener(mover);
 
 		cardPanel.card1.addMouseMotionListener(mover);
 		cardPanel.card2.addMouseMotionListener(mover);
@@ -341,7 +326,6 @@ public class MathGame extends Container implements ActionListener {
 		cardPanel.card4.addMouseMotionListener(mover);
 		cardPanel.card5.addMouseMotionListener(mover);
 		cardPanel.card6.addMouseMotionListener(mover);
-		// cardPanel.ans.addMouseMotionListener(mover);
 
 		// Handles 4 operations
 		opPanel.add.addMouseListener(mover);
@@ -355,7 +339,6 @@ public class MathGame extends Container implements ActionListener {
 		opPanel.multiply.addMouseMotionListener(mover);
 		opPanel.divide.addMouseMotionListener(mover);
 		opPanel.exponent.addMouseMotionListener(mover);
-		//TODO EXPONENT: Give the exponent card a listener (DONE)
 		
 		// Adds to layered pane to facilitate movement across ALL panels
 		gameMasterLayer.add(cardPanel.card1, new Integer(1)); // Adding new integer ensures card is on top
@@ -371,7 +354,6 @@ public class MathGame extends Container implements ActionListener {
 		gameMasterLayer.add(opPanel.multiply, new Integer(1));
 		gameMasterLayer.add(opPanel.divide, new Integer(1));
 		gameMasterLayer.add(opPanel.exponent, new Integer(1));
-		//TODO EXPONENT: Add the exponent card to the layer (DONE)
 
 		/*
 		 * //Code for a different Cursor Toolkit toolkit = getToolkit(); Image
@@ -425,15 +407,15 @@ public class MathGame extends Container implements ActionListener {
 	/**
 	 * @return The game state of the MathGame object
 	 */
-	public GameState getGameState() {
+	public static GameState getGameState() {
 		return gs;
 	}
 
 	/**
 	 * @param gs - The game state to set
 	 */
-	public void setGameState(GameState gs) {
-		this.gs = gs;
+	public static void setGameState(GameState gs) {
+		MathGame.gs = gs;
 	}
 
 	/**
@@ -453,7 +435,7 @@ public class MathGame extends Container implements ActionListener {
 	/**
 	 * @return The master panel (layer) of the MathGame object
 	 */
-	public JLayeredPane getMasterPane() {
+	public static JLayeredPane getMasterPane() {
 		return gameMasterLayer;
 	}
 	
@@ -467,7 +449,7 @@ public class MathGame extends Container implements ActionListener {
 	/**
 	 * @return The OperationPanel of the MathGame object
 	 */
-	public OperationPanel getOperationPanel() {
+	public static OperationPanel getOperationPanel() {
 		return opPanel;
 	}
 	
@@ -481,36 +463,29 @@ public class MathGame extends Container implements ActionListener {
 	/**
 	 * @return The WorkspacePanel of the MathGame object
 	 */
-	public WorkspacePanel getWorkspacePanel() {
+	public static WorkspacePanel getWorkspacePanel() {
 		return workPanel;
 	}
 	
 	/**
 	 * @return The HoldPanel of the MathGame object
 	 */
-	public HoldPanel getHoldPanel() {
+	public static HoldPanel getHoldPanel() {
 		return holdPanel;
 	}
 	
 	/**
 	 * @return A JLabel array of all Cards (NumberCards and OperationCards)
 	 */
-	public JLabel[] getCards() {
+	public static JLabel[] getCards() {
 		return cards;
 	}
 	
 	/**
 	 * @return A Rectangle array of all Card bounds
 	 */
-	public Rectangle[] getCardHomes() {
+	public static Rectangle[] getCardHomes() {
 		return cardHomes;
-	}
-
-	/**
-	 * @return A String array of all NumberCard values
-	 */
-	public String[] getCardVals() {
-		return cardVals;
 	}
 	
 	/**
@@ -530,7 +505,7 @@ public class MathGame extends Container implements ActionListener {
 	/**
 	 * @return The CompMover object of the MathGame object
 	 */
-	public CompMover getCompMover() {
+	public static CompMover getCompMover() {
 		return mover;
 	}
 
@@ -558,8 +533,8 @@ public class MathGame extends Container implements ActionListener {
 	/**
 	 * @param appWidth the appWidth to set
 	 */
-	public void setAppWidth(int appWidth) {
-		this.appWidth = appWidth;
+	public static void setAppWidth(int appWidth) {
+		MathGame.appWidth = appWidth;
 	}
 
 	/**
@@ -572,7 +547,7 @@ public class MathGame extends Container implements ActionListener {
 	/**
 	 * @param appHeight the appHeight to set
 	 */
-	public void setAppHeight(int appHeight) {
-		this.appHeight = appHeight;
+	public static void setAppHeight(int appHeight) {
+		MathGame.appHeight = appHeight;
 	}
 }

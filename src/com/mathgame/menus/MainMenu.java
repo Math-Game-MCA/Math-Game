@@ -28,8 +28,6 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	
 	private static final long serialVersionUID = -3036828086937465893L;
 	
-	MathGame mathGame;
-	
 	static final String IMAGE_FILE = "/images/backa.png";
 	static final String BUTTON_IMAGE_FILE = "/images/MenuButtonImg1.png";
 	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/MenuButtonImg2.png";
@@ -61,15 +59,13 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	JTextArea infoc;
 	JTextArea infod;
 
-	public void init(MathGame mg) {
+	public void init() {
 		
 		this.setLayout(null);
 		Dimension size = getPreferredSize();
 		size.width = 900;
 		size.height = 620;
 		setPreferredSize(size);
-		
-		mathGame = mg;
 		
 		background = new ImageIcon(MainMenu.class.getResource(IMAGE_FILE));
 		buttonImage = new ImageIcon(MainMenu.class.getResource(BUTTON_IMAGE_FILE));
@@ -231,7 +227,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	public void getUser() {
 		String name = JOptionPane.showInputDialog(this, "User Name");
 		System.out.println("user name is " + name);
-		mathGame.getUser().setName(name);
+		MathGame.getUser().setName(name);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -282,10 +278,10 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 			mathGame.multimenu.addThisUser();
 		}
 		//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.SUBMENU);*/
-		((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshDatabase();
-		((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).addThisUser();
-		((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshTimer.start();
-		mathGame.showMenu(MathGame.Menu.MULTIMENU);
+		((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshDatabase();
+		((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).addThisUser();
+		((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshTimer.start();
+		MathGame.showMenu(MathGame.Menu.MULTIMENU);
 		System.out.println("ENTER GAME");
 	}
 	

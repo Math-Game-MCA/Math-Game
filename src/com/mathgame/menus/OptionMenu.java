@@ -73,12 +73,10 @@ public class OptionMenu extends JPanel implements ActionListener {
 	private static final Font eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
 	// IDK why, but using the font from the MathGame class isn't working
 	
-	MathGame mathGame;
 	TypeManager tm;
 
-	public OptionMenu(MathGame mathGame) {
-		this.mathGame = mathGame;
-		this.tm = mathGame.getTypeManager();
+	public OptionMenu() {
+		this.tm = MathGame.getTypeManager();
 		
 		this.setLayout(new GridBagLayout());
 		// this.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -86,8 +84,8 @@ public class OptionMenu extends JPanel implements ActionListener {
 		 
 		// Set size
 		Dimension size = getPreferredSize();
-		size.width = mathGame.getWidth();
-		size.height = mathGame.getHeight();
+		size.width = MathGame.getAppWidth();
+		size.height = MathGame.getAppHeight();
 		setPreferredSize(size);
 		
 		// Image initialization
@@ -104,7 +102,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 		// Default selections
 		types.get(0).setSelected(true);
 		diffs.get(0).setSelected(true);
-		mathGame.setGameState(GameState.PRACTICE);
+		MathGame.setGameState(GameState.PRACTICE);
 		
 		play = new JButton("Play");
 		play.setFont(eurostile24);
@@ -204,12 +202,12 @@ public class OptionMenu extends JPanel implements ActionListener {
 	 * Starts the game
 	 */
 	private void startGame() {
-		mathGame.showMenu(MathGame.Menu.GAME);
+		MathGame.showMenu(MathGame.Menu.GAME);
 		System.out.println("ENTER GAME");
 		
-		mathGame.getSidePanel().startTimer("Mix"); //TODO Hardcoded to mixed scoring
+		MathGame.getSidePanel().startTimer("Mix"); //TODO Hardcoded to mixed scoring
 		
-		tm.init(mathGame.getCardPanel());
+		tm.init(MathGame.getCardPanel());
 	}
 	
 	@Override
@@ -246,7 +244,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 			startGame();
 		}
 		else if(e.getSource() == cancel) {
-			mathGame.showMenu(MathGame.Menu.MULTIMENU); // Return to the multiplayer menu
+			MathGame.showMenu(MathGame.Menu.MULTIMENU); // Return to the multiplayer menu
 		}
 	}
 	

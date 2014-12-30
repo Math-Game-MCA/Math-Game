@@ -23,8 +23,6 @@ import java.io.InputStream;
 public class CardPanel extends JPanel{
 
 	private static final long serialVersionUID = -3726881692277688183L;
-
-	MathGame mathGame;
 	
 	public NumberCard card1;
 	public NumberCard card2;
@@ -61,9 +59,8 @@ public class CardPanel extends JPanel{
 	
 	TypeManager typeManager;
 		
-	public CardPanel(MathGame mathGame){
-		this.mathGame = mathGame;
-		this.typeManager = mathGame.getTypeManager();
+	public CardPanel()	{
+		this.typeManager = MathGame.getTypeManager();
 	}
 	
 	/**

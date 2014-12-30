@@ -17,10 +17,9 @@ public class Calculate {
 	 * @param c1 - The number card on the left
 	 * @param oper - The card that contains the operation
 	 * @param c2 - The number card on the right
-	 * @param game - The MathGame object
 	 * @return The value of the given expression
 	 */
-	public static Double calculate(Component c1, Component oper, Component c2, MathGame game) {
+	public static Double calculate(Component c1, Component oper, Component c2) {
 		NumberCard card1 = null;
 		NumberCard card2 = null;
 		OperationCard operation = null;
@@ -54,7 +53,6 @@ public class Calculate {
 		} else {
 			answer = -1;
 		}
-		//TODO EXPONENT: Add the calculations for exponents (DONE)
 		
 		return answer;
 	}

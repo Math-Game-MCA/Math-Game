@@ -39,8 +39,6 @@ public class WorkspacePanel extends JPanel {
 
 	private static final long serialVersionUID = 7408931441173570326L;
 	
-	static MathGame mathGame;
-	
 	private static final String IMAGE_FILE = "/images/Workspace.png";
 	
 	ImageIcon background;
@@ -48,7 +46,7 @@ public class WorkspacePanel extends JPanel {
 	CompMover mover;
 	TypeManager typeManager;
 	
-	public void init(MathGame mathGame) {
+	public void init() {
 		this.setLayout(new FlowLayout());
 
 		Border empty = BorderFactory.createEmptyBorder(70,70,70,70);
@@ -60,13 +58,11 @@ public class WorkspacePanel extends JPanel {
 		size.height = 260;
 		setPreferredSize(size);
 		
-		// background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
 		background = new ImageIcon(WorkspacePanel.class.getResource(IMAGE_FILE));
 		
 		mover = new CompMover();
 		
-		WorkspacePanel.mathGame = mathGame;
-		typeManager = mathGame.getTypeManager();
+		typeManager = MathGame.getTypeManager();
 	}
 	
 	/** 
@@ -78,7 +74,7 @@ public class WorkspacePanel extends JPanel {
 		
 		Double answer = null;
 		if (count == 3) {
-			answer = Calculate.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2), mathGame);
+			answer = Calculate.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2));
 		}
 		
 		if (answer != null) {
@@ -89,53 +85,53 @@ public class WorkspacePanel extends JPanel {
 				NumberCard tempnum1 = (NumberCard)(this.getComponent(0));
 				NumberCard tempnum2 = (NumberCard)(this.getComponent(2));
 
-				mathGame.getOperationPanel().addOperator(currentOperation());
+				MathGame.getOperationPanel().addOperator(currentOperation());
 				
 				if (tempnum1.getHome() == "home") {
 					// The card was originally in the card panel
 					System.out.println("restore card1; value: " + tempnum1.getStrValue());
-					mathGame.getCardPanel().restoreCard(tempnum1.getStrValue());
+					MathGame.getCardPanel().restoreCard(tempnum1.getStrValue());
 				} else if (tempnum1.getHome() == "hold") {
 					// The card was originally in the holding area
-					for (int x = 0; x < mathGame.getHoldPanel().getComponentCount(); x++) {
-						NumberCard temp = (NumberCard)(mathGame.getHoldPanel().getComponent(0));
+					for (int x = 0; x < MathGame.getHoldPanel().getComponentCount(); x++) {
+						NumberCard temp = (NumberCard)(MathGame.getHoldPanel().getComponent(0));
 						if (temp.getHome() == "home") {
 							// Check for cards that were dragged from home into workspace and restore them
-							mathGame.getCardPanel().restoreCard(temp.getStrValue());
+							MathGame.getCardPanel().restoreCard(temp.getStrValue());
 						}
 					}
-					mathGame.getHoldPanel().add(tempnum1);
+					MathGame.getHoldPanel().add(tempnum1);
 				}
 
 				if (tempnum2.getHome() == "home") {
 					System.out.println("restore card2; value: " + tempnum2.getStrValue());
-					mathGame.getCardPanel().restoreCard(tempnum2.getStrValue());
+					MathGame.getCardPanel().restoreCard(tempnum2.getStrValue());
 				} else if (tempnum2.getHome() == "hold") {
-					for (int x = 0; x < mathGame.getHoldPanel().getComponentCount(); x++) {
-						NumberCard temp = (NumberCard)(mathGame.getHoldPanel().getComponent(0));
+					for (int x = 0; x < MathGame.getHoldPanel().getComponentCount(); x++) {
+						NumberCard temp = (NumberCard)(MathGame.getHoldPanel().getComponent(0));
 						if (temp.getHome() == "home") {
-							mathGame.getCardPanel().restoreCard(temp.getStrValue());
+							MathGame.getCardPanel().restoreCard(temp.getStrValue());
 						}
 					}
-					mathGame.getHoldPanel().add(tempnum2);
+					MathGame.getHoldPanel().add(tempnum2);
 				} else {
 					System.out.println("HELP");
 				}
 				
 				this.removeAll();
 
-				mathGame.getWorkspacePanel().revalidate();
-				mathGame.getWorkspacePanel().repaint();
-				mathGame.getHoldPanel().revalidate();
-				mathGame.getHoldPanel().repaint();
-				mathGame.getCardPanel().revalidate();
+				MathGame.getWorkspacePanel().revalidate();
+				MathGame.getWorkspacePanel().repaint();
+				MathGame.getHoldPanel().revalidate();
+				MathGame.getHoldPanel().repaint();
+				MathGame.getCardPanel().revalidate();
 				
 				return;
 			}
 			
 			boolean ansState = true;
 			// In practice mode, the user must evaluate the answer too
-			if(mathGame.getGameState() == GameState.PRACTICE) {
+			if(MathGame.getGameState() == GameState.PRACTICE) {
 				ansState = askAnswer(answer);
 			}
 			
@@ -163,12 +159,12 @@ public class WorkspacePanel extends JPanel {
 					NumberCard card2 = (NumberCard) this.getComponent(2);
 					OperationCard op = (OperationCard) this.getComponent(1);
 					System.out.println("Registering new Move");
-					mathGame.getSidePanel().undo.registerNewMove(card1, op, card2, answerCard);
+					MathGame.getSidePanel().undo.registerNewMove(card1, op, card2, answerCard);
 					// When cards collide... it becomes a new move!
 				}
 			}
 
-			mathGame.getOperationPanel().addOperator(currentOperation());
+			MathGame.getOperationPanel().addOperator(currentOperation());
 			
 			System.out.println("NUM:" + this.getComponentCount());
 			this.removeAll();
@@ -177,7 +173,7 @@ public class WorkspacePanel extends JPanel {
 			
 			if (!ansState) {
 				// If false, undo (this means user cancelled inputting function)
-				mathGame.getSidePanel().undoFunction();
+				MathGame.getSidePanel().undoFunction();
 			}
 			
 			// System.out.println(answerCard.getParent());
