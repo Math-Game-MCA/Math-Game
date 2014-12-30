@@ -3,25 +3,15 @@
  */
 package com.mathgame.menus;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
-
-
-
-
-
-
-
 
 import com.mathgame.math.MathGame;
 
@@ -36,39 +26,39 @@ public class LoginMenu extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 7263913541929112166L;
 	
-	JLabel title;
-	JLabel UsernameLabel;
-	JLabel PasswordLabel;
-	JTextField UsernameField;
-	JPasswordField PasswordField;
-	JButton LoginButton;
+	private JLabel title;
+	private JLabel UsernameLabel;
+	private JLabel PasswordLabel;
+	private JTextField UsernameField;
+	private JPasswordField PasswordField;
+	private JButton LoginButton;
 	
 	public LoginMenu()	{
 		setLayout(null);
 		
 		title = new JLabel("Epsilon");
-		title.setFont(new Font("Arial", Font.PLAIN, 24));
-		title.setBounds(110, 20, 100, 20);
+		title.setFont(MathGame.eurostile36);
+		title.setBounds(395, 120, 110, 50);
 		this.add(title);
 		
 		UsernameLabel = new JLabel("Username:");
-		UsernameLabel.setBounds(50, 60, 100, 20);
+		UsernameLabel.setBounds(360, 200, 100, 20);
 		this.add(UsernameLabel);
 		
 		PasswordLabel = new JLabel("Password:");
-		PasswordLabel.setBounds(50, 90, 100, 20);
+		PasswordLabel.setBounds(360, 230, 100, 20);
 		this.add(PasswordLabel);
 		
 		UsernameField = new JTextField();
-		UsernameField.setBounds(120, 60, 100, 20);
+		UsernameField.setBounds(450, 200, 100, 20);
 		this.add(UsernameField);
 		
 		PasswordField = new JPasswordField();
-		PasswordField.setBounds(120, 90, 100, 20);
+		PasswordField.setBounds(450, 230, 100, 20);
 		this.add(PasswordField);
 		
 		LoginButton= new JButton("Log In");
-		LoginButton.setBounds(100, 140, 70, 20);
+		LoginButton.setBounds(410, 280, 70, 20);
 		LoginButton.addActionListener(this);
 		this.add(LoginButton);
 	}

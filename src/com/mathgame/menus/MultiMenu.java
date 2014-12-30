@@ -100,7 +100,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		gameManager = MathGame.getGameManager();
 		hostMenu = new HostMenu();
 		
-		titleFont = new Font("Eurostile", Font.BOLD, 24);
+		titleFont = MathGame.eurostile24;
 		buttonFont = new Font("Arial", Font.PLAIN, 20);
 		
 		home = new JButton("Back");

@@ -70,9 +70,6 @@ public class OptionMenu extends JPanel implements ActionListener {
 	
 	GridBagConstraints gbc;
 	
-	private static final Font eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
-	// IDK why, but using the font from the MathGame class isn't working
-	
 	TypeManager tm;
 
 	public OptionMenu() {
@@ -105,14 +102,14 @@ public class OptionMenu extends JPanel implements ActionListener {
 		MathGame.setGameState(GameState.PRACTICE);
 		
 		play = new JButton("Play");
-		play.setFont(eurostile24);
+		play.setFont(MathGame.eurostile24);
 	    play.setHorizontalTextPosition(JButton.CENTER);
 	    play.setVerticalTextPosition(JButton.CENTER);
 	    play.setBorderPainted(false);
 	    play.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		play.addActionListener(this);
 		cancel = new JButton("Back");
-		cancel.setFont(eurostile24);
+		cancel.setFont(MathGame.eurostile24);
 	    cancel.setHorizontalTextPosition(JButton.CENTER);
 	    cancel.setVerticalTextPosition(JButton.CENTER);
 	    cancel.setBorderPainted(false);
@@ -162,7 +159,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 		typePanel.setLayout(new GridBagLayout());
 		typePanel.setOpaque(false);
 		for (int i = 0; i < types.size(); i++) {
-			types.get(i).setFont(eurostile24);
+			types.get(i).setFont(MathGame.eurostile24);
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			gbc.gridx = 0;
 			gbc.gridy = i; // Layout buttons going down same column
@@ -187,7 +184,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 		diffPanel.setOpaque(false);
 		for (int i = 0; i < diffs.size(); i++) {
 			diffGroup.add(diffs.get(i));
-			diffs.get(i).setFont(eurostile24);
+			diffs.get(i).setFont(MathGame.eurostile24);
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			gbc.gridx = 0;
 			gbc.gridy = i; // Layout buttons going down same column
