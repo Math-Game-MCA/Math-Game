@@ -18,7 +18,6 @@ public class MatchesAccess extends MySQLAccess {
 	
 	private int matchNum = -1;
 	
-	static MathGame mathGame;
 	private Connection connection;
 	private Statement statement = null;
 	
@@ -26,10 +25,8 @@ public class MatchesAccess extends MySQLAccess {
 	private PreparedStatement preparedStatement = null;
 	// private ResultSet resultSet = null;
 	
-	public MatchesAccess(MathGame game, Connection c){
-		mathGame = game;
-		mathGame.getAlignmentX(); //TODO Meaningless statement?
-		
+	public MatchesAccess(Connection c){
+
 		connection = c;
 		
 		try {
@@ -42,7 +39,7 @@ public class MatchesAccess extends MySQLAccess {
 	
 	public void reconnectStatement() {
 		try {
-			connection = mathGame.getMySQLAccess().getConnection();
+			connection = MathGame.getMySQLAccess().getConnection();
 			statement = connection.createStatement();
 			System.out.println("REDO STATEMENT SUCCESS");
 		} catch (SQLException e) {
@@ -58,9 +55,9 @@ public class MatchesAccess extends MySQLAccess {
 		
 		try {
 			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches "+ "(Player1, Type, Difficulty, Scoring, NumPlayers, Rounds)" + 
-					" VALUES ('" + mathGame.getUser().getName() + "', '" + mathGame.getGameManager().getGame().getType() + 
-					"', '" + mathGame.getGameManager().getGame().getDiff() + "', '" + mathGame.getGameManager().getGame().getScoring() + "', '" + 
-					mathGame.getGameManager().getGame().getNumberOfPlayers() + "', '"+ mathGame.getGameManager().getGame().getRounds() + "')" );
+					" VALUES ('" + MathGame.getUser().getName() + "', '" + MathGame.getGameManager().getGame().getType() + 
+					"', '" + MathGame.getGameManager().getGame().getDiff() + "', '" + MathGame.getGameManager().getGame().getScoring() + "', '" + 
+					MathGame.getGameManager().getGame().getNumberOfPlayers() + "', '"+ MathGame.getGameManager().getGame().getRounds() + "')" );
 			System.out.println("Created online game");
 			
 			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='" + mathGame.getUser().getName() + "'");
@@ -111,7 +108,7 @@ public class MatchesAccess extends MySQLAccess {
 		
 		try {
 			statement.executeUpdate("Update sofiav_mathgame.matches " + 
-					"set Player2=" + " '"+mathGame.getUser().getName() + "' " + 
+					"set Player2=" + " '"+MathGame.getUser().getName() + "' " + 
 					"where sofiav_mathgame.matches.ID=" + gameID);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -160,13 +157,13 @@ public class MatchesAccess extends MySQLAccess {
 		
 		try {
 			
-			System.out.println("this id " + mathGame.getUser().getPlayerID());
-			int currentScore = getScores().get(mathGame.getUser().getPlayerID()-1);
+			System.out.println("this id " + MathGame.getUser().getPlayerID());
+			int currentScore = getScores().get(MathGame.getUser().getPlayerID()-1);
 			System.out.println("Current score from db: " + currentScore);
 			int newScore = currentScore + score;
 			System.out.println("round score: " + score + "---New total score: " + newScore);			
 			statement.executeUpdate("Update sofiav_mathgame.matches " + 
-					"set Player"+mathGame.getUser().getPlayerID() + "Score=" + 
+					"set Player"+MathGame.getUser().getPlayerID() + "Score=" + 
 					" '"+ newScore + "' " + 
 					"where sofiav_mathgame.matches.ID=" + matchNum);		
 			

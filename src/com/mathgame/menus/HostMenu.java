@@ -28,7 +28,6 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	private static final long serialVersionUID = -5507870440809320516L;
 	
-	static MathGame mathGame;
 	MultiMenu multiMenu;
 	
 	int players; // # of players (currently 2)
@@ -95,17 +94,16 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	GridBagConstraints gbc;
 
-	public HostMenu(MathGame mg) {
+	public HostMenu() {
 		
 		this.setLayout(new GridBagLayout());
-		mathGame = mg;
-		multiMenu = (MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU));
+		multiMenu = (MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU));
 		//TODO Use typemanager?
 		
 		// Set size
 		Dimension size = getPreferredSize();
-		size.width = mathGame.getWidth();
-		size.height = mathGame.getHeight();
+		size.width = MathGame.getAppWidth();
+		size.height = MathGame.getAppHeight();
 		setPreferredSize(size);
 		
 		gbc = new GridBagConstraints();
@@ -283,31 +281,31 @@ public class HostMenu extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == finish)	{
 			addGame();
-			mathGame.getCardPanel().hideCards(); // Hide cards until next player joins
-			mathGame.showMenu(MathGame.Menu.GAME); // Go to the game (but should it wait?)
+			MathGame.getCardPanel().hideCards(); // Hide cards until next player joins
+			MathGame.showMenu(MathGame.Menu.GAME); // Go to the game (but should it wait?)
 			Thread waitForPlayer = new Thread()	{
 					public void run() {
-						while(!mathGame.getGameManager().gameFilled()) {
+						while(!MathGame.getGameManager().gameFilled()) {
 							System.out.println("waiting"); // Wait until the game is filled
 						}
-						mathGame.getCardPanel().showCards();
-						mathGame.getSidePanel().startTimer(type);
-						mathGame.getSidePanel().setUpMultiplayer();
-						mathGame.getGameManager();
+						MathGame.getCardPanel().showCards();
+						MathGame.getSidePanel().startTimer(type);
+						MathGame.getSidePanel().setUpMultiplayer();
+						MathGame.getGameManager();
 						
 						//Get the names of the other players
-						int numPlayers = mathGame.getGameManager().getGame().getNumberOfPlayers();
+						int numPlayers = MathGame.getGameManager().getGame().getNumberOfPlayers();
 						for(int i=1; i<=numPlayers; i++)
 						{							
-							mathGame.getGameManager().getGame().addPlayer(GameManager.getMatchesAccess().getPlayerName(mathGame.getGameManager().getGame().getID(), i));
+							MathGame.getGameManager().getGame().addPlayer(GameManager.getMatchesAccess().getPlayerName(MathGame.getGameManager().getGame().getID(), i));
 						}
 					}
 			};
 			waitForPlayer.start();
-			mathGame.getUser().setPlayerID(1);
+			MathGame.getUser().setPlayerID(1);
 		}
 		else if(e.getSource() == cancel) {
-			mathGame.showMenu(MathGame.Menu.MULTIMENU); // Return to the multiplayer menu
+			MathGame.showMenu(MathGame.Menu.MULTIMENU); // Return to the multiplayer menu
 		}
 	}
 	
@@ -349,10 +347,10 @@ public class HostMenu extends JPanel implements ActionListener {
 		
 		multiMenu.addGame(new Game(-1, players, type, scoring, diff, rounds));
 		
-		mathGame.getTypeManager().setType(type);
-		mathGame.getTypeManager().randomize();
+		MathGame.getTypeManager().setType(type);
+		MathGame.getTypeManager().randomize();
 		// FOR DEBUGGING PURPOSES ONLY: 
-		mathGame.showMenu(MathGame.Menu.MULTIMENU);
+		MathGame.showMenu(MathGame.Menu.MULTIMENU);
 		//TODO Go directly to game and make sure game waits for another player
 		System.out.println("CREATED NEW GAME");
 	}
