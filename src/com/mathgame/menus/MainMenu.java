@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import com.mathgame.guicomponents.GameButton;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
 
@@ -29,24 +30,17 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	private static final long serialVersionUID = -3036828086937465893L;
 	
 	static final String IMAGE_FILE = "/images/backa.png";
-	static final String BUTTON_IMAGE_FILE = "/images/MenuButtonImg1.png";
-	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/MenuButtonImg2.png";
-	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/MenuButtonImg3.png";
-	static final int BUTTON_WIDTH = 130;
-	static final int BUTTON_HEIGHT = 30;
+	
 	ImageIcon background;
-	ImageIcon buttonImage;
-	ImageIcon buttonRollOverImage;
-	ImageIcon buttonPressedImage;
 	
 	// Mouse coordinates
 	int mx;
 	int my;
 	
-	JButton enter; // Press to enter the game;
-	JButton help; // Press for game help
-	JButton about; // Press for "stuff"
-	JButton exit; // Press to leave game :(
+	GameButton enter; // Press to enter the game;
+	GameButton help; // Press for game help
+	GameButton about; // Press for "stuff"
+	GameButton exit; // Press to leave game :(
 	JButton sound; // Press to mute/unmute
 	
 	// JLabel epsilon; // Self-explanatory
@@ -68,69 +62,31 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		setPreferredSize(size);
 		
 		background = new ImageIcon(MainMenu.class.getResource(IMAGE_FILE));
-		buttonImage = new ImageIcon(MainMenu.class.getResource(BUTTON_IMAGE_FILE));
-		buttonRollOverImage = new ImageIcon(MainMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
-		buttonPressedImage = new ImageIcon(MainMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
-		background = new ImageIcon(MainMenu.class.getResource(IMAGE_FILE));
 		
-		
-		// Font titleFont = new Font("Arial", Font.BOLD, 36);
-		Font buttonFont = new Font("Arial", Font.PLAIN, 20);
 		Font infoFont = new Font("Arial", Font.BOLD, 12);
 		
-		// epsilon = new JLabel("Epsilon");
-		// epsilon.setFont(titleFont);
-		// epsilon.setBounds(185, 205, 130, 60);
-		
-		enter = new JButton("Enter");
-		enter.setFont(buttonFont);
-		enter.setBounds(105, 335, BUTTON_WIDTH, BUTTON_HEIGHT);
-	    enter.setHorizontalTextPosition(JButton.CENTER);
-	    enter.setVerticalTextPosition(JButton.CENTER);
-	    enter.setBorderPainted(false);
+		enter = new GameButton("Enter");
+		enter.setLocation(105, 335);
 	    
-		help = new JButton("Help");
-		help.setFont(buttonFont);
-		help.setBounds(295, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
-	    help.setHorizontalTextPosition(JButton.CENTER);
-	    help.setVerticalTextPosition(JButton.CENTER);
-	    help.setBorderPainted(false);
+		help = new GameButton("Help");
+		help.setLocation(295, 335);
 	    
-		about = new JButton("About");
-		about.setFont(buttonFont);
-		about.setBounds(490, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
-	    about.setHorizontalTextPosition(JButton.CENTER);
-	    about.setVerticalTextPosition(JButton.CENTER);
-	    about.setBorderPainted(false);
+		about = new GameButton("About");
+		about.setLocation(490, 335);
 	    
-		exit = new JButton("Exit");
-		exit.setFont(buttonFont);
-		exit.setBounds(672, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
-	    exit.setHorizontalTextPosition(JButton.CENTER);
-	    exit.setVerticalTextPosition(JButton.CENTER);
-	    exit.setBorderPainted(false);
+		exit = new GameButton("Exit");
+		exit.setLocation(672, 335);
 	    
 	    sound = new JButton();
 		sound.setBounds(50, 40, SoundManager.currentVolumeButtonImage().getIconWidth(), SoundManager.currentVolumeButtonImage().getIconHeight());
 	    sound.setBorderPainted(true);
-		
-		try {
-		    enter.setIcon(buttonImage);
-		    enter.setRolloverIcon(buttonRollOverImage);
-		    enter.setPressedIcon(buttonPressedImage);
-		    help.setIcon(buttonImage);
-		    help.setRolloverIcon(buttonRollOverImage);
-		    help.setPressedIcon(buttonRollOverImage);
-		    about.setIcon(buttonImage);
-		    about.setRolloverIcon(buttonRollOverImage);
-		    about.setPressedIcon(buttonRollOverImage);
-		    exit.setIcon(buttonImage);
-		    exit.setRolloverIcon(buttonRollOverImage);
-		    exit.setPressedIcon(buttonPressedImage);
+	    
+	    try	{
 		    sound.setIcon(SoundManager.currentVolumeButtonImage());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		
 		//TODO Get the text in the label to wrap if it is longer than the label width.
 		
 		// Info Box for Enter Box
@@ -231,7 +187,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() instanceof JButton) {
+		if (e.getSource() instanceof GameButton) {
 			SoundManager.playSound(SoundManager.SoundType.BUTTON);
 		}
 		

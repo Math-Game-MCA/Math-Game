@@ -24,6 +24,7 @@ public class MathGame extends Container {
 
 	public static final Font eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
 	public static final Font eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
+	public static final Font eurostile20 = new Font("Eurostile", Font.PLAIN, 20);
 	public static final Font eurostile16 = new Font("Eurostile", Font.PLAIN, 16);
 	
 	private static final Dimension size = new Dimension(900, 620);
@@ -211,7 +212,7 @@ public class MathGame extends Container {
 		mover = new CompMover();
 		
 		sidePanel = new SidePanel(); // Control bar
-		sidePanel.init(this);
+		sidePanel.init();
 
 		cardPanel = new CardPanel(); // Top card panel
 		cardPanel.init(gameMasterLayer);
@@ -343,8 +344,6 @@ public class MathGame extends Container {
 		 * setCursor(lightPenCursor); layer.setCursor(imageCursor);
 		 */
 
-		SoundManager.initializeSoundManager(this);
-		
 		System.out.println("init done");
 	}
 	

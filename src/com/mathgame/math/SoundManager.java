@@ -55,12 +55,6 @@ public class SoundManager {
 		}
 	};
 	
-	static MathGame mathgame;
-	
-	public static void initializeSoundManager(MathGame mathgame) {
-		SoundManager.mathgame = mathgame;
-	}
-	
 	/**
 	 * Toggles the music, turning it on or off
 	 */

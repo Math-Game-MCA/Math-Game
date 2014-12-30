@@ -23,6 +23,7 @@ import javax.swing.JTextArea;
 import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
 
+import com.mathgame.guicomponents.GameButton;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
 import com.mathgame.math.TypeManager;
@@ -41,23 +42,11 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	TypeManager typeManager;
 	
 	static final String IMAGE_FILE = "/images/backMulti.png";
-	static final String BUTTON_IMAGE_FILE = "/images/DefaultButtonImage1.png";
-	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/DefaultButtonImage2.png";
-	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/DefaultButtonImage3.png";
-	
-	static final int BUTTON_WIDTH = 130;
-	static final int BUTTON_HEIGHT = 30;
 	
 	static ImageIcon background;
-	static ImageIcon buttonImage;
-	static ImageIcon buttonRollOverImage;
-	static ImageIcon buttonPressedImage;
 	
 	static {
 		background = new ImageIcon(MultiMenu.class.getResource(IMAGE_FILE));
-		buttonImage = new ImageIcon(MultiMenu.class.getResource(BUTTON_IMAGE_FILE));
-		buttonRollOverImage = new ImageIcon(MultiMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
-		buttonPressedImage = new ImageIcon(MultiMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
 	}
 	
 	// Mouse coordinates
@@ -65,13 +54,12 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	int my;
 	
 	Font titleFont;
-	Font buttonFont;
 	
 	JPanel gamesList;
-	JButton home; // Press to enter a game
-	JButton host; // Press to host a game
-	JButton join; // Press to join a game
-	JButton practice; // sends to practice mode
+	GameButton home; // Press to enter a game
+	GameButton host; // Press to host a game
+	GameButton join; // Press to join a game
+	GameButton practice; // sends to practice mode
 	JTextArea usersList;
 	JTextArea userProfile; // displays info about the selected user (win/loss, etc)
 	
@@ -100,35 +88,18 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		hostMenu = new HostMenu();
 		
 		titleFont = MathGame.eurostile24;
-		buttonFont = new Font("Arial", Font.PLAIN, 20);
 		
-		home = new JButton("Back");
-		home.setFont(buttonFont);
-		home.setBounds(50, 535, BUTTON_WIDTH, BUTTON_HEIGHT);
-	    home.setHorizontalTextPosition(JButton.CENTER);
-	    home.setVerticalTextPosition(JButton.CENTER);
-	    home.setBorderPainted(false);
+		home = new GameButton("Back");
+		home.setLocation(50, 535);
 	    
-		host = new JButton("Host");
-		host.setFont(buttonFont);
-		host.setBounds(273, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
-		host.setHorizontalTextPosition(JButton.CENTER);
-		host.setVerticalTextPosition(JButton.CENTER);
-		host.setBorderPainted(false);
+		host = new GameButton("Host");
+		host.setLocation(273, 535);
 	    
-		join = new JButton("Join");
-		join.setFont(buttonFont);
-		join.setBounds(496, 535,  BUTTON_WIDTH, BUTTON_HEIGHT);
-		join.setHorizontalTextPosition(JButton.CENTER);
-		join.setVerticalTextPosition(JButton.CENTER);
-		join.setBorderPainted(false);
+		join = new GameButton("Join");
+		join.setLocation(496, 535);
 	    
-		practice = new JButton("Practice");
-		practice.setFont(buttonFont);
-		practice.setBounds(720, 535, BUTTON_WIDTH, BUTTON_HEIGHT);
-		practice.setHorizontalTextPosition(JButton.CENTER);
-		practice.setVerticalTextPosition(JButton.CENTER);
-		practice.setBorderPainted(false);
+		practice = new GameButton("Practice");
+		practice.setLocation(720, 535);
 		
 	    gamesList = new JPanel();
 	    gamesList.setBounds(50, 50, 600, 450);
@@ -175,26 +146,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 			gamesList.add(card);
 		}
 	    
-		try {
-		    home.setIcon(buttonImage);
-		    home.setRolloverIcon(buttonRollOverImage);
-		    home.setPressedIcon(buttonPressedImage);
-		    
-		    host.setIcon(buttonImage);
-		    host.setRolloverIcon(buttonRollOverImage);
-		    host.setPressedIcon(buttonPressedImage);
-		    
-		    join.setIcon(buttonImage);
-		    join.setRolloverIcon(buttonRollOverImage);
-		    join.setPressedIcon(buttonPressedImage);
-		    
-		    practice.setIcon(buttonImage);					
-		    practice.setRolloverIcon(buttonRollOverImage);	
-		    practice.setPressedIcon(buttonPressedImage);		
-		    
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 		//TODO Get the text in the label to wrap if it is longer than the label width
 		
 		// Info Box for Enter Box

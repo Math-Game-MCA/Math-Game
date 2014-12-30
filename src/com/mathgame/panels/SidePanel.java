@@ -6,6 +6,7 @@ import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
 import com.mathgame.cardmanager.UndoButton;
 import com.mathgame.database.MatchesAccess;
+import com.mathgame.guicomponents.GameButton;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
 import com.mathgame.math.TypeManager;
@@ -26,8 +27,6 @@ public class SidePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = -1209424284690306920L;
 
-	MathGame mathGame;
-	
 	TypeManager typeManager;
 	ScoringSystem scorekeeper;
 	
@@ -37,20 +36,14 @@ public class SidePanel extends JPanel implements ActionListener {
 	JLabel score;
 	JLabel vs;
 
-	JButton help;
-	JButton exit;
-	JButton checkAns;
+	GameButton toggle;
+	GameButton help;
+	GameButton exit;
+	GameButton checkAns;
 	UndoButton undo;
-	JButton reset;
+	GameButton reset;
 
 	static final String IMAGE_FILE = "/images/control bar.png";
-	static final String BUTTON_IMAGE_FILE = "/images/DefaultButtonImage1.png";
-	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/DefaultButtonImage2.png";
-	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/DefaultButtonImage3.png";
-
-	ImageIcon buttonImage;
-	ImageIcon buttonRollOverImage;
-	ImageIcon buttonPressedImage;
 	
 	ImageIcon background;
 	
@@ -60,10 +53,6 @@ public class SidePanel extends JPanel implements ActionListener {
 	int score1 = 0;
 	int score2 = 0;
 	
-	// JTextArea error;
-
-	JButton toggle;
-
 	int correct = 0;
 	int wrong = 0;
 	int points = 0;
@@ -78,12 +67,11 @@ public class SidePanel extends JPanel implements ActionListener {
 
 	Insets insets = getInsets(); // Insets for the side panel for layout purposes
 
-	public void init(MathGame mathGame) {
-		this.mathGame = mathGame;
+	public void init() {
 		
-		typeManager = mathGame.getTypeManager();
+		typeManager = MathGame.getTypeManager();
 		scorekeeper = new ScoringSystem();
-		gameManager = mathGame.getGameManager();
+		gameManager = MathGame.getGameManager();
 		matchesAccess = GameManager.getMatchesAccess();
 
 		// this.setBorder(new LineBorder(Color.BLACK));
@@ -93,22 +81,19 @@ public class SidePanel extends JPanel implements ActionListener {
 
 		// Instantiate controls
 		clock = new JLabel("00:00");
-		toggle = new JButton("Start/Stop");
+		toggle = new GameButton("Start/Stop");
 		score = new JLabel("0");
-		help = new JButton("Help");
-		exit = new JButton("Back");
-		checkAns = new JButton("Check Answer");
-		undo = new UndoButton("Undo Move", mathGame);
-		reset = new JButton("Reset");
+		help = new GameButton("Help");
+		exit = new GameButton("Back");
+		checkAns = new GameButton("Check");
+		undo = new UndoButton("Undo Move");
+		reset = new GameButton("Reset");
 		vs = new JLabel();
 
 		pass = new JLabel("Correct: " + correct);
 		fail = new JLabel("Wrong: " + wrong);
 
 		background = new ImageIcon(SidePanel.class.getResource(IMAGE_FILE));
-		buttonImage = new ImageIcon(MainMenu.class.getResource(BUTTON_IMAGE_FILE));
-		buttonRollOverImage = new ImageIcon(MainMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
-		buttonPressedImage = new ImageIcon(MainMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
 
 		add(clock);
 		add(toggle);
@@ -129,80 +114,34 @@ public class SidePanel extends JPanel implements ActionListener {
 		score.setFont(MathGame.eurostile36);
 		score.setHorizontalAlignment(SwingConstants.CENTER);
 
-		toggle.setBounds(10, 150, 130, 30);
+		toggle.setLocation(10, 150);
 		toggle.addActionListener(this);
-	    toggle.setHorizontalTextPosition(JButton.CENTER);
-	    toggle.setVerticalTextPosition(JButton.CENTER);
-	    toggle.setFont(MathGame.eurostile16);
-		toggle.setBorderPainted(false);
 
-		undo.setBounds(10, 190, 130, 30);
+		undo.setLocation(10, 190);
 		undo.addActionListener(this);
-	    undo.setHorizontalTextPosition(JButton.CENTER);
-	    undo.setVerticalTextPosition(JButton.CENTER);
-	    undo.setFont(MathGame.eurostile16);
-		undo.setBorderPainted(false);
 
-		reset.setBounds(10, 230, 130, 30);
+		reset.setLocation(10, 230);
 		reset.addActionListener(this);
-	    reset.setHorizontalTextPosition(JButton.CENTER);
-	    reset.setVerticalTextPosition(JButton.CENTER);
-	    reset.setFont(MathGame.eurostile16);
-		reset.setBorderPainted(false);
 
-		checkAns.setBounds(10, 270, 130, 30);
+		checkAns.setLocation(10, 270);
 		checkAns.addActionListener(this);
-	    checkAns.setHorizontalTextPosition(JButton.CENTER);
-	    checkAns.setVerticalTextPosition(JButton.CENTER);
-	    checkAns.setFont(MathGame.eurostile16);
-		checkAns.setBorderPainted(false);
 
 		vs.setBounds(10, 310, 130, 30);
-		vs.setFont(MathGame.eurostile16);
 		vs.setHorizontalAlignment(SwingConstants.CENTER);
 		vs.setText("Vs. " + "nobody"); //TODO When versing someone, replace "nobody" with opponent name
+		vs.setFont(MathGame.eurostile20);
+		vs.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
-		help.setBounds(10, 540, 130, 30);
+		help.setLocation(10, 540);
 		help.setHorizontalAlignment(SwingConstants.CENTER);
 		help.addActionListener(this);
-	    help.setHorizontalTextPosition(JButton.CENTER);
-	    help.setVerticalTextPosition(JButton.CENTER);
-	    help.setFont(MathGame.eurostile16);
-		help.setBorderPainted(false);
 
-		exit.setBounds(10, 580, 130, 30);
+		exit.setLocation(10, 580);
 		exit.setHorizontalAlignment(SwingConstants.CENTER);
 		exit.addActionListener(this);
-	    exit.setHorizontalTextPosition(JButton.CENTER);
-	    exit.setVerticalTextPosition(JButton.CENTER);
-	    exit.setFont(MathGame.eurostile16);
-		exit.setBorderPainted(false);
 
 		timer = new Timer(1000, this);
 		timer.setRepeats(true);
-
-		try {
-		    toggle.setIcon(buttonImage);
-		    toggle.setRolloverIcon(buttonRollOverImage);
-		    toggle.setPressedIcon(buttonPressedImage);
-		    help.setIcon(buttonImage);
-		    help.setRolloverIcon(buttonRollOverImage);
-		    help.setPressedIcon(buttonPressedImage);
-		    undo.setIcon(buttonImage);
-		    undo.setRolloverIcon(buttonRollOverImage);
-		    undo.setPressedIcon(buttonPressedImage);
-		    reset.setIcon(buttonImage);
-		    reset.setRolloverIcon(buttonRollOverImage);
-		    reset.setPressedIcon(buttonPressedImage);
-		    checkAns.setIcon(buttonImage);
-		    checkAns.setRolloverIcon(buttonRollOverImage);
-		    checkAns.setPressedIcon(buttonPressedImage);
-		    exit.setIcon(buttonImage);
-		    exit.setRolloverIcon(buttonRollOverImage);
-		    exit.setPressedIcon(buttonPressedImage);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 	}
 
 	public void startTimer(String type){
@@ -239,21 +178,21 @@ public class SidePanel extends JPanel implements ActionListener {
 			//TODO Decide function of Help (on website or in-game or just a hint)
 			JOptionPane.showMessageDialog(this, "Instructions go here");
 		} else if (e.getSource() == checkAns) {
-			if (mathGame.getWorkspacePanel().getComponentCount() == 1) {
+			if (MathGame.getWorkspacePanel().getComponentCount() == 1) {
 				NumberCard finalAnsCard;
-				Component finalAnsComp = mathGame.getWorkspacePanel().getComponent(0);
+				Component finalAnsComp = MathGame.getWorkspacePanel().getComponent(0);
 				String computedAns; // The answer the user got
 				String actualAns; // The actual answer
 				if (finalAnsComp instanceof NumberCard) {
 					finalAnsCard = (NumberCard)finalAnsComp;
-					actualAns = mathGame.getCardPanel().ans.getValue();
+					actualAns = MathGame.getCardPanel().ans.getValue();
 					computedAns = finalAnsCard.getValue(); 
 					System.out.println(actualAns + " ?= " + computedAns);
 					if (actualAns.equals(computedAns) ||
 							NumberCard.parseNumFromText(actualAns) == NumberCard.parseNumFromText(computedAns)) {
 						// If the player's answer is right...
 						
-						if (mathGame.getGameState() == GameState.COMPETITIVE) {
+						if (MathGame.getGameState() == GameState.COMPETITIVE) {
 							// This player is done! Tell the database
 							points = (int)(scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex() + 1));
 							gameManager.updateScores(points);
@@ -264,7 +203,7 @@ public class SidePanel extends JPanel implements ActionListener {
 
 							Thread waitForPlayer = new Thread()	{
 									public void run() {
-										mathGame.getCardPanel().hideCards(); // Hide cards for the next round
+										MathGame.getCardPanel().hideCards(); // Hide cards for the next round
 										
 										System.out.println("WAIT FOR OTHER PLAYER START");
 										while(!GameManager.getMatchesAccess().checkForPlayersScoresUpdated(score1, score2)) {
@@ -297,14 +236,14 @@ public class SidePanel extends JPanel implements ActionListener {
 											System.out.println("score2 " + score2);
 											
 											//Database should only be updated with the new round number once 
-											if (mathGame.getUser().getPlayerID() == 1) {
+											if (MathGame.getUser().getPlayerID() == 1) {
 												GameManager.getMatchesAccess().incrementRound();
 											}
 											
 											// JOptionPane.showMessageDialog(this, playerPointsString, "Round Summary", JOptionPane.PLAIN_MESSAGE);
 											
 											System.out.println	("SUMMARY DIALOG; player points: " + playerPointsString);
-											SummaryDialog sd = new SummaryDialog((JFrame)(mathGame.getSidePanel().getTopLevelAncestor()), "Round Summary", playerPointsString);
+											SummaryDialog sd = new SummaryDialog((JFrame)(MathGame.getSidePanel().getTopLevelAncestor()), "Round Summary", playerPointsString);
 											sd.pack();
 											sd.setVisible(true);
 										} else {
@@ -319,18 +258,18 @@ public class SidePanel extends JPanel implements ActionListener {
 											
 											// JOptionPane.showMessageDialog(this, playerPointsString, "Game Summary", JOptionPane.PLAIN_MESSAGE);
 											
-											SummaryDialog sd = new SummaryDialog((JFrame)(mathGame.getSidePanel().getTopLevelAncestor()), "Game Summary", playerPointsString);
+											SummaryDialog sd = new SummaryDialog((JFrame)(MathGame.getSidePanel().getTopLevelAncestor()), "Game Summary", playerPointsString);
 											sd.pack();
 											sd.setVisible(true);
 											
 											exit.setEnabled(true);
 											reset.setEnabled(true);
 											toggle.setEnabled(true);
-											if (mathGame.getUser().getPlayerID() == 1) {
+											if (MathGame.getUser().getPlayerID() == 1) {
 												// The host player deletes the game (ensuring the game is only deleted once)
 												GameManager.getMatchesAccess().removeGame();
 											}
-											mathGame.showMenu(MathGame.Menu.MULTIMENU);
+											MathGame.showMenu(MathGame.Menu.MULTIMENU);
 											// Return to the multiplayer menu after the game ends
 										}
 									}
@@ -382,14 +321,14 @@ public class SidePanel extends JPanel implements ActionListener {
 					"Are you sure you want to exit?", "Exit",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, null, null) == 0) {
-				if (mathGame.getGameState() == GameState.PRACTICE) {
+				if (MathGame.getGameState() == GameState.PRACTICE) {
 					score.setText("0.0"); // Reset the score
 					resetFunction(); // Reset the workspace and cardpanels
-					mathGame.showMenu(MathGame.Menu.MAINMENU); // Open the main menu
-				} else if(mathGame.getGameState() == GameState.COMPETITIVE) {
+					MathGame.showMenu(MathGame.Menu.MAINMENU); // Open the main menu
+				} else if(MathGame.getGameState() == GameState.COMPETITIVE) {
 					score.setText("0.0"); // Reset the score
 					resetFunction(); // Reset the workspace and cardpanels
-					mathGame.showMenu(MathGame.Menu.MULTIMENU); // Open the multiplayer menu
+					MathGame.showMenu(MathGame.Menu.MULTIMENU); // Open the multiplayer menu
 				}
 			}
 		}
@@ -449,33 +388,33 @@ public class SidePanel extends JPanel implements ActionListener {
 		if (tempnum1.getHome() == "home") {
 			// The card was originally in the card panel
 			System.out.println("restore card1; value: " + tempnum1.getStrValue());
-			mathGame.getCardPanel().restoreCard(tempnum1.getStrValue());
+			MathGame.getCardPanel().restoreCard(tempnum1.getStrValue());
 		} else if (tempnum1.getHome() == "hold") {
 			// The new card was originally in the holding area
-			for (int x = 0; x < mathGame.getHoldPanel().getComponentCount(); x++) {
-				NumberCard temp = (NumberCard)(mathGame.getHoldPanel().getComponent(0));
+			for (int x = 0; x < MathGame.getHoldPanel().getComponentCount(); x++) {
+				NumberCard temp = (NumberCard)(MathGame.getHoldPanel().getComponent(0));
 				if (temp.getHome() == "home") {
 					// Check for cards that were dragged from home into workspace and restore them
-					mathGame.getCardPanel().restoreCard(temp.getStrValue());
+					MathGame.getCardPanel().restoreCard(temp.getStrValue());
 				}
 			}
-			mathGame.getHoldPanel().add(tempnum1);
+			MathGame.getHoldPanel().add(tempnum1);
 		}
 
 		if (tempnum2.getHome() == "home") {
 			System.out.println("restore card2; value: " + tempnum2.getStrValue());
-			mathGame.getCardPanel().restoreCard(tempnum2.getStrValue());
+			MathGame.getCardPanel().restoreCard(tempnum2.getStrValue());
 		} else if (tempnum2.getHome() == "hold") {
-			for (int x = 0; x < mathGame.getHoldPanel().getComponentCount(); x++) {
-				NumberCard temp = (NumberCard)(mathGame.getHoldPanel().getComponent(0));
+			for (int x = 0; x < MathGame.getHoldPanel().getComponentCount(); x++) {
+				NumberCard temp = (NumberCard)(MathGame.getHoldPanel().getComponent(0));
 				if (temp.getHome() == "home") {
-					mathGame.getCardPanel().restoreCard(temp.getStrValue());
+					MathGame.getCardPanel().restoreCard(temp.getStrValue());
 				}
 			}
-			mathGame.getHoldPanel().add(tempnum2);
+			MathGame.getHoldPanel().add(tempnum2);
 		}
 
-		if (mathGame.getWorkspacePanel().getComponentCount() == 0) {
+		if (MathGame.getWorkspacePanel().getComponentCount() == 0) {
 			// Covers the scenario in which the previously-created card was put in the holding area
 			
 			NumberCard prevAns = undo.getPrevNewNum(); // Holds the previously-calculated answer
@@ -483,15 +422,15 @@ public class SidePanel extends JPanel implements ActionListener {
 			NumberCard temp;
 			
 			// Cycle through cards in hold
-			for (int i = 0; i < mathGame.getHoldPanel().getComponentCount(); i++) {
-				temp = (NumberCard)(mathGame.getHoldPanel().getComponent(i));
+			for (int i = 0; i < MathGame.getHoldPanel().getComponentCount(); i++) {
+				temp = (NumberCard)(MathGame.getHoldPanel().getComponent(i));
 				// The explicit casting assumes that only NumberCards will be in holdpanel
 				
 				if (temp.getStrValue() == prevAns.getStrValue()) {
 					// See if the checked card is the previous answer
 					System.out.println("Deleting card in hold");
-					mathGame.getHoldPanel().remove(i);
-					i = mathGame.getHoldPanel().getComponentCount() + 1; // So we can exit this loop (Why not use a break?)
+					MathGame.getHoldPanel().remove(i);
+					i = MathGame.getHoldPanel().getComponentCount() + 1; // So we can exit this loop (Why not use a break?)
 				}
 			}
 		} else {
@@ -502,24 +441,24 @@ public class SidePanel extends JPanel implements ActionListener {
 			NumberCard temp;
 			
 			// Cycle through cards in workspace
-			for (int i = 0; i < mathGame.getWorkspacePanel().getComponentCount(); i++) {
-				if (mathGame.getWorkspacePanel().getComponent(i) instanceof NumberCard) {
-					temp = (NumberCard)(mathGame.getWorkspacePanel().getComponent(i));
+			for (int i = 0; i < MathGame.getWorkspacePanel().getComponentCount(); i++) {
+				if (MathGame.getWorkspacePanel().getComponent(i) instanceof NumberCard) {
+					temp = (NumberCard)(MathGame.getWorkspacePanel().getComponent(i));
 					if (temp.getValue() == prevAns.getValue()) {
 						// See if the checked card is the previous answer
-						mathGame.getWorkspacePanel().remove(i);
-						i = mathGame.getWorkspacePanel().getComponentCount() + 1; // So we can exit this loop (Why not just break?)
+						MathGame.getWorkspacePanel().remove(i);
+						i = MathGame.getWorkspacePanel().getComponentCount() + 1; // So we can exit this loop (Why not just break?)
 					}
 				}
 			}
 		}
 
 		undo.completeUndo();
-		mathGame.getWorkspacePanel().revalidate();
-		mathGame.getWorkspacePanel().repaint();
-		mathGame.getHoldPanel().revalidate();
-		mathGame.getHoldPanel().repaint();
-		mathGame.getCardPanel().revalidate();
+		MathGame.getWorkspacePanel().revalidate();
+		MathGame.getWorkspacePanel().repaint();
+		MathGame.getHoldPanel().revalidate();
+		MathGame.getHoldPanel().repaint();
+		MathGame.getCardPanel().revalidate();
 	}
 
 	/**
@@ -528,7 +467,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	private void resetFunction() {
 		timer.stop();
 		
-		mathGame.getCardPanel().resetValidationBoxes();
+		MathGame.getCardPanel().resetValidationBoxes();
 		
 		while (undo.getIndex() > 0) {
 			undoFunction();
@@ -536,42 +475,42 @@ public class SidePanel extends JPanel implements ActionListener {
 
 		scorekeeper.setTimeStart(System.currentTimeMillis());
 		
-		if (mathGame.getWorkspacePanel().getComponentCount() > 0) {
+		if (MathGame.getWorkspacePanel().getComponentCount() > 0) {
 			NumberCard temp;
 			OperationCard temp2;
-			int count = mathGame.getWorkspacePanel().getComponentCount();
+			int count = MathGame.getWorkspacePanel().getComponentCount();
 			for (int x = 0; x < count; x++) {
-				if (mathGame.getWorkspacePanel().getComponent(0) instanceof NumberCard) {
-					temp = (NumberCard)(mathGame.getWorkspacePanel().getComponent(0));
-					mathGame.getCardPanel().restoreCard(temp.getStrValue());
-				} else if (mathGame.getWorkspacePanel().getComponent(0) instanceof OperationCard) {
-					temp2 = (OperationCard)(mathGame.getWorkspacePanel().getComponent(0));
-					mathGame.getOperationPanel().addOperator(temp2.getOperation());
+				if (MathGame.getWorkspacePanel().getComponent(0) instanceof NumberCard) {
+					temp = (NumberCard)(MathGame.getWorkspacePanel().getComponent(0));
+					MathGame.getCardPanel().restoreCard(temp.getStrValue());
+				} else if (MathGame.getWorkspacePanel().getComponent(0) instanceof OperationCard) {
+					temp2 = (OperationCard)(MathGame.getWorkspacePanel().getComponent(0));
+					MathGame.getOperationPanel().addOperator(temp2.getOperation());
 				}
 			}
 		}
 
-		if (mathGame.getHoldPanel().getComponentCount() > 0) {
+		if (MathGame.getHoldPanel().getComponentCount() > 0) {
 			NumberCard temp;
 			OperationCard temp2;
-			int count = mathGame.getHoldPanel().getComponentCount();
+			int count = MathGame.getHoldPanel().getComponentCount();
 			for (int x = 0; x < count; x++) {
-				if (mathGame.getHoldPanel().getComponent(0) instanceof NumberCard) {
-					temp = (NumberCard)(mathGame.getHoldPanel().getComponent(0));
-					mathGame.getCardPanel().restoreCard(temp.getStrValue());
-				} else if (mathGame.getHoldPanel().getComponent(0) instanceof OperationCard) {
-					temp2 = (OperationCard)(mathGame.getHoldPanel().getComponent(0));
-					mathGame.getOperationPanel().addOperator(temp2.getOperation());
+				if (MathGame.getHoldPanel().getComponent(0) instanceof NumberCard) {
+					temp = (NumberCard)(MathGame.getHoldPanel().getComponent(0));
+					MathGame.getCardPanel().restoreCard(temp.getStrValue());
+				} else if (MathGame.getHoldPanel().getComponent(0) instanceof OperationCard) {
+					temp2 = (OperationCard)(MathGame.getHoldPanel().getComponent(0));
+					MathGame.getOperationPanel().addOperator(temp2.getOperation());
 				}
 			}
 		}
 		
 		typeManager.randomize();
-		mathGame.getWorkspacePanel().revalidate();
-		mathGame.getWorkspacePanel().repaint();
-		mathGame.getHoldPanel().revalidate();
-		mathGame.getHoldPanel().repaint();
-		mathGame.getCardPanel().revalidate();
+		MathGame.getWorkspacePanel().revalidate();
+		MathGame.getWorkspacePanel().repaint();
+		MathGame.getHoldPanel().revalidate();
+		MathGame.getHoldPanel().repaint();
+		MathGame.getCardPanel().revalidate();
 		
 		timer.start();
 		startTime = System.currentTimeMillis();
@@ -637,7 +576,7 @@ public class SidePanel extends JPanel implements ActionListener {
 			System.out.println("CLOSE DIALOG");
 			
 			exit.setEnabled(false); // Set back to disabled when the dialog is finished
-			mathGame.getCardPanel().showCards(); // Now you can show the cards!
+			MathGame.getCardPanel().showCards(); // Now you can show the cards!
 			
 			timer.stop(); // Stop timer from previous thread
 			

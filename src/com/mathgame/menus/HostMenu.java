@@ -2,6 +2,7 @@ package com.mathgame.menus;
 
 import javax.swing.*;
 
+import com.mathgame.guicomponents.GameButton;
 import com.mathgame.math.MathGame;
 import com.mathgame.network.Game;
 import com.mathgame.network.GameManager;
@@ -35,26 +36,13 @@ public class HostMenu extends JPanel implements ActionListener {
 	String type; // number type (Fraction, Decimal, Integer)
 	String scoring; // scoring (Complexity, Speed, Mix)
 	String diff; // difficulty (easy, Medium, HARD)
-
-	static final int BUTTON_WIDTH = 130;
-	static final int BUTTON_HEIGHT = 30;
 	
 	static final String BACKGROUND_FILE = "/images/background2.png";
-	static final String BUTTON_IMAGE_FILE = "/images/MenuButtonImg1.png";
-	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/MenuButtonImg2.png";
-	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/MenuButtonImg3.png";
 	
 	static ImageIcon background;
-	static ImageIcon buttonImage;
-	static ImageIcon buttonRollOverImage;
-	static ImageIcon buttonPressedImage;
 	
 	static {
-		// Image initialization
 		background = new ImageIcon(OptionMenu.class.getResource(BACKGROUND_FILE));
-		buttonImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_IMAGE_FILE));
-		buttonRollOverImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
-		buttonPressedImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
 	}
 	
 	ButtonGroup diffGroup; // Easy, Medium, Hard
@@ -87,8 +75,8 @@ public class HostMenu extends JPanel implements ActionListener {
 	JLabel roundLabel;
 	JLabel diffLabel;
 	
-	JButton cancel;
-	JButton finish;
+	GameButton cancel;
+	GameButton finish;
 	
 	GridBagConstraints gbc;
 
@@ -112,31 +100,11 @@ public class HostMenu extends JPanel implements ActionListener {
 		roundLabel = new JLabel("# Rounds:");
 		diffLabel = new JLabel("Difficulty:");
 		
-		finish = new JButton("Finish");
-		finish.setFont(MathGame.eurostile24);
-	    finish.setHorizontalTextPosition(JButton.CENTER);
-	    finish.setVerticalTextPosition(JButton.CENTER);
-	    finish.setBorderPainted(false);
-	    finish.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		finish = new GameButton("Finish");
 		finish.addActionListener(this);
-		cancel = new JButton("Cancel");
-		cancel.setFont(MathGame.eurostile24);
-	    cancel.setHorizontalTextPosition(JButton.CENTER);
-	    cancel.setVerticalTextPosition(JButton.CENTER);
-	    cancel.setBorderPainted(false);
-	    cancel.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		
+		cancel = new GameButton("Cancel");
 		cancel.addActionListener(this);
-
-		try {
-		    finish.setIcon(buttonImage);
-		    finish.setRolloverIcon(buttonRollOverImage);
-		    finish.setPressedIcon(buttonPressedImage);
-		    cancel.setIcon(buttonImage);
-		    cancel.setRolloverIcon(buttonRollOverImage);
-		    cancel.setPressedIcon(buttonPressedImage);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 		
 		// Button creation
 		buttonMap = new HashMap<String, JToggleButton>();

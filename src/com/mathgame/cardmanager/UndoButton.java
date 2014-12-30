@@ -4,26 +4,25 @@ import javax.swing.JButton;
 
 import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
+import com.mathgame.guicomponents.GameButton;
 import com.mathgame.math.MathGame;
 
 /**
  * The UndoButton class represents the undo button, which uses the MoveTracker class
  * @author Roland
  */
-public class UndoButton extends JButton {
+public class UndoButton extends GameButton {
 
 	private static final long serialVersionUID = -1610472234274569185L;
 	
-	static MathGame mathGame;
 	MoveTracker tracker;
 	
 	/**
 	 * @param text - The text to be displayed on the UndoButton
 	 * @param mathGame - THe current mathGame instance
 	 */
-	public UndoButton(String text, MathGame game) {
-		this.setText(text);
-		mathGame = game;
+	public UndoButton(String text) {
+		super(text);
 		tracker = new MoveTracker();
 	}
 	

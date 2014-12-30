@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
 
+import com.mathgame.guicomponents.GameButton;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
 import com.mathgame.math.MathGame.GameState;
@@ -43,15 +44,8 @@ public class OptionMenu extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 2089592182201152773L;
 	
 	static final String BACKGROUND_FILE = "/images/background2.png";
-	static final String BUTTON_IMAGE_FILE = "/images/MenuButtonImg1.png";
-	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/MenuButtonImg2.png";
-	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/MenuButtonImg3.png";
-	static final int BUTTON_WIDTH = 130;
-	static final int BUTTON_HEIGHT = 30;
+	
 	ImageIcon background;
-	ImageIcon buttonImage;
-	ImageIcon buttonRollOverImage;
-	ImageIcon buttonPressedImage;
 	
 	ButtonGroup diffGroup; // Easy, Medium, Hard
 	ArrayList<JCheckBox> types; // Integer, Decimal, Fraction (To be added: Negative, Exponents, Log)
@@ -65,8 +59,8 @@ public class OptionMenu extends JPanel implements ActionListener {
 	JPanel typePanel;
 	JPanel diffPanel;
 
-	JButton cancel; // go back
-	JButton play; // Click to play the game!
+	GameButton cancel; // go back
+	GameButton play; // Click to play the game!
 	
 	GridBagConstraints gbc;
 	
@@ -87,9 +81,6 @@ public class OptionMenu extends JPanel implements ActionListener {
 		
 		// Image initialization
 		background = new ImageIcon(OptionMenu.class.getResource(BACKGROUND_FILE));
-		buttonImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_IMAGE_FILE));
-		buttonRollOverImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
-		buttonPressedImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
 		
 		// Button creation
 		buttonMap = new HashMap<String, JToggleButton>();
@@ -101,31 +92,11 @@ public class OptionMenu extends JPanel implements ActionListener {
 		diffs.get(0).setSelected(true);
 		MathGame.setGameState(GameState.PRACTICE);
 		
-		play = new JButton("Play");
-		play.setFont(MathGame.eurostile24);
-	    play.setHorizontalTextPosition(JButton.CENTER);
-	    play.setVerticalTextPosition(JButton.CENTER);
-	    play.setBorderPainted(false);
-	    play.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		play = new GameButton("Play");
 		play.addActionListener(this);
-		cancel = new JButton("Back");
-		cancel.setFont(MathGame.eurostile24);
-	    cancel.setHorizontalTextPosition(JButton.CENTER);
-	    cancel.setVerticalTextPosition(JButton.CENTER);
-	    cancel.setBorderPainted(false);
-	    cancel.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-		cancel.addActionListener(this);
 		
-		try {
-		    play.setIcon(buttonImage);
-		    play.setRolloverIcon(buttonRollOverImage);
-		    play.setPressedIcon(buttonPressedImage);
-		    cancel.setIcon(buttonImage);
-		    cancel.setRolloverIcon(buttonRollOverImage);
-		    cancel.setPressedIcon(buttonPressedImage);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		cancel = new GameButton("Cancel");
+		cancel.addActionListener(this);
 		
 		gbc.insets = new Insets(5, 5, 5, 5);
 		gbc.gridx = 4;
