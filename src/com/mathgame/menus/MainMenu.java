@@ -49,6 +49,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	JButton help; // Press for game help
 	JButton about; // Press for "stuff"
 	JButton exit; // Press to leave game :(
+	JButton sound; // Press to mute/unmute
 	
 	// JLabel epsilon; // Self-explanatory
 	JPanel carda;
@@ -112,6 +113,10 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	    exit.setHorizontalTextPosition(JButton.CENTER);
 	    exit.setVerticalTextPosition(JButton.CENTER);
 	    exit.setBorderPainted(false);
+	    
+	    sound = new JButton();
+		sound.setBounds(50, 40, SoundManager.currentVolumeButtonImage().getIconWidth(), SoundManager.currentVolumeButtonImage().getIconHeight());
+	    sound.setBorderPainted(true);
 		
 		try {
 		    enter.setIcon(buttonImage);
@@ -126,6 +131,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		    exit.setIcon(buttonImage);
 		    exit.setRolloverIcon(buttonRollOverImage);
 		    exit.setPressedIcon(buttonPressedImage);
+		    sound.setIcon(SoundManager.currentVolumeButtonImage());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -189,6 +195,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		add(help);
 		add(about);
 		add(exit);
+		add(sound);
 
 		add(carda);
 		add(cardb);
@@ -209,6 +216,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		exit.addActionListener(this);
 		exit.addMouseMotionListener(this);
 		exit.addMouseListener(this);
+		sound.addActionListener(this);
 		
 		// get username before playing
 		getUser();
@@ -230,7 +238,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 			SoundManager.playSound(SoundManager.SoundType.BUTTON);
 		}
 		
-		if(e.getSource() == enter) {
+		if (e.getSource() == enter) {
 			startGame();
 		}
 		// else if(e.getSource() == help)
@@ -238,8 +246,12 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		// else if(e.getSource() == about)
 			// aboutinfo();
 
-		else if(e.getSource() == exit) {
+		else if (e.getSource() == exit) {
 			exit();
+		}
+		
+		else if (e.getSource() == sound) {
+			sound.setIcon(SoundManager.volumeButtonPressed());
 		}
 	}
 	
@@ -269,8 +281,10 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 			mathGame.multimenu.addThisUser();
 		}
 		//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.SUBMENU);*/
-		
-		mathGame.showMenu(MathGame.Menu.OPTIONMENU);
+		((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshDatabase();
+		((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).addThisUser();
+		((MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshTimer.start();
+		mathGame.showMenu(MathGame.Menu.MULTIMENU);
 		System.out.println("ENTER GAME");
 	}
 	
