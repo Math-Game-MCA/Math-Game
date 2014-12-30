@@ -28,7 +28,7 @@ public class MatchesAccess extends MySQLAccess {
 	public MatchesAccess(Connection c){
 
 		connection = c;
-		
+		System.out.println("GOING TO TRY CONNECTION STATEMENT");
 		try {
 			statement = connection.createStatement();
 		} catch (SQLException e) {

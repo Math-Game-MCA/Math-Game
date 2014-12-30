@@ -31,6 +31,7 @@ public class MathGame extends Container {
 	
 	//Menus
 	private static LoginMenu loginMenu;
+	private static RegisterMenu registerMenu;
 	private static MainMenu mainMenu;
 	private static MultiMenu multiMenu;
 	private static OptionMenu optionMenu;
@@ -49,6 +50,11 @@ public class MathGame extends Container {
 		 * The login menu
 		 */
 		LOGIN ("CardLayoutPanel LoginMenu"),
+		
+		/**
+		 * The registration menu
+		 */
+		REGISTER ("CardLayoutPanel RegisterMenu"),
 		
 		/**
 		 * The main menu
@@ -196,6 +202,9 @@ public class MathGame extends Container {
 		loginMenu = new LoginMenu();
 		loginMenu.setBounds(0, 0, size.width, size.height);
 		
+		registerMenu = new RegisterMenu();
+		registerMenu.setBounds(0, 0, size.width, size.height);
+		
 		mainMenu = new MainMenu();
 		mainMenu.init();
 		mainMenu.setBounds(0, 0, size.width, size.height);
@@ -232,6 +241,7 @@ public class MathGame extends Container {
 		
 		// Adding panels to the game
 		cardLayoutPanels.add(loginMenu, Menu.LOGIN.cardLayoutString);
+		cardLayoutPanels.add(registerMenu, Menu.REGISTER.cardLayoutString);
 		cardLayoutPanels.add(mainMenu, Menu.MAINMENU.cardLayoutString);
 		cardLayoutPanels.add(gameMasterLayer, Menu.GAME.cardLayoutString);
 		cardLayoutPanels.add(optionMenu, Menu.OPTIONMENU.cardLayoutString);
@@ -363,6 +373,8 @@ public class MathGame extends Container {
 		switch (menu) {
 		case LOGIN:
 			return loginMenu;
+		case REGISTER:
+			return registerMenu;
 		case MAINMENU:
 			return mainMenu;
 		case MULTIMENU:

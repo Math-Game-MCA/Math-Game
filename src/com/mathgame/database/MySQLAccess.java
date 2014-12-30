@@ -22,7 +22,7 @@ public class MySQLAccess{
 	private final String user = "sofiav_user"; // "egarciao@localhost";
 	private final String pass = "Mathgames1"; //"oL20wC06xd";
 	
-	private Connection connection = null;
+	protected Connection connection = null;
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
@@ -40,7 +40,7 @@ public class MySQLAccess{
 	
 	public MySQLAccess(MathGame game) {
 		mathGame = game;
-		gameAccess = new GameAccess(game, connection);
+		gameAccess = new GameAccess(connection);
 		System.out.println("11111111111" + game.getBackground()); //TODO Just a test message? It often returns "null" anyway
 	}
 	
@@ -314,7 +314,7 @@ public class MySQLAccess{
 	 * @throws Exception
 	 */
 	public ArrayList<String> getUsersGame() throws Exception {
-		gameAccess = new GameAccess(mathGame, connection);
+		gameAccess = new GameAccess(connection);
 		return gameAccess.getUsers();
 	}
 	
@@ -322,14 +322,22 @@ public class MySQLAccess{
 	 * Adds the user to the list
 	 */
 	public void addUser() {
-		gameAccess.addUser();	
+		gameAccess.addOnlineUser();	
 	}
 	
 	/**
 	 * Removes the user from the list
 	 */
 	public void removeUser() {
-		gameAccess.removeUser(connection);	
+		gameAccess.removeOnlineUser(connection);	
+	}
+	
+	public boolean loginUser(String u, char[] p){
+		return gameAccess.checkUserLogin(u, p);
+	}
+	
+	public void registerUser(String u, String p){
+		gameAccess.registerUser(u, p);
 	}
 	
 	/*

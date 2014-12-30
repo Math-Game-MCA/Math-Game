@@ -36,6 +36,7 @@ public class LoginMenu extends JPanel implements ActionListener {
 	private JTextField usernameField;
 	private JPasswordField passwordField;
 	private GameButton login;
+	private GameButton register;
 
 	private static ImageIcon background;
 
@@ -71,12 +72,18 @@ public class LoginMenu extends JPanel implements ActionListener {
 		login.setLocation(400, 290);
 		login.addActionListener(this);
 		
+		register = new GameButton("Register");
+		register.setLocation(400,360);
+		register.addActionListener(this);
+		
+		
 		this.add(title);
 		this.add(usernameLabel);
 		this.add(passwordLabel);
 		this.add(usernameField);
 		this.add(passwordField);
 		this.add(login);
+		this.add(register);
 	}
 	
 	@Override
@@ -85,14 +92,25 @@ public class LoginMenu extends JPanel implements ActionListener {
 			if(usernameField.getText().equals("") || passwordField.getPassword().length == 0)	{
 				JOptionPane.showMessageDialog(this, "Please Enter a Username and Password");
 			}
-			else	{
+			else{
 				System.out.println("user name is " + usernameField.getText());
+				String u = usernameField.getText();
+				char[] p = passwordField.getPassword();
+				
+				if(MathGame.getMySQLAccess().loginUser(u, p) == false)
+				{
+					JOptionPane.showMessageDialog(this, "Wrong username or password");
+					System.out.println("Invalid username or password");
+					return;
+				}					
 				MathGame.getUser().setName(usernameField.getText());
 				MathGame.getUser().setPassword(passwordField.getPassword().toString());
 				((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshDatabase();
 				((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).addThisUser();
 				MathGame.showMenu(MathGame.Menu.MAINMENU);
 			}
+		} else if(e.getSource() == register){
+			MathGame.showMenu(MathGame.Menu.REGISTER);
 		}
 		
 	}

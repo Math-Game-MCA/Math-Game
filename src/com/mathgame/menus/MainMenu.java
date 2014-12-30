@@ -347,7 +347,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		System.out.println("Mouse Exited Button");
+		//System.out.println("Mouse Exited Button");
 		hideInfo();
 		if(e.getSource() == help)	{
 			// info.setText("Welcome to Epsilon, the mathematical card game!");
