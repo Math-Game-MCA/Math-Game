@@ -29,29 +29,29 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	
 	private static final long serialVersionUID = -3036828086937465893L;
 	
-	static final String IMAGE_FILE = "/images/backa.png";
+	private static final String IMAGE_FILE = "/images/backa.png";
 	
-	ImageIcon background;
+	private ImageIcon background;
 	
 	// Mouse coordinates
-	int mx;
-	int my;
+	private int mx;
+	private int my;
 	
-	GameButton enter; // Press to enter the game;
-	GameButton help; // Press for game help
-	GameButton about; // Press for "stuff"
-	GameButton exit; // Press to leave game :(
-	JButton sound; // Press to mute/unmute
+	private GameButton enter; // Press to enter the game;
+	private GameButton help; // Press for game help
+	private GameButton about; // Press for "stuff"
+	private GameButton exit; // Press to leave game :(
+	private JButton sound; // Press to mute/unmute
 	
 	// JLabel epsilon; // Self-explanatory
-	JPanel carda;
-	JPanel cardb;
-	JPanel cardc;
-	JPanel cardd;
-	JTextArea infoa;
-	JTextArea infob;
-	JTextArea infoc;
-	JTextArea infod;
+	private JPanel carda;
+	private JPanel cardb;
+	private JPanel cardc;
+	private JPanel cardd;
+	private JTextArea infoa;
+	private JTextArea infob;
+	private JTextArea infoc;
+	private JTextArea infod;
 
 	public void init() {
 		

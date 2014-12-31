@@ -33,31 +33,32 @@ public class CardPanel extends JPanel{
 	public NumberCard ans;
 	static final String IMAGE_FILE = "/images/CardBar.png";
 	
-	ImageIcon background;
+	private ImageIcon background;
 	
-	ValidationBox v1;
-	ValidationBox v2;
-	ValidationBox v3;
-	ValidationBox v4;
-	ValidationBox v5;
-	ValidationBox v6;
-	ValidationBox v_ans;
+	private ValidationBox v1;
+	private ValidationBox v2;
+	private ValidationBox v3;
+	private ValidationBox v4;
+	private ValidationBox v5;
+	private ValidationBox v6;
+	private ValidationBox v_ans;
 	
-	JLayeredPane masterLayer;
+	private JLayeredPane masterLayer;
 	
-	Calculate calc;
+	private Calculate calc;
 	public ArrayList<String> values;
-	ArrayList<Boolean> cardExists;
+	private ArrayList<Boolean> cardExists;
 	
-	InputStream cardValueInput;
-	XSSFWorkbook cardValueWorkbook;
-	static final String CARD_VALUE_FILE = "values.xlsx";
-	XSSFSheet currentSheet;
-	int rowCount;
-	int currentRowNumber;
-	XSSFRow currentRow;
+	//TODO use for offline play?
+	/*private InputStream cardValueInput;
+	private XSSFWorkbook cardValueWorkbook;
+	private static final String CARD_VALUE_FILE = "values.xlsx";
+	private XSSFSheet currentSheet;
+	private int rowCount;
+	private int currentRowNumber;
+	private XSSFRow currentRow;*/
 	
-	TypeManager typeManager;
+	private TypeManager typeManager;
 		
 	public CardPanel()	{
 		this.typeManager = MathGame.getTypeManager();

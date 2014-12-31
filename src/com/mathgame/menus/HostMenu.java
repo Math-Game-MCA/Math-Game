@@ -39,46 +39,46 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	static final String BACKGROUND_FILE = "/images/background2.png";
 	
-	static ImageIcon background;
+	private static ImageIcon background;
 	
 	static {
 		background = new ImageIcon(OptionMenu.class.getResource(BACKGROUND_FILE));
 	}
 	
-	ButtonGroup diffGroup; // Easy, Medium, Hard
-	ButtonGroup scoringGroup; // Complexity, Speed, Mix
-	ArrayList<JCheckBox> types; // Integer, Decimal, Fraction (To be added: Negative, Exponents, Log)
-	ArrayList<JRadioButton> diffs;
-	ArrayList<JRadioButton> scorings;
+	private ButtonGroup diffGroup; // Easy, Medium, Hard
+	private ButtonGroup scoringGroup; // Complexity, Speed, Mix
+	private ArrayList<JCheckBox> types; // Integer, Decimal, Fraction (To be added: Negative, Exponents, Log)
+	private ArrayList<JRadioButton> diffs;
+	private ArrayList<JRadioButton> scorings;
 	
 	//TODO Make these strings in MathGame class for use in all classes
-	String[] typeNames = {"Integer", "Decimal", "Fraction"};
-	String[] diffNames = {"Easy", "Medium", "Hard"};
-	String[] scoringNames = {"Complexity", "Speed", "Mix"}; // Mixed scoring is a combination of speed and complexity
+	private String[] typeNames = {"Integer", "Decimal", "Fraction"};
+	private String[] diffNames = {"Easy", "Medium", "Hard"};
+	private String[] scoringNames = {"Complexity", "Speed", "Mix"}; // Mixed scoring is a combination of speed and complexity
 	
-	JSpinner roundsSpinner; // Displaying number of rounds
-	// JSpinner playersSpinner; // Displaying number of players
-	SpinnerNumberModel roundsModel;
-	SpinnerNumberModel playersModel;
+	private JSpinner roundsSpinner; // Displaying number of rounds
+	// private JSpinner playersSpinner; // Displaying number of players
+	private SpinnerNumberModel roundsModel;
+	private SpinnerNumberModel playersModel;
 	
-	Map<String, JToggleButton> buttonMap; // Associate buttons with their names for easy locating
+	private Map<String, JToggleButton> buttonMap; // Associate buttons with their names for easy locating
 	
 	// JPanel playerPanel;
-	JPanel scoringPanel;
-	JPanel roundPanel;
-	JPanel typePanel;
-	JPanel diffPanel;
+	private JPanel scoringPanel;
+	private JPanel roundPanel;
+	private JPanel typePanel;
+	private JPanel diffPanel;
 	
-	JLabel playersLabel;
-	JLabel scoringLabel;
-	JLabel typeLabel;
-	JLabel roundLabel;
-	JLabel diffLabel;
+	// private JLabel playersLabel;
+	private JLabel scoringLabel;
+	private JLabel typeLabel;
+	private JLabel roundLabel;
+	private JLabel diffLabel;
 	
-	GameButton cancel;
-	GameButton finish;
+	private GameButton cancel;
+	private GameButton finish;
 	
-	GridBagConstraints gbc;
+	private GridBagConstraints gbc;
 
 	public HostMenu() {
 		
@@ -94,7 +94,7 @@ public class HostMenu extends JPanel implements ActionListener {
 		
 		gbc = new GridBagConstraints();
 		
-		playersLabel = new JLabel("# Players:");
+		// playersLabel = new JLabel("# Players:");
 		scoringLabel = new JLabel("Scoring:");
 		typeLabel = new JLabel("Number Type:");
 		roundLabel = new JLabel("# Rounds:");

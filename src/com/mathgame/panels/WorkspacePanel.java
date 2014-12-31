@@ -41,10 +41,10 @@ public class WorkspacePanel extends JPanel {
 	
 	private static final String IMAGE_FILE = "/images/Workspace.png";
 	
-	ImageIcon background;
+	private ImageIcon background;
 	
-	CompMover mover;
-	TypeManager typeManager;
+	private CompMover mover;
+	private TypeManager typeManager;
 	
 	public void init() {
 		this.setLayout(new FlowLayout());
@@ -159,7 +159,7 @@ public class WorkspacePanel extends JPanel {
 					NumberCard card2 = (NumberCard) this.getComponent(2);
 					OperationCard op = (OperationCard) this.getComponent(1);
 					System.out.println("Registering new Move");
-					MathGame.getSidePanel().undo.registerNewMove(card1, op, card2, answerCard);
+					MathGame.getSidePanel().getUndo().registerNewMove(card1, op, card2, answerCard);
 					// When cards collide... it becomes a new move!
 				}
 			}

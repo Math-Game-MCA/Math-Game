@@ -27,35 +27,35 @@ public class SidePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = -1209424284690306920L;
 
-	TypeManager typeManager;
-	ScoringSystem scorekeeper;
+	private TypeManager typeManager;
+	private ScoringSystem scorekeeper;
 	
-	JLabel clock;
-	JLabel pass; // Counts how many you get right
-	JLabel fail; // Counts how many you get wrong
-	JLabel score;
-	JLabel vs;
+	private JLabel clock;
+	private JLabel pass; // Counts how many you get right
+	private JLabel fail; // Counts how many you get wrong
+	private JLabel score;
+	private JLabel vs;
 
-	GameButton toggle;
-	GameButton help;
-	GameButton exit;
-	GameButton checkAns;
-	UndoButton undo;
-	GameButton reset;
+	private GameButton toggle;
+	private GameButton help;
+	private GameButton exit;
+	private GameButton checkAns;
+	private UndoButton undo;
+	private GameButton reset;
 
-	static final String IMAGE_FILE = "/images/control bar.png";
+	private static final String IMAGE_FILE = "/images/control bar.png";
 	
-	ImageIcon background;
+	private ImageIcon background;
 	
-	MatchesAccess matchesAccess;
-	GameManager gameManager;
+	private MatchesAccess matchesAccess;
+	private GameManager gameManager;
 
-	int score1 = 0;
-	int score2 = 0;
+	private int score1 = 0;
+	private int score2 = 0;
 	
-	int correct = 0;
-	int wrong = 0;
-	int points = 0;
+	private int correct = 0;
+	private int wrong = 0;
+	private int points = 0;
 
 	public Timer timer; // This is public so that it can be accessed by SubMenu.java (to be started at the right time)
 	// StopWatch stopWatch;
@@ -63,9 +63,9 @@ public class SidePanel extends JPanel implements ActionListener {
 	private boolean pressed = true;
 
 	public long startTime = 0;
-	long endTime = 0;
+	private long endTime = 0;
 
-	Insets insets = getInsets(); // Insets for the side panel for layout purposes
+	private Insets insets = getInsets(); // Insets for the side panel for layout purposes
 
 	public void init() {
 		
@@ -590,5 +590,12 @@ public class SidePanel extends JPanel implements ActionListener {
 			this.setVisible(false);
 			this.dispose(); // Destroy this dialog
 		}
+	}
+
+	/**
+	 * @return the undo
+	 */
+	public UndoButton getUndo() {
+		return undo;
 	}
 }

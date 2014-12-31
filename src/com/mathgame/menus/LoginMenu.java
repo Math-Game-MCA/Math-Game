@@ -92,7 +92,7 @@ public class LoginMenu extends JPanel implements ActionListener {
 			if(usernameField.getText().equals("") || passwordField.getPassword().length == 0)	{
 				JOptionPane.showMessageDialog(this, "Please Enter a Username and Password");
 			}
-			else{
+			else	{
 				System.out.println("user name is " + usernameField.getText());
 				String u = usernameField.getText();
 				char[] p = passwordField.getPassword();

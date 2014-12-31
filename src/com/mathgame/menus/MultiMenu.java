@@ -5,7 +5,6 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -41,34 +40,31 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 
 	TypeManager typeManager;
 	
-	static final String IMAGE_FILE = "/images/backMulti.png";
+	private static final String IMAGE_FILE = "/images/backMulti.png";
 	
-	static ImageIcon background;
+	private static ImageIcon background;
 	
 	static {
 		background = new ImageIcon(MultiMenu.class.getResource(IMAGE_FILE));
 	}
 	
 	// Mouse coordinates
-	int mx;
-	int my;
+	private int mx;
+	private int my;
 	
-	Font titleFont;
+	private Font titleFont;
 	
-	JPanel gamesList;
-	GameButton home; // Press to enter a game
-	GameButton host; // Press to host a game
-	GameButton join; // Press to join a game
-	GameButton practice; // sends to practice mode
-	JTextArea usersList;
-	JTextArea userProfile; // displays info about the selected user (win/loss, etc)
+	private JPanel gamesList;
+	private GameButton home; // Press to enter a game
+	private GameButton host; // Press to host a game
+	private GameButton join; // Press to join a game
+	private GameButton practice; // sends to practice mode
+	private JTextArea usersList;
+	private JTextArea userProfile; // displays info about the selected user (win/loss, etc)
 	
-	Panel innerPanel; 
+	private final int NUMBEROFPLAYERS = 2;//TOOD: get rid of this
 	
-	final int NUMBEROFPLAYERS = 2;//TOOD: get rid of this
-	
-	GameManager gameManager;
-	HostMenu hostMenu;
+	private GameManager gameManager;
 	private ArrayList<String> usersArray;
 	private ArrayList<Game> games;
 	private ArrayList<GameCard> gameCards;
@@ -85,7 +81,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		typeManager = tn;
 		gameManager = MathGame.getGameManager();
-		hostMenu = new HostMenu();
 		
 		titleFont = MathGame.eurostile24;
 		
@@ -196,14 +191,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		if(e.getSource() == home) {
 			MathGame.showMenu(MathGame.Menu.MAINMENU); // Return to the main menu
 			refreshTimer.stop();
-			// choosefraction();
-			// startgame();
 		} else if(e.getSource() == host) {
 			MathGame.showMenu(MathGame.Menu.HOSTMENU);
-			// startgame();
 		} else if(e.getSource() == join) {
-			// choosedecimal();
-			// startgame();
 		}
 		else if(e.getSource() == practice) {
 			MathGame.showMenu(MathGame.Menu.OPTIONMENU);// select practice options
@@ -321,13 +311,11 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		typeManager.init(MathGame.getCardPanel());
 		typeManager.randomize();
 	}
-	
+
 	/**
 	 * When you choose the fraction option
 	 */
 	public void chooseFraction() {
-		//this.setVisible(false);
-		
 		typeManager.setType(TypeManager.GameType.FRACTIONS);
 		System.out.println("Selected: fraction");
 	}
@@ -336,8 +324,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	 * When you choose the decimal option
 	 */ 
 	public void chooseDecimal() {
-		// this.setVisible(false);
-
 		typeManager.setType(TypeManager.GameType.DECIMALS);
 		System.out.println("Selected: decimal");
 	}
@@ -346,8 +332,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	 * When you choose the integer option
 	 */
 	public void chooseInteger() {
-		// this.setVisible(false);
-
 		typeManager.setType(TypeManager.GameType.INTEGERS);
 		System.out.println("Selected: integer");
 	}
@@ -356,45 +340,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	 * When you choose the mixed option
 	 */
 	public void chooseMixed() {
-		//this.setVisible(false);
-
 		//TODO Implement a mixed mode; currently sets to Fraction mode
 		typeManager.setType(TypeManager.GameType.FRACTIONS);
 		System.out.println("Selected: mixed");
 	}
-	
-	//TODO Implement the modeInfo functions
-	/**
-	 * Displays info on the fraction mode
-	 */
-	public void fractionInfo() {
-		// info.setText("Choose this mode to work with fractions");
-		// JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
-	}
-	
-	/**
-	 * Displays info on the decimal mode
-	 */
-	public void decimalInfo() {
-		//JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
-	}
-	
-	/**
-	 * Displays info on the integer mode
-	 */
-	public void integerinfo() {
-		// info.setText("Choose this mode to work with integers");
-		// JOptionPane.showMessageDialog(this, "Game created by Academy Math Games Team. Menu created by Roland Fong and David Schildkraut.");
-	}
-	
-	/**
-	 * Displays info on the mixed mode
-	 */
-	public void mixedinfo() {
-		// info.setText("Choose this mode to work with all of the types");
-		// JOptionPane.showMessageDialog(this, "We need help in putting something that is worthwhile in this box.");
-	}
-	
 	
 	@Override
 	public void paintComponent(Graphics g){
@@ -447,14 +396,14 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		private static final long serialVersionUID = 2993530244820621535L;
 		
-		int gameID;
-		int numPlayers; // 2 for now, but may introduce a solo mode or more than 2 players
-		String name;
-		String type;
-		String scoring;
-		String diff;
-		int rounds; //Number of rounds
-		ArrayList<User> players;
+		private int gameID;
+		private int numPlayers; // 2 for now, but may introduce a solo mode or more than 2 players
+		private String name;
+		private String type;
+		private String scoring;
+		private String diff;
+		private int rounds; //Number of rounds
+		private ArrayList<User> players;
 		
 		/**
 		 * @param ID - The ID of the game (the row number in database)

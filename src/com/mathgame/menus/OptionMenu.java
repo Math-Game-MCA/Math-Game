@@ -43,28 +43,28 @@ public class OptionMenu extends JPanel implements ActionListener {
 	
 	private static final long serialVersionUID = 2089592182201152773L;
 	
-	static final String BACKGROUND_FILE = "/images/background2.png";
+	private static final String BACKGROUND_FILE = "/images/background2.png";
 	
-	ImageIcon background;
+	private ImageIcon background;
 	
-	ButtonGroup diffGroup; // Easy, Medium, Hard
-	ArrayList<JCheckBox> types; // Integer, Decimal, Fraction (To be added: Negative, Exponents, Log)
-	ArrayList<JRadioButton> diffs;
+	private ButtonGroup diffGroup; // Easy, Medium, Hard
+	private ArrayList<JCheckBox> types; // Integer, Decimal, Fraction (To be added: Negative, Exponents, Log)
+	private ArrayList<JRadioButton> diffs;
 	
-	String[] typeNames = {"Integer", "Decimal", "Fraction"};
-	String[] diffNames = {"Easy", "Medium", "Hard"};
+	private String[] typeNames = {"Integer", "Decimal", "Fraction"};
+	private String[] diffNames = {"Easy", "Medium", "Hard"};
 	
-	Map<String, JToggleButton> buttonMap; // Associate buttons with their names for easy locating
+	private Map<String, JToggleButton> buttonMap; // Associate buttons with their names for easy locating
 	
-	JPanel typePanel;
-	JPanel diffPanel;
+	private JPanel typePanel;
+	private JPanel diffPanel;
 
-	GameButton cancel; // go back
-	GameButton play; // Click to play the game!
+	private GameButton cancel; // go back
+	private GameButton play; // Click to play the game!
 	
-	GridBagConstraints gbc;
+	private GridBagConstraints gbc;
 	
-	TypeManager tm;
+	private TypeManager tm;
 
 	public OptionMenu() {
 		this.tm = MathGame.getTypeManager();

@@ -26,9 +26,9 @@ public class OperationPanel extends JPanel
 	//TODO EXPONENT: Add the exponent card (DONE)
 
 	static final String IMAGE_FILE = "/images/Operation bar.png";
-	ImageIcon background;
+	private ImageIcon background;
 	
-	JLayeredPane masterLayer;
+	private JLayeredPane masterLayer;
 	
 	/**
 	 * Initialize the OperationPanel, using the MathGame as a JLayeredPane
