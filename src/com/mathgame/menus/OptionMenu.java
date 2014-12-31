@@ -183,11 +183,11 @@ public class OptionMenu extends JPanel implements ActionListener {
 		
 		// Allow options only for practice mode (competitive decided through in game menu)
 		if (e.getSource() == play) {
-			if (buttonMap.get("Integers").isSelected()) {
+			if (buttonMap.get(TypeManager.GameType.INTEGERS.gametypestring).isSelected()) {
 				tm.setType(GameType.INTEGERS);
-			} else if (buttonMap.get("Decimals").isSelected()) {
+			} else if (buttonMap.get(TypeManager.GameType.DECIMALS.gametypestring).isSelected()) {
 				tm.setType(GameType.DECIMALS);
-			} else if (buttonMap.get("Fractions").isSelected()) {
+			} else if (buttonMap.get(TypeManager.GameType.FRACTIONS.gametypestring).isSelected()) {
 				tm.setType(GameType.FRACTIONS);
 			} else {
 				tm.setType(GameType.INTEGERS);
@@ -195,13 +195,13 @@ public class OptionMenu extends JPanel implements ActionListener {
 			
 			// Etc.
 			
-			if (buttonMap.get("Easy").isSelected()) {
+			if (buttonMap.get(TypeManager.Difficulty.EASY.difficultystring).isSelected()) {
 				tm.setDiff(Difficulty.EASY);
 				tm.randomize();
-			} else if (buttonMap.get("Medium").isSelected()) {
+			} else if (buttonMap.get(TypeManager.Difficulty.MEDIUM.difficultystring).isSelected()) {
 				tm.setDiff(Difficulty.MEDIUM);
 				tm.randomize();
-			} else if (buttonMap.get("Hard").isSelected()) {
+			} else if (buttonMap.get(TypeManager.Difficulty.HARD.difficultystring).isSelected()) {
 				tm.setDiff(Difficulty.HARD);
 				tm.randomize();
 			}
