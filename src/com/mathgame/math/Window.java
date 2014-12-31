@@ -17,20 +17,17 @@ import com.mathgame.network.GameManager;
  * The Window class is where execution of Epsilon (the Math Game) begins
  */
 public class Window	{
-
-	static MathGame mg;
 	
 	private static void createAndShowGUI()	{
 		JFrame frame = new JFrame("Epsilon");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		mg = new MathGame();
-		frame.getContentPane().add(mg);
+		frame.getContentPane().add(new MathGame());
 		
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addWindowListener(new MathWindowListener());
-
+		
 		frame.setVisible(true);
 	}
 	
@@ -84,10 +81,10 @@ public class Window	{
 			}
 			
 			try {
-				if(mg.getMySQLAccess().getConnection().getWarnings() == null) {
-					mg.getMySQLAccess().connect();
+				if(MathGame.getMySQLAccess().getConnection().getWarnings() == null) {
+					MathGame.getMySQLAccess().connect();
 				}
-				mg.getMySQLAccess().removeUser();
+				MathGame.getMySQLAccess().removeUser();
 				GameManager.getMatchesAccess().removeGame();
 			} catch (Exception e) {
 				e.printStackTrace();

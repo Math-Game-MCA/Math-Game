@@ -258,64 +258,31 @@ public class MathGame extends Container {
 		gameMasterLayer.add(workPanel, new Integer(0));
 		gameMasterLayer.add(holdPanel, new Integer(0));
 
-		cardHomes[0] = cardPanel.card1.getBounds();
-		cardHomes[1] = cardPanel.card2.getBounds();
-		cardHomes[2] = cardPanel.card3.getBounds();
-		cardHomes[3] = cardPanel.card4.getBounds();
-		cardHomes[4] = cardPanel.card5.getBounds();
-		cardHomes[5] = cardPanel.card6.getBounds();
-		cardHomes[6] = cardPanel.ans.getBounds();
+		DropTarget dt = new DropTarget();
+		dt.setActive(false);
+		
+		for(int i = 0; i < cardPanel.getNumOfCards(); i++)	{
+			cardHomes[i] = cardPanel.getCards()[i].getBounds();
+			cards[i] = cardPanel.getCards()[i];
+			cardPanel.getCards()[i].setTransferHandler(new TransferHandler("text"));
+			cardPanel.getCards()[i].setDropTarget(dt);
+			cardPanel.getCards()[i].addMouseListener(mover);
+			cardPanel.getCards()[i].addMouseMotionListener(mover);
+			gameMasterLayer.add(cardPanel.getCards()[i], new Integer(1)); // Adding new integer ensures card is on top
+		}
+		cardHomes[6] = cardPanel.getAns().getBounds();
 		cardHomes[7] = opPanel.add.getBounds();
 		cardHomes[8] = opPanel.subtract.getBounds();
 		cardHomes[9] = opPanel.multiply.getBounds();
 		cardHomes[10] = opPanel.divide.getBounds();
 		cardHomes[11] = opPanel.exponent.getBounds();
 
-		cards[0] = cardPanel.card1;
-		cards[1] = cardPanel.card2;
-		cards[2] = cardPanel.card3;
-		cards[3] = cardPanel.card4;
-		cards[4] = cardPanel.card5;
-		cards[5] = cardPanel.card6;
-		cards[6] = cardPanel.ans;
+		cards[6] = cardPanel.getAns();
 		cards[7] = opPanel.add;
 		cards[8] = opPanel.subtract;
 		cards[9] = opPanel.multiply;
 		cards[10] = opPanel.divide;
 		cards[11] = opPanel.exponent;
-		
-		cardPanel.card1.setTransferHandler(new TransferHandler("text"));
-		cardPanel.card2.setTransferHandler(new TransferHandler("text"));
-		cardPanel.card3.setTransferHandler(new TransferHandler("text"));
-		cardPanel.card4.setTransferHandler(new TransferHandler("text"));
-		cardPanel.card5.setTransferHandler(new TransferHandler("text"));
-		cardPanel.card6.setTransferHandler(new TransferHandler("text"));
-
-		DropTarget dt = new DropTarget();
-		dt.setActive(false);
-		cardPanel.card1.setDropTarget(dt);
-		cardPanel.card2.setDropTarget(dt);
-		cardPanel.card3.setDropTarget(dt);
-		cardPanel.card4.setDropTarget(dt);
-		cardPanel.card5.setDropTarget(dt);
-		cardPanel.card6.setDropTarget(dt);
-		
-		//ACTION LISTENERS
-		
-		// Handles 6 cards
-		cardPanel.card1.addMouseListener(mover);
-		cardPanel.card2.addMouseListener(mover);
-		cardPanel.card3.addMouseListener(mover);
-		cardPanel.card4.addMouseListener(mover);
-		cardPanel.card5.addMouseListener(mover);
-		cardPanel.card6.addMouseListener(mover);
-
-		cardPanel.card1.addMouseMotionListener(mover);
-		cardPanel.card2.addMouseMotionListener(mover);
-		cardPanel.card3.addMouseMotionListener(mover);
-		cardPanel.card4.addMouseMotionListener(mover);
-		cardPanel.card5.addMouseMotionListener(mover);
-		cardPanel.card6.addMouseMotionListener(mover);
 
 		// Handles 4 operations
 		opPanel.add.addMouseListener(mover);
@@ -331,14 +298,8 @@ public class MathGame extends Container {
 		opPanel.exponent.addMouseMotionListener(mover);
 		
 		// Adds to layered pane to facilitate movement across ALL panels
-		gameMasterLayer.add(cardPanel.card1, new Integer(1)); // Adding new integer ensures card is on top
-		gameMasterLayer.add(cardPanel.card2, new Integer(1));
-		gameMasterLayer.add(cardPanel.card3, new Integer(1));
-		gameMasterLayer.add(cardPanel.card4, new Integer(1));
-		gameMasterLayer.add(cardPanel.card5, new Integer(1));
-		gameMasterLayer.add(cardPanel.card6, new Integer(1));
 
-		gameMasterLayer.add(cardPanel.ans, new Integer(1)); // Holds the answer
+		gameMasterLayer.add(cardPanel.getAns(), new Integer(1)); // Holds the answer
 		gameMasterLayer.add(opPanel.add, new Integer(1));
 		gameMasterLayer.add(opPanel.subtract, new Integer(1));
 		gameMasterLayer.add(opPanel.multiply, new Integer(1));

@@ -183,11 +183,11 @@ public class OptionMenu extends JPanel implements ActionListener {
 		
 		// Allow options only for practice mode (competitive decided through in game menu)
 		if (e.getSource() == play) {
-			if (buttonMap.get("Integer").isSelected()) {
+			if (buttonMap.get("Integers").isSelected()) {
 				tm.setType(GameType.INTEGERS);
-			} else if (buttonMap.get("Decimal").isSelected()) {
+			} else if (buttonMap.get("Decimals").isSelected()) {
 				tm.setType(GameType.DECIMALS);
-			} else if (buttonMap.get("Fraction").isSelected()) {
+			} else if (buttonMap.get("Fractions").isSelected()) {
 				tm.setType(GameType.FRACTIONS);
 			} else {
 				tm.setType(GameType.INTEGERS);

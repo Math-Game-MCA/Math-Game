@@ -16,20 +16,12 @@ import java.math.RoundingMode;
  */
 public class TypeManager {
 	
-	MySQLAccess sql;
-	
-	NumberCard card1;
-	NumberCard card2;
-	NumberCard card3;
-	NumberCard card4;
-	NumberCard card5;
-	NumberCard card6;
-	NumberCard ans;
+	private MySQLAccess sql;
 
-	CardPanel cP;
+	private CardPanel cP;
 
-	ArrayList<String> values;
-	ArrayList<Boolean> cardExists;
+	private ArrayList<String> values;
+	private ArrayList<Boolean> cardExists;
 	
 	/**
 	 * The GameType enumeration is used to distinguish between game types
@@ -126,14 +118,6 @@ public class TypeManager {
 	
 	public void init(CardPanel cP) {
 		this.cP = cP;
-		this.card1 = cP.card1;
-		this.card2 = cP.card2;
-		this.card3 = cP.card3;
-		this.card4 = cP.card4;
-		this.card5 = cP.card5;
-		this.card6 = cP.card6;
-		this.ans = cP.ans;
-
 		this.values = cP.values;
 	}
 
@@ -356,97 +340,45 @@ public class TypeManager {
 		if (gameType == GameType.FRACTIONS) {
 			ArrayList<Double> newValues = randomFractionValues();
 
-			card1.setStrValue(convertDecimaltoFraction(newValues.get(0)));
-			card2.setStrValue(convertDecimaltoFraction(newValues.get(1)));
-			card3.setStrValue(convertDecimaltoFraction(newValues.get(2)));
-			card4.setStrValue(convertDecimaltoFraction(newValues.get(3)));
-			card5.setStrValue(convertDecimaltoFraction(newValues.get(4)));
-			card6.setStrValue(convertDecimaltoFraction(newValues.get(5)));
-
-			values.set(0, card1.getStrValue());
-			values.set(1, card2.getStrValue());
-			values.set(2, card3.getStrValue());
-			values.set(3, card4.getStrValue());
-			values.set(4, card5.getStrValue());
-			values.set(5, card6.getStrValue());
-			ans.setStrValue(sql.getAnswer());
-			System.out.println(newValues.get(0));
+			for(int i = 0; i < cP.getNumOfCards(); i++)	{
+				cP.getCards()[i].setStrValue(convertDecimaltoFraction(newValues.get(i)));
+				values.set(i, cP.getCards()[i].getStrValue());
+				cP.getCards()[i].setValue(String.valueOf(newValues.get(i)));
+			}
 			
-			card1.setValue(String.valueOf(newValues.get(0)));
-			card2.setValue(String.valueOf(newValues.get(1)));
-			card3.setValue(String.valueOf(newValues.get(2)));
-			card4.setValue(String.valueOf(newValues.get(3)));
-			card5.setValue(String.valueOf(newValues.get(4)));
-			card6.setValue(String.valueOf(newValues.get(5)));
-			ans.setValue(String.valueOf(NumberCard.parseNumFromText(ans.getStrValue())));
-			// card1.parseNumFromText(newValues.get(3))
+			cP.getAns().setStrValue(sql.getAnswer());
+			cP.getAns().setValue(String.valueOf(NumberCard.parseNumFromText(cP.getAns().getStrValue())));
 		}
 		
 		else if(gameType == GameType.DECIMALS) {
 			ArrayList<Double> newValues = randomDecimalValues();
 
-			card1.setStrValue(String.valueOf(newValues.get(0)));
-			card2.setStrValue(String.valueOf(newValues.get(1)));
-			card3.setStrValue(String.valueOf(newValues.get(2)));
-			card4.setStrValue(String.valueOf(newValues.get(3)));
-			card5.setStrValue(String.valueOf(newValues.get(4)));
-			card6.setStrValue(String.valueOf(newValues.get(5)));
+			for(int i = 0; i < cP.getNumOfCards(); i++)	{
+				cP.getCards()[i].setStrValue(String.valueOf(newValues.get(i)));
+				values.set(i, cP.getCards()[i].getStrValue());
+				cP.getCards()[i].setValue(String.valueOf(newValues.get(i)));
+			}
 
-			values.set(0, card1.getStrValue());
-			values.set(1, card2.getStrValue());
-			values.set(2, card3.getStrValue());
-			values.set(3, card4.getStrValue());
-			values.set(4, card5.getStrValue());
-			values.set(5, card6.getStrValue());
-			ans.setStrValue(sql.getAnswer());
-			System.out.println(newValues.get(0));
-			
-			
-			card1.setValue(String.valueOf(newValues.get(0)));
-			card2.setValue(String.valueOf(newValues.get(1)));
-			card3.setValue(String.valueOf(newValues.get(2)));
-			card4.setValue(String.valueOf(newValues.get(3)));
-			card5.setValue(String.valueOf(newValues.get(4)));
-			card6.setValue(String.valueOf(newValues.get(5)));
-			ans.setValue(String.valueOf(NumberCard.parseNumFromText(ans.getStrValue())));
+			cP.getAns().setStrValue(sql.getAnswer());
+			cP.getAns().setValue(String.valueOf(NumberCard.parseNumFromText(cP.getAns().getStrValue())));
 		}
 		
 		else{
 			ArrayList<Integer> newValues = randomIntegerValues();
 
-			card1.setStrValue(String.valueOf(newValues.get(0)));
-			card2.setStrValue(String.valueOf(newValues.get(1)));
-			card3.setStrValue(String.valueOf(newValues.get(2)));
-			card4.setStrValue(String.valueOf(newValues.get(3)));
-			card5.setStrValue(String.valueOf(newValues.get(4)));
-			card6.setStrValue(String.valueOf(newValues.get(5)));
-
-			values.set(0, card1.getStrValue());
-			values.set(1, card2.getStrValue());
-			values.set(2, card3.getStrValue());
-			values.set(3, card4.getStrValue());
-			values.set(4, card5.getStrValue());
-			values.set(5, card6.getStrValue());
-			ans.setStrValue(sql.getAnswer());
-			System.out.println(newValues.get(0));
-			
-			
-			card1.setValue(String.valueOf(newValues.get(0)));
-			card2.setValue(String.valueOf(newValues.get(1)));
-			card3.setValue(String.valueOf(newValues.get(2)));
-			card4.setValue(String.valueOf(newValues.get(3)));
-			card5.setValue(String.valueOf(newValues.get(4)));
-			card6.setValue(String.valueOf(newValues.get(5)));
-			ans.setValue(String.valueOf(NumberCard.parseNumFromText(ans.getStrValue())));
+			for(int i = 0; i < cP.getNumOfCards(); i++)	{
+				cP.getCards()[i].setStrValue(String.valueOf(newValues.get(i)));
+				values.set(i, cP.getCards()[i].getStrValue());
+				cP.getCards()[i].setValue(String.valueOf(newValues.get(i)));
+			}
+			cP.getAns().setStrValue(sql.getAnswer());
+			cP.getAns().setValue(String.valueOf(NumberCard.parseNumFromText(cP.getAns().getStrValue())));
 		}
 		
 		// Tag each card with "home" (cardPanel) being original location
-		card1.setHome("home");
-		card2.setHome("home");
-		card3.setHome("home");
-		card4.setHome("home");
-		card5.setHome("home");
-		card6.setHome("home");
-		ans.setHome("home");
+		for(int i = 0; i < cP.getNumOfCards(); i++)	{
+			cP.getCards()[i].setHome("home");
+		}
+		cP.getAns().setHome("home");
 	}
 }

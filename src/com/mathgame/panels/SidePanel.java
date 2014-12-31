@@ -185,7 +185,7 @@ public class SidePanel extends JPanel implements ActionListener {
 				String actualAns; // The actual answer
 				if (finalAnsComp instanceof NumberCard) {
 					finalAnsCard = (NumberCard)finalAnsComp;
-					actualAns = MathGame.getCardPanel().ans.getValue();
+					actualAns = MathGame.getCardPanel().getAns().getValue();
 					computedAns = finalAnsCard.getValue(); 
 					System.out.println(actualAns + " ?= " + computedAns);
 					if (actualAns.equals(computedAns) ||

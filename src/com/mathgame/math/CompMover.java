@@ -132,18 +132,11 @@ public class CompMover extends MouseInputAdapter {
 				NumberCard temp = (NumberCard)selectedComponent;
 				if (temp.getHome() == "home") {
 					// Meaning the card originated from cardPanel
-					if (temp.getNumberTag() == MathGame.getCardPanel().card1.getNumberTag()) {
-						MathGame.getCardPanel().changeCardExistence(0, false);
-					} else if (temp.getNumberTag() == MathGame.getCardPanel().card2.getNumberTag()) {
-						MathGame.getCardPanel().changeCardExistence(1, false);
-					} else if (temp.getNumberTag() == MathGame.getCardPanel().card3.getNumberTag()) {
-						MathGame.getCardPanel().changeCardExistence(2, false);
-					} else if (temp.getNumberTag() == MathGame.getCardPanel().card4.getNumberTag()) {
-						MathGame.getCardPanel().changeCardExistence(3, false);
-					} else if (temp.getNumberTag() == MathGame.getCardPanel().card5.getNumberTag()) {
-						MathGame.getCardPanel().changeCardExistence(4, false);
-					} else if (temp.getNumberTag() == MathGame.getCardPanel().card6.getNumberTag()) {
-						MathGame.getCardPanel().changeCardExistence(5, false);
+					for(int i = 0; i < MathGame.getCardPanel().getNumOfCards(); i++)	{
+						if(temp.getNumberTag() == MathGame.getCardPanel().getCards()[i].getNumberTag()){
+							MathGame.getCardPanel().changeCardExistence(i, false);
+							break;
+						}
 					}
 				}
 				
@@ -209,18 +202,11 @@ public class CompMover extends MouseInputAdapter {
 				NumberCard temp = (NumberCard) selectedComponent;
 				if (temp.getHome() == "home") {
 					// Meaning it originated from cardPanel
-					if (temp.getNumberTag() == MathGame.getCardPanel().card1.getNumberTag()) {
-						MathGame.getCardPanel().changeCardExistence(0, false);
-					} else if (temp.getNumberTag() == MathGame.getCardPanel().card2.getNumberTag()) {
-						MathGame.getCardPanel().changeCardExistence(1, false);
-					} else if (temp.getNumberTag() == MathGame.getCardPanel().card3.getNumberTag()) {
-						MathGame.getCardPanel().changeCardExistence(2, false);
-					} else if (temp.getNumberTag() == MathGame.getCardPanel().card4.getNumberTag()) {
-						MathGame.getCardPanel().changeCardExistence(3, false);
-					} else if (temp.getNumberTag() == MathGame.getCardPanel().card5.getNumberTag()) {
-						MathGame.getCardPanel().changeCardExistence(4, false);
-					} else if (temp.getNumberTag() == MathGame.getCardPanel().card6.getNumberTag()) {
-						MathGame.getCardPanel().changeCardExistence(5, false);
+					for(int i = 0; i < MathGame.getCardPanel().getNumOfCards(); i++)	{
+						if(temp.getNumberTag() == MathGame.getCardPanel().getCards()[i].getNumberTag()){
+							MathGame.getCardPanel().changeCardExistence(i, false);
+							break;
+						}
 					}
 				}
 				MathGame.getMasterPane().remove(selectedComponent);
