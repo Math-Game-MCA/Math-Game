@@ -12,14 +12,11 @@ import javax.swing.JButton;
 import com.mathgame.math.MathGame;
 
 /**
- * A class that holds information to create a standard game button
+ * The GameButton class holds information to create a standard game button
  * @author Roland
  */
 public class GameButton extends JButton {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8003043712181506594L;
 
 	private static final String BG_FILE = "/images/DefaultButtonImage1.png";
@@ -37,31 +34,18 @@ public class GameButton extends JButton {
 
 	private Dimension size;
 
-	/**
-	 * Constructor
-	 * @param title
-	 * @param size
-	 */
 	public GameButton(String title, Dimension size) {
 		super(title);
 		this.size = size;
 		initButton();
 	}
-	
-	/**
-	 * Alternate constructor for default sized button
-	 * @param title
-	 */
+
 	public GameButton(String title) {
 		super(title);
 		size = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		initButton();
 	}
 
-	
-	/**
-	 * Alternate constructor for default sized, untitled button
-	 */
 	public GameButton() {
 		super();
 		size = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -69,7 +53,7 @@ public class GameButton extends JButton {
 	}
 	
 	/**
-	 * Creates the button specifications
+	 * Sets the button specifications
 	 */
 	private void initButton()	{
 		setSize(size);
@@ -82,7 +66,7 @@ public class GameButton extends JButton {
 	}
 	
 	/**
-	 * Tries to set the images for the button
+	 * Tries to set the images for the button (as part of initialization)
 	 */
 	private void setImages()	{
 		try	{

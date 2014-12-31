@@ -13,7 +13,11 @@ import javax.swing.JTextField;
 
 import com.mathgame.guicomponents.GameButton;
 import com.mathgame.math.MathGame;
+import com.mathgame.math.SoundManager;
 
+/**
+ * The RegisterMenu class represents the menu used to register new players
+ */
 public class RegisterMenu extends JPanel implements ActionListener{
 
 	private JLabel usernameLabel;
@@ -23,13 +27,9 @@ public class RegisterMenu extends JPanel implements ActionListener{
 	private GameButton registerButton;
 	private GameButton cancel;
 
-	private static ImageIcon background;
-	
 	private static final String IMAGE_FILE = "/images/backMulti.png";
-
-	static {
-		background = new ImageIcon(MultiMenu.class.getResource(IMAGE_FILE));
-	}
+	
+	private static ImageIcon background = new ImageIcon(MultiMenu.class.getResource(IMAGE_FILE));
 	
 	public RegisterMenu(){
 		setLayout(null);
@@ -67,19 +67,18 @@ public class RegisterMenu extends JPanel implements ActionListener{
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent a) {
-		if(a.getSource() == registerButton){
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof GameButton) {
+			SoundManager.playSound(SoundManager.SoundType.BUTTON);
+		}
+		
+		if(e.getSource() == registerButton){
 			MathGame.getMySQLAccess().registerUser(usernameField.getText(), passwordField.getText());
 			MathGame.showMenu(MathGame.Menu.LOGIN);
 		}
-		else if(a.getSource() == cancel){
+		else if(e.getSource() == cancel){
 			MathGame.showMenu(MathGame.Menu.LOGIN);
 		}
 		
 	}
-		
-	
-	
-	
-
 }

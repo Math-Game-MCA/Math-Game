@@ -42,11 +42,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	
 	private static final String IMAGE_FILE = "/images/backMulti.png";
 	
-	private static ImageIcon background;
-	
-	static {
-		background = new ImageIcon(MultiMenu.class.getResource(IMAGE_FILE));
-	}
+	private static ImageIcon background = new ImageIcon(MultiMenu.class.getResource(IMAGE_FILE));
 	
 	// Mouse coordinates
 	private int mx;
@@ -58,11 +54,11 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	private GameButton home; // Press to enter a game
 	private GameButton host; // Press to host a game
 	private GameButton join; // Press to join a game
-	private GameButton practice; // sends to practice mode
+	private GameButton practice; // Press to enter practice mode
 	private JTextArea usersList;
-	private JTextArea userProfile; // displays info about the selected user (win/loss, etc)
+	private JTextArea userProfile; // Displays info about the selected user (win/loss, etc)
 	
-	private final int NUMBEROFPLAYERS = 2;//TOOD: get rid of this
+	private final int NUMBER_PLAYERS = 2; //TODO Get rid of this
 	
 	private GameManager gameManager;
 	private ArrayList<String> usersArray;
@@ -132,7 +128,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		for(Game game : games) {
 			// For each game, create a gamecard
-			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), NUMBEROFPLAYERS, 
+			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), NUMBER_PLAYERS, 
 					game.getType(), game.getScoring(), game.getDiff(), game.getRounds());
 			gameCards.add(gc);
 		}
@@ -188,6 +184,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		if (e.getSource() instanceof JButton) {
 			SoundManager.playSound(SoundManager.SoundType.BUTTON);
 		}
+		
 		if(e.getSource() == home) {
 			MathGame.showMenu(MathGame.Menu.MAINMENU); // Return to the main menu
 			refreshTimer.stop();
@@ -211,7 +208,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		gameCards.clear();
 		
 		for(Game game : games) {
-			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), NUMBEROFPLAYERS, 
+			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), NUMBER_PLAYERS, 
 					game.getType(), game.getScoring(), game.getDiff(), game.getRounds());
 			gameCards.add(gc);
 		}
@@ -241,7 +238,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		int gameID = gameManager.hostGame(); // Needed so the game manager knows what game it's managing
 		g.setID(gameID);
 		games.add(g);
-		gameCards.add(new GameCard(gameID, "Game "+gameID, NUMBEROFPLAYERS,
+		gameCards.add(new GameCard(gameID, "Game "+gameID, NUMBER_PLAYERS,
 				g.getType(), g.getScoring(), g.getDiff(), g.getRounds()));
 		gamesList.add(gameCards.get(games.size() - 1));
 		GameManager.getMatchesAccess().setMatchNum(gameID); 

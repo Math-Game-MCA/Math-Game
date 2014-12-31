@@ -22,7 +22,6 @@ public class MathGame extends Container {
 	public static final double epsilon = 0.000000000001; // 10^-12, equivalent to TI-84 precision
 	public static final String[] operations = {"+", "-", "*", "/"};
 	public static final String[] scorings = {"Complexity", "Speed", "Mix"}; // Mixed scoring is a combination of speed and complexity
-	
 
 	public static final Font eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
 	public static final Font eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
@@ -119,8 +118,23 @@ public class MathGame extends Container {
 	private static MySQLAccess sql;
 	private SwingWorker<Boolean, Void> backgroundConnect;
 	private static User thisUser;
-
+	
+	/**
+	 * cards[0] -> cards[5] are the number cards that the player uses (indexed from left to right when initialized)
+	 * <p>
+	 * cards[6] is the answer card, which contains the result the player is trying to arrive at
+	 * <p>
+	 * cards[7] -> cards[11] are the operation cards (addition, subtraction, multiplication, division, exponentiation)
+	 */
 	private static JLabel[] cards = new JLabel[12]; // card1, card2..opA,S...
+	
+	/**
+	 * cards[0] -> cards[5] are the number cards that the player uses (indexed from left to right, when initialized)
+	 * <p>
+	 * cards[6] is the answer card, which contains the result the player is trying to arrive at
+	 * <p>
+	 * cards[7] -> cards[11] are the operation cards (addition, subtraction, multiplication, division, exponentiation)
+	 */
 	private static Rectangle[] cardHomes = new Rectangle[12]; // home1, home2...opA,S...
 
 	private static TypeManager typeManager;
@@ -180,7 +194,7 @@ public class MathGame extends Container {
 						System.out.println("CONNNNNNNNNECTEDDDDDD TO db");
 					dbConnected = true;
 				}
-				gameManager = new GameManager();//since this requires the connection to be established
+				gameManager = new GameManager(); // Since this requires the connection to be established
 
 				multiMenu = new MultiMenu();
 				multiMenu.init(typeManager);
@@ -298,7 +312,6 @@ public class MathGame extends Container {
 		opPanel.exponent.addMouseMotionListener(mover);
 		
 		// Adds to layered pane to facilitate movement across ALL panels
-
 		gameMasterLayer.add(cardPanel.getAns(), new Integer(1)); // Holds the answer
 		gameMasterLayer.add(opPanel.add, new Integer(1));
 		gameMasterLayer.add(opPanel.subtract, new Integer(1));
@@ -421,14 +434,14 @@ public class MathGame extends Container {
 	}
 	
 	/**
-	 * @return A JLabel array of all Cards (NumberCards and OperationCards)
+	 * @return The JLabel array of all Cards (NumberCards and OperationCards)
 	 */
 	public static JLabel[] getCards() {
 		return cards;
 	}
 	
 	/**
-	 * @return A Rectangle array of all Card bounds
+	 * @return The Rectangle array of all Card bounds
 	 */
 	public static Rectangle[] getCardHomes() {
 		return cardHomes;
@@ -442,7 +455,7 @@ public class MathGame extends Container {
 	}
 	
 	/**
-	 * @return The current user (associated with the MathGame object)
+	 * @return The current user (that is associated with the MathGame object)
 	 */
 	public static User getUser() {
 		return thisUser;
@@ -456,35 +469,28 @@ public class MathGame extends Container {
 	}
 
 	/**
-	 * @return the dbConnected
+	 * @return True if connected to the database
 	 */
 	public static boolean isDbConnected() {
 		return dbConnected;
 	}
 
 	/**
-	 * @param dbConnected the dbConnected to set
-	 */
-	public static void setDbConnected(boolean dbConnected) {
-		MathGame.dbConnected = dbConnected;
-	}
-
-	/**
-	 * @return the appWidth
+	 * @return The width of the MathGame application
 	 */
 	public static int getAppWidth() {
 		return MathGame.size.width;
 	}
 
 	/**
-	 * @return the appHeight
+	 * @return The height of the MathGame application
 	 */
 	public static int getAppHeight() {
 		return MathGame.size.height;
 	}
 	
 	/**
-	 * @return the appSize
+	 * @return The Dimension of the MathGame application
 	 */
 	public static Dimension getAppSize()	{
 		return MathGame.size;

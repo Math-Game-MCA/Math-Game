@@ -32,9 +32,9 @@ public class TypeManager {
 		FRACTIONS ("Fractions"),
 		MIXED ("Mixed");
 		
-		public final String gametypestring;
-		GameType(String gametypestring) {
-			this.gametypestring = gametypestring;
+		public final String gameTypeString;
+		GameType(String gameTypeString) {
+			this.gameTypeString = gameTypeString;
 		}
 	};
 	
@@ -46,9 +46,9 @@ public class TypeManager {
 		MEDIUM ("Medium"),
 		HARD ("Hard");
 		
-		public final String difficultystring;
-		Difficulty(String difficultystring) {
-			this.difficultystring = difficultystring;
+		public final String difficultyString;
+		Difficulty(String difficultyString) {
+			this.difficultyString = difficultyString;
 		}
 	};
 	
@@ -116,6 +116,9 @@ public class TypeManager {
 		return gameDiff;
 	}
 	
+	/**
+	 * @param cP - The CardPanel which the game cards are from
+	 */
 	public void init(CardPanel cP) {
 		this.cP = cP;
 		this.values = cP.values;

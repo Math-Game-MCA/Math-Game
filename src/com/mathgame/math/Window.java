@@ -37,7 +37,6 @@ public class Window	{
 				createAndShowGUI();
 			}
 		});
-
 	}
 	
 	private static class MathWindowListener implements WindowListener{

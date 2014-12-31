@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 
 /**
  * The SoundManager class is responsible for the sound effects and volume control of the Math Game
+ * @author Raziq
  */
 public class SoundManager {
 

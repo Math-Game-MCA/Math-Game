@@ -18,16 +18,14 @@ import javax.swing.JTextField;
 
 import com.mathgame.guicomponents.GameButton;
 import com.mathgame.math.MathGame;
+import com.mathgame.math.SoundManager;
 
 /**
+ * The LoginMenu class represents the menu that lets players log in when the game is opened
  * @author Roland, Noah
- *
  */
 public class LoginMenu extends JPanel implements ActionListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7263913541929112166L;
 	
 	private JLabel title;
@@ -38,12 +36,9 @@ public class LoginMenu extends JPanel implements ActionListener {
 	private GameButton login;
 	private GameButton register;
 
-	private static ImageIcon background;
-
 	private static final String IMAGE_FILE = "/images/backMulti.png";
-	static {
-		background = new ImageIcon(LoginMenu.class.getResource(IMAGE_FILE));
-	}
+	
+	private static ImageIcon background = new ImageIcon(LoginMenu.class.getResource(IMAGE_FILE));
 	
 	public LoginMenu()	{
 		setLayout(null);
@@ -88,6 +83,10 @@ public class LoginMenu extends JPanel implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof JButton) {
+			SoundManager.playSound(SoundManager.SoundType.BUTTON);
+		}
+		
 		if(e.getSource() == login)	{
 			if(usernameField.getText().equals("") || passwordField.getPassword().length == 0)	{
 				JOptionPane.showMessageDialog(this, "Please Enter a Username and Password");

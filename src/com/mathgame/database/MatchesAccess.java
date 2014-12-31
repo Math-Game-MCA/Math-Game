@@ -49,7 +49,7 @@ public class MatchesAccess extends MySQLAccess {
 	
 	/**
 	 * Hosts a new game
-	 * @return The match number of the game (given by the database)
+	 * @return The match number ID(?) of the new game (from the database)
 	 */
 	public int hostGame() {
 		
@@ -97,9 +97,10 @@ public class MatchesAccess extends MySQLAccess {
 	}
 	
 	/**
-	 * Joins a game (of the given gameID) that is being hosted
+	 * Join the specified game that is being hosted
+	 * @param gameID - The ID of the game to be joined
 	 */
-	public void joinGame (int gameID) {
+	public void joinGame(int gameID) {
 		try {
 			statement = connection.createStatement();
 		} catch (SQLException e) {
@@ -147,8 +148,9 @@ public class MatchesAccess extends MySQLAccess {
 	
 	/**
 	 * Update the score of the match
+	 * @param score - The round score to add 
 	 */
-	public void updateScore (int score) {
+	public void updateScore(int score) {
 		try {
 			statement = connection.createStatement();
 		} catch (SQLException e) {
@@ -185,8 +187,8 @@ public class MatchesAccess extends MySQLAccess {
 	}
 	
 	/**
-	 * Checks whether the game is full (yet); if so, start the game
-	 * @return Whether the game is full (true) or not
+	 * Checks whether the game is full (yet) and should be started
+	 * @return True if the game is full
 	 */
 	public boolean checkForFullGame() {
 		try {
@@ -226,7 +228,7 @@ public class MatchesAccess extends MySQLAccess {
 	
 	/**
 	 * Checks whether both players' scores have been updated
-	 * @return Whether the scores have been updated (true) or not
+	 * @return True if the scores have been updated
 	 */
 	public boolean checkForPlayersScoresUpdated(int currentScore1, int currentScore2) {		
 		try {
@@ -319,8 +321,8 @@ public class MatchesAccess extends MySQLAccess {
 	
 	/**
 	 * @param matchID - Match number
-	 * @param playerID - The id of the player you want (player1, player2....)
-	 * @return name of the player
+	 * @param playerID - The ID of the player you want (player1, player2....)
+	 * @return The name of the player (or "DB Fail" if an exception occurs)
 	 */
 	public String getPlayerName(int matchID, int playerID){
 		try {
@@ -329,7 +331,7 @@ public class MatchesAccess extends MySQLAccess {
 			return resultSet.getString("Player"+playerID);
 		} catch(SQLException e){
 			e.printStackTrace();
+			return "DB Fail";
 		}
-		return "DB Fail";
 	}
 }

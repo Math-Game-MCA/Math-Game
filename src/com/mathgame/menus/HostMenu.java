@@ -157,7 +157,7 @@ public class HostMenu extends JPanel implements ActionListener {
 	private void initTypePanel() {
 		types = new ArrayList<JCheckBox>();
 		for(GameType s : TypeManager.GameType.values()) {
-			types.add(new JCheckBox(s.gametypestring));
+			types.add(new JCheckBox(s.gameTypeString));
 		}
 		typePanel = new JPanel();
 		typeLabel = new JLabel("Number Type:");
@@ -167,8 +167,8 @@ public class HostMenu extends JPanel implements ActionListener {
 		typePanel.setOpaque(false);
 		for(int i = 0; i < types.size(); i++) {
 			typePanel.add(types.get(i));
-			buttonMap.put(TypeManager.GameType.values()[i].gametypestring, types.get(i));
-			types.get(i).setActionCommand(TypeManager.GameType.values()[i].gametypestring);
+			buttonMap.put(TypeManager.GameType.values()[i].gameTypeString, types.get(i));
+			types.get(i).setActionCommand(TypeManager.GameType.values()[i].gameTypeString);
 			types.get(i).setOpaque(false);
 			// types.get(i).addActionListener(this);
 		}
@@ -180,7 +180,7 @@ public class HostMenu extends JPanel implements ActionListener {
 	private void initDiffPanel() {
 		diffs = new ArrayList<JRadioButton>();
 		for(TypeManager.Difficulty s : TypeManager.Difficulty.values()) {
-			diffs.add(new JRadioButton(s.difficultystring));
+			diffs.add(new JRadioButton(s.difficultyString));
 		}
 		diffPanel = new JPanel();
 		diffGroup = new ButtonGroup();
@@ -192,8 +192,8 @@ public class HostMenu extends JPanel implements ActionListener {
 		for(int i = 0; i < diffs.size(); i++) {
 			diffGroup.add(diffs.get(i));
 			diffPanel.add(diffs.get(i));
-			buttonMap.put(TypeManager.Difficulty.values()[i].difficultystring, diffs.get(i));
-			diffs.get(i).setActionCommand(TypeManager.Difficulty.values()[i].difficultystring);
+			buttonMap.put(TypeManager.Difficulty.values()[i].difficultyString, diffs.get(i));
+			diffs.get(i).setActionCommand(TypeManager.Difficulty.values()[i].difficultyString);
 			diffs.get(i).setOpaque(false);
 			// diffs.get(i).addActionListener(this);
 		}

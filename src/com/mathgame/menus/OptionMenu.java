@@ -39,7 +39,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 
 	//TODO Use tooltips when hovering over button
 	//TODO Undecided about scoring... Will sort it out later
-	//TODO Beautify layout some more (i.e. customize JRadioButtons, or perhaps extend Swing elements
+	//TODO Beautify layout some more (i.e. customize JRadioButtons, or perhaps extend Swing elements)
 	
 	private static final long serialVersionUID = 2089592182201152773L;
 	
@@ -56,7 +56,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 	private JPanel typePanel;
 	private JPanel diffPanel;
 
-	private GameButton cancel; // go back
+	private GameButton cancel; // Go back
 	private GameButton play; // Click to play the game!
 	
 	private GridBagConstraints gbc;
@@ -116,12 +116,12 @@ public class OptionMenu extends JPanel implements ActionListener {
 	}
 	
 	/**
-	 * Initializes the types panel
+	 * Initializes the game type panel
 	 */
 	private void initTypes() {
 		types = new ArrayList<JCheckBox>();
 		for (GameType s : TypeManager.GameType.values()) {
-			types.add(new JCheckBox(s.gametypestring));
+			types.add(new JCheckBox(s.gameTypeString));
 		}
 		typePanel = new JPanel();
 		typePanel.setLayout(new GridBagLayout());
@@ -132,7 +132,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 			gbc.gridx = 0;
 			gbc.gridy = i; // Layout buttons going down same column
 			typePanel.add(types.get(i), gbc);
-			buttonMap.put(TypeManager.GameType.values()[i].gametypestring, types.get(i));
+			buttonMap.put(TypeManager.GameType.values()[i].gameTypeString, types.get(i));
 			types.get(i).setOpaque(false);
 			// types.get(i).addActionListener(this);
 		}
@@ -144,7 +144,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 	private void initDiffs() {
 		diffs = new ArrayList<JRadioButton>();
 		for (TypeManager.Difficulty s : TypeManager.Difficulty.values()) {
-			diffs.add(new JRadioButton(s.difficultystring));
+			diffs.add(new JRadioButton(s.difficultyString));
 		}
 		diffPanel = new JPanel();
 		diffGroup = new ButtonGroup();
@@ -157,7 +157,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 			gbc.gridx = 0;
 			gbc.gridy = i; // Layout buttons going down same column
 			diffPanel.add(diffs.get(i), gbc);
-			buttonMap.put(TypeManager.Difficulty.values()[i].difficultystring, diffs.get(i));
+			buttonMap.put(TypeManager.Difficulty.values()[i].difficultyString, diffs.get(i));
 			diffs.get(i).setOpaque(false);
 			// diffs.get(i).addActionListener(this);
 		}
@@ -183,11 +183,11 @@ public class OptionMenu extends JPanel implements ActionListener {
 		
 		// Allow options only for practice mode (competitive decided through in game menu)
 		if (e.getSource() == play) {
-			if (buttonMap.get(TypeManager.GameType.INTEGERS.gametypestring).isSelected()) {
+			if (buttonMap.get(TypeManager.GameType.INTEGERS.gameTypeString).isSelected()) {
 				tm.setType(GameType.INTEGERS);
-			} else if (buttonMap.get(TypeManager.GameType.DECIMALS.gametypestring).isSelected()) {
+			} else if (buttonMap.get(TypeManager.GameType.DECIMALS.gameTypeString).isSelected()) {
 				tm.setType(GameType.DECIMALS);
-			} else if (buttonMap.get(TypeManager.GameType.FRACTIONS.gametypestring).isSelected()) {
+			} else if (buttonMap.get(TypeManager.GameType.FRACTIONS.gameTypeString).isSelected()) {
 				tm.setType(GameType.FRACTIONS);
 			} else {
 				tm.setType(GameType.INTEGERS);
@@ -195,13 +195,13 @@ public class OptionMenu extends JPanel implements ActionListener {
 			
 			// Etc.
 			
-			if (buttonMap.get(TypeManager.Difficulty.EASY.difficultystring).isSelected()) {
+			if (buttonMap.get(TypeManager.Difficulty.EASY.difficultyString).isSelected()) {
 				tm.setDiff(Difficulty.EASY);
 				tm.randomize();
-			} else if (buttonMap.get(TypeManager.Difficulty.MEDIUM.difficultystring).isSelected()) {
+			} else if (buttonMap.get(TypeManager.Difficulty.MEDIUM.difficultyString).isSelected()) {
 				tm.setDiff(Difficulty.MEDIUM);
 				tm.randomize();
-			} else if (buttonMap.get(TypeManager.Difficulty.HARD.difficultystring).isSelected()) {
+			} else if (buttonMap.get(TypeManager.Difficulty.HARD.difficultyString).isSelected()) {
 				tm.setDiff(Difficulty.HARD);
 				tm.randomize();
 			}
