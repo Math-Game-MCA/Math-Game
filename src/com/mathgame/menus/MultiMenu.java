@@ -374,7 +374,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		System.out.println("Mouse Exited Button");
+		
 	}
 
 	@Override

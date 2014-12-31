@@ -20,7 +20,9 @@ public class MathGame extends Container {
 	
 	//Global Variables (Public)
 	public static final double epsilon = 0.000000000001; // 10^-12, equivalent to TI-84 precision
-	public static final String operations[] = {"+", "-", "*", "/"};
+	public static final String[] operations = {"+", "-", "*", "/"};
+	public static final String[] scorings = {"Complexity", "Speed", "Mix"}; // Mixed scoring is a combination of speed and complexity
+	
 
 	public static final Font eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
 	public static final Font eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
@@ -164,7 +166,6 @@ public class MathGame extends Container {
 			@Override
 			protected void done() {
 				boolean connected = false;
-				System.out.println("trying");
 				try {
 					connected = get();
 				} catch (InterruptedException e) {

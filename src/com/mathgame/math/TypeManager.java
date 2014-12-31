@@ -35,19 +35,29 @@ public class TypeManager {
 	 * The GameType enumeration is used to distinguish between game types
 	 */
 	public static enum GameType {
-		INTEGERS,
-		DECIMALS,
-		FRACTIONS,
-		MIXED
+		INTEGERS ("Integers"),
+		DECIMALS ("Decimals"),
+		FRACTIONS ("Fractions"),
+		MIXED ("Mixed");
+		
+		public final String gametypestring;
+		GameType(String gametypestring) {
+			this.gametypestring = gametypestring;
+		}
 	};
 	
 	/**
 	 * The Difficulty enumeration is used to distinguish between levels of difficulty
 	 */
 	public static enum Difficulty {
-		EASY,
-		MEDIUM,
-		HARD
+		EASY ("Easy"),
+		MEDIUM ("Medium"),
+		HARD ("Hard");
+		
+		public final String difficultystring;
+		Difficulty(String difficultystring) {
+			this.difficultystring = difficultystring;
+		}
 	};
 	
 	GameType gameType;

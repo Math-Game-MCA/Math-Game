@@ -4,6 +4,8 @@ import javax.swing.*;
 
 import com.mathgame.guicomponents.GameButton;
 import com.mathgame.math.MathGame;
+import com.mathgame.math.TypeManager;
+import com.mathgame.math.TypeManager.GameType;
 import com.mathgame.network.Game;
 import com.mathgame.network.GameManager;
 
@@ -23,21 +25,19 @@ import java.util.Map;
  */
 public class HostMenu extends JPanel implements ActionListener {
 
-	//TODO Link variables from menu to other variables (i.e. difficulty & number type variables)
-	//TODO Work on actions to put choice into var 
 	//TODO Get user input for name of game & create the location to do that
 	
 	private static final long serialVersionUID = -5507870440809320516L;
 	
-	MultiMenu multiMenu;
+	private MultiMenu multiMenu;
 	
-	int players; // # of players (currently 2)
-	int rounds; // # of rounds (1-5)
-	String type; // number type (Fraction, Decimal, Integer)
-	String scoring; // scoring (Complexity, Speed, Mix)
-	String diff; // difficulty (easy, Medium, HARD)
+	private int players; // # of players (currently 2)
+	private int rounds; // # of rounds (1-5)
+	private String type; // number type (Fraction, Decimal, Integer)
+	private String scoring; // scoring (Complexity, Speed, Mix)
+	private String diff; // difficulty (easy, Medium, HARD)
 	
-	static final String BACKGROUND_FILE = "/images/background2.png";
+	private static final String BACKGROUND_FILE = "/images/background2.png";
 	
 	private static ImageIcon background;
 	
@@ -50,11 +50,6 @@ public class HostMenu extends JPanel implements ActionListener {
 	private ArrayList<JCheckBox> types; // Integer, Decimal, Fraction (To be added: Negative, Exponents, Log)
 	private ArrayList<JRadioButton> diffs;
 	private ArrayList<JRadioButton> scorings;
-	
-	//TODO Make these strings in MathGame class for use in all classes
-	private String[] typeNames = {"Integer", "Decimal", "Fraction"};
-	private String[] diffNames = {"Easy", "Medium", "Hard"};
-	private String[] scoringNames = {"Complexity", "Speed", "Mix"}; // Mixed scoring is a combination of speed and complexity
 	
 	private JSpinner roundsSpinner; // Displaying number of rounds
 	// private JSpinner playersSpinner; // Displaying number of players
@@ -161,8 +156,8 @@ public class HostMenu extends JPanel implements ActionListener {
 	 */
 	private void initTypePanel() {
 		types = new ArrayList<JCheckBox>();
-		for(String s : typeNames) {
-			types.add(new JCheckBox(s));
+		for(GameType s : TypeManager.GameType.values()) {
+			types.add(new JCheckBox(s.gametypestring));
 		}
 		typePanel = new JPanel();
 		typeLabel = new JLabel("Number Type:");
@@ -172,8 +167,8 @@ public class HostMenu extends JPanel implements ActionListener {
 		typePanel.setOpaque(false);
 		for(int i = 0; i < types.size(); i++) {
 			typePanel.add(types.get(i));
-			buttonMap.put(typeNames[i], types.get(i));
-			types.get(i).setActionCommand(typeNames[i]);
+			buttonMap.put(TypeManager.GameType.values()[i].gametypestring, types.get(i));
+			types.get(i).setActionCommand(TypeManager.GameType.values()[i].gametypestring);
 			types.get(i).setOpaque(false);
 			// types.get(i).addActionListener(this);
 		}
@@ -184,8 +179,8 @@ public class HostMenu extends JPanel implements ActionListener {
 	 */
 	private void initDiffPanel() {
 		diffs = new ArrayList<JRadioButton>();
-		for(String s : diffNames) {
-			diffs.add(new JRadioButton(s));
+		for(TypeManager.Difficulty s : TypeManager.Difficulty.values()) {
+			diffs.add(new JRadioButton(s.difficultystring));
 		}
 		diffPanel = new JPanel();
 		diffGroup = new ButtonGroup();
@@ -197,8 +192,8 @@ public class HostMenu extends JPanel implements ActionListener {
 		for(int i = 0; i < diffs.size(); i++) {
 			diffGroup.add(diffs.get(i));
 			diffPanel.add(diffs.get(i));
-			buttonMap.put(diffNames[i], diffs.get(i));
-			diffs.get(i).setActionCommand(diffNames[i]);
+			buttonMap.put(TypeManager.Difficulty.values()[i].difficultystring, diffs.get(i));
+			diffs.get(i).setActionCommand(TypeManager.Difficulty.values()[i].difficultystring);
 			diffs.get(i).setOpaque(false);
 			// diffs.get(i).addActionListener(this);
 		}
@@ -224,7 +219,7 @@ public class HostMenu extends JPanel implements ActionListener {
 	 */
 	private void initScoringPanel()	{
 		scorings = new ArrayList<JRadioButton>();
-		for(String s : scoringNames) {
+		for(String s : MathGame.scorings) {
 			scorings.add(new JRadioButton(s));
 		}
 		scoringPanel = new JPanel();
@@ -237,8 +232,8 @@ public class HostMenu extends JPanel implements ActionListener {
 		for(int i = 0; i < scorings.size(); i++) {
 			scoringGroup.add(scorings.get(i));
 			scoringPanel.add(scorings.get(i));
-			buttonMap.put(scoringNames[i], scorings.get(i));
-			scorings.get(i).setActionCommand(scoringNames[i]);
+			buttonMap.put(MathGame.scorings[i], scorings.get(i));
+			scorings.get(i).setActionCommand(MathGame.scorings[i]);
 			scorings.get(i).setOpaque(false);
 			// scorings.get(i).addActionListener(this);
 		}

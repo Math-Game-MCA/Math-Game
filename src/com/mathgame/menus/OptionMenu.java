@@ -51,9 +51,6 @@ public class OptionMenu extends JPanel implements ActionListener {
 	private ArrayList<JCheckBox> types; // Integer, Decimal, Fraction (To be added: Negative, Exponents, Log)
 	private ArrayList<JRadioButton> diffs;
 	
-	private String[] typeNames = {"Integer", "Decimal", "Fraction"};
-	private String[] diffNames = {"Easy", "Medium", "Hard"};
-	
 	private Map<String, JToggleButton> buttonMap; // Associate buttons with their names for easy locating
 	
 	private JPanel typePanel;
@@ -123,8 +120,8 @@ public class OptionMenu extends JPanel implements ActionListener {
 	 */
 	private void initTypes() {
 		types = new ArrayList<JCheckBox>();
-		for (String s : typeNames) {
-			types.add(new JCheckBox(s));
+		for (GameType s : TypeManager.GameType.values()) {
+			types.add(new JCheckBox(s.gametypestring));
 		}
 		typePanel = new JPanel();
 		typePanel.setLayout(new GridBagLayout());
@@ -135,7 +132,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 			gbc.gridx = 0;
 			gbc.gridy = i; // Layout buttons going down same column
 			typePanel.add(types.get(i), gbc);
-			buttonMap.put(typeNames[i], types.get(i));
+			buttonMap.put(TypeManager.GameType.values()[i].gametypestring, types.get(i));
 			types.get(i).setOpaque(false);
 			// types.get(i).addActionListener(this);
 		}
@@ -146,8 +143,8 @@ public class OptionMenu extends JPanel implements ActionListener {
 	 */
 	private void initDiffs() {
 		diffs = new ArrayList<JRadioButton>();
-		for (String s : diffNames) {
-			diffs.add(new JRadioButton(s));
+		for (TypeManager.Difficulty s : TypeManager.Difficulty.values()) {
+			diffs.add(new JRadioButton(s.difficultystring));
 		}
 		diffPanel = new JPanel();
 		diffGroup = new ButtonGroup();
@@ -160,7 +157,7 @@ public class OptionMenu extends JPanel implements ActionListener {
 			gbc.gridx = 0;
 			gbc.gridy = i; // Layout buttons going down same column
 			diffPanel.add(diffs.get(i), gbc);
-			buttonMap.put(diffNames[i], diffs.get(i));
+			buttonMap.put(TypeManager.Difficulty.values()[i].difficultystring, diffs.get(i));
 			diffs.get(i).setOpaque(false);
 			// diffs.get(i).addActionListener(this);
 		}
