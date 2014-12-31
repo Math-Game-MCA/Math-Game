@@ -73,7 +73,7 @@ public class LoginMenu extends JPanel implements ActionListener {
 		login.addActionListener(this);
 		
 		register = new GameButton("Register");
-		register.setLocation(400,360);
+		register.setLocation(400,350);
 		register.addActionListener(this);
 		
 		
