@@ -31,8 +31,6 @@ public class SidePanel extends JPanel implements ActionListener {
 	private ScoringSystem scorekeeper;
 	
 	private JLabel clock;
-	private JLabel pass; // Counts how many you get right
-	private JLabel fail; // Counts how many you get wrong
 	private JLabel score;
 	private JLabel vs;
 
@@ -89,9 +87,6 @@ public class SidePanel extends JPanel implements ActionListener {
 		undo = new UndoButton("Undo Move");
 		reset = new GameButton("Reset");
 		vs = new JLabel();
-
-		pass = new JLabel("Correct: " + correct);
-		fail = new JLabel("Wrong: " + wrong);
 
 		background = new ImageIcon(SidePanel.class.getResource(IMAGE_FILE));
 
@@ -321,15 +316,9 @@ public class SidePanel extends JPanel implements ActionListener {
 					"Are you sure you want to exit?", "Exit",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, null, null) == 0) {
-				if (MathGame.getGameState() == GameState.PRACTICE) {
-					score.setText("0.0"); // Reset the score
-					resetFunction(); // Reset the workspace and cardpanels
-					MathGame.showMenu(MathGame.Menu.MAINMENU); // Open the main menu
-				} else if(MathGame.getGameState() == GameState.COMPETITIVE) {
-					score.setText("0.0"); // Reset the score
-					resetFunction(); // Reset the workspace and cardpanels
-					MathGame.showMenu(MathGame.Menu.MULTIMENU); // Open the multiplayer menu
-				}
+				score.setText("0.0"); // Reset the score
+				resetFunction(); // Reset the workspace and cardpanels
+				MathGame.showMenu(MathGame.Menu.MULTIMENU); // Open the multiplayer menu
 			}
 		}
 

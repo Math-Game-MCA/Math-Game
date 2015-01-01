@@ -26,6 +26,7 @@ import com.mathgame.guicomponents.GameButton;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
 import com.mathgame.math.TypeManager;
+import com.mathgame.math.MathGame.GameState;
 import com.mathgame.network.Game;
 import com.mathgame.network.GameManager;
 import com.mathgame.network.User;
@@ -189,11 +190,15 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 			MathGame.showMenu(MathGame.Menu.MAINMENU); // Return to the main menu
 			refreshTimer.stop();
 		} else if(e.getSource() == host) {
+			MathGame.setGameState(GameState.COMPETITIVE);
+			((HostMenu)MathGame.getMenu(MathGame.Menu.HOSTMENU)).configureMultiplayer();
 			MathGame.showMenu(MathGame.Menu.HOSTMENU);
 		} else if(e.getSource() == join) {
 		}
 		else if(e.getSource() == practice) {
-			MathGame.showMenu(MathGame.Menu.OPTIONMENU);// select practice options
+			MathGame.setGameState(GameState.PRACTICE);
+			((HostMenu)MathGame.getMenu(MathGame.Menu.HOSTMENU)).configurePractice();
+			MathGame.showMenu(MathGame.Menu.HOSTMENU);// select practice options
 			refreshTimer.stop();
 		}
 	}

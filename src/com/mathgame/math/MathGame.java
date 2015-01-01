@@ -23,10 +23,10 @@ public class MathGame extends Container {
 	public static final String[] operations = {"+", "-", "*", "/"};
 	public static final String[] scorings = {"Complexity", "Speed", "Mix"}; // Mixed scoring is a combination of speed and complexity
 
-	public static final Font eurostile36 = new Font("Eurostile", Font.PLAIN, 36);
-	public static final Font eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
-	public static final Font eurostile20 = new Font("Eurostile", Font.PLAIN, 20);
-	public static final Font eurostile16 = new Font("Eurostile", Font.PLAIN, 16);
+	public static final Font eurostile36 = new Font("Eurostile-Normal", Font.PLAIN, 36);
+	public static final Font eurostile24 = new Font("Eurostile-Normal", Font.PLAIN, 24);
+	public static final Font eurostile20 = new Font("Eurostile-Normal", Font.PLAIN, 20);
+	public static final Font eurostile16 = new Font("Eurostile-Normal", Font.PLAIN, 16);
 	
 	private static final Dimension size = new Dimension(900, 620);
 	
@@ -35,7 +35,6 @@ public class MathGame extends Container {
 	private static RegisterMenu registerMenu;
 	private static MainMenu mainMenu;
 	private static MultiMenu multiMenu;
-	private static OptionMenu optionMenu;
 	private static HostMenu hostMenu;
 
 	/**
@@ -66,11 +65,6 @@ public class MathGame extends Container {
 		 * The multiplayer menu
 		 */
 		MULTIMENU ("CardLayoutPanel Multiplayer"),
-		
-		/**
-		 * The game options (aka setup) menu
-		 */
-		OPTIONMENU ("CardLayoutPanel OptionMenu"),
 		
 		/**
 		 * The menu for hosting new games
@@ -229,9 +223,6 @@ public class MathGame extends Container {
 		gameMasterLayer.setBounds(5, 0, size.width, size.height);//originally used getSize function
 
 		typeManager = new TypeManager();
-		
-		optionMenu = new OptionMenu();
-		optionMenu.setBounds(0, 0, size.width, size.height);
 
 		mover = new CompMover();
 		
@@ -259,7 +250,6 @@ public class MathGame extends Container {
 		cardLayoutPanels.add(registerMenu, Menu.REGISTER.cardLayoutString);
 		cardLayoutPanels.add(mainMenu, Menu.MAINMENU.cardLayoutString);
 		cardLayoutPanels.add(gameMasterLayer, Menu.GAME.cardLayoutString);
-		cardLayoutPanels.add(optionMenu, Menu.OPTIONMENU.cardLayoutString);
 		cl = (CardLayout) cardLayoutPanels.getLayout();
 		// cl.show(cardLayoutPanels, MENU);
 		add(cardLayoutPanels);
@@ -354,8 +344,6 @@ public class MathGame extends Container {
 			return mainMenu;
 		case MULTIMENU:
 			return multiMenu;
-		case OPTIONMENU:
-			return optionMenu;
 		case HOSTMENU:
 			return hostMenu;
 		default:

@@ -5,6 +5,7 @@ import javax.swing.*;
 import com.mathgame.guicomponents.GameButton;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager;
+import com.mathgame.math.TypeManager.Difficulty;
 import com.mathgame.math.TypeManager.GameType;
 import com.mathgame.network.Game;
 import com.mathgame.network.GameManager;
@@ -42,7 +43,7 @@ public class HostMenu extends JPanel implements ActionListener {
 	private static ImageIcon background;
 	
 	static {
-		background = new ImageIcon(OptionMenu.class.getResource(BACKGROUND_FILE));
+		background = new ImageIcon(HostMenu.class.getResource(BACKGROUND_FILE));
 	}
 	
 	private ButtonGroup diffGroup; // Easy, Medium, Hard
@@ -110,23 +111,24 @@ public class HostMenu extends JPanel implements ActionListener {
 		initRoundPanel();
 		initScoringPanel();
 		
-		gbc.gridx = 0;
-		gbc.gridy = 0;
+		// gbc.gridx = 0;
+		// gbc.gridy = 0;
 		// add(playerPanel, gbc);
+		gbc.insets = new Insets(5, 5, 5, 5);
 		gbc.gridx = 0;
-		gbc.gridy = 1;
+		gbc.gridy = 0;
 		add(typePanel, gbc);
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		add(diffPanel, gbc);
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		add(roundPanel, gbc);
+		add(diffPanel, gbc);
+		gbc.gridx = 2;
+		gbc.gridy = 0;
+		add(scoringPanel, gbc);
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		add(scoringPanel, gbc);
+		add(roundPanel, gbc);
 
-		gbc.gridx = 1;
+		gbc.gridx = 0;
 		gbc.gridy = 2;
 		add(finish, gbc);
 		gbc.gridx = 2;
@@ -161,11 +163,12 @@ public class HostMenu extends JPanel implements ActionListener {
 		}
 		typePanel = new JPanel();
 		typeLabel = new JLabel("Number Type:");
-		typeLabel.setFont(MathGame.eurostile24);
+		typeLabel.setFont(MathGame.eurostile36);
 		typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.PAGE_AXIS));
 		typePanel.add(typeLabel);
 		typePanel.setOpaque(false);
 		for(int i = 0; i < types.size(); i++) {
+			types.get(i).setFont(MathGame.eurostile24);
 			typePanel.add(types.get(i));
 			buttonMap.put(TypeManager.GameType.values()[i].gameTypeString, types.get(i));
 			types.get(i).setActionCommand(TypeManager.GameType.values()[i].gameTypeString);
@@ -185,11 +188,12 @@ public class HostMenu extends JPanel implements ActionListener {
 		diffPanel = new JPanel();
 		diffGroup = new ButtonGroup();
 		diffLabel = new JLabel("Difficulty:");
-		diffLabel.setFont(MathGame.eurostile24);;
+		diffLabel.setFont(MathGame.eurostile36);
 		diffPanel.setLayout(new BoxLayout(diffPanel, BoxLayout.PAGE_AXIS));
 		diffPanel.add(diffLabel);
 		diffPanel.setOpaque(false);
 		for(int i = 0; i < diffs.size(); i++) {
+			diffs.get(i).setFont(MathGame.eurostile24);
 			diffGroup.add(diffs.get(i));
 			diffPanel.add(diffs.get(i));
 			buttonMap.put(TypeManager.Difficulty.values()[i].difficultyString, diffs.get(i));
@@ -207,9 +211,9 @@ public class HostMenu extends JPanel implements ActionListener {
 		// Choose from 1 to 5 rounds, with a default of 3 rounds
 		roundsModel = new SpinnerNumberModel(3, 1, 5, 1);
 		roundsSpinner = new JSpinner(roundsModel);
-		roundsSpinner.setFont(MathGame.eurostile24);
+		roundsSpinner.setFont(MathGame.eurostile36);
 		roundLabel = new JLabel("# Rounds:");
-		roundLabel.setFont(MathGame.eurostile24);
+		roundLabel.setFont(MathGame.eurostile36);
 		roundPanel.add(roundLabel);
 		roundPanel.add(roundsSpinner);
 	}
@@ -226,10 +230,11 @@ public class HostMenu extends JPanel implements ActionListener {
 		scoringGroup = new ButtonGroup();
 		scoringPanel.setLayout(new BoxLayout(scoringPanel, BoxLayout.PAGE_AXIS));
 		scoringLabel = new JLabel("Scoring:");
-		scoringLabel.setFont(MathGame.eurostile24);
+		scoringLabel.setFont(MathGame.eurostile36);
 		scoringPanel.add(scoringLabel);
 		scoringPanel.setOpaque(false);
 		for(int i = 0; i < scorings.size(); i++) {
+			scorings.get(i).setFont(MathGame.eurostile24);
 			scoringGroup.add(scorings.get(i));
 			scoringPanel.add(scorings.get(i));
 			buttonMap.put(MathGame.scorings[i], scorings.get(i));
@@ -241,33 +246,90 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == finish)	{
-			addGame();
-			MathGame.getCardPanel().hideCards(); // Hide cards until next player joins
-			MathGame.showMenu(MathGame.Menu.GAME); // Go to the game (but should it wait?)
-			Thread waitForPlayer = new Thread()	{
-					public void run() {
-						while(!MathGame.getGameManager().gameFilled()) {
-							System.out.println("waiting"); // Wait until the game is filled
-						}
-						MathGame.getCardPanel().showCards();
-						MathGame.getSidePanel().startTimer(type);
-						MathGame.getSidePanel().setUpMultiplayer();
-						MathGame.getGameManager();
-						
-						//Get the names of the other players
-						int numPlayers = MathGame.getGameManager().getGame().getNumberOfPlayers();
-						for(int i=1; i<=numPlayers; i++)
-						{							
-							MathGame.getGameManager().getGame().addPlayer(GameManager.getMatchesAccess().getPlayerName(MathGame.getGameManager().getGame().getID(), i));
-						}
-					}
-			};
-			waitForPlayer.start();
-			MathGame.getUser().setPlayerID(1);
+			if(MathGame.getGameState() == MathGame.GameState.PRACTICE)
+				startPractice();
+			else if(MathGame.getGameState() == MathGame.GameState.COMPETITIVE)
+				startMultiplayer();
 		}
 		else if(e.getSource() == cancel) {
 			MathGame.showMenu(MathGame.Menu.MULTIMENU); // Return to the multiplayer menu
 		}
+	}
+	
+	/**
+	 * Changes layout for practice
+	 */
+	public void configurePractice()	{
+		scoringPanel.setVisible(false);
+		roundPanel.setVisible(false);
+	}
+	
+	/**
+	 * Changes layout for multiplayer
+	 */
+	public void configureMultiplayer()	{
+		scoringPanel.setVisible(true);
+		roundPanel.setVisible(true);
+	}
+	
+	/**
+	 * Starts a practice game (single player)
+	 */
+	private void startPractice()	{
+		if (buttonMap.get(TypeManager.GameType.INTEGERS.gameTypeString).isSelected()) {
+			MathGame.getTypeManager().setType(GameType.INTEGERS);
+		} else if (buttonMap.get(TypeManager.GameType.DECIMALS.gameTypeString).isSelected()) {
+			MathGame.getTypeManager().setType(GameType.DECIMALS);
+		} else if (buttonMap.get(TypeManager.GameType.FRACTIONS.gameTypeString).isSelected()) {
+			MathGame.getTypeManager().setType(GameType.FRACTIONS);
+		} else {
+			MathGame.getTypeManager().setType(GameType.INTEGERS);
+		}
+		
+		if (buttonMap.get(TypeManager.Difficulty.EASY.difficultyString).isSelected()) {
+			MathGame.getTypeManager().setDiff(Difficulty.EASY);
+			MathGame.getTypeManager().randomize();
+		} else if (buttonMap.get(TypeManager.Difficulty.MEDIUM.difficultyString).isSelected()) {
+			MathGame.getTypeManager().setDiff(Difficulty.MEDIUM);
+			MathGame.getTypeManager().randomize();
+		} else if (buttonMap.get(TypeManager.Difficulty.HARD.difficultyString).isSelected()) {
+			MathGame.getTypeManager().setDiff(Difficulty.HARD);
+			MathGame.getTypeManager().randomize();
+		}
+		System.out.println("ENTER GAME");
+		MathGame.showMenu(MathGame.Menu.GAME);
+		MathGame.getSidePanel().startTimer("Mix"); //TODO Hardcoded to mixed scoring
+		MathGame.getTypeManager().init(MathGame.getCardPanel());
+	}
+	
+	/**
+	 * Starts a multiplayer game
+	 */
+	private void startMultiplayer()	{
+		addGame();
+		MathGame.getCardPanel().hideCards(); // Hide cards until next player joins
+		System.out.println("ENTER GAME");
+		MathGame.showMenu(MathGame.Menu.GAME); // Go to the game (but should it wait?)
+		Thread waitForPlayer = new Thread()	{
+				public void run() {
+					while(!MathGame.getGameManager().gameFilled()) {
+						System.out.println("waiting"); // Wait until the game is filled
+					}
+					MathGame.getCardPanel().showCards();
+					MathGame.getSidePanel().startTimer(type);
+					MathGame.getSidePanel().setUpMultiplayer();
+					MathGame.getGameManager();
+					
+					//Get the names of the other players
+					int numPlayers = MathGame.getGameManager().getGame().getNumberOfPlayers();
+					for(int i=1; i<=numPlayers; i++)
+					{							
+						MathGame.getGameManager().getGame().addPlayer(GameManager.getMatchesAccess().getPlayerName(MathGame.getGameManager().getGame().getID(), i));
+					}
+				}
+		};
+		waitForPlayer.start();
+		MathGame.getUser().setPlayerID(1);
 	}
 	
 	/**
