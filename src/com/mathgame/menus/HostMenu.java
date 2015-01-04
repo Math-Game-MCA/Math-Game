@@ -344,19 +344,19 @@ public class HostMenu extends JPanel implements ActionListener {
 		scoring = scoringGroup.getSelection().getActionCommand();
 
 		//TODO Set capability for multiple (instead of first one picked)
-		if(buttonMap.get("Integer").isSelected()) {
+		if(buttonMap.get(TypeManager.GameType.INTEGERS.gameTypeString).isSelected()) {
 			multiMenu.chooseInteger();
-			type = "Integer";
-		} else if(buttonMap.get("Decimal").isSelected()) {
+			type = TypeManager.GameType.INTEGERS.gameTypeString;
+		} else if(buttonMap.get(TypeManager.GameType.DECIMALS.gameTypeString).isSelected()) {
 			multiMenu.chooseDecimal();	
-			type = "Decimal";
-		} else if(buttonMap.get("Fraction").isSelected())	{
+			type = TypeManager.GameType.DECIMALS.gameTypeString;
+		} else if(buttonMap.get(TypeManager.GameType.FRACTIONS.gameTypeString).isSelected())	{
 			multiMenu.chooseFraction();
-			type = "Fraction";
+			type = TypeManager.GameType.FRACTIONS.gameTypeString;
 		} else {
 			// The default game type is "Integer" (for now)
 			multiMenu.chooseInteger();
-			type = "Integer";
+			type = TypeManager.GameType.INTEGERS.gameTypeString;
 		}
 		
 		// Etc.
@@ -373,7 +373,7 @@ public class HostMenu extends JPanel implements ActionListener {
 		MathGame.getTypeManager().setType(type);
 		MathGame.getTypeManager().randomize();
 		// FOR DEBUGGING PURPOSES ONLY: 
-		MathGame.showMenu(MathGame.Menu.MULTIMENU);
+		//MathGame.showMenu(MathGame.Menu.MULTIMENU);
 		//TODO Go directly to game and make sure game waits for another player
 		System.out.println("CREATED NEW GAME");
 	}
