@@ -164,11 +164,13 @@ public class HostMenu extends JPanel implements ActionListener {
 		typePanel = new JPanel();
 		typeLabel = new JLabel("Number Type:");
 		typeLabel.setFont(MathGame.eurostile36);
+		typeLabel.setForeground(MathGame.offWhite);
 		typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.PAGE_AXIS));
 		typePanel.add(typeLabel);
 		typePanel.setOpaque(false);
 		for(int i = 0; i < types.size(); i++) {
 			types.get(i).setFont(MathGame.eurostile24);
+			types.get(i).setForeground(MathGame.offWhite);
 			typePanel.add(types.get(i));
 			buttonMap.put(TypeManager.GameType.values()[i].gameTypeString, types.get(i));
 			types.get(i).setActionCommand(TypeManager.GameType.values()[i].gameTypeString);
@@ -189,11 +191,13 @@ public class HostMenu extends JPanel implements ActionListener {
 		diffGroup = new ButtonGroup();
 		diffLabel = new JLabel("Difficulty:");
 		diffLabel.setFont(MathGame.eurostile36);
+		diffLabel.setForeground(MathGame.offWhite);
 		diffPanel.setLayout(new BoxLayout(diffPanel, BoxLayout.PAGE_AXIS));
 		diffPanel.add(diffLabel);
 		diffPanel.setOpaque(false);
 		for(int i = 0; i < diffs.size(); i++) {
 			diffs.get(i).setFont(MathGame.eurostile24);
+			diffs.get(i).setForeground(MathGame.offWhite);
 			diffGroup.add(diffs.get(i));
 			diffPanel.add(diffs.get(i));
 			buttonMap.put(TypeManager.Difficulty.values()[i].difficultyString, diffs.get(i));
@@ -231,10 +235,12 @@ public class HostMenu extends JPanel implements ActionListener {
 		scoringPanel.setLayout(new BoxLayout(scoringPanel, BoxLayout.PAGE_AXIS));
 		scoringLabel = new JLabel("Scoring:");
 		scoringLabel.setFont(MathGame.eurostile36);
+		scoringLabel.setForeground(MathGame.offWhite);
 		scoringPanel.add(scoringLabel);
 		scoringPanel.setOpaque(false);
 		for(int i = 0; i < scorings.size(); i++) {
 			scorings.get(i).setFont(MathGame.eurostile24);
+			scorings.get(i).setForeground(MathGame.offWhite);
 			scoringGroup.add(scorings.get(i));
 			scoringPanel.add(scorings.get(i));
 			buttonMap.put(MathGame.scorings[i], scorings.get(i));

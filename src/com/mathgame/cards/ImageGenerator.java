@@ -10,6 +10,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.mathgame.math.MathGame;
+
 /**
  * The ImageGenerator class generates images for cards when given a mathematical expression.
  * It is intended to support integers, decimals, fractions, exponents, and (in the future) logarithms
@@ -19,9 +21,6 @@ public class ImageGenerator {
 	
 	private BufferedImage img;
 	private Graphics2D g2d;
-	private static final Font sansSerif24 = new Font("SansSerif", Font.PLAIN, 24);
-	private static final Font sansSerif20 = new Font("SansSerif", Font.PLAIN, 20);
-	private static final Font sansSerif16 = new Font("SansSerif", Font.PLAIN, 16);
 	private String imgFile;
 	private File outf;
 	
@@ -50,10 +49,10 @@ public class ImageGenerator {
 		e = e.trim(); // Remove leading and trailing whitespaces
 		
 		g2d = img.createGraphics();
-		FontMetrics metrics24 = g2d.getFontMetrics(sansSerif24);
-		FontMetrics metrics20 = g2d.getFontMetrics(sansSerif20);
-		FontMetrics metrics16 = g2d.getFontMetrics(sansSerif16);
-		g2d.setFont(sansSerif24);
+		FontMetrics metrics24 = g2d.getFontMetrics(MathGame.eurostile24);
+		FontMetrics metrics20 = g2d.getFontMetrics(MathGame.eurostile20);
+		FontMetrics metrics16 = g2d.getFontMetrics(MathGame.eurostile16);
+		g2d.setFont(MathGame.eurostile24);
 		g2d.setColor(Color.white);
 		g2d.fillRect(0, 0, width, height);
 		g2d.setColor(Color.black);
@@ -101,11 +100,11 @@ public class ImageGenerator {
 			g2d.drawString(hold[0], 
 					(width / 2) - (metrics24.stringWidth(hold[0]) / 2) - (metrics16.stringWidth(hold[1]) / 4), 
 					(height / 2) + (metrics24.getHeight() / 2));
-			g2d.setFont(sansSerif16);
+			g2d.setFont(MathGame.eurostile16);
 			g2d.drawString(hold[1], 
 					(width / 2) + (metrics24.stringWidth(hold[0]) / 2) - (metrics16.stringWidth(hold[1]) / 4), 
 					(height / 2) - (metrics24.getHeight() / 2) + (metrics16.getHeight() / 2));
-			g2d.setFont(sansSerif24);
+			g2d.setFont(MathGame.eurostile24);
 		} else if (e.contains("_") && e.contains("(") && e.contains(")")) {
 			//This expression contains a logarithm of the form: log_x(n)
 			
@@ -125,20 +124,20 @@ public class ImageGenerator {
 				hold[2] = hold[2].substring(0, hold[2].length() - 1);
 			}
 
-			g2d.setFont(sansSerif20);
+			g2d.setFont(MathGame.eurostile20);
 			g2d.drawString(hold[0], 
 					(width / 2) - ((metrics20.stringWidth(hold[0]) + metrics16.stringWidth(hold[1]) + metrics20.stringWidth(hold[2])) / 2), 
 					(height / 2) + (metrics20.getHeight() / 2));
-			g2d.setFont(sansSerif16);
+			g2d.setFont(MathGame.eurostile16);
 			g2d.drawString(hold[1], 
 					(width / 2) - ((metrics20.stringWidth(hold[0]) + metrics16.stringWidth(hold[1]) + metrics20.stringWidth(hold[2])) / 2) + metrics20.stringWidth(hold[0]), 
 					(height / 2) + (metrics20.getHeight() / 2) + (metrics16.getHeight() / 2));
-			g2d.setFont(sansSerif20);
+			g2d.setFont(MathGame.eurostile20);
 			g2d.drawString(hold[2], 
 					(width / 2) - ((metrics20.stringWidth(hold[0]) + metrics16.stringWidth(hold[1]) + metrics20.stringWidth(hold[2])) / 2)
 							+ metrics20.stringWidth(hold[0]) + metrics16.stringWidth(hold[1]), 
 					(height / 2) + (metrics20.getHeight() / 2));
-			g2d.setFont(sansSerif24);
+			g2d.setFont(MathGame.eurostile24);
 			
 		} else if(e.contains(".")) {
 			// The expression contains a decimal
