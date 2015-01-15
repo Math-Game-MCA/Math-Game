@@ -29,7 +29,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	
 	private static final long serialVersionUID = -3036828086937465893L;
 	
-	private static final String IMAGE_FILE = "/images/backa.png";
+	private static final String IMAGE_FILE = "/images/backb.png";
 	
 	private ImageIcon background;
 	

@@ -28,7 +28,6 @@ public class LoginMenu extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 7263913541929112166L;
 	
-	private JLabel title;
 	private JLabel usernameLabel;
 	private JLabel passwordLabel;
 	private JTextField usernameField;
@@ -36,43 +35,37 @@ public class LoginMenu extends JPanel implements ActionListener {
 	private GameButton login;
 	private GameButton register;
 
-	private static final String IMAGE_FILE = "/images/backMulti.png";
+	private static final String IMAGE_FILE = "/images/backa.png";
 	
 	private static ImageIcon background = new ImageIcon(LoginMenu.class.getResource(IMAGE_FILE));
 	
 	public LoginMenu()	{
 		setLayout(null);
 		
-		title = new JLabel("Epsilon");
-		title.setFont(MathGame.eurostile36);
-		title.setBounds(395, 120, 110, 50);
-		
 		usernameLabel = new JLabel("Username:");
 		usernameLabel.setFont(MathGame.eurostile24);
-		usernameLabel.setBounds(320, 200, 110, 30);
+		usernameLabel.setBounds(320, 350, 110, 30);
 		
 		passwordLabel = new JLabel("Password:");
 		passwordLabel.setFont(MathGame.eurostile24);
-		passwordLabel.setBounds(320, 240, 110, 30);
+		passwordLabel.setBounds(320, 390, 110, 30);
 		
 		usernameField = new JTextField();
 		usernameField.setFont(MathGame.eurostile24);
-		usernameField.setBounds(440, 200, 150, 30);
+		usernameField.setBounds(440, 350, 150, 30);
 		
 		passwordField = new JPasswordField();
 		passwordField.setFont(MathGame.eurostile24);
-		passwordField.setBounds(440, 240, 150, 30);
+		passwordField.setBounds(440, 390, 150, 30);
 		
 		login = new GameButton("Log In");
-		login.setLocation(400, 290);
+		login.setLocation(400, 440);
 		login.addActionListener(this);
 		
 		register = new GameButton("Register");
-		register.setLocation(400,350);
+		register.setLocation(400, 500);
 		register.addActionListener(this);
 		
-		
-		this.add(title);
 		this.add(usernameLabel);
 		this.add(passwordLabel);
 		this.add(usernameField);
