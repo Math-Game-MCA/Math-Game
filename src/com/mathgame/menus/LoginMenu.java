@@ -3,6 +3,7 @@
  */
 package com.mathgame.menus;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -44,10 +45,12 @@ public class LoginMenu extends JPanel implements ActionListener {
 		
 		usernameLabel = new JLabel("Username:");
 		usernameLabel.setFont(MathGame.eurostile24);
+		usernameLabel.setForeground(MathGame.offWhite);
 		usernameLabel.setBounds(320, 350, 110, 30);
 		
 		passwordLabel = new JLabel("Password:");
 		passwordLabel.setFont(MathGame.eurostile24);
+		passwordLabel.setForeground(MathGame.offWhite);
 		passwordLabel.setBounds(320, 390, 110, 30);
 		
 		usernameField = new JTextField();

@@ -23,10 +23,12 @@ public class MathGame extends Container {
 	public static final String[] operations = {"+", "-", "*", "/"};
 	public static final String[] scorings = {"Complexity", "Speed", "Mix"}; // Mixed scoring is a combination of speed and complexity
 
-	public static final Font eurostile36 = new Font("Agency FB", Font.PLAIN, 36);
-	public static final Font eurostile24 = new Font("Agency FB", Font.PLAIN, 24);
-	public static final Font eurostile20 = new Font("Agency FB", Font.PLAIN, 20);
-	public static final Font eurostile16 = new Font("Agency FB", Font.PLAIN, 16);
+	public static final Font eurostile36 = new Font("Impact", Font.PLAIN, 36);
+	public static final Font eurostile24 = new Font("Impact", Font.PLAIN, 24);
+	public static final Font eurostile20 = new Font("Impact", Font.PLAIN, 20);
+	public static final Font eurostile16 = new Font("Impact", Font.PLAIN, 16);
+	
+	public static final Color offWhite = new Color(255, 255, 204);
 	
 	private static final Dimension size = new Dimension(900, 620);
 	
