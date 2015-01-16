@@ -35,7 +35,6 @@ public class CompMover extends MouseInputAdapter {
 	
 	/**
 	 * The constructor (which should only be called in the MathGame class)
-	 * @param mathGame - The MathGame object (It is recommended to pass "MathGame.this" as an argument)
 	 */
 	public CompMover() {
 		draggingCard = false;

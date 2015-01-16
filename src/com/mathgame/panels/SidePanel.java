@@ -7,6 +7,7 @@ import com.mathgame.cards.OperationCard;
 import com.mathgame.cardmanager.UndoButton;
 import com.mathgame.database.MatchesAccess;
 import com.mathgame.guicomponents.GameButton;
+import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
 import com.mathgame.math.TypeManager;
@@ -171,7 +172,8 @@ public class SidePanel extends JPanel implements ActionListener {
 			}
 		} else if (e.getSource() == help) {
 			//TODO Decide function of Help (on website or in-game or just a hint)
-			JOptionPane.showMessageDialog(this, "Instructions go here");
+			//JOptionPane.showMessageDialog(this, "Instructions go here");
+			GameDialogFactory.showGameMessageDialog(this, "Help", "Instructions go here", GameDialogFactory.GameDialog.OK);
 		} else if (e.getSource() == checkAns) {
 			if (MathGame.getWorkspacePanel().getComponentCount() == 1) {
 				NumberCard finalAnsCard;
@@ -275,9 +277,11 @@ public class SidePanel extends JPanel implements ActionListener {
 							
 							SoundManager.playSound(SoundManager.SoundType.SUCCESS);
 							
-							JOptionPane.showMessageDialog(this, "Congratulations!  Victory is yours! Points earned: " +
-									scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex() + 1));
-							
+							/*JOptionPane.showMessageDialog(this, "Congratulations!  Victory is yours! Points earned: " +
+									scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex() + 1));*/
+							GameDialogFactory.showGameMessageDialog(this, "Congratulations!",
+									"Victory is yours! Points earned: " + scorekeeper.uponWinning(
+									System.currentTimeMillis(), undo.getIndex() + 1), GameDialogFactory.GameDialog.OK);
 							//TODO Use sound, not dialog
 							//TODO Fix single player scoring system
 						}
@@ -291,7 +295,9 @@ public class SidePanel extends JPanel implements ActionListener {
 					}
 					else {
 						SoundManager.playSound(SoundManager.SoundType.INCORRECT);
-						JOptionPane.showMessageDialog(this, "Incorrect answer.  Try again.");
+						//JOptionPane.showMessageDialog(this, "Incorrect answer.  Try again.");
+						GameDialogFactory.showGameMessageDialog(this, "Sorry", 
+								"Incorrect answer.  Try again.", GameDialogFactory.GameDialog.OK);
 						scorekeeper.uponDeduction(1);
 						points = (int) scorekeeper.getTotalScore();
 						score.setText(Integer.toString(points));
@@ -301,7 +307,9 @@ public class SidePanel extends JPanel implements ActionListener {
 				
 			} else {
 				// IF there is more than one card in the WorkPanel
-				JOptionPane.showMessageDialog(this, "Error.  Cannot evaluate answer");
+				//JOptionPane.showMessageDialog(this, "Error.  Cannot evaluate answer");
+				GameDialogFactory.showGameMessageDialog(this, "Sorry", 
+						"Cannot evaluate answer.", GameDialogFactory.GameDialog.OK);
 				System.out.println("ERROR.. cannot check answer for this");
 			}
 		} else if(e.getSource() == undo) {

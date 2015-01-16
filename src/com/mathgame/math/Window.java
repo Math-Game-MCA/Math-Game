@@ -27,7 +27,7 @@ public class Window	{
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addWindowListener(new MathWindowListener());
-		
+		frame.setLocationRelativeTo(null);//center the game on screen
 		frame.setVisible(true);
 	}
 	

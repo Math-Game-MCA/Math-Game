@@ -18,6 +18,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.mathgame.guicomponents.GameButton;
+import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
 
@@ -85,7 +86,8 @@ public class LoginMenu extends JPanel implements ActionListener {
 		
 		if(e.getSource() == login)	{
 			if(usernameField.getText().equals("") || passwordField.getPassword().length == 0)	{
-				JOptionPane.showMessageDialog(this, "Please Enter a Username and Password");
+				//JOptionPane.showMessageDialog(this, "Please Enter a Username and Password");
+				GameDialogFactory.showGameMessageDialog(this, "Error", "Please Enter a Username and Password", GameDialogFactory.GameDialog.OK);
 			}
 			else	{
 				System.out.println("user name is " + usernameField.getText());
@@ -94,7 +96,8 @@ public class LoginMenu extends JPanel implements ActionListener {
 				
 				if(MathGame.getMySQLAccess().loginUser(u, p) == false)
 				{
-					JOptionPane.showMessageDialog(this, "Wrong username or password");
+					//JOptionPane.showMessageDialog(this, "Wrong username or password");
+					GameDialogFactory.showGameMessageDialog(this, "Error", "Wrong username or password", GameDialogFactory.GameDialog.OK);
 					System.out.println("Invalid username or password");
 					return;
 				}					

@@ -176,16 +176,6 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		System.out.println("Menu Init Complete");
 	}
 	
-	/**
-	 * @deprecated
-	 * Prompts the user for their username
-	 */
-	public void getUser() {
-		String name = JOptionPane.showInputDialog(this, "User Name");
-		System.out.println("user name is " + name);
-		MathGame.getUser().setName(name);
-	}
-	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof GameButton) {
 			SoundManager.playSound(SoundManager.SoundType.BUTTON);
@@ -301,7 +291,8 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	 */
 	public void exit() {
 		//TODO Decide on exit implementation (perhaps show an html webpage "thanks for playing")?
-		JOptionPane.showMessageDialog(this, "Game cannot exit from this button yet. Please use the x button @ top right", null, JOptionPane.WARNING_MESSAGE, null);
+		//Perhaps turn this into a Log-off button?
+		//JOptionPane.showMessageDialog(this, "Game cannot exit from this button yet. Please use the x button @ top right", null, JOptionPane.WARNING_MESSAGE, null);
 	}
 	
 	@Override

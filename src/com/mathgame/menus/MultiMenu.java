@@ -23,6 +23,7 @@ import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
 
 import com.mathgame.guicomponents.GameButton;
+import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
 import com.mathgame.math.TypeManager;
@@ -459,7 +460,10 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 						MathGame.getSidePanel().startTimer(tempCard.getType());
 						MathGame.getSidePanel().setUpMultiplayer();
 					} else {
-						JOptionPane.showMessageDialog(MathGame.getMenu(MathGame.Menu.MULTIMENU).getTopLevelAncestor(), "This game is full");
+						//JOptionPane.showMessageDialog(MathGame.getMenu(MathGame.Menu.MULTIMENU).getTopLevelAncestor(), "This game is full");
+						GameDialogFactory.showGameMessageDialog(
+								MathGame.getMenu(MathGame.Menu.MULTIMENU).getTopLevelAncestor(), 
+								"Message", "This game is full", GameDialogFactory.GameDialog.OK);
 						GameManager.getMatchesAccess().setMatchNum(-1); // The game is full, so do not join
 					}
 				}
