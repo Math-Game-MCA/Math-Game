@@ -26,9 +26,14 @@ import com.mathgame.math.MathGame;
  * @author Roland
  *
  */
-public class GameDialogFactory {
+public class GameDialogFactory	{
+
+	public static final int OK = 0;
+	public static final int OK_CANCEL = 1;
 	
 	private static GameDialog diag;
+	
+	private static int choice;
 	
 	/**
 	 * Creates a customized messagebox
@@ -38,18 +43,87 @@ public class GameDialogFactory {
 	 * @param type include ok button or cancel button
 	 */
 	public static void showGameMessageDialog(Component parent, String title, String message, int type)	{
-		diag = new GameDialogFactory().new GameDialog(title, message, type);
-	}
-	
-	public static int showGameOptionDialog(Component parent, Object message, String title, int messageType, Icon icon, Object[] selectionVals, Object initSelectionVal)	{
-		return 0;
-	}
-	
-	public class GameDialog extends JDialog implements ActionListener	{
-
-		public static final int OK = 0;
-		public static final int OK_CANCEL = 1;
+		JPanel contents = new JPanel();
+		contents.setLayout(new BoxLayout(contents, BoxLayout.PAGE_AXIS));
+		contents.setBackground(MathGame.offWhite);
+		((JPanel)contents).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
+		JLabel mLabel = new JLabel(message);
+		mLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		mLabel.setFont(MathGame.eurostile20);
+		contents.add(mLabel);
+		contents.add(Box.createRigidArea(new Dimension(0, 10)));
+		
+		diag = new GameDialogFactory().new GameDialog(title, contents);
+		
+		switch(type)	{
+		case OK_CANCEL:
+			GameButton cancel = new GameButton("Cancel");
+			cancel.setAlignmentX(Component.CENTER_ALIGNMENT);
+			cancel.addActionListener(new ActionListener()	{
+				public void actionPerformed(ActionEvent e)	{
+					diag.dispose();
+				}
+			});
+			contents.add(cancel);
+		case OK:
+			GameButton ok = new GameButton("Ok");
+			ok.setAlignmentX(Component.CENTER_ALIGNMENT);
+			ok.addActionListener(new ActionListener()	{
+				public void actionPerformed(ActionEvent e)	{
+					System.out.println("diag: " + diag);
+					diag.dispose();
+				}
+			});
+			contents.add(ok);
+			break;
+		}
+		
+		diag.pack();
+		diag.setVisible(true);
+	}
+	
+	public static int showGameOptionDialog(Component parent, String title, String message)	{
+		
+		JPanel contents = new JPanel();
+		contents.setLayout(new BoxLayout(contents, BoxLayout.PAGE_AXIS));
+		contents.setBackground(MathGame.offWhite);
+		((JPanel)contents).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
+		JLabel mLabel = new JLabel(message);
+		mLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		mLabel.setFont(MathGame.eurostile20);
+		contents.add(mLabel);
+		contents.add(Box.createRigidArea(new Dimension(0, 10)));
+		
+		diag = new GameDialogFactory().new GameDialog(title, contents);
+
+		GameButton yes = new GameButton("Yes");
+		yes.setAlignmentX(Component.CENTER_ALIGNMENT);
+		yes.addActionListener(new ActionListener()	{
+			public void actionPerformed(ActionEvent e)	{
+				choice = 0;
+				diag.setVisible(false);
+			}
+		});
+		contents.add(yes);
+		
+		GameButton no = new GameButton("No");
+		no.setAlignmentX(Component.CENTER_ALIGNMENT);
+		no.addActionListener(new ActionListener()	{
+			public void actionPerformed(ActionEvent e)	{
+				choice = 1;
+				diag.setVisible(false);
+			}
+		});
+		contents.add(no);
+		
+		diag.pack();
+		diag.setVisible(true);
+		return choice;
+	}
+	
+	public class GameDialog extends JDialog	{
 		private Container contents;
 		private GameButton ok;//the default ok button
 		private GameButton cancel;//the default cancel button
@@ -64,55 +138,24 @@ public class GameDialogFactory {
 		}
 		
 		/**
-		 * Constructs a JDialog with specific default buttons and title message
-		 * @param title
-		 * @param message
-		 * @param type
+		 * Constructs JDialog with a prespecified content panel.  Must be manually set visible and packed
+		 * @param title on titlebar
+		 * @param contents
 		 */
-		public GameDialog(String title, String message, int type)	{
+		public GameDialog(String title, Container contents)	{
 			super((JFrame)MathGame.getWorkspacePanel().getTopLevelAncestor(), true);//uses the JFrame
-			
 			setTitle(title);
-			contents = new JPanel();
-			contents.setLayout(new BoxLayout(contents, BoxLayout.PAGE_AXIS));
-			contents.setBackground(MathGame.offWhite);
-			((JPanel)contents).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-			
-			JLabel mLabel = new JLabel(message);
-			mLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-			mLabel.setFont(MathGame.eurostile20);
-			contents.add(mLabel);
-			contents.add(Box.createRigidArea(new Dimension(0, 10)));
-			
-			switch(type)	{
-			case OK_CANCEL:
-				cancel = new GameButton("Cancel");
-				cancel.setAlignmentX(Component.CENTER_ALIGNMENT);
-				cancel.addActionListener(this);
-				contents.add(cancel);
-			case OK:
-				ok = new GameButton("Ok");
-				ok.setAlignmentX(Component.CENTER_ALIGNMENT);
-				ok.addActionListener(this);
-				contents.add(ok);
-				break;
-			}
-			
+			this.contents = contents;
 			setContentPane(contents);
-			pack();
 			setLocationRelativeTo(null);//centers dialog on screen
 			setAutoRequestFocus(true);//puts dialog on top (focused)
-			setVisible(true);
 		}
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == ok)	{
-				this.dispose();
-			}
-			else if(e.getSource() == cancel)	{
-				this.dispose();
-			}
+		/**
+		 * @return the contents
+		 */
+		public Container getContents() {
+			return contents;
 		}
 		
 	}

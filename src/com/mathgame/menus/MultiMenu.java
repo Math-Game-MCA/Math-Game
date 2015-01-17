@@ -463,7 +463,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 						//JOptionPane.showMessageDialog(MathGame.getMenu(MathGame.Menu.MULTIMENU).getTopLevelAncestor(), "This game is full");
 						GameDialogFactory.showGameMessageDialog(
 								MathGame.getMenu(MathGame.Menu.MULTIMENU).getTopLevelAncestor(), 
-								"Message", "This game is full", GameDialogFactory.GameDialog.OK);
+								"Message", "This game is full", GameDialogFactory.OK);
 						GameManager.getMatchesAccess().setMatchNum(-1); // The game is full, so do not join
 					}
 				}
