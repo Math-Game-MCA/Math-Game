@@ -125,8 +125,6 @@ public class GameDialogFactory	{
 	
 	public class GameDialog extends JDialog	{
 		private Container contents;
-		private GameButton ok;//the default ok button
-		private GameButton cancel;//the default cancel button
 		
 		/**
 		 * Clones an existing JDialog and applies GameDialog specifications
