@@ -49,7 +49,7 @@ public class CompMover extends MouseInputAdapter {
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-
+		System.out.println("PRESSED");
 		selectedComponent = (Component) (e.getSource());
 		// System.out.println(selectedComponent.getParent());
 		// Point tempPoint = selectedComponent.getLocation();
@@ -77,6 +77,7 @@ public class CompMover extends MouseInputAdapter {
 				System.out.println(selectedComponent.getLocationOnScreen());
 				System.out.println(tempPoint);
 				*/
+				
 				selectedComponent.setLocation(-200, -200);
 
 				// selectedComponent.setSize(cardHomes[1].getSize().width,
@@ -110,6 +111,7 @@ public class CompMover extends MouseInputAdapter {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		System.out.println("RELEASED");
 		draggingCard = false;
 		Rectangle box1 = new Rectangle();
 		Rectangle box2 = new Rectangle();
@@ -254,6 +256,7 @@ public class CompMover extends MouseInputAdapter {
 	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		System.out.println("DRAGGING:" + draggingCard);
 		// System.out.println(e.getLocationOnScreen());
 		if (draggingCard) {
 			Rectangle r = selectedComponent.getBounds();

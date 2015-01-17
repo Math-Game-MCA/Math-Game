@@ -232,11 +232,11 @@ public class MathGame extends Container {
 		sidePanel.init();
 
 		cardPanel = new CardPanel(); // Top card panel
-		cardPanel.init(gameMasterLayer);
+		cardPanel.init();
 
 		opPanel = new OperationPanel(); // Operation panel
 		opPanel.setBounds(0, 150, 750, 60);
-		opPanel.init(mover);
+		opPanel.init();
 
 		workPanel = new WorkspacePanel();
 		workPanel.setBounds(0, 210, 750, 260);

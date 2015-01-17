@@ -60,7 +60,7 @@ public class WorkspacePanel extends JPanel {
 		
 		background = new ImageIcon(WorkspacePanel.class.getResource(IMAGE_FILE));
 		
-		mover = new CompMover();
+		mover = MathGame.getCompMover();
 		
 		typeManager = MathGame.getTypeManager();
 	}

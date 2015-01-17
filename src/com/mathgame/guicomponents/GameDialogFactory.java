@@ -87,7 +87,7 @@ public class GameDialogFactory {
 			switch(type)	{
 			case OK_CANCEL:
 				cancel = new GameButton("Cancel");
-				ok.setAlignmentX(Component.CENTER_ALIGNMENT);
+				cancel.setAlignmentX(Component.CENTER_ALIGNMENT);
 				cancel.addActionListener(this);
 				contents.add(cancel);
 			case OK:

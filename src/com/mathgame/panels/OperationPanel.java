@@ -32,10 +32,8 @@ public class OperationPanel extends JPanel
 	
 	/**
 	 * Initialize the OperationPanel, using the MathGame as a JLayeredPane
-	 * 
-	 * @param mover - The CompMover object that will handle the moving of cards
 	 */
-	public void init(CompMover mover)
+	public void init()
 	{
 		setLayout(null);
 		// TitledBorder opBorder = BorderFactory.createTitledBorder("Operation Panel");

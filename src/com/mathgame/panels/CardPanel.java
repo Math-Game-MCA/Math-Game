@@ -59,10 +59,10 @@ public class CardPanel extends JPanel{
 	 * Initializes a card panel
 	 * @param masterLayer - The JLayeredPane that contains the CardPanel
 	 */
-	public void init (JLayeredPane masterLayer) {
+	public void init () {
 		this.setBounds(0, 0, 750, 150);
 		setLayout(null);
-		this.masterLayer = masterLayer;
+		this.masterLayer = MathGame.getMasterPane();
 		cardExists = new ArrayList<Boolean>();
 		for (int i = 0; i < 6; i++)	{
 			cardExists.add(true);

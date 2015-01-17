@@ -57,10 +57,12 @@ public class LoginMenu extends JPanel implements ActionListener {
 		usernameField = new JTextField();
 		usernameField.setFont(MathGame.eurostile24);
 		usernameField.setBounds(440, 350, 150, 30);
+		usernameField.addActionListener(this);
 		
 		passwordField = new JPasswordField();
 		passwordField.setFont(MathGame.eurostile24);
 		passwordField.setBounds(440, 390, 150, 30);
+		passwordField.addActionListener(this);
 		
 		login = new GameButton("Log In");
 		login.setLocation(400, 440);
@@ -83,8 +85,8 @@ public class LoginMenu extends JPanel implements ActionListener {
 		if (e.getSource() instanceof JButton) {
 			SoundManager.playSound(SoundManager.SoundType.BUTTON);
 		}
-		
-		if(e.getSource() == login)	{
+		//click login button or press enter inside the username/password fields
+		if(e.getSource() == login || e.getSource() == usernameField || e.getSource() == passwordField)	{
 			if(usernameField.getText().equals("") || passwordField.getPassword().length == 0)	{
 				//JOptionPane.showMessageDialog(this, "Please Enter a Username and Password");
 				GameDialogFactory.showGameMessageDialog(this, "Error", "Please Enter a Username and Password", GameDialogFactory.GameDialog.OK);
