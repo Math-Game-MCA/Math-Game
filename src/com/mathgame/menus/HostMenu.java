@@ -252,6 +252,7 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == finish)	{
+			System.out.println("GAMESTATE: "+ MathGame.getGameState());
 			if(MathGame.getGameState() == MathGame.GameState.PRACTICE)
 				startPractice();
 			else if(MathGame.getGameState() == MathGame.GameState.COMPETITIVE)

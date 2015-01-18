@@ -17,10 +17,10 @@ import com.mathgame.cards.OperationCard;
  * use, set the component's add mouseListener and mouseMotionListener parameters
  * to the object which has been created from this class.
  * <p>
- * For example:
- * CompMover mover = new CompMover(MathGame.this);
- * jlabel.addMouseListener(mover);
- * jlabel.addMouseMotionListener(mover);
+ * For example:<br/>
+ * CompMover mover = new CompMover();<br/>
+ * item.addMouseListener(mover);<br/>
+ * item.addMouseMotionListener(mover);<br/>
  * <p>
  * Note: This class should only be instantiated in the MathGame class
  */
@@ -49,7 +49,6 @@ public class CompMover extends MouseInputAdapter {
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		System.out.println("PRESSED");
 		selectedComponent = (Component) (e.getSource());
 		// System.out.println(selectedComponent.getParent());
 		// Point tempPoint = selectedComponent.getLocation();
@@ -111,7 +110,6 @@ public class CompMover extends MouseInputAdapter {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		System.out.println("RELEASED");
 		draggingCard = false;
 		Rectangle box1 = new Rectangle();
 		Rectangle box2 = new Rectangle();
@@ -256,7 +254,6 @@ public class CompMover extends MouseInputAdapter {
 	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		System.out.println("DRAGGING:" + draggingCard);
 		// System.out.println(e.getLocationOnScreen());
 		if (draggingCard) {
 			Rectangle r = selectedComponent.getBounds();

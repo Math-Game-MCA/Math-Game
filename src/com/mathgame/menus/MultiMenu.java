@@ -445,6 +445,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 						// If the game is not full
 						refreshTimer.stop();
 						MathGame.getUser().setPlayerID(2);//TODO: Update this for any number of players
+						MathGame.setGameState(MathGame.GameState.COMPETITIVE);
 						MathGame.showMenu(MathGame.Menu.GAME);
 						
 						gameManager.joinGame(tempCard.getGameID());

@@ -24,6 +24,8 @@ import javax.swing.border.Border;
 
 import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
+import com.mathgame.guicomponents.GameButton;
+import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.math.Calculate;
 import com.mathgame.math.CompMover;
 import com.mathgame.math.MathGame;
@@ -255,11 +257,11 @@ public class WorkspacePanel extends JPanel {
 
 		private static final long serialVersionUID = -8292422603267484832L;
 		
-		private String input; // What the user inputs as the answe
+		private String input; // What the user inputs as the answer
 		private String equation; // The equation to display
 		private Double answer; // The answer to the equation
 		private JTextField text;
-		private JButton cancel;
+		private GameButton cancel;
 		private JPanel panel;
 		private JLabel incorrect;
 		private boolean isCorrect;
@@ -270,20 +272,26 @@ public class WorkspacePanel extends JPanel {
 		 * @param equation - The equation to display
 		 */
 		public AnswerDialog(JFrame fr, Double answer, String equation) {
-			super(fr, true);
+			super((JFrame)MathGame.getWorkspacePanel().getTopLevelAncestor(), true);//uses the JFrame
 			this.answer = answer;
 			this.equation = equation;
 			
 			text = new JTextField(10); // Size 10 font
+			text.setFont(MathGame.eurostile16);
 			text.addActionListener(this);
 			
 			incorrect = new JLabel("Incorrect");
+			incorrect.setFont(MathGame.eurostile16);
 			
-			cancel = new JButton("Cancel");
+			cancel = new GameButton("Cancel");
 			cancel.addActionListener(this);
 			
+			JLabel eqLabel = new JLabel(this.equation);
+			eqLabel.setFont(MathGame.eurostile16);
+			
 			panel = new JPanel();
-			panel.add(new JLabel(this.equation));
+			panel.setBackground(MathGame.offWhite);
+			panel.add(eqLabel);
 			panel.add(text);
 			panel.add(incorrect);
 			panel.add(cancel);
@@ -291,7 +299,8 @@ public class WorkspacePanel extends JPanel {
 			incorrect.setVisible(false);
 			
 			setContentPane(panel);
-			setAutoRequestFocus(true);
+			setLocationRelativeTo(null);//centers dialog on screen
+			setAutoRequestFocus(true);//puts dialog on top (focused)
 			
 			/*
 			addWindowListener(new WindowAdapter()	{

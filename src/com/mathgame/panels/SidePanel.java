@@ -71,6 +71,7 @@ public class SidePanel extends JPanel implements ActionListener {
 		typeManager = MathGame.getTypeManager();
 		scorekeeper = new ScoringSystem();
 		gameManager = MathGame.getGameManager();
+		System.out.println("gm: "+gameManager);
 		matchesAccess = GameManager.getMatchesAccess();
 
 		// this.setBorder(new LineBorder(Color.BLACK));
@@ -192,12 +193,14 @@ public class SidePanel extends JPanel implements ActionListener {
 						if (MathGame.getGameState() == GameState.COMPETITIVE) {
 							// This player is done! Tell the database
 							points = (int)(scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex() + 1));
+							System.out.println("points: "+points);
+							System.out.println("gm: "+gameManager.toString());
 							gameManager.updateScores(points);
 							
 							// Wait for others to finish and get score
 							timer.stop();
 							pressed = false;
-
+							
 							Thread waitForPlayer = new Thread()	{
 									public void run() {
 										MathGame.getCardPanel().hideCards(); // Hide cards for the next round
@@ -523,6 +526,13 @@ public class SidePanel extends JPanel implements ActionListener {
 		toggle.setEnabled(false);
 		//TODO Display the opponent's name
 	}
+
+	/**
+	 * @return the undo
+	 */
+	public UndoButton getUndo() {
+		return undo;
+	}
 	
 	/**
 	 * The SummaryDialog class is designed for displaying the summary of a round or a game
@@ -531,17 +541,20 @@ public class SidePanel extends JPanel implements ActionListener {
 		
 		private static final long serialVersionUID = -5238902054895186832L;
 		
-		JOptionPane option;
-		JLabel count;
-		JLabel playerPoints;
+		private JOptionPane option;
+		private JLabel count;
+		private JLabel playerPoints;
 			
 		public SummaryDialog(JFrame frame, String title, String text) {
-			super(frame, true);
+			super((JFrame)MathGame.getWorkspacePanel().getTopLevelAncestor(), true);//uses the JFrame
 			playerPoints = new JLabel(text);
 			count = new JLabel("00:10");
+			count.setFont(MathGame.eurostile16);
 			Object items[] = {text, count};
 			option = new JOptionPane(items, JOptionPane.PLAIN_MESSAGE, JOptionPane.CANCEL_OPTION, null, null);
 			setContentPane(option);
+			setLocationRelativeTo(null);//centers dialog on screen
+			setAutoRequestFocus(true);//puts dialog on top (focused)
 			setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 			
 			Timer timer1 = new Timer(10000, this);
@@ -588,12 +601,5 @@ public class SidePanel extends JPanel implements ActionListener {
 			this.setVisible(false);
 			this.dispose(); // Destroy this dialog
 		}
-	}
-
-	/**
-	 * @return the undo
-	 */
-	public UndoButton getUndo() {
-		return undo;
 	}
 }

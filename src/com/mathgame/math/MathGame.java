@@ -191,6 +191,9 @@ public class MathGame extends Container {
 					dbConnected = true;
 				}
 				gameManager = new GameManager(); // Since this requires the connection to be established
+				
+				sidePanel = new SidePanel(); // Control bar
+				sidePanel.init();
 
 				multiMenu = new MultiMenu();
 				multiMenu.init(typeManager);
@@ -198,9 +201,11 @@ public class MathGame extends Container {
 				
 				hostMenu = new HostMenu();
 				hostMenu.setBounds(0, 0, size.width, size.height);
-				
+
 				cardLayoutPanels.add(multiMenu, Menu.MULTIMENU.cardLayoutString);
 				cardLayoutPanels.add(hostMenu, Menu.HOSTMENU.cardLayoutString);
+				
+				gameMasterLayer.add(sidePanel, new Integer(0));
 			}
 		};
 
@@ -227,9 +232,6 @@ public class MathGame extends Container {
 		typeManager = new TypeManager();
 
 		mover = new CompMover();
-		
-		sidePanel = new SidePanel(); // Control bar
-		sidePanel.init();
 
 		cardPanel = new CardPanel(); // Top card panel
 		cardPanel.init();
@@ -258,7 +260,6 @@ public class MathGame extends Container {
 		showMenu(Menu.LOGIN);
 		// add(layer);
 		// layer.add(menu, new Integer(2));
-		gameMasterLayer.add(sidePanel, new Integer(0));
 		gameMasterLayer.add(opPanel, new Integer(0));
 		gameMasterLayer.add(cardPanel, new Integer(0));
 		gameMasterLayer.add(workPanel, new Integer(0));
