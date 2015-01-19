@@ -141,11 +141,11 @@ public class WorkspacePanel extends JPanel {
 			
 			if (typeManager.getType() == GameType.FRACTIONS) {
 				String temp = TypeManager.convertDecimaltoFraction(answer);
-				answerCard.setValue(temp);
+				answerCard.setValue(answer);
 				answerCard.setStrValue(temp);
 				System.out.println("as fraction: " + TypeManager.convertDecimaltoFraction(answer));
 			} else {
-				answerCard.setValue(""+answer);
+				answerCard.setValue(answer);
 			}
 			
 			answerCard.addMouseListener(mover);

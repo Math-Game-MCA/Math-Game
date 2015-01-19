@@ -18,7 +18,7 @@ public class NumberCard extends JLabel {
 
 	private static final long serialVersionUID = -4999587614115223052L;
 	
-	private String value;
+	private double value;
 	private String strValue;
 	private int width = 80;
 	private int height = 100;
@@ -48,7 +48,7 @@ public class NumberCard extends JLabel {
 	 */
 	public NumberCard (double n) {
 		n = round(n); // The value must be rounded to avoid errors when comparing value!
-		value = Double.toString(n);
+		value = n;
 		strValue = Double.toString(n);
 		
 		// this.setText(String.valueOf(n));
@@ -69,7 +69,7 @@ public class NumberCard extends JLabel {
 	 */
 	public NumberCard(String s) {
 		// The value of the expression is evaluated before being stored as a string
-		value = String.valueOf(parseNumFromText(s)); 
+		value = round(parseNumFromText(s)); 
 		strValue = s; // Meanwhile, the original expression is stored too
 		
 		// this.setText(s);
@@ -189,14 +189,14 @@ public class NumberCard extends JLabel {
 	/**
 	 * @return The actual value of the NumberCard
 	 */
-	public String getValue() {
+	public double getValue() {
 		return value;
 	}
 
 	/**
 	 * @param value - The (actual) value to set
 	 */
-	public void setValue(String value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
 	 

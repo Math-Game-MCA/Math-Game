@@ -356,11 +356,11 @@ public class TypeManager {
 			for(int i = 0; i < cP.getNumOfCards(); i++)	{
 				cP.getCards()[i].setStrValue(convertDecimaltoFraction(newValues.get(i)));
 				values.set(i, cP.getCards()[i].getStrValue());
-				cP.getCards()[i].setValue(String.valueOf(newValues.get(i)));
+				cP.getCards()[i].setValue(newValues.get(i));
 			}
 			
 			cP.getAns().setStrValue(sql.getAnswer());
-			cP.getAns().setValue(String.valueOf(NumberCard.parseNumFromText(cP.getAns().getStrValue())));
+			cP.getAns().setValue(NumberCard.parseNumFromText(cP.getAns().getStrValue()));
 		}
 		
 		else if(gameType == GameType.DECIMALS) {
@@ -369,11 +369,11 @@ public class TypeManager {
 			for(int i = 0; i < cP.getNumOfCards(); i++)	{
 				cP.getCards()[i].setStrValue(String.valueOf(newValues.get(i)));
 				values.set(i, cP.getCards()[i].getStrValue());
-				cP.getCards()[i].setValue(String.valueOf(newValues.get(i)));
+				cP.getCards()[i].setValue(newValues.get(i));
 			}
 
 			cP.getAns().setStrValue(sql.getAnswer());
-			cP.getAns().setValue(String.valueOf(NumberCard.parseNumFromText(cP.getAns().getStrValue())));
+			cP.getAns().setValue(NumberCard.parseNumFromText(cP.getAns().getStrValue()));
 		}
 		
 		else{
@@ -382,10 +382,10 @@ public class TypeManager {
 			for(int i = 0; i < cP.getNumOfCards(); i++)	{
 				cP.getCards()[i].setStrValue(String.valueOf(newValues.get(i)));
 				values.set(i, cP.getCards()[i].getStrValue());
-				cP.getCards()[i].setValue(String.valueOf(newValues.get(i)));
+				cP.getCards()[i].setValue(newValues.get(i));
 			}
 			cP.getAns().setStrValue(sql.getAnswer());
-			cP.getAns().setValue(String.valueOf(NumberCard.parseNumFromText(cP.getAns().getStrValue())));
+			cP.getAns().setValue(NumberCard.parseNumFromText(cP.getAns().getStrValue()));
 		}
 		
 		// Tag each card with "home" (cardPanel) being original location

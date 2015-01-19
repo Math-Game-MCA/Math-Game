@@ -32,8 +32,8 @@ public class Calculate {
 			return null;
 		}
 		
-		double num1 = NumberCard.parseNumFromText(card1.getValue());
-		double num2 = NumberCard.parseNumFromText(card2.getValue());
+		double num1 = card1.getValue();
+		double num2 = card2.getValue();
 		System.out.println("num1 final : " + card1.getValue());
 		System.out.println("num2 final : " + num2);
 		System.out.println("op final: " + operation.getOperation());

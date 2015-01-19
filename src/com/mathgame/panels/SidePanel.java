@@ -178,15 +178,15 @@ public class SidePanel extends JPanel implements ActionListener {
 			if (MathGame.getWorkspacePanel().getComponentCount() == 1) {
 				NumberCard finalAnsCard;
 				Component finalAnsComp = MathGame.getWorkspacePanel().getComponent(0);
-				String computedAns; // The answer the user got
-				String actualAns; // The actual answer
+				double computedAns; // The answer the user got
+				double actualAns; // The actual answer
 				if (finalAnsComp instanceof NumberCard) {
 					finalAnsCard = (NumberCard)finalAnsComp;
 					actualAns = MathGame.getCardPanel().getAns().getValue();
 					computedAns = finalAnsCard.getValue(); 
 					System.out.println(actualAns + " ?= " + computedAns);
-					if (actualAns.equals(computedAns) ||
-							NumberCard.parseNumFromText(actualAns) == NumberCard.parseNumFromText(computedAns)) {
+					if (actualAns - computedAns <= MathGame.epsilon){// ||
+							//NumberCard.parseNumFromText(actualAns) == NumberCard.parseNumFromText(computedAns)) {
 						// If the player's answer is right...
 						
 						if (MathGame.getGameState() == GameState.COMPETITIVE) {
