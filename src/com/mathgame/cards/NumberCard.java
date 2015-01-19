@@ -106,68 +106,77 @@ public class NumberCard extends JLabel {
 	 */
 	public static double parseNumFromText(String s){
 		
-		double ans = 0;
-		
-		// The two separate numbers from the String s
-		double n1 = -1;
-		double n2 = -1;
-
-		int end1 = -1; // Where the end of the 1st substring is
-		int end2 = -1; // Where the start of the 2nd substring is
-		
-		if (s.length() == 1) {
-			end1 = 0;
+		if(s.contains("."))	{//probably a decimal
+			return Double.valueOf(s);
 		}
-		
-		for (int i = 0; i < s.length(); i++) {
-			char current = s.charAt(i);
-			if (!Character.isDigit(current)) {
-				// If the current character is not a digit
-				
-				if (current == '-') {
-					// Continue if the character is just a minus sign
-					continue;
-				}
-				
-				if (end1 == -1) {
-					end1 = i;
-					System.out.println("substring(parse) " + s.substring(0, end1));
-					n1 = Double.valueOf(s.substring(0, end1));
-				}
-			} else {
-				if (end1 != -1) {
-					end2 = i;
-					System.out.println("substring(parse) " +  s.substring(end2, s.length()));
-					n2 = Double.valueOf(s.substring(end2, s.length()));
-					break;
+		else if(s.contains("/") || s.contains("^"))	{//probably a fraction or exponent
+			//TODO revise algorithm to simply split using the split regex command.
+			double ans = 0;
+			
+			// The two separate numbers from the String s
+			double n1 = -1;
+			double n2 = -1;
+	
+			int end1 = -1; // Where the end of the 1st substring is
+			int end2 = -1; // Where the start of the 2nd substring is
+			
+			if (s.length() == 1) {
+				end1 = 0;
+			}
+			
+			for (int i = 0; i < s.length(); i++) {
+				char current = s.charAt(i);
+				if (!Character.isDigit(current)) {
+					// If the current character is not a digit
+					
+					if (current == '-') {
+						// Continue if the character is just a minus sign
+						continue;
+					}
+					
+					if (end1 == -1) {
+						end1 = i;
+						System.out.println("substring(parse) " + s.substring(0, end1));
+						n1 = Double.valueOf(s.substring(0, end1));
+					}
+				} else {
+					if (end1 != -1) {
+						end2 = i;
+						System.out.println("substring(parse) " +  s.substring(end2, s.length()));
+						n2 = Double.valueOf(s.substring(end2, s.length()));
+						break;
+					}
 				}
 			}
+	
+			String foundOp = "";
+			System.out.println("end1 " + end1);
+			System.out.println("end2 " + end2);
+			if (end2 != -1) {
+				// An operator was encountered
+				foundOp = s.substring(end1, end2);
+			}
+			
+			System.out.println("substring(parse) " + foundOp);
+			System.out.println("entered s : " + s);
+			
+			if (foundOp.equals("/")) {
+				ans = n1/n2;
+			}
+			else if (foundOp.equals("^")) {
+				ans = Math.pow(n1, n2);
+			}
+			
+			ans = round(ans); // The value must be rounded to avoid errors when comparing value!
+			
+			System.out.println("sub answer(parse) " + ans);
+			return ans;
 		}
-
-		String foundOp = "";
-		System.out.println("end1 " + end1);
-		System.out.println("end2 " + end2);
-		if (end2 != -1) {
-			// An operator was encountered
-			foundOp = s.substring(end1, end2);
+		else if(s.contains("log"))	{//it's a logarithm
+			//TODO return the value of the logarithm
 		}
 		
-		System.out.println("substring(parse) " + foundOp);
-		System.out.println("entered s : " + s);
-		
-		if (foundOp.equals("/")) {
-			ans = n1/n2;
-		} else if (foundOp.equals("your op here")) {
-			System.out.println("nothing");
-		} else {
-			// Just a normal number
-			ans = Double.valueOf(s);
-		}
-		
-		ans = round(ans); // The value must be rounded to avoid errors when comparing value!
-		
-		System.out.println("sub answer(parse) " + ans);
-		return ans;
+		return Integer.valueOf(s);//nothing?  it's probably an integer
 	}
 	
 	/**

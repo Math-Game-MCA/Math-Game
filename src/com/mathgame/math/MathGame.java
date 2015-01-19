@@ -268,7 +268,7 @@ public class MathGame extends Container {
 		DropTarget dt = new DropTarget();
 		dt.setActive(false);
 		
-		for(int i = 0; i < cardPanel.getNumOfCards(); i++)	{
+		for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 			cardHomes[i] = cardPanel.getCards()[i].getBounds();
 			cards[i] = cardPanel.getCards()[i];
 			cardPanel.getCards()[i].setTransferHandler(new TransferHandler("text"));

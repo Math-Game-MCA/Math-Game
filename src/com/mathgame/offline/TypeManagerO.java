@@ -361,7 +361,7 @@ public class TypeManagerO {
 		if (gameType == GameType.FRACTIONS) {
 			ArrayList<Double> newValues = randomFractionValues();
 
-			for(int i = 0; i < cP.getNumOfCards(); i++)	{
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 				cP.getCards()[i].setStrValue(convertDecimaltoFraction(newValues.get(i)));
 				values.set(i, cP.getCards()[i].getStrValue());
 				cP.getCards()[i].setValue(newValues.get(i));
@@ -374,7 +374,7 @@ public class TypeManagerO {
 		else if(gameType == GameType.DECIMALS) {
 			ArrayList<Double> newValues = randomDecimalValues();
 
-			for(int i = 0; i < cP.getNumOfCards(); i++)	{
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 				cP.getCards()[i].setStrValue(String.valueOf(newValues.get(i)));
 				values.set(i, cP.getCards()[i].getStrValue());
 				cP.getCards()[i].setValue(newValues.get(i));
@@ -387,7 +387,7 @@ public class TypeManagerO {
 		else{
 			ArrayList<Integer> newValues = randomIntegerValues();
 
-			for(int i = 0; i < cP.getNumOfCards(); i++)	{
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 				cP.getCards()[i].setStrValue(String.valueOf(newValues.get(i)));
 				values.set(i, cP.getCards()[i].getStrValue());
 				cP.getCards()[i].setValue(newValues.get(i));
@@ -397,7 +397,7 @@ public class TypeManagerO {
 		}
 		
 		// Tag each card with "home" (cardPanel) being original location
-		for(int i = 0; i < cP.getNumOfCards(); i++)	{
+		for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 			cP.getCards()[i].setHome("home");
 		}
 		cP.getAns().setHome("home");

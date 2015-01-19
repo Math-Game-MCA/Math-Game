@@ -24,7 +24,7 @@ public class CardPanel extends JPanel{
 
 	private static final long serialVersionUID = -3726881692277688183L;
 	
-	private int numOfCards = 6;//there are 6 cards
+	public static final int NUM_OF_CARDS = 6;//there are 6 cards
 	private NumberCard cards[];
 	private NumberCard ans;
 	private static final String IMAGE_FILE = "/images/CardBar.png";
@@ -82,7 +82,7 @@ public class CardPanel extends JPanel{
 		v_ans.setBounds(650, 115, 80, 20);
 		this.add(v_ans);
 		
-		for(int i = 0; i < numOfCards; i++)	{
+		for(int i = 0; i < NUM_OF_CARDS; i++)	{
 			cards[i] = new NumberCard(i);
 			cards[i].setNumberTag(i);
 			cards[i].setBounds(20 + 90 * i, 15, 80, 100);
@@ -121,7 +121,7 @@ public class CardPanel extends JPanel{
 	 */
 	public void restoreCard(String cardValue) {
 		System.out.println("cardValue passed " + cardValue);
-		for (int i = 0; i < numOfCards; i++) {
+		for (int i = 0; i < NUM_OF_CARDS; i++) {
 			System.out.println("values from reset " + values.get(i));
 			if(cardValue.equals(values.get(i)) && !cardExists.get(i))	{
 				System.out.println("reset "+i);
@@ -138,7 +138,7 @@ public class CardPanel extends JPanel{
 	 */
 	public void resetValidationBoxes(){
 		v_ans.reset();
-		for(int i = 0; i < numOfCards; i++)
+		for(int i = 0; i < NUM_OF_CARDS; i++)
 			vboxes[i].reset();
 	}
 	
@@ -148,7 +148,7 @@ public class CardPanel extends JPanel{
 	public void hideCards()	{
 		ans.setVisible(false);
 		v_ans.setVisible(false);
-		for(int i = 0; i < numOfCards; i++)	{
+		for(int i = 0; i < NUM_OF_CARDS; i++)	{
 			cards[i].setVisible(false);
 			vboxes[i].setVisible(false);
 		}
@@ -160,7 +160,7 @@ public class CardPanel extends JPanel{
 	public void showCards()	{
 		ans.setVisible(true);
 		v_ans.setVisible(true);
-		for(int i = 0; i < numOfCards; i++)	{
+		for(int i = 0; i < NUM_OF_CARDS; i++)	{
 			cards[i].setVisible(true);
 			vboxes[i].setVisible(true);
 		}
@@ -171,13 +171,6 @@ public class CardPanel extends JPanel{
 	 */
 	public NumberCard[] getCards() {
 		return cards;
-	}
-	
-	/**
-	 * @return the numOfCards
-	 */
-	public int getNumOfCards() {
-		return numOfCards;
 	}
 
 	/**
