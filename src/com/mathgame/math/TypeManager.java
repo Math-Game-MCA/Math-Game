@@ -21,7 +21,6 @@ public class TypeManager {
 	private CardPanel cP;
 
 	private ArrayList<String> values;
-	private ArrayList<Boolean> cardExists;
 	
 	/**
 	 * The GameType enumeration is used to distinguish between game types
@@ -54,8 +53,8 @@ public class TypeManager {
 		}
 	};
 	
-	GameType gameType;
-	Difficulty gameDiff;
+	private GameType gameType;
+	private Difficulty gameDiff;
 
 	public TypeManager() {
 		sql = MathGame.getMySQLAccess();
@@ -133,30 +132,6 @@ public class TypeManager {
 	public void init(CardPanel cP) {
 		this.cP = cP;
 		this.values = cP.values;
-	}
-
-	/**
-	 * @return A randomly generated ArrayList of fractions (stored as doubles)
-	 */
-	public ArrayList<Double> randomFractionValues() {
-		Random generator = new Random();
-		Random fractionRand = new Random();
-		
-		ArrayList<Double> cardValues = new ArrayList<Double>();		
-		
-		for (int x = 0; x < 6; x++) {
-			cardValues.add(((int)(fractionRand.nextDouble() * 10)) / 10.0);
-		}
-		int RandomInsert1 = (int)(generator.nextFloat() * 6);
-		int RandomInsert2;
-		do {
-			RandomInsert2 = (int)(generator.nextFloat() * 6);
-		} while (RandomInsert2 == RandomInsert1 ); // The two values must be in distinct NumberCards (i.e. not the same card!)
-
-		cardValues.set(RandomInsert1, convertFractiontoDecimal(sql.getNum1()));
-		cardValues.set(RandomInsert2, convertFractiontoDecimal(sql.getNum2()));
-
-		return cardValues;
 	}
 	
 	/**
@@ -238,7 +213,7 @@ public class TypeManager {
 			x = x.abs();
 		}
 		
-		BigDecimal error = new BigDecimal("0.000001"); //TODO Should this be changed to MathGame.epsilon?
+		BigDecimal error = new BigDecimal(MathGame.epsilon);
 		x = x.setScale(error.scale(), RoundingMode.HALF_UP);
 		
 		BigDecimal n = (new BigDecimal(x.toBigInteger())).setScale(error.scale());
@@ -283,6 +258,30 @@ public class TypeManager {
 					return ((middleDenom.multiply(n.toBigInteger())).add(middleNumer) + "/" + middleDenom);
 			}
 		}
+	}
+
+	/**
+	 * @return A randomly generated ArrayList of fractions (stored as doubles)
+	 */
+	public ArrayList<Double> randomFractionValues() {
+		Random generator = new Random();
+		
+		ArrayList<Double> cardValues = new ArrayList<Double>();		
+		
+		for (int x = 0; x < 6; x++) {
+			cardValues.add(((int)(generator.nextDouble() * 10)) / 10.0);
+		}
+		
+		int RandomInsert1 = (int)(generator.nextFloat() * 6);
+		int RandomInsert2 = (int)(generator.nextFloat() * 6);
+		while (RandomInsert2 == RandomInsert1) {
+			RandomInsert2 = (int)(generator.nextFloat() * 6);
+		}
+		
+		cardValues.set(RandomInsert1, convertFractiontoDecimal(sql.getNum1()));
+		cardValues.set(RandomInsert2, convertFractiontoDecimal(sql.getNum2()));
+
+		return cardValues;
 	}
 	
 	/**
@@ -349,7 +348,7 @@ public class TypeManager {
 			e.printStackTrace();
 		}
 		
-		System.out.println("\n\n\n\n*******GAMETYPE=="+gameType+"**********\n\n\n");
+		System.out.println("\n\n*******GAMETYPE=="+gameType+"**********\n\n");
 		
 		if (gameType == GameType.FRACTIONS) {
 			ArrayList<Double> newValues = randomFractionValues();
