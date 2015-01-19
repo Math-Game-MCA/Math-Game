@@ -180,7 +180,7 @@ public class NumberCard extends JLabel {
 		
 		double q = n / MathGame.epsilon;
 		
-		q = Math.floor(q + 0.5); // Round to nearest integer
+		q = Math.floor(q + 0.05); // Round to nearest integer
 		n = q * MathGame.epsilon;
 		
 		return n;

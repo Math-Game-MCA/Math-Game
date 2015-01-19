@@ -19,7 +19,7 @@ public class MathGame extends Container {
 	private static final long serialVersionUID = 412526093812019078L;
 	
 	//Global Variables (Public)
-	public static final double epsilon = 0.0000000001; // 10^-10
+	public static final double epsilon = 0.000000000001; // 10^-10
 	public static final String[] operations = {"+", "-", "*", "/"};
 	public static final String[] scorings = {"Complexity", "Speed", "Mix"}; // Mixed scoring is a combination of speed and complexity
 
