@@ -69,7 +69,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	
 	Timer refreshTimer;
 	
-	public void init(TypeManager tn) {
+	public void init() {
 		
 		this.setLayout(null);
 		Dimension size = getPreferredSize();
@@ -77,7 +77,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		size.height = 620;
 		setPreferredSize(size);
 		
-		typeManager = tn;
+		typeManager = MathGame.getTypeManager();
 		gameManager = MathGame.getGameManager();
 		
 		titleFont = MathGame.eurostile24;
@@ -303,51 +303,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 
 	}
 	
-	/**
-	 * Starts the game
-	 */
-	public void startGame() {
-		// this.setVisible(false);
-		MathGame.showMenu(MathGame.Menu.GAME);
-		System.out.println("ENTER GAME");
-		System.out.println("type1 " + typeManager.getType());
-		typeManager.init(MathGame.getCardPanel());
-		typeManager.randomize();
-	}
-
-	/**
-	 * When you choose the fraction option
-	 */
-	public void chooseFraction() {
-		typeManager.setType(TypeManager.GameType.FRACTIONS);
-		System.out.println("Selected: fraction");
-	}
-	
-	/**
-	 * When you choose the decimal option
-	 */ 
-	public void chooseDecimal() {
-		typeManager.setType(TypeManager.GameType.DECIMALS);
-		System.out.println("Selected: decimal");
-	}
-	
-	/**
-	 * When you choose the integer option
-	 */
-	public void chooseInteger() {
-		typeManager.setType(TypeManager.GameType.INTEGERS);
-		System.out.println("Selected: integer");
-	}
-	
-	/**
-	 * When you choose the mixed option
-	 */
-	public void chooseMixed() {
-		//TODO Implement a mixed mode; currently sets to Fraction mode
-		typeManager.setType(TypeManager.GameType.FRACTIONS);
-		System.out.println("Selected: mixed");
-	}
-	
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
@@ -524,7 +479,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		/**
 		 * @param type - The type to set (as a string)
 		 */
-		@SuppressWarnings("unused")
 		public void setType(String type) {
 			this.type = type;
 		}
@@ -532,7 +486,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		/**
 		 * @return The number of players
 		 */
-		@SuppressWarnings("unused")
 		public int getNumberOfPlayers() {
 			return numPlayers;
 		}
@@ -540,7 +493,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		/**
 		 * @param numberOfPlayers - The number of players to set
 		 */
-		@SuppressWarnings("unused")
 		public void setNumberOfPlayers(int numberOfPlayers) {
 			this.numPlayers = numberOfPlayers;
 		}

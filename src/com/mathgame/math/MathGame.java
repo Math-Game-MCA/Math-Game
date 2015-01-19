@@ -196,7 +196,7 @@ public class MathGame extends Container {
 				sidePanel.init();
 
 				multiMenu = new MultiMenu();
-				multiMenu.init(typeManager);
+				multiMenu.init();
 				multiMenu.setBounds(0, 0, size.width, size.height);
 				
 				hostMenu = new HostMenu();
@@ -229,9 +229,9 @@ public class MathGame extends Container {
 		gameMasterLayer.setLayout(null);
 		gameMasterLayer.setBounds(5, 0, size.width, size.height);//originally used getSize function
 
-		typeManager = new TypeManager();
-
 		mover = new CompMover();
+
+		typeManager = new TypeManager();
 
 		cardPanel = new CardPanel(); // Top card panel
 		cardPanel.init();

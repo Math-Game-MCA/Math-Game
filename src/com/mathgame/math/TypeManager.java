@@ -30,6 +30,8 @@ public class TypeManager {
 		INTEGERS ("Integers"),
 		DECIMALS ("Decimals"),
 		FRACTIONS ("Fractions"),
+		EXPONENTS ("Exponents"),
+		LOGARITHMS ("Logarithms"),
 		MIXED ("Mixed");
 		
 		public final String gameTypeString;
@@ -80,19 +82,14 @@ public class TypeManager {
 	 * @param type - The type of game to set (as a string)
 	 */
 	public void setType(String type) {
-		if (type.equals("Integer")) {
-			gameType = GameType.INTEGERS;
-		} else if (type.equals("Fraction")) {
-			gameType = GameType.FRACTIONS;
-		} else if (type.equals("Decimal")) {
-			gameType = GameType.DECIMALS;
-		} else if (type.equals("Mixed")) {
-			gameType = GameType.MIXED;
-		} else {
-			System.err.println("GAME TYPE NOT FOUND ABORT");
+		for(GameType g : GameType.values()){
+			if(type.equals(g.gameTypeString))	{
+				gameType = g;
+				System.out.println("GameType " + gameType);
+				return;
+			}
 		}
-			
-		System.out.println("GameType " + gameType);
+		System.err.println("GAME TYPE NOT FOUND ABORT");
 	}
 
 	/**
@@ -107,6 +104,20 @@ public class TypeManager {
 	 */
 	public void setDiff(Difficulty d) {
 		gameDiff = d;
+	}
+	
+	/**
+	 * @param diff - The Difficulty of game to set as string
+	 */
+	public void setDiff(String diff) {
+		for(Difficulty d : Difficulty.values()){
+			if(diff.equals(d.difficultyString))	{
+				gameDiff = d;
+				System.out.println("Difficulty " + gameDiff);
+				return;
+			}
+		}
+		System.err.println("DIFF TYPE NOT FOUND ABORT");
 	}
 	
 	/**

@@ -71,7 +71,6 @@ public class SidePanel extends JPanel implements ActionListener {
 		typeManager = MathGame.getTypeManager();
 		scorekeeper = new ScoringSystem();
 		gameManager = MathGame.getGameManager();
-		System.out.println("gm: "+gameManager);
 		matchesAccess = GameManager.getMatchesAccess();
 
 		// this.setBorder(new LineBorder(Color.BLACK));
