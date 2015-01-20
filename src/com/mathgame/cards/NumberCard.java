@@ -105,75 +105,35 @@ public class NumberCard extends JLabel {
 	 * @return The value of the expression (as a double)
 	 */
 	public static double parseNumFromText(String s){
-		
+		System.out.println("parsing: "+s);
 		if(s.contains("."))	{//probably a decimal
 			return Double.valueOf(s);
 		}
-		else if(s.contains("/") || s.contains("^"))	{//probably a fraction or exponent
-			//TODO revise algorithm to simply split using the split regex command.
-			double ans = 0;
+		else if(s.contains("/"))	{// The expression contains a fraction
+			String hold[] = s.split("/"); // Splits the expression into two components
 			
-			// The two separate numbers from the String s
-			double n1 = -1;
-			double n2 = -1;
-	
-			int end1 = -1; // Where the end of the 1st substring is
-			int end2 = -1; // Where the start of the 2nd substring is
-			
-			if (s.length() == 1) {
-				end1 = 0;
-			}
-			
-			for (int i = 0; i < s.length(); i++) {
-				char current = s.charAt(i);
-				if (!Character.isDigit(current)) {
-					// If the current character is not a digit
-					
-					if (current == '-') {
-						// Continue if the character is just a minus sign
-						continue;
-					}
-					
-					if (end1 == -1) {
-						end1 = i;
-						System.out.println("substring(parse) " + s.substring(0, end1));
-						n1 = Double.valueOf(s.substring(0, end1));
-					}
-				} else {
-					if (end1 != -1) {
-						end2 = i;
-						System.out.println("substring(parse) " +  s.substring(end2, s.length()));
-						n2 = Double.valueOf(s.substring(end2, s.length()));
-						break;
-					}
-				}
-			}
-	
-			String foundOp = "";
-			System.out.println("end1 " + end1);
-			System.out.println("end2 " + end2);
-			if (end2 != -1) {
-				// An operator was encountered
-				foundOp = s.substring(end1, end2);
-			}
-			
-			System.out.println("substring(parse) " + foundOp);
-			System.out.println("entered s : " + s);
-			
-			if (foundOp.equals("/")) {
-				ans = n1/n2;
-			}
-			else if (foundOp.equals("^")) {
-				ans = Math.pow(n1, n2);
-			}
-			
-			ans = round(ans); // The value must be rounded to avoid errors when comparing value!
-			
-			System.out.println("sub answer(parse) " + ans);
-			return ans;
+			hold[0] = hold[0].trim(); // The numerator
+			hold[1] = hold[1].trim(); // The denominator
+			return round(Double.valueOf(hold[0])/Double.valueOf(hold[1]));
 		}
-		else if(s.contains("log"))	{//it's a logarithm
-			//TODO return the value of the logarithm
+		else if(s.contains("^"))	{// The expression contains an exponent			
+			String hold[] = s.split("\\^");
+			
+			hold[0] = hold[0].trim(); // The base
+			hold[1] = hold[1].trim(); // The power
+			
+			return round(Math.pow(Double.valueOf(hold[0]), Double.valueOf(hold[1])));
+		}
+		else if(s.contains("_") && s.contains("(") && s.contains(")"))	{
+			//This expression contains a logarithm of the form: log_x(n)
+			
+			String hold[] = s.split("[_()]"); // Splits the expression into three parts
+			
+			hold[0] = hold[0].trim(); // The word "log"
+			hold[1] = hold[1].trim(); // The base
+			hold[2] = hold[2].trim(); // The number (n) whose logarithm is being found
+			
+			return round(Math.log10(Double.valueOf(hold[2]))/Math.log10(Double.valueOf(hold[1])));
 		}
 		
 		return Integer.valueOf(s);//nothing?  it's probably an integer

@@ -173,56 +173,6 @@ public class MySQLAccess{
 	}
 	
 	/**
-	 * Test function for writing and reading comments to and from the database?
-	 * @throws Exception
-	 */
-	public void writeCommentsDatabase() throws Exception {
-		try {
-			// Class.forName("com.mysql.jdbc.Driver");
-			// connect = DriverManager.getConnection("jdbc:MySQL://localhost/test", "root", "");
-			
-			statement = connection.createStatement();
-			System.out.println("here1");
-			resultSet = statement.executeQuery("select * from test.comments");
-			writeResultSet(resultSet);
-						
-			preparedStatement = connection.prepareStatement("INSERT INTO test.comments values(default, ?, ?, ?, ?, ?, ?)");
-			// Columns in test.comments
-			// myuser, email, webpage, datum, summary, COMMENTS
-			preparedStatement.setString(1, "Test");
-			preparedStatement.setString(2, "TestEmail");
-			preparedStatement.setString(3, "TestWebpage");
-			preparedStatement.setDate(4, java.sql.Date.valueOf("2009-12-11"));
-
-			preparedStatement.setString(5, "Test Summary");
-			preparedStatement.setString(6, "Test Comment");
-			System.out.println("here2");
-			preparedStatement.executeUpdate();
-			
-			preparedStatement = connection.prepareStatement("SELECT myuser, webpage, datum, summary, comments FROM test.comments");
-			System.out.println("here3");
-			resultSet = preparedStatement.executeQuery();
-			writeResultSet(resultSet);
-			
-			/*
-			preparedStatement = connect.prepareStatement("DELETE FROM test.comments WHERE myuser=?;");
-			preparedStatement.setString(1, "Test");
-			preparedStatement.executeUpdate();
-			*/
-			
-			resultSet = statement.executeQuery("SELECT * FROM test.comments;");
-			System.out.println("Writing meta data");
-			writeMetaData(resultSet);		
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			close();
-			System.out.println("ALMOST");
-		}
-		System.out.println("AT THE END");
-	}
-	
-	/**
 	 * Prints out all meta data from the given ResultSet
 	 * @param resultSet - The current ResultSet being used
 	 * @throws SQLException
@@ -339,10 +289,4 @@ public class MySQLAccess{
 	public void registerUser(String u, String p){
 		gameAccess.registerUser(u, p);
 	}
-	
-	/*
-	public boolean isConnected() {
-		return connect;
-	}
-	*/
 }

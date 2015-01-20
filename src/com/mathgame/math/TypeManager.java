@@ -273,13 +273,34 @@ public class TypeManager {
 				cardVals.add(String.valueOf(((int)(gen.nextDouble() * 100))/10.0));//generates decimal to tenth place
 			break;
 		case FRACTIONS:
-			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)//or should it be converted to simplest form?
-				cardVals.add(String.valueOf(gen.nextInt(11)) + "/" + String.valueOf(gen.nextInt(10) + 1));
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
+				int num = gen.nextInt(11);
+				int den = gen.nextInt(11) + 1;
+				while(num % den == 0)	{
+					den = gen.nextInt(11) + 1;
+				}
+				cardVals.add(String.valueOf(num) + "/" + String.valueOf(den));
+			}
 			break;
 		case EXPONENTS:
-			//TODO randomly generate exponents
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
+				int base = gen.nextInt(10) + 1;//from 1 to 6
+				if(base < 6)
+					cardVals.add(String.valueOf(base) + "^" + String.valueOf(gen.nextInt(7 - base)));
+				else
+					cardVals.add(String.valueOf(base) + "^" + String.valueOf(gen.nextInt(3)));
+				//bases 6+ are limited to powers of 0, 1 or 2
+			}
+			break;
 		case LOGARITHMS:
-			//TODO randomly generate logarithms
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
+				int base = gen.nextInt(11);
+				if(base < 6)//if the base is less than 6, the power, i.e. answer, is between 0 and 7 - base
+					cardVals.add("log_"+String.valueOf(base) + "(" + String.valueOf(Math.pow(base, gen.nextInt(7 - base))) + ")");
+				else//otherwise answer can only be 0, 1, or 2 (it'll be too high otherwise)
+					cardVals.add("log_"+String.valueOf(base) + "(" + String.valueOf(Math.pow(base, gen.nextInt(3))) + ")");
+			}
+			break;
 		case MIXED:
 			//TODO randomly generate anything
 		}

@@ -60,7 +60,7 @@ public class MatchesAccess extends MySQLAccess {
 					MathGame.getGameManager().getGame().getNumberOfPlayers() + "', '"+ MathGame.getGameManager().getGame().getRounds() + "')" );
 			System.out.println("Created online game");
 			
-			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='" + mathGame.getUser().getName() + "'");
+			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='" + MathGame.getUser().getName() + "'");
 
 			resultSet.next();
 			matchNum = resultSet.getInt("ID");	
