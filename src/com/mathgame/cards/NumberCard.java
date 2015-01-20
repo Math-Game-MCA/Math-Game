@@ -106,7 +106,7 @@ public class NumberCard extends JLabel {
 	 */
 	public static double parseNumFromText(String s){
 		System.out.println("parsing: "+s);
-		if(s.contains("."))	{//probably a decimal
+		if(s.contains("."))	{//probably a decimal, but no log_ included
 			return Double.valueOf(s);
 		}
 		else if(s.contains("/"))	{// The expression contains a fraction

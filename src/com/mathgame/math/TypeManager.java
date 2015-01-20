@@ -294,11 +294,11 @@ public class TypeManager {
 			break;
 		case LOGARITHMS:
 			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
-				int base = gen.nextInt(11);
+				int base = gen.nextInt(9) + 2;
 				if(base < 6)//if the base is less than 6, the power, i.e. answer, is between 0 and 7 - base
-					cardVals.add("log_"+String.valueOf(base) + "(" + String.valueOf(Math.pow(base, gen.nextInt(7 - base))) + ")");
+					cardVals.add("log_"+String.valueOf(base) + "(" + String.valueOf((int)Math.pow(base, gen.nextInt(7 - base))) + ")");
 				else//otherwise answer can only be 0, 1, or 2 (it'll be too high otherwise)
-					cardVals.add("log_"+String.valueOf(base) + "(" + String.valueOf(Math.pow(base, gen.nextInt(3))) + ")");
+					cardVals.add("log_"+String.valueOf(base) + "(" + String.valueOf((int)Math.pow(base, gen.nextInt(3))) + ")");
 			}
 			break;
 		case MIXED:
