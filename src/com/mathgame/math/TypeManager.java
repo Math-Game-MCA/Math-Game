@@ -369,6 +369,7 @@ public class TypeManager {
 		
 		ArrayList<String> newVals = randomValues(gameType);
 		for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
+			System.out.println("random vals: "+newVals.toString());
 			cP.getCards()[i].setStrValue(newVals.get(i));
 			values.set(i, newVals.get(i));
 			cP.getCards()[i].setValue(NumberCard.parseNumFromText((newVals.get(i))));
