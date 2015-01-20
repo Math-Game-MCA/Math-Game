@@ -303,6 +303,40 @@ public class TypeManager {
 			break;
 		case MIXED:
 			//TODO randomly generate anything
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
+				switch(gen.nextInt(5))	{
+				case 0://integers
+					cardVals.add(String.valueOf(gen.nextInt(21)));//add a value between 0 and 20
+					break;
+				case 1://decimals
+					cardVals.add(String.valueOf(((int)(gen.nextDouble() * 100))/10.0));//generates decimal to tenth place
+					break;
+				case 2://fractions
+					int num = gen.nextInt(11);
+					int den = gen.nextInt(11) + 1;
+					while(num % den == 0)	{
+						den = gen.nextInt(11) + 1;
+					}
+					cardVals.add(String.valueOf(num) + "/" + String.valueOf(den));
+					break;
+				case 3://exponents
+					int base = gen.nextInt(10) + 1;//from 1 to 6
+					if(base < 6)
+						cardVals.add(String.valueOf(base) + "^" + String.valueOf(gen.nextInt(7 - base)));
+					else
+						cardVals.add(String.valueOf(base) + "^" + String.valueOf(gen.nextInt(3)));
+					//bases 6+ are limited to powers of 0, 1 or 2
+					break;
+				case 4://logs
+					int base2 = gen.nextInt(9) + 2;
+					if(base2 < 6)//if the base is less than 6, the power, i.e. answer, is between 0 and 7 - base
+						cardVals.add("log_"+String.valueOf(base2) + "(" + String.valueOf((int)Math.pow(base2, gen.nextInt(7 - base2))) + ")");
+					else//otherwise answer can only be 0, 1, or 2 (it'll be too high otherwise)
+						cardVals.add("log_"+String.valueOf(base2) + "(" + String.valueOf((int)Math.pow(base2, gen.nextInt(3))) + ")");
+				break;
+				}
+			}
+			break;
 		}
 		
 		int RandomInsert1 = (int)(gen.nextFloat() * CardPanel.NUM_OF_CARDS);

@@ -7,8 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.mathgame.math.MathGame;
+import com.mathgame.math.TypeManager.GameType;
 
 /**
  * The MySQLAccess class handles connections to the MySQL database
@@ -134,14 +136,20 @@ public class MySQLAccess{
 	{
 		String gameType;
 		if (mathGame != null) {
-			gameType = mathGame.getTypeManager().getType().toString().toLowerCase();
+			gameType = MathGame.getTypeManager().getType().toString().toLowerCase();
 		} else {
 			gameType = "integers";
 		}
 		
 		try {
 			statement = connection.createStatement();
-			resultSet = statement.executeQuery("select * from sofiav_mathgame." + gameType);
+			if(gameType.equals(GameType.MIXED.gameTypeString.toLowerCase()))	{
+				//mixed, just select one table
+				Random gen = new Random();
+				resultSet = statement.executeQuery("select * from sofiav_mathgame." + GameType.values()[gen.nextInt(5)].gameTypeString.toLowerCase());
+			}
+			else
+				resultSet = statement.executeQuery("select * from sofiav_mathgame." + gameType);
 			
 			int offset = (int)((Math.random()*98) + 1);
 			resultSet.relative(offset);
