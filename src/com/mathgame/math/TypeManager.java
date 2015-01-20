@@ -302,7 +302,6 @@ public class TypeManager {
 			}
 			break;
 		case MIXED:
-			//TODO randomly generate anything
 			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 				switch(gen.nextInt(5))	{
 				case 0://integers
@@ -343,7 +342,7 @@ public class TypeManager {
 		int RandomInsert2 = (int)(gen.nextFloat() * CardPanel.NUM_OF_CARDS);
 		while (RandomInsert2 == RandomInsert1)
 			RandomInsert2 = (int)(gen.nextFloat() * CardPanel.NUM_OF_CARDS);
-
+		
 		cardVals.set(RandomInsert1, sql.getNum1());
 		cardVals.set(RandomInsert2, sql.getNum2());
 		
@@ -369,7 +368,6 @@ public class TypeManager {
 		
 		ArrayList<String> newVals = randomValues(gameType);
 		for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
-			System.out.println("random vals: "+newVals.toString());
 			cP.getCards()[i].setStrValue(newVals.get(i));
 			values.set(i, newVals.get(i));
 			cP.getCards()[i].setValue(NumberCard.parseNumFromText((newVals.get(i))));
