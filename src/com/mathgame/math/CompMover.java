@@ -10,6 +10,7 @@ import javax.swing.event.MouseInputAdapter;
 
 import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
+import com.mathgame.panels.CardPanel;
 
 /** 
  * The CompMover class is the adapter class used for moving components such as the JLabels around on
@@ -131,7 +132,7 @@ public class CompMover extends MouseInputAdapter {
 				NumberCard temp = (NumberCard)selectedComponent;
 				if (temp.getHome() == "home") {
 					// Meaning the card originated from cardPanel
-					for(int i = 0; i < MathGame.getCardPanel().getNumOfCards(); i++)	{
+					for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 						if(temp.getNumberTag() == MathGame.getCardPanel().getCards()[i].getNumberTag()){
 							MathGame.getCardPanel().changeCardExistence(i, false);
 							break;
@@ -201,7 +202,7 @@ public class CompMover extends MouseInputAdapter {
 				NumberCard temp = (NumberCard) selectedComponent;
 				if (temp.getHome() == "home") {
 					// Meaning it originated from cardPanel
-					for(int i = 0; i < MathGame.getCardPanel().getNumOfCards(); i++)	{
+					for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 						if(temp.getNumberTag() == MathGame.getCardPanel().getCards()[i].getNumberTag()){
 							MathGame.getCardPanel().changeCardExistence(i, false);
 							break;

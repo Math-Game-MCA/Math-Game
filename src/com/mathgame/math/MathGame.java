@@ -19,7 +19,7 @@ public class MathGame extends Container {
 	private static final long serialVersionUID = 412526093812019078L;
 	
 	//Global Variables (Public)
-	public static final double epsilon = 0.000000000001; // 10^-12, equivalent to TI-84 precision
+	public static final double epsilon = 0.000000000001; // 10^-10
 	public static final String[] operations = {"+", "-", "*", "/"};
 	public static final String[] scorings = {"Complexity", "Speed", "Mix"}; // Mixed scoring is a combination of speed and complexity
 
@@ -196,7 +196,7 @@ public class MathGame extends Container {
 				sidePanel.init();
 
 				multiMenu = new MultiMenu();
-				multiMenu.init(typeManager);
+				multiMenu.init();
 				multiMenu.setBounds(0, 0, size.width, size.height);
 				
 				hostMenu = new HostMenu();
@@ -229,9 +229,9 @@ public class MathGame extends Container {
 		gameMasterLayer.setLayout(null);
 		gameMasterLayer.setBounds(5, 0, size.width, size.height);//originally used getSize function
 
-		typeManager = new TypeManager();
-
 		mover = new CompMover();
+
+		typeManager = new TypeManager();
 
 		cardPanel = new CardPanel(); // Top card panel
 		cardPanel.init();
@@ -268,7 +268,7 @@ public class MathGame extends Container {
 		DropTarget dt = new DropTarget();
 		dt.setActive(false);
 		
-		for(int i = 0; i < cardPanel.getNumOfCards(); i++)	{
+		for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 			cardHomes[i] = cardPanel.getCards()[i].getBounds();
 			cards[i] = cardPanel.getCards()[i];
 			cardPanel.getCards()[i].setTransferHandler(new TransferHandler("text"));

@@ -18,7 +18,7 @@ public class NumberCard extends JLabel {
 
 	private static final long serialVersionUID = -4999587614115223052L;
 	
-	private String value;
+	private double value;
 	private String strValue;
 	private int width = 80;
 	private int height = 100;
@@ -48,7 +48,7 @@ public class NumberCard extends JLabel {
 	 */
 	public NumberCard (double n) {
 		n = round(n); // The value must be rounded to avoid errors when comparing value!
-		value = Double.toString(n);
+		value = n;
 		strValue = Double.toString(n);
 		
 		// this.setText(String.valueOf(n));
@@ -69,7 +69,7 @@ public class NumberCard extends JLabel {
 	 */
 	public NumberCard(String s) {
 		// The value of the expression is evaluated before being stored as a string
-		value = String.valueOf(parseNumFromText(s)); 
+		value = round(parseNumFromText(s)); 
 		strValue = s; // Meanwhile, the original expression is stored too
 		
 		// this.setText(s);
@@ -105,69 +105,38 @@ public class NumberCard extends JLabel {
 	 * @return The value of the expression (as a double)
 	 */
 	public static double parseNumFromText(String s){
-		
-		double ans = 0;
-		
-		// The two separate numbers from the String s
-		double n1 = -1;
-		double n2 = -1;
-
-		int end1 = -1; // Where the end of the 1st substring is
-		int end2 = -1; // Where the start of the 2nd substring is
-		
-		if (s.length() == 1) {
-			end1 = 0;
+		System.out.println("parsing: "+s);
+		if(s.contains("."))	{//probably a decimal, but no log_ included
+			return Double.valueOf(s);
+		}
+		else if(s.contains("/"))	{// The expression contains a fraction
+			String hold[] = s.split("/"); // Splits the expression into two components
+			
+			hold[0] = hold[0].trim(); // The numerator
+			hold[1] = hold[1].trim(); // The denominator
+			return round(Double.valueOf(hold[0])/Double.valueOf(hold[1]));
+		}
+		else if(s.contains("^"))	{// The expression contains an exponent			
+			String hold[] = s.split("\\^");
+			
+			hold[0] = hold[0].trim(); // The base
+			hold[1] = hold[1].trim(); // The power
+			
+			return round(Math.pow(Double.valueOf(hold[0]), Double.valueOf(hold[1])));
+		}
+		else if(s.contains("_") && s.contains("(") && s.contains(")"))	{
+			//This expression contains a logarithm of the form: log_x(n)
+			
+			String hold[] = s.split("[_()]"); // Splits the expression into three parts
+			
+			hold[0] = hold[0].trim(); // The word "log"
+			hold[1] = hold[1].trim(); // The base
+			hold[2] = hold[2].trim(); // The number (n) whose logarithm is being found
+			
+			return round(Math.log10(Double.valueOf(hold[2]))/Math.log10(Double.valueOf(hold[1])));
 		}
 		
-		for (int i = 0; i < s.length(); i++) {
-			char current = s.charAt(i);
-			if (!Character.isDigit(current)) {
-				// If the current character is not a digit
-				
-				if (current == '-') {
-					// Continue if the character is just a minus sign
-					continue;
-				}
-				
-				if (end1 == -1) {
-					end1 = i;
-					System.out.println("substring(parse) " + s.substring(0, end1));
-					n1 = Double.valueOf(s.substring(0, end1));
-				}
-			} else {
-				if (end1 != -1) {
-					end2 = i;
-					System.out.println("substring(parse) " +  s.substring(end2, s.length()));
-					n2 = Double.valueOf(s.substring(end2, s.length()));
-					break;
-				}
-			}
-		}
-
-		String foundOp = "";
-		System.out.println("end1 " + end1);
-		System.out.println("end2 " + end2);
-		if (end2 != -1) {
-			// An operator was encountered
-			foundOp = s.substring(end1, end2);
-		}
-		
-		System.out.println("substring(parse) " + foundOp);
-		System.out.println("entered s : " + s);
-		
-		if (foundOp.equals("/")) {
-			ans = n1/n2;
-		} else if (foundOp.equals("your op here")) {
-			System.out.println("nothing");
-		} else {
-			// Just a normal number
-			ans = Double.valueOf(s);
-		}
-		
-		ans = round(ans); // The value must be rounded to avoid errors when comparing value!
-		
-		System.out.println("sub answer(parse) " + ans);
-		return ans;
+		return Integer.valueOf(s);//nothing?  it's probably an integer
 	}
 	
 	/**
@@ -180,7 +149,7 @@ public class NumberCard extends JLabel {
 		
 		double q = n / MathGame.epsilon;
 		
-		q = Math.floor(q + 0.5); // Round to nearest integer
+		q = Math.floor(q + 0.05); // Round to nearest integer
 		n = q * MathGame.epsilon;
 		
 		return n;
@@ -189,14 +158,14 @@ public class NumberCard extends JLabel {
 	/**
 	 * @return The actual value of the NumberCard
 	 */
-	public String getValue() {
+	public double getValue() {
 		return value;
 	}
 
 	/**
 	 * @param value - The (actual) value to set
 	 */
-	public void setValue(String value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
 	 

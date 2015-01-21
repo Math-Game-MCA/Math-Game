@@ -361,43 +361,43 @@ public class TypeManagerO {
 		if (gameType == GameType.FRACTIONS) {
 			ArrayList<Double> newValues = randomFractionValues();
 
-			for(int i = 0; i < cP.getNumOfCards(); i++)	{
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 				cP.getCards()[i].setStrValue(convertDecimaltoFraction(newValues.get(i)));
 				values.set(i, cP.getCards()[i].getStrValue());
-				cP.getCards()[i].setValue(String.valueOf(newValues.get(i)));
+				cP.getCards()[i].setValue(newValues.get(i));
 			}
 			
 			cP.getAns().setStrValue(currentRow.getCell(4).getStringCellValue());
-			cP.getAns().setValue(String.valueOf(NumberCard.parseNumFromText(cP.getAns().getStrValue())));
+			cP.getAns().setValue(NumberCard.parseNumFromText(cP.getAns().getStrValue()));
 		}
 		
 		else if(gameType == GameType.DECIMALS) {
 			ArrayList<Double> newValues = randomDecimalValues();
 
-			for(int i = 0; i < cP.getNumOfCards(); i++)	{
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 				cP.getCards()[i].setStrValue(String.valueOf(newValues.get(i)));
 				values.set(i, cP.getCards()[i].getStrValue());
-				cP.getCards()[i].setValue(String.valueOf(newValues.get(i)));
+				cP.getCards()[i].setValue(newValues.get(i));
 			}
 
 			cP.getAns().setStrValue(String.valueOf(currentRow.getCell(4).getNumericCellValue()));
-			cP.getAns().setValue(String.valueOf(NumberCard.parseNumFromText(cP.getAns().getStrValue())));
+			cP.getAns().setValue(NumberCard.parseNumFromText(cP.getAns().getStrValue()));
 		}
 		
 		else{
 			ArrayList<Integer> newValues = randomIntegerValues();
 
-			for(int i = 0; i < cP.getNumOfCards(); i++)	{
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 				cP.getCards()[i].setStrValue(String.valueOf(newValues.get(i)));
 				values.set(i, cP.getCards()[i].getStrValue());
-				cP.getCards()[i].setValue(String.valueOf(newValues.get(i)));
+				cP.getCards()[i].setValue(newValues.get(i));
 			}
 			cP.getAns().setStrValue(String.valueOf(currentRow.getCell(4).getNumericCellValue()));
-			cP.getAns().setValue(String.valueOf(NumberCard.parseNumFromText(cP.getAns().getStrValue())));
+			cP.getAns().setValue(NumberCard.parseNumFromText(cP.getAns().getStrValue()));
 		}
 		
 		// Tag each card with "home" (cardPanel) being original location
-		for(int i = 0; i < cP.getNumOfCards(); i++)	{
+		for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 			cP.getCards()[i].setHome("home");
 		}
 		cP.getAns().setHome("home");

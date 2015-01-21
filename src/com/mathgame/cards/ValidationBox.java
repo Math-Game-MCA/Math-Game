@@ -84,11 +84,11 @@ public class ValidationBox extends JTextField implements FocusListener {
 	public boolean checkCard() {
 		System.out.println("this text " + this.getText());
 		System.out.println("card text " + numCard.getValue());
-		String ans = numCard.getValue();
+		double ans = numCard.getValue();
 		
 		// Alternative method of verifying value
 		try {
-			if (Math.abs(Double.parseDouble(this.getText()) - Double.parseDouble(ans)) < EPSILON) {
+			if (Math.abs(Double.parseDouble(this.getText()) - ans) < EPSILON) {
 				System.out.println("true");
 				return true;
 			} else {

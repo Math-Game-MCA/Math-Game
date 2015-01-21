@@ -3,6 +3,7 @@ package com.mathgame.menus;
 import javax.swing.*;
 
 import com.mathgame.guicomponents.GameButton;
+import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager;
 import com.mathgame.math.TypeManager.Difficulty;
@@ -14,6 +15,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +36,7 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	private int players; // # of players (currently 2)
 	private int rounds; // # of rounds (1-5)
-	private String type; // number type (Fraction, Decimal, Integer)
+	//private String type; // number type (Fraction, Decimal, Integer)
 	private String scoring; // scoring (Complexity, Speed, Mix)
 	private String diff; // difficulty (easy, Medium, HARD)
 	
@@ -252,11 +254,23 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == finish)	{
-			System.out.println("GAMESTATE: "+ MathGame.getGameState());
-			if(MathGame.getGameState() == MathGame.GameState.PRACTICE)
-				startPractice();
-			else if(MathGame.getGameState() == MathGame.GameState.COMPETITIVE)
-				startMultiplayer();
+			//check to make sure at least 1 checkbox is selected for game type
+			boolean noSelected = true;
+			for(JCheckBox cb : types)	{
+				if(cb.isSelected())	{
+					noSelected = false;
+					break;
+				}
+			}
+			if(noSelected)	{
+				GameDialogFactory.showGameMessageDialog(this, "Error", "Please select a game type.", GameDialogFactory.OK);
+			} else	{
+				System.out.println("GAMESTATE: "+ MathGame.getGameState());
+				if(MathGame.getGameState() == MathGame.GameState.PRACTICE)
+					startPractice();
+				else if(MathGame.getGameState() == MathGame.GameState.COMPETITIVE)
+					startMultiplayer();
+			}
 		}
 		else if(e.getSource() == cancel) {
 			MathGame.showMenu(MathGame.Menu.MULTIMENU); // Return to the multiplayer menu
@@ -267,7 +281,6 @@ public class HostMenu extends JPanel implements ActionListener {
 	 * Changes layout for practice
 	 */
 	public void configurePractice()	{
-		scoringPanel.setVisible(false);
 		roundPanel.setVisible(false);
 	}
 	
@@ -275,38 +288,36 @@ public class HostMenu extends JPanel implements ActionListener {
 	 * Changes layout for multiplayer
 	 */
 	public void configureMultiplayer()	{
-		scoringPanel.setVisible(true);
 		roundPanel.setVisible(true);
+	}
+	
+	/**
+	 * Sets the Type of game and difficulty chosen by user into typemanager
+	 */
+	private void setGameType()	{
+		/*type = TypeManager.GameType.INTEGERS.gameTypeString;
+		MathGame.getTypeManager().setType(GameType.INTEGERS);//default, otherwise change below
+		MathGame.getTypeManager().setDiff(Difficulty.EASY);//default, otherwise change below*/
+		MathGame.getTypeManager().clearType();
+		for(GameType g : GameType.values())	{
+			if(buttonMap.get(g.gameTypeString).isSelected())	{
+				MathGame.getTypeManager().addType(g);
+			}
+		}
+		diff = diffGroup.getSelection().getActionCommand();
+		scoring = scoringGroup.getSelection().getActionCommand();
+		MathGame.getTypeManager().setDiff(diff);
 	}
 	
 	/**
 	 * Starts a practice game (single player)
 	 */
 	private void startPractice()	{
-		if (buttonMap.get(TypeManager.GameType.INTEGERS.gameTypeString).isSelected()) {
-			MathGame.getTypeManager().setType(GameType.INTEGERS);
-		} else if (buttonMap.get(TypeManager.GameType.DECIMALS.gameTypeString).isSelected()) {
-			MathGame.getTypeManager().setType(GameType.DECIMALS);
-		} else if (buttonMap.get(TypeManager.GameType.FRACTIONS.gameTypeString).isSelected()) {
-			MathGame.getTypeManager().setType(GameType.FRACTIONS);
-		} else {
-			MathGame.getTypeManager().setType(GameType.INTEGERS);
-		}
-		
-		if (buttonMap.get(TypeManager.Difficulty.EASY.difficultyString).isSelected()) {
-			MathGame.getTypeManager().setDiff(Difficulty.EASY);
-			MathGame.getTypeManager().randomize();
-		} else if (buttonMap.get(TypeManager.Difficulty.MEDIUM.difficultyString).isSelected()) {
-			MathGame.getTypeManager().setDiff(Difficulty.MEDIUM);
-			MathGame.getTypeManager().randomize();
-		} else if (buttonMap.get(TypeManager.Difficulty.HARD.difficultyString).isSelected()) {
-			MathGame.getTypeManager().setDiff(Difficulty.HARD);
-			MathGame.getTypeManager().randomize();
-		}
+		setGameType();
+		MathGame.getTypeManager().randomize();
 		System.out.println("ENTER GAME");
 		MathGame.showMenu(MathGame.Menu.GAME);
-		MathGame.getSidePanel().startTimer("Mix"); //TODO Hardcoded to mixed scoring
-		MathGame.getTypeManager().init(MathGame.getCardPanel());
+		MathGame.getSidePanel().startTimer(scoring);
 	}
 	
 	/**
@@ -323,9 +334,8 @@ public class HostMenu extends JPanel implements ActionListener {
 						System.out.println("waiting"); // Wait until the game is filled
 					}
 					MathGame.getCardPanel().showCards();
-					MathGame.getSidePanel().startTimer(type);
+					MathGame.getSidePanel().startTimer(scoring);
 					MathGame.getSidePanel().setUpMultiplayer();
-					MathGame.getGameManager();
 					
 					//Get the names of the other players
 					int numPlayers = MathGame.getGameManager().getGame().getNumberOfPlayers();
@@ -347,24 +357,8 @@ public class HostMenu extends JPanel implements ActionListener {
 		// players = (Integer) playersSpinner.getModel().getValue();
 		players = 2;
 		rounds = (Integer) roundsSpinner.getModel().getValue();
-		diff = diffGroup.getSelection().getActionCommand();
-		scoring = scoringGroup.getSelection().getActionCommand();
-
-		//TODO Set capability for multiple (instead of first one picked)
-		if(buttonMap.get(TypeManager.GameType.INTEGERS.gameTypeString).isSelected()) {
-			multiMenu.chooseInteger();
-			type = TypeManager.GameType.INTEGERS.gameTypeString;
-		} else if(buttonMap.get(TypeManager.GameType.DECIMALS.gameTypeString).isSelected()) {
-			multiMenu.chooseDecimal();	
-			type = TypeManager.GameType.DECIMALS.gameTypeString;
-		} else if(buttonMap.get(TypeManager.GameType.FRACTIONS.gameTypeString).isSelected())	{
-			multiMenu.chooseFraction();
-			type = TypeManager.GameType.FRACTIONS.gameTypeString;
-		} else {
-			// The default game type is "Integer" (for now)
-			multiMenu.chooseInteger();
-			type = TypeManager.GameType.INTEGERS.gameTypeString;
-		}
+		
+		setGameType();
 		
 		// Etc.
 		System.out.println("MULTIPLAYER GAME SPECS: "								
@@ -372,12 +366,11 @@ public class HostMenu extends JPanel implements ActionListener {
 				+ "\n\tROUNDS: "+rounds
 				+ "\n\tDIFF: "+diff
 				+ "\n\tSCORING: "+scoring
-				+ "\n\tTYPE: "+type
+				+ "\n\tTYPE: "+MathGame.getTypeManager().getType().toString()
 				+ "\n\tNUMPLAYERS: "+players);
 		
-		multiMenu.addGame(new Game(-1, players, type, scoring, diff, rounds));
+		multiMenu.addGame(new Game(-1, players, MathGame.getTypeManager().getType().toString(), scoring, diff, rounds));
 		
-		MathGame.getTypeManager().setType(type);
 		MathGame.getTypeManager().randomize();
 		// FOR DEBUGGING PURPOSES ONLY: 
 		//MathGame.showMenu(MathGame.Menu.MULTIMENU);

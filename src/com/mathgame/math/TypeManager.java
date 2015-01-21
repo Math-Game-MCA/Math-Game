@@ -1,6 +1,7 @@
 package com.mathgame.math;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Random;
 
 import com.mathgame.cards.NumberCard;
@@ -21,7 +22,6 @@ public class TypeManager {
 	private CardPanel cP;
 
 	private ArrayList<String> values;
-	private ArrayList<Boolean> cardExists;
 	
 	/**
 	 * The GameType enumeration is used to distinguish between game types
@@ -30,7 +30,9 @@ public class TypeManager {
 		INTEGERS ("Integers"),
 		DECIMALS ("Decimals"),
 		FRACTIONS ("Fractions"),
-		MIXED ("Mixed");
+		EXPONENTS ("Exponents"),
+		LOGARITHMS ("Logarithms");
+		//MIXED ("Mixed");
 		
 		public final String gameTypeString;
 		GameType(String gameTypeString) {
@@ -52,53 +54,59 @@ public class TypeManager {
 		}
 	};
 	
-	GameType gameType;
-	Difficulty gameDiff;
+	private EnumSet<GameType> gameType;
+	private Difficulty gameDiff;
 
 	public TypeManager() {
 		sql = MathGame.getMySQLAccess();
-		gameType = GameType.INTEGERS;
+		gameType = EnumSet.of(GameType.INTEGERS);//default is integers
 	}
 
 	/**
 	 * Set the type of numbers being worked with.
-	 * Use the following keywords: fraction; decimal; integer
 	 * 
-	 * Default number type is integer
 	 * @param type - The GameType of the game to set
 	 */
-	public void setType(GameType type) {
+	public void setType(EnumSet<GameType> type) {
 		gameType = type;
-		System.out.println("GameType " + gameType);
+		System.out.println("GameType " + gameType.toString());
 	}
 	
 	/**
 	 * Set the type of numbers being worked with.
-	 * Use the following keywords: fraction; decimal; integer
 	 * 
-	 * Default number type is integer
 	 * @param type - The type of game to set (as a string)
 	 */
 	public void setType(String type) {
-		if (type.equals("Integer")) {
-			gameType = GameType.INTEGERS;
-		} else if (type.equals("Fraction")) {
-			gameType = GameType.FRACTIONS;
-		} else if (type.equals("Decimal")) {
-			gameType = GameType.DECIMALS;
-		} else if (type.equals("Mixed")) {
-			gameType = GameType.MIXED;
-		} else {
-			System.err.println("GAME TYPE NOT FOUND ABORT");
+		for(GameType g : GameType.values()){
+			if(type.equals(g.gameTypeString))	{
+				gameType.add(g);
+				System.out.println("Added GameType " + gameType);
+				return;
+			}
 		}
-			
-		System.out.println("GameType " + gameType);
+		System.err.println("GAME TYPE NOT FOUND ABORT");
 	}
 
 	/**
+	 * Adds game type to enumset gametype
+	 * @param g
+	 */
+	public void addType(GameType g)	{
+		gameType.add(g);
+	}
+	
+	/**
+	 * Clears the type
+	 */
+	public void clearType()	{
+		gameType.clear();
+	}
+	
+	/**
 	 * @return The GameType of the game
 	 */
-	public GameType getType() {
+	public EnumSet<GameType> getType() {
 		return gameType;
 	}
 	
@@ -107,6 +115,20 @@ public class TypeManager {
 	 */
 	public void setDiff(Difficulty d) {
 		gameDiff = d;
+	}
+	
+	/**
+	 * @param diff - The Difficulty of game to set as string
+	 */
+	public void setDiff(String diff) {
+		for(Difficulty d : Difficulty.values()){
+			if(diff.equals(d.difficultyString))	{
+				gameDiff = d;
+				System.out.println("Difficulty " + gameDiff);
+				return;
+			}
+		}
+		System.err.println("DIFF TYPE NOT FOUND ABORT");
 	}
 	
 	/**
@@ -122,30 +144,6 @@ public class TypeManager {
 	public void init(CardPanel cP) {
 		this.cP = cP;
 		this.values = cP.values;
-	}
-
-	/**
-	 * @return A randomly generated ArrayList of fractions (stored as doubles)
-	 */
-	public ArrayList<Double> randomFractionValues() {
-		Random generator = new Random();
-		Random fractionRand = new Random();
-		
-		ArrayList<Double> cardValues = new ArrayList<Double>();		
-		
-		for (int x = 0; x < 6; x++) {
-			cardValues.add(((int)(fractionRand.nextDouble() * 10)) / 10.0);
-		}
-		int RandomInsert1 = (int)(generator.nextFloat() * 6);
-		int RandomInsert2;
-		do {
-			RandomInsert2 = (int)(generator.nextFloat() * 6);
-		} while (RandomInsert2 == RandomInsert1 ); // The two values must be in distinct NumberCards (i.e. not the same card!)
-
-		cardValues.set(RandomInsert1, convertFractiontoDecimal(sql.getNum1()));
-		cardValues.set(RandomInsert2, convertFractiontoDecimal(sql.getNum2()));
-
-		return cardValues;
 	}
 	
 	/**
@@ -227,7 +225,7 @@ public class TypeManager {
 			x = x.abs();
 		}
 		
-		BigDecimal error = new BigDecimal("0.000001"); //TODO Should this be changed to MathGame.epsilon?
+		BigDecimal error = new BigDecimal(MathGame.epsilon);
 		x = x.setScale(error.scale(), RoundingMode.HALF_UP);
 		
 		BigDecimal n = (new BigDecimal(x.toBigInteger())).setScale(error.scale());
@@ -274,55 +272,133 @@ public class TypeManager {
 		}
 	}
 	
-	/**
-	 * @return A randomly generated ArrayList of decimals
-	 */
-	public ArrayList<Double> randomDecimalValues() {
-		Random generator = new Random();
-
-		ArrayList<Double> cardValues = new ArrayList<Double>();
-
-		for (int x = 0; x < 6; x++) {
-			int temp = (int)(generator.nextDouble()*100);
-			cardValues.add( temp/100.0 ); //TODO Fix random decimal generation
+	public ArrayList<String> randomValues(EnumSet<GameType> types)	{
+		ArrayList<String> cardVals = new ArrayList<String>();
+		Random gen = new Random();
+		for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
+			//select the type that will be the next card (that is a member of the types selected by user)
+			int rand = gen.nextInt(5);
+			while(!types.contains(GameType.values()[rand]))
+				rand = gen.nextInt(5);
+			System.out.println("rand is " + rand);
+			switch(rand)	{
+			case 0://integers
+				cardVals.add(String.valueOf(gen.nextInt(21)));//add a value between 0 and 20
+				break;
+			case 1://decimals
+				cardVals.add(String.valueOf(((int)(gen.nextDouble() * 100))/10.0));//generates decimal to tenth place
+				break;
+			case 2://fractions
+				int num = gen.nextInt(11) + 1;
+				int den = gen.nextInt(11) + 1;
+				while(num % den == 0)
+					den = gen.nextInt(11) + 1;
+				cardVals.add(String.valueOf(num) + "/" + String.valueOf(den));
+				break;
+			case 3://exponents
+				int base = gen.nextInt(10) + 1;//from 1 to 6
+				if(base < 6)
+					cardVals.add(String.valueOf(base) + "^" + String.valueOf(gen.nextInt(7 - base)));
+				else
+					cardVals.add(String.valueOf(base) + "^" + String.valueOf(gen.nextInt(3)));
+				//bases 6+ are limited to powers of 0, 1 or 2
+				break;
+			case 4://logs
+				int base2 = gen.nextInt(9) + 2;
+				if(base2 < 6)//if the base is less than 6, the power, i.e. answer, is between 0 and 7 - base
+					cardVals.add("log_"+String.valueOf(base2) + "(" + String.valueOf((int)Math.pow(base2, gen.nextInt(7 - base2))) + ")");
+				else//otherwise answer can only be 0, 1, or 2 (it'll be too high otherwise)
+					cardVals.add("log_"+String.valueOf(base2) + "(" + String.valueOf((int)Math.pow(base2, gen.nextInt(3))) + ")");
+			break;
+			}
 		}
+		/*
+		switch(types)	{
+		case INTEGERS:
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)
+				cardVals.add(String.valueOf(gen.nextInt(21)));//add a value between 0 and 20
+			break;
+		case DECIMALS:
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)
+				cardVals.add(String.valueOf(((int)(gen.nextDouble() * 100))/10.0));//generates decimal to tenth place
+			break;
+		case FRACTIONS:
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
+				int num = gen.nextInt(11);
+				int den = gen.nextInt(11) + 1;
+				while(num % den == 0)	{
+					den = gen.nextInt(11) + 1;
+				}
+				cardVals.add(String.valueOf(num) + "/" + String.valueOf(den));
+			}
+			break;
+		case EXPONENTS:
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
+				int base = gen.nextInt(10) + 1;//from 1 to 6
+				if(base < 6)
+					cardVals.add(String.valueOf(base) + "^" + String.valueOf(gen.nextInt(7 - base)));
+				else
+					cardVals.add(String.valueOf(base) + "^" + String.valueOf(gen.nextInt(3)));
+				//bases 6+ are limited to powers of 0, 1 or 2
+			}
+			break;
+		case LOGARITHMS:
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
+				int base = gen.nextInt(9) + 2;
+				if(base < 6)//if the base is less than 6, the power, i.e. answer, is between 0 and 7 - base
+					cardVals.add("log_"+String.valueOf(base) + "(" + String.valueOf((int)Math.pow(base, gen.nextInt(7 - base))) + ")");
+				else//otherwise answer can only be 0, 1, or 2 (it'll be too high otherwise)
+					cardVals.add("log_"+String.valueOf(base) + "(" + String.valueOf((int)Math.pow(base, gen.nextInt(3))) + ")");
+			}
+			break;
+		case MIXED:
+			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
+				switch(gen.nextInt(5))	{
+				case 0://integers
+					cardVals.add(String.valueOf(gen.nextInt(21)));//add a value between 0 and 20
+					break;
+				case 1://decimals
+					cardVals.add(String.valueOf(((int)(gen.nextDouble() * 100))/10.0));//generates decimal to tenth place
+					break;
+				case 2://fractions
+					int num = gen.nextInt(11);
+					int den = gen.nextInt(11) + 1;
+					while(num % den == 0)	{
+						den = gen.nextInt(11) + 1;
+					}
+					cardVals.add(String.valueOf(num) + "/" + String.valueOf(den));
+					break;
+				case 3://exponents
+					int base = gen.nextInt(10) + 1;//from 1 to 6
+					if(base < 6)
+						cardVals.add(String.valueOf(base) + "^" + String.valueOf(gen.nextInt(7 - base)));
+					else
+						cardVals.add(String.valueOf(base) + "^" + String.valueOf(gen.nextInt(3)));
+					//bases 6+ are limited to powers of 0, 1 or 2
+					break;
+				case 4://logs
+					int base2 = gen.nextInt(9) + 2;
+					if(base2 < 6)//if the base is less than 6, the power, i.e. answer, is between 0 and 7 - base
+						cardVals.add("log_"+String.valueOf(base2) + "(" + String.valueOf((int)Math.pow(base2, gen.nextInt(7 - base2))) + ")");
+					else//otherwise answer can only be 0, 1, or 2 (it'll be too high otherwise)
+						cardVals.add("log_"+String.valueOf(base2) + "(" + String.valueOf((int)Math.pow(base2, gen.nextInt(3))) + ")");
+				break;
+				}
+			}
+			break;
+		}*/
+		System.out.println("about to make randominserts");
+		int RandomInsert1 = (int)(gen.nextFloat() * CardPanel.NUM_OF_CARDS);
+		int RandomInsert2 = (int)(gen.nextFloat() * CardPanel.NUM_OF_CARDS);
+		while (RandomInsert2 == RandomInsert1)
+			RandomInsert2 = (int)(gen.nextFloat() * CardPanel.NUM_OF_CARDS);
 		
-		int RandomInsert1 = (int)(generator.nextFloat() * 6);
-		int RandomInsert2 = (int)(generator.nextFloat() * 6);
-		while (RandomInsert2 == RandomInsert1) {
-			RandomInsert2 = (int)(generator.nextFloat() * 6);
-		}
-
-		cardValues.set(RandomInsert1, Double.valueOf(sql.getNum1()));
-		cardValues.set(RandomInsert2, Double.valueOf(sql.getNum2()));
-
-		return cardValues;
+		cardVals.set(RandomInsert1, sql.getNum1());
+		cardVals.set(RandomInsert2, sql.getNum2());
+		
+		return cardVals;
 	}
 	
-	/**
-	 * @return A randomly generated ArrayList of integers
-	 */
-	public ArrayList<Integer> randomIntegerValues() {
-		Random generator = new Random();
-
-		ArrayList<Integer> cardValues = new ArrayList<Integer>();
-
-		for (int x = 0; x < 6; x++) {
-			cardValues.add(generator.nextInt(21));
-		}
-		
-		int RandomInsert1 = (int)(generator.nextFloat() * 6);
-		int RandomInsert2 = (int)(generator.nextFloat() * 6);
-		while (RandomInsert2 == RandomInsert1) {
-			RandomInsert2 = (int)(generator.nextFloat() * 6);
-		}
-
-		cardValues.set(RandomInsert1,  Integer.valueOf(sql.getNum1()));
-		cardValues.set(RandomInsert2, Integer.valueOf(sql.getNum2())); // (int)(currentRow.getCell(3).getNumericCellValue()));
-
-		return cardValues;
-	}
-
 	/**
 	 * Assigns random values to the number cards
 	 */
@@ -338,48 +414,20 @@ public class TypeManager {
 			e.printStackTrace();
 		}
 		
-		System.out.println("\n\n\n\n*******GAMETYPE=="+gameType+"**********\n\n\n");
+		System.out.println("\n*******GAMETYPE=="+gameType+"**********\n");
 		
-		if (gameType == GameType.FRACTIONS) {
-			ArrayList<Double> newValues = randomFractionValues();
-
-			for(int i = 0; i < cP.getNumOfCards(); i++)	{
-				cP.getCards()[i].setStrValue(convertDecimaltoFraction(newValues.get(i)));
-				values.set(i, cP.getCards()[i].getStrValue());
-				cP.getCards()[i].setValue(String.valueOf(newValues.get(i)));
-			}
-			
-			cP.getAns().setStrValue(sql.getAnswer());
-			cP.getAns().setValue(String.valueOf(NumberCard.parseNumFromText(cP.getAns().getStrValue())));
+		ArrayList<String> newVals = randomValues(gameType);
+		System.out.println("did randomValues");
+		for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
+			cP.getCards()[i].setStrValue(newVals.get(i));
+			values.set(i, newVals.get(i));
+			cP.getCards()[i].setValue(NumberCard.parseNumFromText((newVals.get(i))));
 		}
-		
-		else if(gameType == GameType.DECIMALS) {
-			ArrayList<Double> newValues = randomDecimalValues();
-
-			for(int i = 0; i < cP.getNumOfCards(); i++)	{
-				cP.getCards()[i].setStrValue(String.valueOf(newValues.get(i)));
-				values.set(i, cP.getCards()[i].getStrValue());
-				cP.getCards()[i].setValue(String.valueOf(newValues.get(i)));
-			}
-
-			cP.getAns().setStrValue(sql.getAnswer());
-			cP.getAns().setValue(String.valueOf(NumberCard.parseNumFromText(cP.getAns().getStrValue())));
-		}
-		
-		else{
-			ArrayList<Integer> newValues = randomIntegerValues();
-
-			for(int i = 0; i < cP.getNumOfCards(); i++)	{
-				cP.getCards()[i].setStrValue(String.valueOf(newValues.get(i)));
-				values.set(i, cP.getCards()[i].getStrValue());
-				cP.getCards()[i].setValue(String.valueOf(newValues.get(i)));
-			}
-			cP.getAns().setStrValue(sql.getAnswer());
-			cP.getAns().setValue(String.valueOf(NumberCard.parseNumFromText(cP.getAns().getStrValue())));
-		}
+		cP.getAns().setStrValue(sql.getAnswer());
+		cP.getAns().setValue(NumberCard.parseNumFromText(cP.getAns().getStrValue()));
 		
 		// Tag each card with "home" (cardPanel) being original location
-		for(int i = 0; i < cP.getNumOfCards(); i++)	{
+		for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 			cP.getCards()[i].setHome("home");
 		}
 		cP.getAns().setHome("home");
