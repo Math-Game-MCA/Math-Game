@@ -1,6 +1,7 @@
 package com.mathgame.math;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Random;
 
 import com.mathgame.cards.NumberCard;
@@ -30,8 +31,8 @@ public class TypeManager {
 		DECIMALS ("Decimals"),
 		FRACTIONS ("Fractions"),
 		EXPONENTS ("Exponents"),
-		LOGARITHMS ("Logarithms"),
-		MIXED ("Mixed");
+		LOGARITHMS ("Logarithms");
+		//MIXED ("Mixed");
 		
 		public final String gameTypeString;
 		GameType(String gameTypeString) {
@@ -53,38 +54,34 @@ public class TypeManager {
 		}
 	};
 	
-	private GameType gameType;
+	private EnumSet<GameType> gameType;
 	private Difficulty gameDiff;
 
 	public TypeManager() {
 		sql = MathGame.getMySQLAccess();
-		gameType = GameType.INTEGERS;
+		gameType = EnumSet.of(GameType.INTEGERS);//default is integers
 	}
 
 	/**
 	 * Set the type of numbers being worked with.
-	 * Use the following keywords: fraction; decimal; integer
 	 * 
-	 * Default number type is integer
 	 * @param type - The GameType of the game to set
 	 */
-	public void setType(GameType type) {
+	public void setType(EnumSet<GameType> type) {
 		gameType = type;
-		System.out.println("GameType " + gameType);
+		System.out.println("GameType " + gameType.toString());
 	}
 	
 	/**
 	 * Set the type of numbers being worked with.
-	 * Use the following keywords: fraction; decimal; integer
 	 * 
-	 * Default number type is integer
 	 * @param type - The type of game to set (as a string)
 	 */
 	public void setType(String type) {
 		for(GameType g : GameType.values()){
 			if(type.equals(g.gameTypeString))	{
-				gameType = g;
-				System.out.println("GameType " + gameType);
+				gameType.add(g);
+				System.out.println("Added GameType " + gameType);
 				return;
 			}
 		}
@@ -92,9 +89,24 @@ public class TypeManager {
 	}
 
 	/**
+	 * Adds game type to enumset gametype
+	 * @param g
+	 */
+	public void addType(GameType g)	{
+		gameType.add(g);
+	}
+	
+	/**
+	 * Clears the type
+	 */
+	public void clearType()	{
+		gameType.clear();
+	}
+	
+	/**
 	 * @return The GameType of the game
 	 */
-	public GameType getType() {
+	public EnumSet<GameType> getType() {
 		return gameType;
 	}
 	
@@ -260,10 +272,49 @@ public class TypeManager {
 		}
 	}
 	
-	public ArrayList<String> randomValues(GameType t)	{
+	public ArrayList<String> randomValues(EnumSet<GameType> types)	{
 		ArrayList<String> cardVals = new ArrayList<String>();
 		Random gen = new Random();
-		switch(t)	{
+		for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
+			//select the type that will be the next card (that is a member of the types selected by user)
+			int rand = gen.nextInt(5);
+			while(!types.contains(GameType.values()[rand]))
+				rand = gen.nextInt(5);
+			
+			switch(rand)	{
+			case 0://integers
+				cardVals.add(String.valueOf(gen.nextInt(21)));//add a value between 0 and 20
+				break;
+			case 1://decimals
+				cardVals.add(String.valueOf(((int)(gen.nextDouble() * 100))/10.0));//generates decimal to tenth place
+				break;
+			case 2://fractions
+				int num = gen.nextInt(11);
+				int den = gen.nextInt(11) + 1;
+				while(num % den == 0)	{
+					den = gen.nextInt(11) + 1;
+				}
+				cardVals.add(String.valueOf(num) + "/" + String.valueOf(den));
+				break;
+			case 3://exponents
+				int base = gen.nextInt(10) + 1;//from 1 to 6
+				if(base < 6)
+					cardVals.add(String.valueOf(base) + "^" + String.valueOf(gen.nextInt(7 - base)));
+				else
+					cardVals.add(String.valueOf(base) + "^" + String.valueOf(gen.nextInt(3)));
+				//bases 6+ are limited to powers of 0, 1 or 2
+				break;
+			case 4://logs
+				int base2 = gen.nextInt(9) + 2;
+				if(base2 < 6)//if the base is less than 6, the power, i.e. answer, is between 0 and 7 - base
+					cardVals.add("log_"+String.valueOf(base2) + "(" + String.valueOf((int)Math.pow(base2, gen.nextInt(7 - base2))) + ")");
+				else//otherwise answer can only be 0, 1, or 2 (it'll be too high otherwise)
+					cardVals.add("log_"+String.valueOf(base2) + "(" + String.valueOf((int)Math.pow(base2, gen.nextInt(3))) + ")");
+			break;
+			}
+		}
+		/*
+		switch(types)	{
 		case INTEGERS:
 			for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)
 				cardVals.add(String.valueOf(gen.nextInt(21)));//add a value between 0 and 20
@@ -336,7 +387,7 @@ public class TypeManager {
 				}
 			}
 			break;
-		}
+		}*/
 		
 		int RandomInsert1 = (int)(gen.nextFloat() * CardPanel.NUM_OF_CARDS);
 		int RandomInsert2 = (int)(gen.nextFloat() * CardPanel.NUM_OF_CARDS);

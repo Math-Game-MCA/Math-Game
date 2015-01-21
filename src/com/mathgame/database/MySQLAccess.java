@@ -134,22 +134,30 @@ public class MySQLAccess{
 	 */
 	public void getVals() throws Exception
 	{
+		//TODO a better implementation would be to simply pass the type into the getvals method rather than find it here.
 		String gameType;
-		if (mathGame != null) {
+		//select the type table (that is a member of the types selected by user)
+		Random gen = new Random();
+		int rand = gen.nextInt(5);
+		while(!MathGame.getTypeManager().getType().contains(GameType.values()[rand]))
+			rand = gen.nextInt(5);
+		gameType = GameType.values()[rand].gameTypeString.toLowerCase();
+		
+		/*if (mathGame != null) {
 			gameType = MathGame.getTypeManager().getType().toString().toLowerCase();
 		} else {
 			gameType = "integers";
-		}
+		}*/
 		
 		try {
 			statement = connection.createStatement();
-			if(gameType.equals(GameType.MIXED.gameTypeString.toLowerCase()))	{
+			/*if(gameType.equals(GameType.MIXED.gameTypeString.toLowerCase()))	{
 				//mixed, just select one table
 				Random gen = new Random();
 				resultSet = statement.executeQuery("select * from sofiav_mathgame." + GameType.values()[gen.nextInt(5)].gameTypeString.toLowerCase());
 			}
-			else
-				resultSet = statement.executeQuery("select * from sofiav_mathgame." + gameType);
+			else*/
+			resultSet = statement.executeQuery("select * from sofiav_mathgame." + gameType);
 			
 			int offset = (int)((Math.random()*98) + 1);
 			resultSet.relative(offset);

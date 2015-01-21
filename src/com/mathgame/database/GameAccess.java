@@ -86,7 +86,7 @@ public class GameAccess extends MySQLAccess {
 	{
 		// System.out.println(super.mathGame.getCursor());
 		
-		@SuppressWarnings("unused")
+		/*@SuppressWarnings("unused")
 		String gameType; //TODO The variable is initialized but never used
 		
 		if (mathGame != null) {
@@ -94,7 +94,7 @@ public class GameAccess extends MySQLAccess {
 		}
 		else {
 			gameType = "integers";
-		}
+		}*/
 		
 		try {
 			statement = connection.createStatement();

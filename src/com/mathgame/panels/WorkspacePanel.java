@@ -139,7 +139,7 @@ public class WorkspacePanel extends JPanel {
 			
 			NumberCard answerCard = new NumberCard(answer);
 			
-			if (typeManager.getType() == GameType.FRACTIONS) {
+			if (typeManager.getType().contains(GameType.FRACTIONS)) {
 				String temp = TypeManager.convertDecimaltoFraction(answer);
 				answerCard.setValue(answer);
 				answerCard.setStrValue(temp);
