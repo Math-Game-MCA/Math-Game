@@ -280,7 +280,7 @@ public class TypeManager {
 			int rand = gen.nextInt(5);
 			while(!types.contains(GameType.values()[rand]))
 				rand = gen.nextInt(5);
-			
+			System.out.println("rand is " + rand);
 			switch(rand)	{
 			case 0://integers
 				cardVals.add(String.valueOf(gen.nextInt(21)));//add a value between 0 and 20
@@ -289,11 +289,10 @@ public class TypeManager {
 				cardVals.add(String.valueOf(((int)(gen.nextDouble() * 100))/10.0));//generates decimal to tenth place
 				break;
 			case 2://fractions
-				int num = gen.nextInt(11);
+				int num = gen.nextInt(11) + 1;
 				int den = gen.nextInt(11) + 1;
-				while(num % den == 0)	{
+				while(num % den == 0)
 					den = gen.nextInt(11) + 1;
-				}
 				cardVals.add(String.valueOf(num) + "/" + String.valueOf(den));
 				break;
 			case 3://exponents
@@ -388,7 +387,7 @@ public class TypeManager {
 			}
 			break;
 		}*/
-		
+		System.out.println("about to make randominserts");
 		int RandomInsert1 = (int)(gen.nextFloat() * CardPanel.NUM_OF_CARDS);
 		int RandomInsert2 = (int)(gen.nextFloat() * CardPanel.NUM_OF_CARDS);
 		while (RandomInsert2 == RandomInsert1)
@@ -418,6 +417,7 @@ public class TypeManager {
 		System.out.println("\n*******GAMETYPE=="+gameType+"**********\n");
 		
 		ArrayList<String> newVals = randomValues(gameType);
+		System.out.println("did randomValues");
 		for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 			cP.getCards()[i].setStrValue(newVals.get(i));
 			values.set(i, newVals.get(i));
