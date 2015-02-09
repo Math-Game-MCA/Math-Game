@@ -47,7 +47,7 @@ public class NumberCard extends JLabel {
 	 * Creates a new NumberCard, displaying the given value (a double)
 	 */
 	public NumberCard (double n) {
-		n = round(n); // The value must be rounded to avoid errors when comparing value!
+		//n = round(n); // The value must be rounded to avoid errors when comparing value!
 		value = n;
 		strValue = Double.toString(n);
 		
@@ -69,7 +69,7 @@ public class NumberCard extends JLabel {
 	 */
 	public NumberCard(String s) {
 		// The value of the expression is evaluated before being stored as a string
-		value = round(parseNumFromText(s)); 
+		value = parseNumFromText(s); 
 		strValue = s; // Meanwhile, the original expression is stored too
 		
 		// this.setText(s);
@@ -114,7 +114,7 @@ public class NumberCard extends JLabel {
 			
 			hold[0] = hold[0].trim(); // The numerator
 			hold[1] = hold[1].trim(); // The denominator
-			return round(Double.valueOf(hold[0])/Double.valueOf(hold[1]));
+			return Double.valueOf(hold[0])/Double.valueOf(hold[1]);
 		}
 		else if(s.contains("^"))	{// The expression contains an exponent			
 			String hold[] = s.split("\\^");
@@ -122,7 +122,7 @@ public class NumberCard extends JLabel {
 			hold[0] = hold[0].trim(); // The base
 			hold[1] = hold[1].trim(); // The power
 			
-			return round(Math.pow(Double.valueOf(hold[0]), Double.valueOf(hold[1])));
+			return Math.pow(Double.valueOf(hold[0]), Double.valueOf(hold[1]));
 		}
 		else if(s.contains("_") && s.contains("(") && s.contains(")"))	{
 			//This expression contains a logarithm of the form: log_x(n)
@@ -133,7 +133,7 @@ public class NumberCard extends JLabel {
 			hold[1] = hold[1].trim(); // The base
 			hold[2] = hold[2].trim(); // The number (n) whose logarithm is being found
 			
-			return round(Math.log10(Double.valueOf(hold[2]))/Math.log10(Double.valueOf(hold[1])));
+			return Math.log10(Double.valueOf(hold[2]))/Math.log10(Double.valueOf(hold[1]));
 		}
 		
 		return Integer.valueOf(s);//nothing?  it's probably an integer
