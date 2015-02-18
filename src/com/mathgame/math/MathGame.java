@@ -109,7 +109,8 @@ public class MathGame extends Container {
 	private static WorkspacePanel workPanel; // Panel in the center of the screen where cards are morphed together
 	private static HoldPanel holdPanel; // Panel that holds intermediate results
 
-	private static boolean dbConnected = false;
+	public static boolean dbBackgroundConnectDone = false;
+	public static boolean dbConnected = false;
 
 	private static MySQLAccess sql;
 	private SwingWorker<Boolean, Void> backgroundConnect;
@@ -136,6 +137,29 @@ public class MathGame extends Container {
 	private static TypeManager typeManager;
 
 	private static CompMover mover;
+	
+	/**
+	 * This function needs to be called after the database connection is established
+	 * 
+	 */
+	public static void backgroundInit(){
+		gameManager = new GameManager(); // Since this requires the connection to be established
+		
+		sidePanel = new SidePanel(); // Control bar
+		sidePanel.init();
+
+		multiMenu = new MultiMenu();
+		multiMenu.init();
+		multiMenu.setBounds(0, 0, size.width, size.height);
+		
+		hostMenu = new HostMenu();
+		hostMenu.setBounds(0, 0, size.width, size.height);
+
+		cardLayoutPanels.add(multiMenu, Menu.MULTIMENU.cardLayoutString);
+		cardLayoutPanels.add(hostMenu, Menu.HOSTMENU.cardLayoutString);
+		
+		gameMasterLayer.add(sidePanel, new Integer(0));
+	}
 
 	/**
 	 * Initializes the window & game
@@ -154,7 +178,13 @@ public class MathGame extends Container {
 
 				try {
 					if (!sql.connect()) {
-						throw new Exception("couldn't connect");
+						if(!sql.displayUserConnectAgain())
+						{
+							LoginMenu.connectAgain.setVisible(true);
+							return false;
+						}
+						else 
+							return true;
 					}
 					System.out.println("Database connected");
 					return true;
@@ -189,23 +219,12 @@ public class MathGame extends Container {
 					for (int i = 0; i < 10; i++)
 						System.out.println("CONNNNNNNNNECTEDDDDDD TO db");
 					dbConnected = true;
+					dbBackgroundConnectDone = true;
+					backgroundInit();
 				}
-				gameManager = new GameManager(); // Since this requires the connection to be established
+				else
+					dbConnected = false;
 				
-				sidePanel = new SidePanel(); // Control bar
-				sidePanel.init();
-
-				multiMenu = new MultiMenu();
-				multiMenu.init();
-				multiMenu.setBounds(0, 0, size.width, size.height);
-				
-				hostMenu = new HostMenu();
-				hostMenu.setBounds(0, 0, size.width, size.height);
-
-				cardLayoutPanels.add(multiMenu, Menu.MULTIMENU.cardLayoutString);
-				cardLayoutPanels.add(hostMenu, Menu.HOSTMENU.cardLayoutString);
-				
-				gameMasterLayer.add(sidePanel, new Integer(0));
 			}
 		};
 

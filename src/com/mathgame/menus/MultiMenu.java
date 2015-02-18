@@ -67,7 +67,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	private ArrayList<Game> games;
 	private ArrayList<GameCard> gameCards;
 	
-	Timer refreshTimer;
+	public Timer refreshTimer;
 	
 	public void init() {
 		
@@ -165,6 +165,12 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		practice.addMouseMotionListener(this);
 		practice.addMouseListener(this);
 		
+		startRefreshTimer();
+		
+		System.out.println("MultiMenu Init Complete");
+	}
+	
+	public void startRefreshTimer(){
 		// Start refresh thread
 		refreshTimer = new Timer(2000, new ActionListener(){
 			@Override
@@ -174,8 +180,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		});
 		refreshTimer.setInitialDelay(0);
 		//refreshTimer.start();
-		
-		System.out.println("Menu Init Complete");
 	}
 
 	public void setGameManager(GameManager gameManager) {
@@ -211,6 +215,11 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		refreshDatabase();
 
 		games = gameManager.getCurrentGames();
+		if(games == null)
+		{
+			System.err.println("Games from db is null");
+			return;
+		}
 		gameCards.clear();
 		
 		for(Game game : games) {
@@ -277,9 +286,11 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	public void refreshDatabase() {
 		try {
 			if (MathGame.getMySQLAccess().getConnection() == null) {
-				MathGame.getMySQLAccess().connect();
+				return;
 			}
 			usersArray = MathGame.getMySQLAccess().getUsersGame();
+			if(usersArray == null)
+				return;
 			updateUsersList();
 			// mathGame.sql.close();
 		} catch (Exception e) {

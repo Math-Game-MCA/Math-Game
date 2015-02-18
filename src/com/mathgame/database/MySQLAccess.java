@@ -9,8 +9,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager.GameType;
+import com.mathgame.network.GameManager;
 
 /**
  * The MySQLAccess class handles connections to the MySQL database
@@ -77,6 +82,7 @@ public class MySQLAccess{
 			System.out.println("ErrorO: " + e.getMessage());
 			System.out.println("Error1: " + e.getClass().getName());
 			sqlError = e.getMessage(); 
+			
 			// sqlError.concat(e.getCause().toString());
 			// sqlError = e.getStackTrace().toString();
 		}
@@ -179,6 +185,7 @@ public class MySQLAccess{
 			*/
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
+			
 			throw e;
 		}
 		/*
@@ -304,5 +311,42 @@ public class MySQLAccess{
 	
 	public void registerUser(String u, String p){
 		gameAccess.registerUser(u, p);
+	}
+	
+	public boolean displayUserConnectAgain(){
+		Object[] options = {"Yes", "No"};
+		int option = JOptionPane.showOptionDialog(new JPanel(),
+			    "Could not connect to server - Connect again?",
+			    "Connect again?",
+			    JOptionPane.YES_NO_OPTION,
+			    JOptionPane.QUESTION_MESSAGE,
+			    null,
+			    options, 
+			    null);
+		if(option == 0)//Yes - try to connect again
+		{
+			if (!MathGame.getMySQLAccess().connect()) {
+				System.out.println("COOULD NOT CONNECT");		
+				GameDialogFactory.showGameMessageDialog(new JPanel(), "Connect fail", "Could not connect-"
+						+ "Check your internet connection", GameDialogFactory.OK);
+				System.out.println("Could not connect to network");	
+				return false;
+			}
+			else {
+				System.out.println("CONNECTED ONCE AGAIN");
+				GameDialogFactory.showGameMessageDialog(new JPanel(), "Success", "Connected!", GameDialogFactory.OK);					
+				if(GameManager.getMatchesAccess() != null)
+					GameManager.getMatchesAccess().reconnectStatement();
+				else
+				{
+					GameManager gm = new GameManager();
+					GameManager.getMatchesAccess().reconnectStatement();
+				}
+				MathGame.dbConnected = true;
+				return true;
+			}
+		}
+		return false;
+		
 	}
 }

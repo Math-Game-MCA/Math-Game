@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.sql.Connection;
 
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.math.MathGame;
 import com.mathgame.network.GameManager;
 
@@ -82,7 +86,7 @@ public class GameAccess extends MySQLAccess {
 	 * Retrieves all user data from the database
 	 * @throws Exception
 	 */
-	public ArrayList<String> getUsers() throws Exception
+	public ArrayList<String> getUsers()
 	{
 		// System.out.println(super.mathGame.getCursor());
 		
@@ -111,19 +115,19 @@ public class GameAccess extends MySQLAccess {
 			}
 			
 			return onlineUsers;
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// System.out.println("SQLException: " + e.getMessage());
-			
-			if (e.getMessage().equals("No operations allowed after connection closed.")) {
-				if (!MathGame.getMySQLAccess().connect()) {
-					throw new Exception("couldn't connect");
-				}
-				else {
-					System.out.println("CONNECTED ONCE AGAIN");					
+			System.out.println("STATE: " + e.getSQLState());
+			if (e.getMessage().equals("No operations allowed after connection closed.") || e.getMessage().equals("Communications link failure")) {
+				MathGame.dbConnected = false;
+				System.err.println("Couldn't connect");
+				if(MathGame.getMySQLAccess().displayUserConnectAgain() == true)
+				{			
 					GameManager.getMatchesAccess().reconnectStatement();
 				}
+				
 			}
-			throw e;
+			return null;
 		}
 	}
 	
@@ -155,7 +159,16 @@ public class GameAccess extends MySQLAccess {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			if(e.getSQLState().equals("08S01"))
+			{
+				GameDialogFactory.showGameMessageDialog(new JPanel(), "Error", "Could not connect", GameDialogFactory.OK);
+				System.out.println("Could not connect to network");	
+				MathGame.dbConnected = false;
+			}
+			else
+				e.printStackTrace();
+			
 		}
 		
 		
@@ -185,4 +198,6 @@ public class GameAccess extends MySQLAccess {
 			e.printStackTrace();
 		}
 	}
+	
+	
 }

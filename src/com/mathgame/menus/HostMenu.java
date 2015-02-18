@@ -77,6 +77,8 @@ public class HostMenu extends JPanel implements ActionListener {
 	private GameButton finish;
 	
 	private GridBagConstraints gbc;
+	
+	public static Thread waitForPlayer;
 
 	public HostMenu() {
 		
@@ -328,11 +330,19 @@ public class HostMenu extends JPanel implements ActionListener {
 		MathGame.getCardPanel().hideCards(); // Hide cards until next player joins
 		System.out.println("ENTER GAME");
 		MathGame.showMenu(MathGame.Menu.GAME); // Go to the game (but should it wait?)
-		Thread waitForPlayer = new Thread()	{
+		waitForPlayer = new Thread()	{
 				public void run() {
 					while(!MathGame.getGameManager().gameFilled()) {
 						System.out.println("waiting"); // Wait until the game is filled
+						System.out.println("Cnct?1 :" + MathGame.dbConnected);
+						if(MathGame.dbConnected == false)
+						{
+							this.interrupt();
+							break;
+						}
 					}
+					if(this.isInterrupted())
+						return;
 					MathGame.getCardPanel().showCards();
 					MathGame.getSidePanel().startTimer(scoring);
 					MathGame.getSidePanel().setUpMultiplayer();
@@ -344,6 +354,7 @@ public class HostMenu extends JPanel implements ActionListener {
 						MathGame.getGameManager().getGame().addPlayer(GameManager.getMatchesAccess().getPlayerName(MathGame.getGameManager().getGame().getID(), i));
 					}
 				}
+			
 		};
 		waitForPlayer.start();
 		MathGame.getUser().setPlayerID(1);

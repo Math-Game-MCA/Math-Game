@@ -7,8 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
+import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.math.MathGame;
+import com.mathgame.menus.HostMenu;
+import com.mathgame.menus.MultiMenu;
 import com.mathgame.network.Game;
+import com.mathgame.network.GameManager;
 
 /**
  * The MatchesAccess class handles interactions with the online matches table
@@ -90,7 +96,18 @@ public class MatchesAccess extends MySQLAccess {
 				gamesList.add(new Game(resultSet.getInt("ID"), numPlayers, playerNames, resultSet.getString("Type"), resultSet.getString("Scoring"), resultSet.getString("Difficulty"), resultSet.getInt("Rounds")));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			if(e.getSQLState().equals("08S01") || e.getSQLState().equals("08003"))
+			{
+				MathGame.dbConnected = false;
+				System.err.println("DB fail in getCurrentGames()");
+				if(MathGame.getMySQLAccess().displayUserConnectAgain() == true)
+				{			
+					GameManager.getMatchesAccess().reconnectStatement();
+				}
+				return null;
+			}
+			else
+				e.printStackTrace();
 		}
 		
 		return gamesList;
@@ -140,7 +157,14 @@ public class MatchesAccess extends MySQLAccess {
 				System.out.println("score"+i+ ":" + score);				
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			if(e.getSQLState().equals("08S01"))
+			{
+				MathGame.dbConnected = false;
+				MathGame.getMySQLAccess().displayUserConnectAgain();
+			}
+			else
+				e.printStackTrace();
+			
 		}
 		
 		return scores;
@@ -154,7 +178,17 @@ public class MatchesAccess extends MySQLAccess {
 		try {
 			statement = connection.createStatement();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("state: " + e.getSQLState());
+			
+			if(e.getSQLState().equals("08003"))
+			{
+				MathGame.dbConnected = false;
+				//If the reconnect doesn't work, exit the function
+				if(!MathGame.getMySQLAccess().displayUserConnectAgain())
+					return;
+			}
+			else
+				e.printStackTrace();
 		}
 		
 		try {
@@ -220,7 +254,23 @@ public class MatchesAccess extends MySQLAccess {
 	    	worker.start(); 
 			*/
 		} catch (SQLException e) {
-			e.printStackTrace();
+			if(e.getSQLState().equals("08S01") || e.getSQLState().equals("08003"))
+			{
+				System.out.println("Error in checking for full game");
+				MathGame.dbConnected = false;
+				//HostMenu.waitForPlayer.stop();
+				HostMenu.waitForPlayer.interrupt();
+				System.out.println("Cnct?2 :" + MathGame.dbConnected);
+				
+				System.out.println("Going to show multimenu");
+				MathGame.showMenu(MathGame.Menu.MULTIMENU);
+				System.out.println("Cnct?3 :" + MathGame.dbConnected);
+				
+				((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshDatabase();
+				((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshTimer.start();
+			}
+			else
+				e.printStackTrace();
 		}
 		
 		return false;
