@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.math.MathGame;
+import com.mathgame.math.MathGame.Menu;
 import com.mathgame.math.TypeManager.GameType;
 import com.mathgame.network.GameManager;
 
@@ -119,7 +120,7 @@ public class MySQLAccess{
 	/**
 	 * @return The string value of num2 (the righthand NumberCard)
 	 */
-	public String  getNum2()
+	public String getNum2()
 	{
 		// System.out.println("num2 " + num2);
 		return num2;
@@ -326,10 +327,12 @@ public class MySQLAccess{
 		if(option == 0)//Yes - try to connect again
 		{
 			if (!MathGame.getMySQLAccess().connect()) {
-				System.out.println("COOULD NOT CONNECT");		
+				System.out.println("COULD NOT CONNECT");		
 				GameDialogFactory.showGameMessageDialog(new JPanel(), "Connect fail", "Could not connect-"
 						+ "Check your internet connection", GameDialogFactory.OK);
 				System.out.println("Could not connect to network");	
+				MathGame.getTypeManager().setOffline(true);
+				MathGame.showMenu(Menu.MAINMENU);
 				return false;
 			}
 			else {
@@ -343,8 +346,13 @@ public class MySQLAccess{
 					GameManager.getMatchesAccess().reconnectStatement();
 				}
 				MathGame.dbConnected = true;
+				MathGame.getTypeManager().setOffline(false);
 				return true;
 			}
+		}
+		else	{//user declines to connect again; so initiate offline mode
+			MathGame.getTypeManager().setOffline(true);
+			MathGame.showMenu(Menu.MAINMENU);
 		}
 		return false;
 		

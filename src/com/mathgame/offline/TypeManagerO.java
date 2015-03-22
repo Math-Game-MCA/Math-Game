@@ -25,6 +25,7 @@ import java.math.RoundingMode;
 /**
  * The TypeManagerO class handles the different types of games and converts between values of different types.
  * It is designed for offline play (unlike the TypeManager class), and it does not contain it's own MathGame object
+ * @deprecated
  */
 public class TypeManagerO {
 	

@@ -16,7 +16,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
@@ -125,18 +124,20 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		usersArray = new ArrayList<String>();
 		
-		games = GameManager.getMatchesAccess().getCurrentGames();
-		gameCards = new ArrayList<GameCard>();
-		
-		for(Game game : games) {
-			// For each game, create a gamecard
-			GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), NUMBER_PLAYERS, 
-					game.getType(), game.getScoring(), game.getDiff(), game.getRounds());
-			gameCards.add(gc);
-		}
-
-		for(GameCard card : gameCards) {
-			gamesList.add(card);
+		if(!MathGame.getTypeManager().isOffline())	{
+			games = GameManager.getMatchesAccess().getCurrentGames();
+			gameCards = new ArrayList<GameCard>();
+			
+			for(Game game : games) {
+				// For each game, create a gamecard
+				GameCard gc = new GameCard(game.getID(), "Game "+String.valueOf(game.getID()), NUMBER_PLAYERS, 
+						game.getType(), game.getScoring(), game.getDiff(), game.getRounds());
+				gameCards.add(gc);
+			}
+	
+			for(GameCard card : gameCards) {
+				gamesList.add(card);
+			}
 		}
 	    
 		//TODO Get the text in the label to wrap if it is longer than the label width
@@ -165,7 +166,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		practice.addMouseMotionListener(this);
 		practice.addMouseListener(this);
 		
-		startRefreshTimer();
+		if(!MathGame.getTypeManager().isOffline())
+			startRefreshTimer();
 		
 		System.out.println("MultiMenu Init Complete");
 	}
@@ -193,18 +195,26 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		
 		if(e.getSource() == home) {
 			MathGame.showMenu(MathGame.Menu.MAINMENU); // Return to the main menu
-			refreshTimer.stop();
+			if(!MathGame.getTypeManager().isOffline())
+				refreshTimer.stop();
 		} else if(e.getSource() == host) {
-			MathGame.setGameState(GameState.COMPETITIVE);
-			((HostMenu)MathGame.getMenu(MathGame.Menu.HOSTMENU)).configureMultiplayer();
-			MathGame.showMenu(MathGame.Menu.HOSTMENU);
+			if(MathGame.getTypeManager().isOffline())
+				GameDialogFactory.showGameMessageDialog(this, 
+						"Offline", "Offline mode. Cannot start multiplayer game", 
+						GameDialogFactory.OK);
+			else	{
+				MathGame.setGameState(GameState.COMPETITIVE);
+				((HostMenu)MathGame.getMenu(MathGame.Menu.HOSTMENU)).configureMultiplayer();
+				MathGame.showMenu(MathGame.Menu.HOSTMENU);
+			}
 		} else if(e.getSource() == join) {
 		}
 		else if(e.getSource() == practice) {
 			MathGame.setGameState(GameState.PRACTICE);
 			((HostMenu)MathGame.getMenu(MathGame.Menu.HOSTMENU)).configurePractice();
 			MathGame.showMenu(MathGame.Menu.HOSTMENU);// select practice options
-			refreshTimer.stop();
+			if(!MathGame.getTypeManager().isOffline())
+				refreshTimer.stop();
 		}
 	}
 	

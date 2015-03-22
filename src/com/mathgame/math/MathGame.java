@@ -3,6 +3,7 @@ package com.mathgame.math;
 import javax.swing.*;
 
 import com.mathgame.database.*;
+import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.menus.*;
 import com.mathgame.network.*;
 import com.mathgame.panels.*;
@@ -143,7 +144,8 @@ public class MathGame extends Container {
 	 * 
 	 */
 	public static void backgroundInit(){
-		gameManager = new GameManager(); // Since this requires the connection to be established
+		if(!typeManager.isOffline())
+			gameManager = new GameManager(); // Since this requires the connection to be established
 		
 		sidePanel = new SidePanel(); // Control bar
 		sidePanel.init();
@@ -171,6 +173,9 @@ public class MathGame extends Container {
 		setPreferredSize(size);
 		setLayout(null);
 		sql = new MySQLAccess(this);
+
+		typeManager = new TypeManager();
+		
 		backgroundConnect = new SwingWorker<Boolean, Void>() {
 
 			@Override
@@ -189,6 +194,7 @@ public class MathGame extends Container {
 					System.out.println("Database connected");
 					return true;
 				} catch (Exception e) {
+					typeManager.setOffline(true);
 					System.out.println("Exception detected in doinBackground");
 					e.printStackTrace();
 					return false;
@@ -218,12 +224,20 @@ public class MathGame extends Container {
 				if (connected)	{
 					for (int i = 0; i < 10; i++)
 						System.out.println("CONNNNNNNNNECTEDDDDDD TO db");
+					typeManager.setOffline(false);//one way to debug offline is to set this value true, but make sure to change it back!
 					dbConnected = true;
 					dbBackgroundConnectDone = true;
 					backgroundInit();
 				}
-				else
+				else	{
+					backgroundInit();
+					GameDialogFactory.showGameMessageDialog(
+							MathGame.getCardPanel().getParent(), 
+							"Offline", "Cannot connect to internet. Initiating offline mode", GameDialogFactory.OK);
+					typeManager.setOffline(true);
+					showMenu(Menu.MAINMENU);
 					dbConnected = false;
+				}
 				
 			}
 		};
@@ -249,8 +263,6 @@ public class MathGame extends Container {
 		gameMasterLayer.setBounds(5, 0, size.width, size.height);//originally used getSize function
 
 		mover = new CompMover();
-
-		typeManager = new TypeManager();
 
 		cardPanel = new CardPanel(); // Top card panel
 		cardPanel.init();

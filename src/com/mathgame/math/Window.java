@@ -79,14 +79,16 @@ public class Window	{
 			    System.err.println(x);
 			}
 			
-			try {
-				if(MathGame.getMySQLAccess().getConnection().getWarnings() == null) {
-					MathGame.getMySQLAccess().connect();
+			if(!MathGame.getTypeManager().isOffline()){
+				try {
+					if(MathGame.getMySQLAccess().getConnection().getWarnings() == null) {
+						MathGame.getMySQLAccess().connect();
+					}
+					MathGame.getMySQLAccess().removeUser();
+					GameManager.getMatchesAccess().removeGame();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				MathGame.getMySQLAccess().removeUser();
-				GameManager.getMatchesAccess().removeGame();
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 			
 		}

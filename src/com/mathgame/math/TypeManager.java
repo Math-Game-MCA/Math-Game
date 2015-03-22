@@ -2,15 +2,27 @@ package com.mathgame.math;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.Random;
 
 import com.mathgame.cards.NumberCard;
 import com.mathgame.database.MySQLAccess;
 import com.mathgame.panels.CardPanel;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * The TypeManager handles the different types of games and converts between values of different types
@@ -32,7 +44,6 @@ public class TypeManager {
 		FRACTIONS ("Fractions"),
 		EXPONENTS ("Exponents"),
 		LOGARITHMS ("Logarithms");
-		//MIXED ("Mixed");
 		
 		public final String gameTypeString;
 		GameType(String gameTypeString) {
@@ -54,8 +65,22 @@ public class TypeManager {
 		}
 	};
 	
+	private boolean offline;
 	private EnumSet<GameType> gameType;
 	private Difficulty gameDiff;
+	
+	//for offline play:
+	InputStream cardValueInput;
+	XSSFWorkbook cardValueWorkbook;
+	static final String INTEGERS_FILE = "spreadsheets/Integers.xlsx";
+	static final String FRACTIONS_FILE = "spreadsheets/Fractions.xlsx";
+	static final String DECIMALS_FILE = "spreadsheets/Decimals.xlsx";
+	static final String EXPONENTS_FILE = "spreadsheets/Exponents.xlsx";
+	static final String LOGARITHMS_FILE = "spreadsheets/Logarithms.xlsx";
+	private XSSFSheet currentSheet;
+	private int rowCount;
+	private int currentRowNumber;
+	private XSSFRow currentRow;
 
 	public TypeManager() {
 		sql = MathGame.getMySQLAccess();
@@ -136,6 +161,20 @@ public class TypeManager {
 	 */
 	public Difficulty getDiff() {
 		return gameDiff;
+	}
+
+	/**
+	 * @return the offline
+	 */
+	public boolean isOffline() {
+		return offline;
+	}
+
+	/**
+	 * @param offline the offline to set
+	 */
+	public void setOffline(boolean offline) {
+		this.offline = offline;
 	}
 	
 	/**
@@ -272,7 +311,12 @@ public class TypeManager {
 		}
 	}
 	
-	public ArrayList<String> randomValues(EnumSet<GameType> types)	{
+	/**
+	 * Generates a list of random values for use by randomize function
+	 * @param types
+	 * @return
+	 */
+	private ArrayList<String> randomValues(EnumSet<GameType> types)	{
 		ArrayList<String> cardVals = new ArrayList<String>();
 		Random gen = new Random();
 		for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
@@ -388,14 +432,71 @@ public class TypeManager {
 			break;
 		}*/
 		System.out.println("about to make randominserts");
+		
 		int RandomInsert1 = (int)(gen.nextFloat() * CardPanel.NUM_OF_CARDS);
 		int RandomInsert2 = (int)(gen.nextFloat() * CardPanel.NUM_OF_CARDS);
 		while (RandomInsert2 == RandomInsert1)
 			RandomInsert2 = (int)(gen.nextFloat() * CardPanel.NUM_OF_CARDS);
 		
-		cardVals.set(RandomInsert1, sql.getNum1());
-		cardVals.set(RandomInsert2, sql.getNum2());
-		
+		if(!offline)	{//use database
+			cardVals.set(RandomInsert1, sql.getNum1());
+			cardVals.set(RandomInsert2, sql.getNum2());
+		} else	{
+			//select the type table (that is a member of the types selected by user)
+			int rand = gen.nextInt(5);
+			while(!types.contains(GameType.values()[rand]))
+				rand = gen.nextInt(5);
+			GameType tableGameType = GameType.values()[rand];
+			try	{
+				//ideally we'd use enums for these file names or something... yuck yuck yuck
+				if(tableGameType == GameType.INTEGERS)
+					cardValueInput = getClass().getClassLoader().getResourceAsStream(INTEGERS_FILE);
+				else if(tableGameType == GameType.FRACTIONS)
+					cardValueInput = getClass().getClassLoader().getResourceAsStream(FRACTIONS_FILE);
+				else if(tableGameType == GameType.DECIMALS)
+					cardValueInput = getClass().getClassLoader().getResourceAsStream(DECIMALS_FILE);
+				else if(tableGameType == GameType.EXPONENTS)
+					cardValueInput = getClass().getClassLoader().getResourceAsStream(EXPONENTS_FILE);
+				else if(tableGameType == GameType.LOGARITHMS)
+					cardValueInput = getClass().getClassLoader().getResourceAsStream(LOGARITHMS_FILE);
+
+				System.out.println("file size: " + cardValueInput.available());
+				cardValueWorkbook = new XSSFWorkbook(cardValueInput);
+
+				currentSheet = cardValueWorkbook.getSheetAt(0);
+				Iterator<Row> rowIter = currentSheet.rowIterator();
+				rowCount = 0;
+				while(rowIter.hasNext()) {
+					rowCount++;
+					rowIter.next();
+				}
+			} catch (FileNotFoundException e) {
+				System.out.println("excel file not found");
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			currentRowNumber = (int)(gen.nextFloat() * rowCount);
+			System.out.println("Current row: " + (currentRowNumber + 1));
+			currentRow = currentSheet.getRow(currentRowNumber);
+			
+			if(currentRow.getCell(1).getCellType() == XSSFCell.CELL_TYPE_NUMERIC)
+			{
+				cardVals.set(RandomInsert1, String.valueOf(currentRow.getCell(1).getNumericCellValue()));
+				cardVals.set(RandomInsert2, String.valueOf(currentRow.getCell(3).getNumericCellValue()));
+			} else	{
+				cardVals.set(RandomInsert1, currentRow.getCell(1).getStringCellValue());
+				cardVals.set(RandomInsert2, currentRow.getCell(3).getStringCellValue());
+			}
+			
+			try {
+				cardValueInput.close();
+			} catch (IOException e) {
+				System.out.println("Could not close input stream");
+				e.printStackTrace();
+			}
+		}
 		return cardVals;
 	}
 	
@@ -403,15 +504,17 @@ public class TypeManager {
 	 * Assigns random values to the number cards
 	 */
 	public void randomize() {
-		try {
-			if (sql.getConnection() == null) {
-				sql.connect();
+		if(!MathGame.getTypeManager().isOffline())	{
+			try {
+				if (sql.getConnection() == null) {
+					sql.connect();
+				}
+				sql.getVals();
+				// mathGame.sql.close();
+			} catch (Exception e) {
+				System.out.println("Get vals from DB failed");
+				e.printStackTrace();
 			}
-			sql.getVals();
-			// mathGame.sql.close();
-		} catch (Exception e) {
-			System.out.println("Get vals from DB failed");
-			e.printStackTrace();
 		}
 		
 		System.out.println("\n*******GAMETYPE=="+gameType+"**********\n");
@@ -423,7 +526,16 @@ public class TypeManager {
 			values.set(i, newVals.get(i));
 			cP.getCards()[i].setValue(NumberCard.parseNumFromText((newVals.get(i))));
 		}
-		cP.getAns().setStrValue(sql.getAnswer());
+		//obtain answer value from database/excel
+		if(offline)	{
+			if(currentRow.getCell(4).getCellType() == XSSFCell.CELL_TYPE_NUMERIC)
+				cP.getAns().setStrValue(String.valueOf(currentRow.getCell(4).getNumericCellValue()));
+			else
+				cP.getAns().setStrValue(currentRow.getCell(4).getStringCellValue());
+		}
+		else
+			cP.getAns().setStrValue(sql.getAnswer());
+		
 		cP.getAns().setValue(NumberCard.parseNumFromText(cP.getAns().getStrValue()));
 		
 		// Tag each card with "home" (cardPanel) being original location
