@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 
 import com.mathgame.cards.NumberCard;
@@ -50,15 +51,26 @@ public class CompMover extends MouseInputAdapter {
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
+		System.out.println("mouse pressed event");
 		selectedComponent = (Component) (e.getSource());
-		// System.out.println(selectedComponent.getParent());
+		//System.out.println("parent: " + selectedComponent.getParent());
 		// Point tempPoint = selectedComponent.getLocation();
 		offset = e.getPoint();
+		Point realLoc = e.getLocationOnScreen();
+		
+		System.out.println("location on screen: " + realLoc);
+		
+		Rectangle r = selectedComponent.getBounds();
+		System.out.println("original bounds: " + r);
+		
+		
 		draggingCard = true;
 
 		try {
 			if (selectedComponent.getParent().equals(MathGame.getWorkspacePanel())) {
-
+				r = SwingUtilities.convertRectangle(MathGame.getWorkspacePanel(), r, MathGame.getMasterPane());
+				System.out.println("new bounds: " + r);
+				
 				MathGame.getWorkspacePanel().remove(selectedComponent);
 				MathGame.getWorkspacePanel().revalidate();
 				MathGame.getMasterPane().add(selectedComponent, new Integer(1));
@@ -78,12 +90,19 @@ public class CompMover extends MouseInputAdapter {
 				System.out.println(tempPoint);
 				*/
 				
-				selectedComponent.setLocation(-200, -200);
+				//selectedComponent.setLocation(300, 400);
+				//selectedComponent.setLocation(realLoc.x, realLoc.y);
+				//selectedComponent.setLocation(offset.x, offset.y);
+				selectedComponent.setBounds(r);
 
 				// selectedComponent.setSize(cardHomes[1].getSize().width,
 				// cardHomes[1].getSize().height);
 
 			} else if (selectedComponent.getParent().equals(MathGame.getHoldPanel())) {
+				r = SwingUtilities.convertRectangle(MathGame.getHoldPanel(), r, MathGame.getMasterPane());
+				System.out.println("new bounds: " + r);
+				
+			
 				int tempX = selectedComponent.getX();
 				int tempY = selectedComponent.getLocationOnScreen().y;
 				MathGame.getHoldPanel().remove(selectedComponent);
@@ -92,7 +111,8 @@ public class CompMover extends MouseInputAdapter {
 				MathGame.getMasterPane().revalidate();
 				MathGame.getMasterPane().repaint();
 
-				selectedComponent.setLocation(tempX, tempY);
+				//selectedComponent.setLocation(tempX, tempY);
+				selectedComponent.setBounds(r);
 			}
 			/*
 			else { System.out.println("normal workpanel:"+workPanel);
@@ -111,6 +131,7 @@ public class CompMover extends MouseInputAdapter {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		System.out.println("mouse released event");
 		draggingCard = false;
 		Rectangle box1 = new Rectangle();
 		Rectangle box2 = new Rectangle();
@@ -255,6 +276,7 @@ public class CompMover extends MouseInputAdapter {
 	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		//System.out.println("mouse dragged event");
 		// System.out.println(e.getLocationOnScreen());
 		if (draggingCard) {
 			Rectangle r = selectedComponent.getBounds();

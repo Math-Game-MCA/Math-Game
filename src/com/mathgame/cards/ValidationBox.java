@@ -47,12 +47,12 @@ public class ValidationBox extends JTextField implements FocusListener {
 
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				System.out.println("change update");
+				//System.out.println("change update");
 			}
 
 			@Override
 			public void insertUpdate(DocumentEvent arg0) {
-				System.out.println("insert update");
+				//System.out.println("insert update");
 				if(checkCard()) {
 					setBackground(Color.green);
 				} else if(getText().equals("")) {
@@ -64,7 +64,7 @@ public class ValidationBox extends JTextField implements FocusListener {
 
 			@Override
 			public void removeUpdate(DocumentEvent arg0) {
-				System.out.println("delete update");
+				//System.out.println("delete update");
 				if(checkCard()) {
 					setBackground(Color.green);
 				} else if(getText().equals("")) {
@@ -82,21 +82,21 @@ public class ValidationBox extends JTextField implements FocusListener {
 	 * @return Whether the input matches the value (true) or not
 	 */
 	public boolean checkCard() {
-		System.out.println("this text " + this.getText());
-		System.out.println("card text " + numCard.getValue());
+		//System.out.println("this text " + this.getText());
+		//System.out.println("card text " + numCard.getValue());
 		double ans = numCard.getValue();
 		
 		// Alternative method of verifying value
 		try {
 			if (Math.abs(Double.parseDouble(this.getText()) - ans) < EPSILON) {
-				System.out.println("true");
+				//System.out.println("true");
 				return true;
 			} else {
-				System.out.println("false");
+				//System.out.println("false");
 				return false;
 			}
 		} catch(NumberFormatException e) {
-			System.out.println("false");
+			//System.out.println("false");
 			return false;
 		}
 		
