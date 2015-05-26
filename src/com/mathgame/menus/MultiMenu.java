@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
@@ -102,7 +103,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	    gamesList.setBackground(Color.WHITE);
 	    gamesList.setVisible(true);
 		
+	    JScrollPane scrollPane = new JScrollPane(usersList);
 		usersList = new JTextArea();
+		scrollPane.setBounds(650, 200, 200, 300);
 		usersList.setBounds(650, 200, 200, 300);
 		usersList.setBackground(Color.WHITE);
 		usersList.setBorder(BorderFactory.createTitledBorder(
@@ -148,7 +151,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		add(join);
 		add(practice);
 		add(gamesList);
-		add(usersList);
+		add(scrollPane);
 		add(userProfile);
 		
 		home.addActionListener(this);
