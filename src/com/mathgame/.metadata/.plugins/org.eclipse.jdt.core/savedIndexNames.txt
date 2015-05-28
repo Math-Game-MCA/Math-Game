@@ -1,0 +1,1 @@
+INDEX VERSION 1.127+X:\MathGames\Math-Game\src\com\mathgame\.metadata\.plugins\org.eclipse.jdt.core

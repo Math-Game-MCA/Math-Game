@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 /**
  * The SoundManager class is responsible for the sound effects and volume control of the Math Game
  * @author Raziq
+ * allCards - David
  */
 public class SoundManager {
 
@@ -48,7 +49,15 @@ public class SoundManager {
 		 * <p>
 		 * Source: https://www.freesound.org/people/timgormly/sounds/181857/
 		 */
-		INCORRECT (Applet.newAudioClip(SoundManager.class.getResource("/audio/incorrect.wav")));
+		INCORRECT (Applet.newAudioClip(SoundManager.class.getResource("/audio/incorrect.wav"))),
+		
+		/**
+		 * Whenever the user uses all cards
+		 * <p>
+		 * source: https://www.freesound.org/people/LittleRobotSoundFactory/sounds/270404/
+		 */
+		
+		ALLCARDS (Applet.newAudioClip(SoundManager.class.getResource("/audio/allCards.wav")));
 		
 		private final AudioClip sfx;
 		SoundType(AudioClip sfx) {
