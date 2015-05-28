@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
@@ -58,6 +59,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	private GameButton practice; // Press to enter practice mode
 	private JTextArea usersList;
 	private JTextArea userProfile; // Displays info about the selected user (win/loss, etc)
+	private JScrollPane scroll;
+	
 	
 	private final int NUMBER_PLAYERS = 2; //TODO Get rid of this
 	
@@ -111,6 +114,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 				titleFont, Color.BLACK));
 		usersList.setEditable(false);
 		usersList.setVisible(true);
+		scroll = new JScrollPane(usersList);
+		scroll.setBounds(650,200,200,300);
+		scroll.setBorder(BorderFactory.createEmptyBorder());
 		
 		userProfile = new JTextArea();
 		userProfile.setBounds(650, 50, 200, 150);
@@ -148,7 +154,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 		add(join);
 		add(practice);
 		add(gamesList);
-		add(usersList);
+		add(scroll);
 		add(userProfile);
 		
 		home.addActionListener(this);
