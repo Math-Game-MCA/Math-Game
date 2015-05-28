@@ -103,9 +103,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	    gamesList.setBackground(Color.WHITE);
 	    gamesList.setVisible(true);
 		
-	    JScrollPane scrollPane = new JScrollPane(usersList);
 		usersList = new JTextArea();
-		scrollPane.setBounds(650, 200, 200, 300);
 		usersList.setBounds(650, 200, 200, 300);
 		usersList.setBackground(Color.WHITE);
 		usersList.setBorder(BorderFactory.createTitledBorder(
@@ -114,6 +112,9 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 				titleFont, Color.BLACK));
 		usersList.setEditable(false);
 		usersList.setVisible(true);
+	    JScrollPane scrollPane = new JScrollPane(usersList);
+		scrollPane.setBounds(650, 200, 200, 300);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		
 		userProfile = new JTextArea();
 		userProfile.setBounds(650, 50, 200, 150);
