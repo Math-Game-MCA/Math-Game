@@ -15,12 +15,14 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.DefaultCaret;
 
 import com.mathgame.guicomponents.GameButton;
 import com.mathgame.guicomponents.GameDialogFactory;
@@ -60,8 +62,6 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	private JTextArea usersList;
 	private JTextArea userProfile; // Displays info about the selected user (win/loss, etc)
 	private JScrollPane scroll;
-	
-	
 	private final int NUMBER_PLAYERS = 2; //TODO Get rid of this
 	
 	private GameManager gameManager;
@@ -106,6 +106,8 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	    gamesList.setVisible(true);
 		
 		usersList = new JTextArea();
+		DefaultCaret caret = (DefaultCaret)usersList.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 		usersList.setBounds(650, 200, 200, 300);
 		usersList.setBackground(Color.WHITE);
 		usersList.setBorder(BorderFactory.createTitledBorder(
@@ -114,9 +116,11 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 				titleFont, Color.BLACK));
 		usersList.setEditable(false);
 		usersList.setVisible(true);
+		
 		scroll = new JScrollPane(usersList);
 		scroll.setBounds(650,200,200,300);
 		scroll.setBorder(BorderFactory.createEmptyBorder());
+	
 		
 		userProfile = new JTextArea();
 		userProfile.setBounds(650, 50, 200, 150);
