@@ -517,4 +517,4 @@ public class MathGame extends Container {
 	public static Dimension getAppSize()	{
 		return MathGame.size;
 	}
-}
+}// lucent wuz here
