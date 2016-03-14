@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.lang.*;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -77,7 +79,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		exit.setLocation(672, 335);
 	    
 	    sound = new JButton();
-		sound.setBounds(50, 40, SoundManager.currentVolumeButtonImage().getIconWidth(), SoundManager.currentVolumeButtonImage().getIconHeight());
+		sound.setBounds(15, 15, SoundManager.currentVolumeButtonImage().getIconWidth(), SoundManager.currentVolumeButtonImage().getIconHeight());
 	    sound.setBorderPainted(true);
 	    
 	    try	{
@@ -181,7 +183,17 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		}
 		
 		if (e.getSource() == enter) {
+			
+			/*
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}*/
 			startGame();
+			SoundManager.playSound(SoundManager.SoundType.WAIT);
+			System.out.println("Looping wait music");		
 		}
 		// else if(e.getSource() == help)
 			// helpbox();

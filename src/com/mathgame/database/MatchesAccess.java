@@ -15,6 +15,7 @@ import com.mathgame.menus.HostMenu;
 import com.mathgame.menus.MultiMenu;
 import com.mathgame.network.Game;
 import com.mathgame.network.GameManager;
+import javax.swing.JOptionPane;
 
 /**
  * The MatchesAccess class handles interactions with the online matches table
@@ -229,8 +230,10 @@ public class MatchesAccess extends MySQLAccess {
 			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID=" + matchNum);
 			
 			resultSet.next();
+                      System.out.println(resultSet + " hello");
 			if(!resultSet.getString("Player2").equals("")) {
 				System.out.println("Game is now full and can start");
+                                JOptionPane.showMessageDialog(null, "Full");
 				return true;
 			}
 			/*

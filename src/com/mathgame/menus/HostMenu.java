@@ -269,9 +269,19 @@ public class HostMenu extends JPanel implements ActionListener {
 			} else	{
 				System.out.println("GAMESTATE: "+ MathGame.getGameState());
 				if(MathGame.getGameState() == MathGame.GameState.PRACTICE)
-					startPractice();
+					try {
+						startPractice();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				else if(MathGame.getGameState() == MathGame.GameState.COMPETITIVE)
-					startMultiplayer();
+					try {
+						startMultiplayer();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 			}
 		}
 		else if(e.getSource() == cancel) {
@@ -313,8 +323,9 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	/**
 	 * Starts a practice game (single player)
+	 * @throws Exception 
 	 */
-	private void startPractice()	{
+	private void startPractice() throws Exception	{
 		setGameType();
 		MathGame.getTypeManager().randomize();
 		System.out.println("ENTER GAME");
@@ -324,8 +335,9 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	/**
 	 * Starts a multiplayer game
+	 * @throws Exception 
 	 */
-	private void startMultiplayer()	{
+	private void startMultiplayer() throws Exception	{
 		addGame();
 		MathGame.getCardPanel().hideCards(); // Hide cards until next player joins
 		System.out.println("ENTER GAME");
@@ -362,8 +374,9 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	/**
 	 * Adds a new game
+	 * @throws Exception 
 	 */
-	public void addGame() {
+	public void addGame() throws Exception {
 		this.setVisible(false);
 		// players = (Integer) playersSpinner.getModel().getValue();
 		players = 2;

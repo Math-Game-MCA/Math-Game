@@ -278,8 +278,7 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 	/**
 	 * Add the current user to the list of users
 	 */
-	public void addThisUser(){
-		try {
+	public void addThisUser(){		try {
 			if(MathGame.getMySQLAccess().getConnection() == null)
 				MathGame.getMySQLAccess().connect();
 			MathGame.getMySQLAccess().addUser();
@@ -429,7 +428,12 @@ public class MultiMenu extends JPanel implements ActionListener, MouseMotionList
 						gameManager.setGame(GameManager.getMatchesAccess().getGame(tempCard.getGameID()));
 						
 						typeManager.setType(gameManager.getGame().getType());
-						typeManager.randomize();
+						try {
+							typeManager.randomize();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						
 						GameManager.getMatchesAccess().setMatchNum(tempCard.getGameID()); 
 						System.out.println("MATCHNUM " + GameManager.getMatchesAccess().getMatchNum());

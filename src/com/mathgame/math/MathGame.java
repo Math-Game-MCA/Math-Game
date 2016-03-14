@@ -7,7 +7,6 @@ import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.menus.*;
 import com.mathgame.network.*;
 import com.mathgame.panels.*;
-
 import java.awt.*;
 import java.awt.dnd.DropTarget;
 import java.util.concurrent.ExecutionException;
@@ -72,7 +71,7 @@ public class MathGame extends Container {
 		/**
 		 * The menu for hosting new games
 		 */
-		HOSTMENU ("CardLayoutPanel HostMenu");
+		 HOSTMENU     ("CardLayoutPanel HostMenu");
 		
 		public final String cardLayoutString;
 		Menu(String cardLayoutString) {

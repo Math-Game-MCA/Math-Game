@@ -12,9 +12,6 @@ import com.mathgame.math.Calculate;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.TypeManager;
 
-import org.apache.poi.xssf.usermodel.*;
-
-import java.io.InputStream;
 
 
 /**
@@ -22,6 +19,7 @@ import java.io.InputStream;
  */
 public class CardPanel extends JPanel{
 
+    
 	private static final long serialVersionUID = -3726881692277688183L;
 	
 	public static final int NUM_OF_CARDS = 6;//there are 6 cards

@@ -8,9 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import javax.swing.JFrame;
-
 import com.mathgame.network.GameManager;
 
 /**

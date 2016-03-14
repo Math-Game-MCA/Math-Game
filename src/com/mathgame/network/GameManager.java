@@ -88,7 +88,7 @@ public class GameManager {
 	}
 
 
-	/**
+	/**     
 	 * @return The current Game
 	 */
 	public Game getGame() {

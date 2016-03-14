@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 
 /**
  * The SoundManager class is responsible for the sound effects and volume control of the Math Game
- * @author Raziq
+ * @author Raziq, David K.
  */
 public class SoundManager {
 
@@ -48,7 +48,13 @@ public class SoundManager {
 		 * <p>
 		 * Source: https://www.freesound.org/people/timgormly/sounds/181857/
 		 */
-		INCORRECT (Applet.newAudioClip(SoundManager.class.getResource("/audio/incorrect.wav")));
+		INCORRECT (Applet.newAudioClip(SoundManager.class.getResource("/audio/incorrect.wav"))),
+		
+		WAIT (Applet.newAudioClip(SoundManager.class.getResource("/audio/wait.wav"))),
+		
+		WIN (Applet.newAudioClip(SoundManager.class.getResource("/audio/win.wav"))),
+		
+		LOSE (Applet.newAudioClip(SoundManager.class.getResource("/audio/lose.wav")));
 		
 		private final AudioClip sfx;
 		SoundType(AudioClip sfx) {
@@ -70,6 +76,12 @@ public class SoundManager {
 	public static void playSound(SoundType type) {
 		if (musicPlay) {
 			type.sfx.play();
+		}
+	}
+	
+	public static void loopSound(SoundType type) {
+		if (musicPlay) {
+			type.sfx.loop();
 		}
 	}
 

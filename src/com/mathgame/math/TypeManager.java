@@ -7,16 +7,21 @@ import java.util.Random;
 
 import com.mathgame.cards.NumberCard;
 import com.mathgame.database.MySQLAccess;
+import com.mathgame.network.GameManager;
 import com.mathgame.panels.CardPanel;
 
-import java.io.File;
+import com.mysql.jdbc.*;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -32,7 +37,7 @@ public class TypeManager {
 	private MySQLAccess sql;
 
 	private CardPanel cP;
-
+        static int index = 0;
 	private ArrayList<String> values;
 	
 	/**
@@ -311,19 +316,71 @@ public class TypeManager {
 		}
 	}
 	
+	private int getSeed() throws SQLException{
+		if(!MathGame.getTypeManager().isOffline()){
+		MysqlDataSource ds = new MysqlDataSource();
+		ds.setUser("sofiav_user");
+		ds.setPassword("Mathgames1");
+		ds.setServerName("mcalearning.com");
+		//ds.setDatabaseName("sofiav_mathgame");
+		
+		// For testing, it should be mcalearning
+		 String host = "mcalearning.com"; // "192.185.4.77";
+		 String db = "sofiav_mathgame";
+		 final String user = "sofiav_user"; // "egarciao@localhost";
+		 final String pass = "Mathgames1"; //"oL20wC06xd";
+		
+		
+		Connection conn;
+		conn = (Connection) DriverManager.getConnection("jdbc:mysql://" + host + "/" + db, user, pass);
+		
+		Statement stmt = (Statement) conn.createStatement();
+		
+                //55 = lobby number
+                index = index % 6;
+                Random gen = new Random();
+           //     System.out.println(GameManager.getMatchesAccess().getMatchNum() * GameManager.getMatchesAccess().getCurrentRound() % 34000 + " hello");
+            ResultSet rs = null;
+            System.out.println(gen.nextInt() % 34000+" hjkjhj");
+           if(MathGame.getGameState().equals(MathGame.GameState.PRACTICE)){
+                   
+		rs  = stmt.executeQuery("select seed from sofiav_mathgame.seed where seed_id = " + Math.abs(( gen.nextInt() % 34000)));
+                }
+                else{
+                rs = stmt.executeQuery("select seed from sofiav_mathgame.seed where seed_id = " + ( GameManager.getMatchesAccess().getMatchNum() * GameManager.getMatchesAccess().getCurrentRound() % 34000));
+                }
+                    
+                index++;
+                rs.next();
+                System.out.println(rs.getInt(1));
+                int thingie = rs.getInt(1);
+                conn.close();
+                return thingie;}
+		else{
+			Random ran = new Random();
+			return ran.nextInt();
+		}
+	}
+	
 	/**
 	 * Generates a list of random values for use by randomize function
 	 * @param types
 	 * @return
+	 * @throws SQLException 
 	 */
-	private ArrayList<String> randomValues(EnumSet<GameType> types)	{
+	private ArrayList<String> randomValues(EnumSet<GameType> types) throws SQLException	{
 		ArrayList<String> cardVals = new ArrayList<String>();
 		Random gen = new Random();
+                int seed = getSeed();
+                    gen.setSeed(seed);
 		for(int i = 0; i < CardPanel.NUM_OF_CARDS; i++)	{
 			//select the type that will be the next card (that is a member of the types selected by user)
 			int rand = gen.nextInt(5);
-			while(!types.contains(GameType.values()[rand]))
+			while(!types.contains(GameType.values()[rand])){
+				
 				rand = gen.nextInt(5);
+                                System.out.println("rand is equal to " + rand);
+			}
 			System.out.println("rand is " + rand);
 			switch(rand)	{
 			case 0://integers
@@ -331,7 +388,7 @@ public class TypeManager {
 				break;
 			case 1://decimals
 				cardVals.add(String.valueOf(((int)(gen.nextDouble() * 100))/10.0));//generates decimal to tenth place
-				break;
+				break; 
 			case 2://fractions
 				int num = gen.nextInt(11) + 1;
 				int den = gen.nextInt(11) + 1;
@@ -502,8 +559,9 @@ public class TypeManager {
 	
 	/**
 	 * Assigns random values to the number cards
+	 * @throws Exception 
 	 */
-	public void randomize() {
+	public void randomize() throws Exception {
 		if(!MathGame.getTypeManager().isOffline())	{
 			try {
 				if (sql.getConnection() == null) {
@@ -525,6 +583,7 @@ public class TypeManager {
 			cP.getCards()[i].setStrValue(newVals.get(i));
 			values.set(i, newVals.get(i));
 			cP.getCards()[i].setValue(NumberCard.parseNumFromText((newVals.get(i))));
+                        System.out.println("hell");
 		}
 		//obtain answer value from database/excel
 		if(offline)	{
