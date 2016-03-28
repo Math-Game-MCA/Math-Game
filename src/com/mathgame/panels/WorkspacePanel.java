@@ -215,6 +215,7 @@ public class WorkspacePanel extends JPanel {
 			op = "\\times";
 		} else if(op.equals("divide")) {
 			op = " \\div ";
+			//Operator to be rendered with LaTeX
 		} else if(op.equals("exponent")){
 			op = "^";
 		}
@@ -259,6 +260,30 @@ public class WorkspacePanel extends JPanel {
 		super.paintComponents(g);
 		g.drawImage(background.getImage(), 0, 0, WorkspacePanel.this);
 	}
+
+	/**
+	 * @param s - A string representing the Latex equation to be rendered with or without '$' delimiting characters
+	 * @param size - Size of the rendered text
+	 * @param color - Background color of the label
+	 * @return JLabel with the rendered black LaTex text  
+	 */
+	JLabel createLatexLabel(String s, int size, Color color){
+		TeXFormula formula = new TeXFormula(s);
+		TeXIcon icon = formula.new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(size).build();
+		icon.setInsets(new Insets(5,5,5,5));
+		BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2 = image.createGraphics();
+		g2.setColor(color);
+		g2.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
+		System.out.println(s);
+		JLabel jl = new JLabel();
+		jl.setForeground(new Color(0,0,0));
+		icon.paintIcon(jl,  g2, 0, 9);
+		JLabel eqLabel = new JLabel(new ImageIcon(image));
+		return eqLabel;
+		
+		
+	}
 	
 	/**
 	 * The AnswerDialog class is used to ask the user (during a practice game) of the value of
@@ -299,18 +324,7 @@ public class WorkspacePanel extends JPanel {
 			cancel = new GameButton("Cancel");
 			cancel.addActionListener(this);
 			
-			TeXFormula formula = new TeXFormula(this.equation);
-			TeXIcon icon = formula.new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(50).build();
-			icon.setInsets(new Insets(5,5,5,5));
-			BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),BufferedImage.TYPE_INT_ARGB);
-			Graphics2D g2 = image.createGraphics();
-			g2.setColor(MathGame.offWhite);
-			g2.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
-			System.out.println(equation);
-			JLabel jl = new JLabel();
-			jl.setForeground(new Color(0,0,0));
-			icon.paintIcon(jl,  g2, 0, 9);
-			JLabel eqLabel = new JLabel(new ImageIcon(image));
+			JLabel eqLabel = createLatexLabel(this.equation, 25, MathGame.offWhite);
 			
 			
 			panel = new JPanel();

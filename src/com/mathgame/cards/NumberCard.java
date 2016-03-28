@@ -133,6 +133,11 @@ public class NumberCard extends JLabel {
 		}
 		else return s;
 	}
+	/**
+	 * Evaluates an expression and returns its LaTeX equivalent, similar to parseNumFromText
+	 * @param s - string to be evaluated
+	 * @return A LaTeX string equal to s 
+	 */
 	public static String parseLatex(String s){
 		String latex = "";
 		s = truncZero(s);
@@ -258,11 +263,19 @@ public class NumberCard extends JLabel {
 	 */
 	public void setStrValue(String strValue) {
 		this.strValue = strValue;
+		this.latexValue = parseLatex(strValue);
 		renderText(strValue);
 	}
+	/**
+	 * @return The latexValue - a conversion of strValue into LaTeX
+	 */
 	public String getLatexValue(){
+		this.latexValue = parseLatex(strValue);
 		return latexValue;
 	}
+	/**
+	 * @param latexValue - A plain string to set latexValue to
+	 */
 	public void setLatexValue(String latexValue){
 		this.latexValue = parseLatex(latexValue);
 	}
