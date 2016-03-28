@@ -6,7 +6,8 @@
 	<classpathentry kind="lib" path="poi-3.9-20121203.jar"/>
 	<classpathentry kind="lib" path="poi-ooxml-3.9-20121203.jar"/>
 	<classpathentry kind="lib" path="poi-ooxml-schemas-3.9-20121203.jar"/>
-	<classpathentry kind="lib" path="mysql-connector-java-5.1.23-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sng/Documents/GitHub/Math-Game/mysql-connector-java-5.1.38-bin.jar"/>
 	<classpathentry kind="lib" path="xbean.jar"/>
+	<classpathentry kind="lib" path="jlatex.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

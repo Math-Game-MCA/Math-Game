@@ -280,8 +280,8 @@ public class SidePanel extends JPanel implements ActionListener {
                             /*JOptionPane.showMessageDialog(this, "Congratulations!  Victory is yours! Points earned: " +
 									scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex() + 1));*/
                             GameDialogFactory.showGameMessageDialog(this, "Congratulations!",
-                                    "Victory is yours! Points earned: " + scorekeeper.uponWinning(
-                                            System.currentTimeMillis(), undo.getIndex() + 1), GameDialogFactory.OK);
+                                    "Victory is yours! Points earned: " + NumberCard.truncZero(Double.toString(scorekeeper.uponWinning(
+                                            System.currentTimeMillis(), undo.getIndex() + 1))), GameDialogFactory.OK);
                             //TODO Use sound, not dialog
                             //TODO Fix single player scoring system
                         }

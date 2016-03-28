@@ -154,6 +154,7 @@ public class ImageGenerator {
 				// Truncate
 				e = e.substring(0, e.length() - 1);
 			}
+			
 			g2d.drawString(e, 
 					(width / 2) - (metrics24.stringWidth(e) / 2), 
 					(height / 2) + (metrics24.getHeight() / 2) - 1);

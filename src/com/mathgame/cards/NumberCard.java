@@ -1,6 +1,7 @@
 package com.mathgame.cards;
 
 import java.awt.Color;
+import java.text.*;
 import java.awt.Dimension;
 // import java.awt.Font;
 import java.awt.Graphics;
@@ -20,6 +21,7 @@ public class NumberCard extends JLabel {
 	
 	private double value;
 	private String strValue;
+	private String latexValue;
 	private int width = 80;
 	private int height = 100;
 	private int numberTag;
@@ -49,7 +51,10 @@ public class NumberCard extends JLabel {
 	public NumberCard (double n) {
 		//n = round(n); // The value must be rounded to avoid errors when comparing value!
 		value = n;
-		strValue = Double.toString(n);
+		
+		DecimalFormat df = new DecimalFormat();
+		strValue = truncZero(df.format(n));
+		latexValue = parseLatex(df.format(n));
 		
 		// this.setText(String.valueOf(n));
 		// this.setFont(sansSerif36);
@@ -61,6 +66,7 @@ public class NumberCard extends JLabel {
 		imageFile = "card" + numberTag + "file";
 		imgGen.setImgFile(imageFile);
 		img = new ImageIcon();
+		
 		renderText(strValue);
 	}
 	
@@ -70,8 +76,8 @@ public class NumberCard extends JLabel {
 	public NumberCard(String s) {
 		// The value of the expression is evaluated before being stored as a string
 		value = parseNumFromText(s); 
-		strValue = s; // Meanwhile, the original expression is stored too
-		
+		strValue = truncZero(s); // Meanwhile, the original expression is stored too
+		latexValue = parseLatex(s);
 		// this.setText(s);
 		// this.setFont(sansSerif36);
 		this.setHorizontalAlignment(JLabel.CENTER);
@@ -98,7 +104,75 @@ public class NumberCard extends JLabel {
 	public void setHome(String home) {
 		this.home = home;
 	}
-
+	/**
+	 * Converts a string with a zero after the decimal point
+	 * and truncates it, along with the decimal point 
+	 * @param s - the string to evaluate
+	 * @return the same string or one with a truncated zero
+	 */
+	public static String truncZero(String s){
+		
+		if(s.contains(".")){
+			int dpPos = 0;
+			String result = "";
+			for(int i = 0; i < s.length(); i++){
+				
+				if(s.charAt(i)=='.'){
+					dpPos = i;
+					break;
+				}
+				result += s.charAt(i);
+			}
+			if(dpPos==s.length()-1)
+				return result;
+			for(int i = dpPos+1; i < s.length(); i++)
+				if(s.charAt(i)!='0')
+					return s;
+			System.out.println("Zero truncated");
+			return result;
+		}
+		else return s;
+	}
+	public static String parseLatex(String s){
+		String latex = "";
+		s = truncZero(s);
+		System.out.println("Parsing Latex: "+s);
+		if(s.contains("/"))	{// The expression contains a fraction
+			String hold[] = s.split("/"); // Splits the expression into two components
+			
+			hold[0] = hold[0].trim(); // The numerator
+			hold[1] = hold[1].trim(); // The denominator
+			
+			latex += "\\frac {"+hold[0]+"}{"+hold[1]+"}";
+		}
+		else if(s.contains("^"))	{// The expression contains an exponent			
+			String hold[] = s.split("\\^");
+			
+			hold[0] = hold[0].trim(); // The base
+			hold[1] = hold[1].trim(); // The power
+			
+			latex+=hold[0]+"^{"+hold[1]+"}";
+		}
+		else if(s.contains("_") && s.contains("(") && s.contains(")"))	{
+			//This expression contains a logarithm of the form: log_x(n)
+			
+			String hold[] = s.split("[_()]"); // Splits the expression into three parts
+			
+			hold[0] = hold[0].trim(); // The word "log"
+			hold[1] = hold[1].trim(); // The base
+			hold[2] = hold[2].trim(); // The number (n) whose logarithm is being found
+			
+			latex+="\\log_{"+hold[1]+"}{"+hold[2]+"}";
+		}
+		
+		else latex+=s;//nothing?  it's probably an integer
+		
+		System.out.println("Latex: "+latex);
+		return latex;
+		
+		
+	}
+	
 	/**
 	 * Evaluates the expression and returns a double
 	 * @param s - The entered String expression
@@ -107,13 +181,16 @@ public class NumberCard extends JLabel {
 	public static double parseNumFromText(String s){
 		System.out.println("parsing: "+s);
 		if(s.contains("."))	{//probably a decimal, but no log_ included
+			
 			return Double.valueOf(s);
+			
 		}
 		else if(s.contains("/"))	{// The expression contains a fraction
 			String hold[] = s.split("/"); // Splits the expression into two components
 			
 			hold[0] = hold[0].trim(); // The numerator
 			hold[1] = hold[1].trim(); // The denominator
+			
 			return Double.valueOf(hold[0])/Double.valueOf(hold[1]);
 		}
 		else if(s.contains("^"))	{// The expression contains an exponent			
@@ -183,6 +260,12 @@ public class NumberCard extends JLabel {
 		this.strValue = strValue;
 		renderText(strValue);
 	}
+	public String getLatexValue(){
+		return latexValue;
+	}
+	public void setLatexValue(String latexValue){
+		this.latexValue = parseLatex(latexValue);
+	}
 
 	@Override
 	public int getWidth() {
@@ -229,6 +312,7 @@ public class NumberCard extends JLabel {
 	 * @param t - The expression to render
 	 */
 	public void renderText(String t) {
+		t = truncZero(t);
 		imgGen.renderExpression(t);
 		revalidate();
 		repaint();

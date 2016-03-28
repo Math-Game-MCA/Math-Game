@@ -1,15 +1,19 @@
 package com.mathgame.panels;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -21,6 +25,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+
+import org.scilab.forge.jlatexmath.TeXConstants;
+import org.scilab.forge.jlatexmath.TeXFormula;
+import org.scilab.forge.jlatexmath.TeXIcon;
+import org.scilab.forge.jlatexmath.TeXFormula.TeXIconBuilder;
 
 import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
@@ -203,14 +212,17 @@ public class WorkspacePanel extends JPanel {
 		} else if(op.equals("subtract")) {
 			op = "-";
 		} else if(op.equals("multiply")) {
-			op = "*";
+			op = "\\times";
 		} else if(op.equals("divide")) {
-			op = "/";
+			op = " \\div ";
+		} else if(op.equals("exponent")){
+			op = "^";
 		}
-		
+		((NumberCard)(this.getComponent(0))).setLatexValue(((NumberCard)(this.getComponent(0))).getStrValue());
+		((NumberCard)(this.getComponent(2))).setLatexValue(((NumberCard)(this.getComponent(2))).getStrValue());
 		AnswerDialog ansInput = new AnswerDialog((JFrame) this.getTopLevelAncestor(), answer, 
-				((NumberCard)(this.getComponent(0))).getStrValue() + " " + op + " " +
-				((NumberCard)(this.getComponent(2))).getStrValue() + "= ");
+				"{"+((NumberCard)(this.getComponent(0))).getLatexValue() + "} " + op + " {" +
+				((NumberCard)(this.getComponent(2))).getLatexValue()+"}=");
 		ansInput.pack();
 		ansInput.setModalityType(AnswerDialog.DEFAULT_MODALITY_TYPE); // Replaces setModal(true)
 		ansInput.setVisible(true);
@@ -266,6 +278,7 @@ public class WorkspacePanel extends JPanel {
 		private JLabel incorrect;
 		private boolean isCorrect;
 		
+		
 		/**
 		 * @param fr - The JFrame that this dialog originates from
 		 * @param answer - The answer to the equation
@@ -286,8 +299,19 @@ public class WorkspacePanel extends JPanel {
 			cancel = new GameButton("Cancel");
 			cancel.addActionListener(this);
 			
-			JLabel eqLabel = new JLabel(this.equation);
-			eqLabel.setFont(MathGame.eurostile16);
+			TeXFormula formula = new TeXFormula(this.equation);
+			TeXIcon icon = formula.new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(50).build();
+			icon.setInsets(new Insets(5,5,5,5));
+			BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),BufferedImage.TYPE_INT_ARGB);
+			Graphics2D g2 = image.createGraphics();
+			g2.setColor(MathGame.offWhite);
+			g2.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
+			System.out.println(equation);
+			JLabel jl = new JLabel();
+			jl.setForeground(new Color(0,0,0));
+			icon.paintIcon(jl,  g2, 0, 9);
+			JLabel eqLabel = new JLabel(new ImageIcon(image));
+			
 			
 			panel = new JPanel();
 			panel.setBackground(MathGame.offWhite);
