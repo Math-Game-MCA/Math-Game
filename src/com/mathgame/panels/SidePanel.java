@@ -280,8 +280,8 @@ public class SidePanel extends JPanel implements ActionListener {
                             /*JOptionPane.showMessageDialog(this, "Congratulations!  Victory is yours! Points earned: " +
 									scorekeeper.uponWinning(System.currentTimeMillis(), undo.getIndex() + 1));*/
                             GameDialogFactory.showGameMessageDialog(this, "Congratulations!",
-                                    "Victory is yours! Points earned: " + scorekeeper.uponWinning(
-                                            System.currentTimeMillis(), undo.getIndex() + 1), GameDialogFactory.OK);
+                                    "Victory is yours! Points earned: " + NumberCard.truncZero(Double.toString(scorekeeper.uponWinning(
+                                            System.currentTimeMillis(), undo.getIndex() + 1))), GameDialogFactory.OK);
                             //TODO Use sound, not dialog
                             //TODO Fix single player scoring system
                         }
@@ -304,7 +304,7 @@ public class SidePanel extends JPanel implements ActionListener {
                                 "Incorrect answer.  Try again.", GameDialogFactory.OK);
                         scorekeeper.uponDeduction(1);
                         points = (int) scorekeeper.getTotalScore();
-                        score.setText(Integer.toString(points));
+                        score.setText(NumberCard.truncZero(Integer.toString(points)));
                     }
                 }
 
@@ -320,7 +320,7 @@ public class SidePanel extends JPanel implements ActionListener {
         } else if (e.getSource() == reset) {
             scorekeeper.uponDeduction(2); // Lose points for getting a new set
             points = (int) (scorekeeper.getTotalScore());
-            score.setText(Integer.toString(points));
+            NumberCard.truncZero(Integer.toString(points));
             try {
                 resetFunction();
             } catch (Exception e1) {
@@ -333,7 +333,7 @@ public class SidePanel extends JPanel implements ActionListener {
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, null, null) == 0) {*/
             if (GameDialogFactory.showGameOptionDialog(this, "Exit", "Are you sure you want to exit?") == 0) {
-                score.setText("0.0"); // Reset the score
+                score.setText("0"); // Reset the score
                 exit.setEnabled(true);
 
                 try {
