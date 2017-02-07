@@ -22,9 +22,9 @@ public class HoldPanel extends JPanel {
 	private static final long serialVersionUID = -2013522168342802483L;
 	
 	static final String IMAGE_FILE = "/images/card holder.png";
-	ImageIcon background;
+	private ImageIcon background;
 	
-	public void init(MathGame mathGame)	{
+	public void init()	{
 		this.setLayout(new FlowLayout());
 		Border empty = BorderFactory.createEmptyBorder(10,10,10,10);
 		this.setBorder(empty);
@@ -35,7 +35,6 @@ public class HoldPanel extends JPanel {
 		size.height = 150;
 		setPreferredSize(size);
 		
-		// background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
 		background = new ImageIcon(HoldPanel.class.getResource(IMAGE_FILE));
 	}
 	

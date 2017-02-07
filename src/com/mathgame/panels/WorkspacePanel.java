@@ -24,6 +24,8 @@ import javax.swing.border.Border;
 
 import com.mathgame.cards.NumberCard;
 import com.mathgame.cards.OperationCard;
+import com.mathgame.guicomponents.GameButton;
+import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.math.Calculate;
 import com.mathgame.math.CompMover;
 import com.mathgame.math.MathGame;
@@ -39,16 +41,14 @@ public class WorkspacePanel extends JPanel {
 
 	private static final long serialVersionUID = 7408931441173570326L;
 	
-	static MathGame mathGame;
-	
 	private static final String IMAGE_FILE = "/images/Workspace.png";
 	
-	ImageIcon background;
+	private ImageIcon background;
 	
-	CompMover mover;
-	TypeManager typeManager;
+	private CompMover mover;
+	private TypeManager typeManager;
 	
-	public void init(MathGame mathGame) {
+	public void init() {
 		this.setLayout(new FlowLayout());
 
 		Border empty = BorderFactory.createEmptyBorder(70,70,70,70);
@@ -60,13 +60,11 @@ public class WorkspacePanel extends JPanel {
 		size.height = 260;
 		setPreferredSize(size);
 		
-		// background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
 		background = new ImageIcon(WorkspacePanel.class.getResource(IMAGE_FILE));
 		
-		mover = new CompMover();
+		mover = MathGame.getCompMover();
 		
-		WorkspacePanel.mathGame = mathGame;
-		typeManager = mathGame.getTypeManager();
+		typeManager = MathGame.getTypeManager();
 	}
 	
 	/** 
@@ -78,7 +76,7 @@ public class WorkspacePanel extends JPanel {
 		
 		Double answer = null;
 		if (count == 3) {
-			answer = Calculate.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2), mathGame);
+			answer = Calculate.calculate(this.getComponent(0), this.getComponent(1), this.getComponent(2));
 		}
 		
 		if (answer != null) {
@@ -89,65 +87,65 @@ public class WorkspacePanel extends JPanel {
 				NumberCard tempnum1 = (NumberCard)(this.getComponent(0));
 				NumberCard tempnum2 = (NumberCard)(this.getComponent(2));
 
-				mathGame.getOperationPanel().addOperator(currentOperation());
+				MathGame.getOperationPanel().addOperator(currentOperation());
 				
 				if (tempnum1.getHome() == "home") {
 					// The card was originally in the card panel
 					System.out.println("restore card1; value: " + tempnum1.getStrValue());
-					mathGame.getCardPanel().restoreCard(tempnum1.getStrValue());
+					MathGame.getCardPanel().restoreCard(tempnum1.getStrValue());
 				} else if (tempnum1.getHome() == "hold") {
 					// The card was originally in the holding area
-					for (int x = 0; x < mathGame.getHoldPanel().getComponentCount(); x++) {
-						NumberCard temp = (NumberCard)(mathGame.getHoldPanel().getComponent(0));
+					for (int x = 0; x < MathGame.getHoldPanel().getComponentCount(); x++) {
+						NumberCard temp = (NumberCard)(MathGame.getHoldPanel().getComponent(0));
 						if (temp.getHome() == "home") {
 							// Check for cards that were dragged from home into workspace and restore them
-							mathGame.getCardPanel().restoreCard(temp.getStrValue());
+							MathGame.getCardPanel().restoreCard(temp.getStrValue());
 						}
 					}
-					mathGame.getHoldPanel().add(tempnum1);
+					MathGame.getHoldPanel().add(tempnum1);
 				}
 
 				if (tempnum2.getHome() == "home") {
 					System.out.println("restore card2; value: " + tempnum2.getStrValue());
-					mathGame.getCardPanel().restoreCard(tempnum2.getStrValue());
+					MathGame.getCardPanel().restoreCard(tempnum2.getStrValue());
 				} else if (tempnum2.getHome() == "hold") {
-					for (int x = 0; x < mathGame.getHoldPanel().getComponentCount(); x++) {
-						NumberCard temp = (NumberCard)(mathGame.getHoldPanel().getComponent(0));
+					for (int x = 0; x < MathGame.getHoldPanel().getComponentCount(); x++) {
+						NumberCard temp = (NumberCard)(MathGame.getHoldPanel().getComponent(0));
 						if (temp.getHome() == "home") {
-							mathGame.getCardPanel().restoreCard(temp.getStrValue());
+							MathGame.getCardPanel().restoreCard(temp.getStrValue());
 						}
 					}
-					mathGame.getHoldPanel().add(tempnum2);
+					MathGame.getHoldPanel().add(tempnum2);
 				} else {
 					System.out.println("HELP");
 				}
 				
 				this.removeAll();
 
-				mathGame.getWorkspacePanel().revalidate();
-				mathGame.getWorkspacePanel().repaint();
-				mathGame.getHoldPanel().revalidate();
-				mathGame.getHoldPanel().repaint();
-				mathGame.getCardPanel().revalidate();
+				MathGame.getWorkspacePanel().revalidate();
+				MathGame.getWorkspacePanel().repaint();
+				MathGame.getHoldPanel().revalidate();
+				MathGame.getHoldPanel().repaint();
+				MathGame.getCardPanel().revalidate();
 				
 				return;
 			}
 			
 			boolean ansState = true;
 			// In practice mode, the user must evaluate the answer too
-			if(mathGame.getGameState() == GameState.PRACTICE) {
+			if(MathGame.getGameState() == GameState.PRACTICE) {
 				ansState = askAnswer(answer);
 			}
 			
 			NumberCard answerCard = new NumberCard(answer);
 			
-			if (typeManager.getType() == GameType.FRACTIONS) {
+			if (typeManager.getType().contains(GameType.FRACTIONS)) {
 				String temp = TypeManager.convertDecimaltoFraction(answer);
-				answerCard.setValue(temp);
+				answerCard.setValue(answer);
 				answerCard.setStrValue(temp);
 				System.out.println("as fraction: " + TypeManager.convertDecimaltoFraction(answer));
 			} else {
-				answerCard.setValue(""+answer);
+				answerCard.setValue(answer);
 			}
 			
 			answerCard.addMouseListener(mover);
@@ -163,12 +161,12 @@ public class WorkspacePanel extends JPanel {
 					NumberCard card2 = (NumberCard) this.getComponent(2);
 					OperationCard op = (OperationCard) this.getComponent(1);
 					System.out.println("Registering new Move");
-					mathGame.getSidePanel().undo.registerNewMove(card1, op, card2, answerCard);
+					MathGame.getSidePanel().getUndo().registerNewMove(card1, op, card2, answerCard);
 					// When cards collide... it becomes a new move!
 				}
 			}
 
-			mathGame.getOperationPanel().addOperator(currentOperation());
+			MathGame.getOperationPanel().addOperator(currentOperation());
 			
 			System.out.println("NUM:" + this.getComponentCount());
 			this.removeAll();
@@ -177,7 +175,7 @@ public class WorkspacePanel extends JPanel {
 			
 			if (!ansState) {
 				// If false, undo (this means user cancelled inputting function)
-				mathGame.getSidePanel().undoFunction();
+				MathGame.getSidePanel().undoFunction();
 			}
 			
 			// System.out.println(answerCard.getParent());
@@ -259,11 +257,11 @@ public class WorkspacePanel extends JPanel {
 
 		private static final long serialVersionUID = -8292422603267484832L;
 		
-		private String input; // What the user inputs as the answe
+		private String input; // What the user inputs as the answer
 		private String equation; // The equation to display
 		private Double answer; // The answer to the equation
 		private JTextField text;
-		private JButton cancel;
+		private GameButton cancel;
 		private JPanel panel;
 		private JLabel incorrect;
 		private boolean isCorrect;
@@ -274,20 +272,26 @@ public class WorkspacePanel extends JPanel {
 		 * @param equation - The equation to display
 		 */
 		public AnswerDialog(JFrame fr, Double answer, String equation) {
-			super(fr, true);
+			super((JFrame)MathGame.getWorkspacePanel().getTopLevelAncestor(), true);//uses the JFrame
 			this.answer = answer;
 			this.equation = equation;
 			
 			text = new JTextField(10); // Size 10 font
+			text.setFont(MathGame.eurostile16);
 			text.addActionListener(this);
 			
 			incorrect = new JLabel("Incorrect");
+			incorrect.setFont(MathGame.eurostile16);
 			
-			cancel = new JButton("Cancel");
+			cancel = new GameButton("Cancel");
 			cancel.addActionListener(this);
 			
+			JLabel eqLabel = new JLabel(this.equation);
+			eqLabel.setFont(MathGame.eurostile16);
+			
 			panel = new JPanel();
-			panel.add(new JLabel(this.equation));
+			panel.setBackground(MathGame.offWhite);
+			panel.add(eqLabel);
 			panel.add(text);
 			panel.add(incorrect);
 			panel.add(cancel);
@@ -295,7 +299,8 @@ public class WorkspacePanel extends JPanel {
 			incorrect.setVisible(false);
 			
 			setContentPane(panel);
-			setAutoRequestFocus(true);
+			setLocationRelativeTo(null);//centers dialog on screen
+			setAutoRequestFocus(true);//puts dialog on top (focused)
 			
 			/*
 			addWindowListener(new WindowAdapter()	{

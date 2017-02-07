@@ -8,29 +8,24 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import javax.swing.JFrame;
-
 import com.mathgame.network.GameManager;
 
 /**
  * The Window class is where execution of Epsilon (the Math Game) begins
  */
 public class Window	{
-
-	static MathGame mg;
 	
 	private static void createAndShowGUI()	{
 		JFrame frame = new JFrame("Epsilon");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		mg = new MathGame();
-		frame.getContentPane().add(mg);
+		frame.getContentPane().add(new MathGame());
 		
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addWindowListener(new MathWindowListener());
-
+		frame.setLocationRelativeTo(null);//center the game on screen
 		frame.setVisible(true);
 	}
 	
@@ -40,7 +35,6 @@ public class Window	{
 				createAndShowGUI();
 			}
 		});
-
 	}
 	
 	private static class MathWindowListener implements WindowListener{
@@ -83,14 +77,16 @@ public class Window	{
 			    System.err.println(x);
 			}
 			
-			try {
-				if(mg.getMySQLAccess().getConnection().getWarnings() == null) {
-					mg.getMySQLAccess().connect();
+			if(!MathGame.getTypeManager().isOffline()){
+				try {
+					if(MathGame.getMySQLAccess().getConnection().getWarnings() == null) {
+						MathGame.getMySQLAccess().connect();
+					}
+					MathGame.getMySQLAccess().removeUser();
+					GameManager.getMatchesAccess().removeGame();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				mg.getMySQLAccess().removeUser();
-				GameManager.getMatchesAccess().removeGame();
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 			
 		}

@@ -49,7 +49,7 @@ public class OperationCard extends JLabel {
 	 * @param mathGame
 	 * @param operation - The operation
 	 */
-	public OperationCard (MathGame mathGame, String operation) {
+	public OperationCard (String operation) {
 		String imageFile = null;
 		if (operation.equals("add")) {
 			imageFile = "add.png";
@@ -59,13 +59,13 @@ public class OperationCard extends JLabel {
 			imageFile = "multiply.png";
 		} else if (operation.equals("divide")) {
 			imageFile = "divide.png";
-		} else {		
+		} else if (operation.equals("exponent")) {
+			imageFile = "exponent.png";
+		}  else {		
 			System.err.println("Invalid operation");
 		}
 		
 		this.operation = operation;
-		
-		// Image background = mathGame.getImage(mathGame.getDocumentBase(), "images/"+imageFile);
 		
 		ImageIcon icon = new ImageIcon(OperationPanel.class.getResource("/images/"+imageFile));
 		this.setIcon(icon);

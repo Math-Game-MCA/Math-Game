@@ -1,5 +1,7 @@
 package com.mathgame.network;
 
+import com.mathgame.math.SoundManager;
+
 /**
  * The User class represents the individual users
  */
@@ -33,12 +35,14 @@ public class User {
 		if (won) {
 			modifier = rival.getRankValue() / rankValue;
 			gamesWon++;
+			SoundManager.playSound(SoundManager.SoundType.WIN);
 			
 			rankValue = rankValue + (score * modifier);	
 		} else {
 			modifier = rankValue / rival.getRankValue();
 			modifier *= -1;
 			gamesLost++;
+			SoundManager.playSound(SoundManager.SoundType.LOSE);
 			
 			rankValue = rankValue + ((1 / score) * modifier);	
 		}

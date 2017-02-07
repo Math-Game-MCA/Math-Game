@@ -7,8 +7,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Random;
 
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.math.MathGame;
+import com.mathgame.math.MathGame.Menu;
+import com.mathgame.math.TypeManager.GameType;
+import com.mathgame.network.GameManager;
 
 /**
  * The MySQLAccess class handles connections to the MySQL database
@@ -22,7 +30,7 @@ public class MySQLAccess{
 	private final String user = "sofiav_user"; // "egarciao@localhost";
 	private final String pass = "Mathgames1"; //"oL20wC06xd";
 	
-	private Connection connection = null;
+	protected Connection connection = null;
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
@@ -40,7 +48,7 @@ public class MySQLAccess{
 	
 	public MySQLAccess(MathGame game) {
 		mathGame = game;
-		gameAccess = new GameAccess(game, connection);
+		gameAccess = new GameAccess(connection);
 		System.out.println("11111111111" + game.getBackground()); //TODO Just a test message? It often returns "null" anyway
 	}
 	
@@ -75,6 +83,7 @@ public class MySQLAccess{
 			System.out.println("ErrorO: " + e.getMessage());
 			System.out.println("Error1: " + e.getClass().getName());
 			sqlError = e.getMessage(); 
+			
 			// sqlError.concat(e.getCause().toString());
 			// sqlError = e.getStackTrace().toString();
 		}
@@ -111,7 +120,7 @@ public class MySQLAccess{
 	/**
 	 * @return The string value of num2 (the righthand NumberCard)
 	 */
-	public String  getNum2()
+	public String getNum2()
 	{
 		// System.out.println("num2 " + num2);
 		return num2;
@@ -132,15 +141,29 @@ public class MySQLAccess{
 	 */
 	public void getVals() throws Exception
 	{
+		//TODO a better implementation would be to simply pass the type into the getvals method rather than find it here.
 		String gameType;
-		if (mathGame != null) {
-			gameType = mathGame.getTypeManager().getType().toString().toLowerCase();
+		//select the type table (that is a member of the types selected by user)
+		Random gen = new Random();
+		int rand = gen.nextInt(5);
+		while(!MathGame.getTypeManager().getType().contains(GameType.values()[rand]))
+			rand = gen.nextInt(5);
+		gameType = GameType.values()[rand].gameTypeString.toLowerCase();
+		
+		/*if (mathGame != null) {
+			gameType = MathGame.getTypeManager().getType().toString().toLowerCase();
 		} else {
 			gameType = "integers";
-		}
+		}*/
 		
 		try {
 			statement = connection.createStatement();
+			/*if(gameType.equals(GameType.MIXED.gameTypeString.toLowerCase()))	{
+				//mixed, just select one table
+				Random gen = new Random();
+				resultSet = statement.executeQuery("select * from sofiav_mathgame." + GameType.values()[gen.nextInt(5)].gameTypeString.toLowerCase());
+			}
+			else*/
 			resultSet = statement.executeQuery("select * from sofiav_mathgame." + gameType);
 			
 			int offset = (int)((Math.random()*98) + 1);
@@ -163,6 +186,7 @@ public class MySQLAccess{
 			*/
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
+			
 			throw e;
 		}
 		/*
@@ -170,56 +194,6 @@ public class MySQLAccess{
 			System.out.println("finally block");
 		}
 		*/
-	}
-	
-	/**
-	 * Test function for writing and reading comments to and from the database?
-	 * @throws Exception
-	 */
-	public void writeCommentsDatabase() throws Exception {
-		try {
-			// Class.forName("com.mysql.jdbc.Driver");
-			// connect = DriverManager.getConnection("jdbc:MySQL://localhost/test", "root", "");
-			
-			statement = connection.createStatement();
-			System.out.println("here1");
-			resultSet = statement.executeQuery("select * from test.comments");
-			writeResultSet(resultSet);
-						
-			preparedStatement = connection.prepareStatement("INSERT INTO test.comments values(default, ?, ?, ?, ?, ?, ?)");
-			// Columns in test.comments
-			// myuser, email, webpage, datum, summary, COMMENTS
-			preparedStatement.setString(1, "Test");
-			preparedStatement.setString(2, "TestEmail");
-			preparedStatement.setString(3, "TestWebpage");
-			preparedStatement.setDate(4, java.sql.Date.valueOf("2009-12-11"));
-
-			preparedStatement.setString(5, "Test Summary");
-			preparedStatement.setString(6, "Test Comment");
-			System.out.println("here2");
-			preparedStatement.executeUpdate();
-			
-			preparedStatement = connection.prepareStatement("SELECT myuser, webpage, datum, summary, comments FROM test.comments");
-			System.out.println("here3");
-			resultSet = preparedStatement.executeQuery();
-			writeResultSet(resultSet);
-			
-			/*
-			preparedStatement = connect.prepareStatement("DELETE FROM test.comments WHERE myuser=?;");
-			preparedStatement.setString(1, "Test");
-			preparedStatement.executeUpdate();
-			*/
-			
-			resultSet = statement.executeQuery("SELECT * FROM test.comments;");
-			System.out.println("Writing meta data");
-			writeMetaData(resultSet);		
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			close();
-			System.out.println("ALMOST");
-		}
-		System.out.println("AT THE END");
 	}
 	
 	/**
@@ -314,7 +288,7 @@ public class MySQLAccess{
 	 * @throws Exception
 	 */
 	public ArrayList<String> getUsersGame() throws Exception {
-		gameAccess = new GameAccess(mathGame, connection);
+		gameAccess = new GameAccess(connection);
 		return gameAccess.getUsers();
 	}
 	
@@ -322,19 +296,65 @@ public class MySQLAccess{
 	 * Adds the user to the list
 	 */
 	public void addUser() {
-		gameAccess.addUser();	
+		gameAccess.addOnlineUser();	
 	}
 	
 	/**
 	 * Removes the user from the list
 	 */
 	public void removeUser() {
-		gameAccess.removeUser(connection);	
+		gameAccess.removeOnlineUser(connection);	
 	}
 	
-	/*
-	public boolean isConnected() {
-		return connect;
+	public boolean loginUser(String u, char[] p){
+		return gameAccess.checkUserLogin(u, p);
 	}
-	*/
+	
+	public void registerUser(String u, String p){
+		gameAccess.registerUser(u, p);
+	}
+	
+	public boolean displayUserConnectAgain(){
+		Object[] options = {"Yes", "No"};
+		int option = JOptionPane.showOptionDialog(new JPanel(),
+			    "Could not connect to server - Connect again?",
+			    "Connect again?",
+			    JOptionPane.YES_NO_OPTION,
+			    JOptionPane.QUESTION_MESSAGE,
+			    null,
+			    options, 
+			    null);
+		if(option == 0)//Yes - try to connect again
+		{
+			if (!MathGame.getMySQLAccess().connect()) {
+				System.out.println("COULD NOT CONNECT");		
+				GameDialogFactory.showGameMessageDialog(new JPanel(), "Connect fail", "Could not connect-"
+						+ "Check your internet connection", GameDialogFactory.OK);
+				System.out.println("Could not connect to network");	
+				MathGame.getTypeManager().setOffline(true);
+				MathGame.showMenu(Menu.MAINMENU);
+				return false;
+			}
+			else {
+				System.out.println("CONNECTED ONCE AGAIN");
+				GameDialogFactory.showGameMessageDialog(new JPanel(), "Success", "Connected!", GameDialogFactory.OK);					
+				if(GameManager.getMatchesAccess() != null)
+					GameManager.getMatchesAccess().reconnectStatement();
+				else
+				{
+					GameManager gm = new GameManager();
+					GameManager.getMatchesAccess().reconnectStatement();
+				}
+				MathGame.dbConnected = true;
+				MathGame.getTypeManager().setOffline(false);
+				return true;
+			}
+		}
+		else	{//user declines to connect again; so initiate offline mode
+			MathGame.getTypeManager().setOffline(true);
+			MathGame.showMenu(Menu.MAINMENU);
+		}
+		return false;
+		
+	}
 }

@@ -17,10 +17,9 @@ public class Calculate {
 	 * @param c1 - The number card on the left
 	 * @param oper - The card that contains the operation
 	 * @param c2 - The number card on the right
-	 * @param game - The MathGame object
 	 * @return The value of the given expression
 	 */
-	public static Double calculate(Component c1, Component oper, Component c2, MathGame game) {
+	public static Double calculate(Component c1, Component oper, Component c2) {
 		NumberCard card1 = null;
 		NumberCard card2 = null;
 		OperationCard operation = null;
@@ -33,8 +32,8 @@ public class Calculate {
 			return null;
 		}
 		
-		double num1 = NumberCard.parseNumFromText(card1.getValue());
-		double num2 = NumberCard.parseNumFromText(card2.getValue());
+		double num1 = card1.getValue();
+		double num2 = card2.getValue();
 		System.out.println("num1 final : " + card1.getValue());
 		System.out.println("num2 final : " + num2);
 		System.out.println("op final: " + operation.getOperation());
@@ -49,6 +48,8 @@ public class Calculate {
 			answer = num1 * num2;
 		} else if(op == "divide")	{
 			answer = num1 / num2;
+		} else if(op == "exponent") {
+			answer = Math.pow(num1, num2);
 		} else {
 			answer = -1;
 		}

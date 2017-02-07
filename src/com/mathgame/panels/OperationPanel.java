@@ -22,33 +22,34 @@ public class OperationPanel extends JPanel
 	public OperationCard subtract;
 	public OperationCard multiply;
 	public OperationCard divide;
+	public OperationCard exponent;
+	//TODO EXPONENT: Add the exponent card (DONE)
 
 	static final String IMAGE_FILE = "/images/Operation bar.png";
-	ImageIcon background;
+	private ImageIcon background;
 	
-	JLayeredPane masterLayer;
+	private JLayeredPane masterLayer;
 	
 	/**
 	 * Initialize the OperationPanel, using the MathGame as a JLayeredPane
-	 * 
-	 * @param mathGame - The MathGame that contains the master layer
-	 * @param mover - The CompMover object that will handle the moving of cards
 	 */
-	public void init(MathGame mathGame, CompMover mover)
+	public void init()
 	{
 		setLayout(null);
 		// TitledBorder opBorder = BorderFactory.createTitledBorder("Operation Panel");
 		// this.setBorder(new LineBorder(Color.black));
 		
-		add = new OperationCard(mathGame, "add");
-		subtract = new OperationCard(mathGame, "subtract");
-		multiply = new OperationCard(mathGame, "multiply");
-		divide = new OperationCard(mathGame, "divide");
+		add = new OperationCard("add");
+		subtract = new OperationCard("subtract");
+		multiply = new OperationCard("multiply");
+		divide = new OperationCard("divide");
+		exponent = new OperationCard("exponent");
 		
 		add.setBounds(20, 160, 40, 40);
 		subtract.setBounds(80, 160, 40, 40);
 		multiply.setBounds(140, 160, 40, 40);
 		divide.setBounds(200, 160, 40, 40);
+		exponent.setBounds(260, 160, 40, 40);
 		
 		Dimension panelsize = new Dimension(750,60);
 		this.setPreferredSize(panelsize);
@@ -56,8 +57,10 @@ public class OperationPanel extends JPanel
 		this.add(subtract);
 		this.add(multiply);
 		this.add(divide);
+		this.add(exponent);
+		//TODO EXPONENT: Add and initialize the exponent card. Use the "operation bar.png" as reference (DONE)
 		
-		masterLayer = mathGame.getMasterPane();
+		masterLayer = MathGame.getMasterPane();
 		
 		// background = mathGame.getImage(mathGame.getDocumentBase(), imageFile);
 		background = new ImageIcon(OperationPanel.class.getResource(IMAGE_FILE));
@@ -81,7 +84,11 @@ public class OperationPanel extends JPanel
 		} else if (op.equals("divide")) {
 			divide.setBounds(200, 160, 40, 40);
 			masterLayer.add(divide, new Integer(1));
+		} else if (op.equals("exponent")) {
+			exponent.setBounds(260, 160, 40, 40);
+			masterLayer.add(exponent, new Integer(1));
 		}
+		//TODO EXPONENT: Add the exponent card (DONE)
 	}
 	
 	@Override

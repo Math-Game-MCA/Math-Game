@@ -2,7 +2,12 @@ package com.mathgame.menus;
 
 import javax.swing.*;
 
+import com.mathgame.guicomponents.GameButton;
+import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.math.MathGame;
+import com.mathgame.math.TypeManager;
+import com.mathgame.math.TypeManager.Difficulty;
+import com.mathgame.math.TypeManager.GameType;
 import com.mathgame.network.Game;
 import com.mathgame.network.GameManager;
 
@@ -10,6 +15,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,125 +28,83 @@ import java.util.Map;
  */
 public class HostMenu extends JPanel implements ActionListener {
 
-	//TODO Link variables from menu to other variables (i.e. difficulty & number type variables)
-	//TODO Work on actions to put choice into var 
 	//TODO Get user input for name of game & create the location to do that
 	
 	private static final long serialVersionUID = -5507870440809320516L;
 	
-	static MathGame mathGame;
-	MultiMenu multiMenu;
+	private MultiMenu multiMenu;
 	
-	int players; // # of players (currently 2)
-	int rounds; // # of rounds (1-5)
-	String type; // number type (Fraction, Decimal, Integer)
-	String scoring; // scoring (Complexity, Speed, Mix)
-	String diff; // difficulty (easy, Medium, HARD)
-
-	static final int BUTTON_WIDTH = 130;
-	static final int BUTTON_HEIGHT = 30;
+	private int players; // # of players (currently 2)
+	private int rounds; // # of rounds (1-5)
+	//private String type; // number type (Fraction, Decimal, Integer)
+	private String scoring; // scoring (Complexity, Speed, Mix)
+	private String diff; // difficulty (easy, Medium, HARD)
 	
-	static final String BACKGROUND_FILE = "/images/background2.png";
-	static final String BUTTON_IMAGE_FILE = "/images/MenuButtonImg1.png";
-	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/MenuButtonImg2.png";
-	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/MenuButtonImg3.png";
+	private static final String BACKGROUND_FILE = "/images/background2.png";
 	
-	static ImageIcon background;
-	static ImageIcon buttonImage;
-	static ImageIcon buttonRollOverImage;
-	static ImageIcon buttonPressedImage;
-	
-	private static final Font eurostile24 = new Font("Eurostile", Font.PLAIN, 24);
+	private static ImageIcon background;
 	
 	static {
-		// Image initialization
-		background = new ImageIcon(OptionMenu.class.getResource(BACKGROUND_FILE));
-		buttonImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_IMAGE_FILE));
-		buttonRollOverImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
-		buttonPressedImage = new ImageIcon(OptionMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
+		background = new ImageIcon(HostMenu.class.getResource(BACKGROUND_FILE));
 	}
 	
-	ButtonGroup diffGroup; // Easy, Medium, Hard
-	ButtonGroup scoringGroup; // Complexity, Speed, Mix
-	ArrayList<JCheckBox> types; // Integer, Decimal, Fraction (To be added: Negative, Exponents, Log)
-	ArrayList<JRadioButton> diffs;
-	ArrayList<JRadioButton> scorings;
+	private ButtonGroup diffGroup; // Easy, Medium, Hard
+	private ButtonGroup scoringGroup; // Complexity, Speed, Mix
+	private ArrayList<JCheckBox> types; // Integer, Decimal, Fraction (To be added: Negative, Exponents, Log)
+	private ArrayList<JRadioButton> diffs;
+	private ArrayList<JRadioButton> scorings;
 	
-	//TODO Make these strings in MathGame class for use in all classes
-	String[] typeNames = {"Integer", "Decimal", "Fraction"};
-	String[] diffNames = {"Easy", "Medium", "Hard"};
-	String[] scoringNames = {"Complexity", "Speed", "Mix"}; // Mixed scoring is a combination of speed and complexity
+	private JSpinner roundsSpinner; // Displaying number of rounds
+	// private JSpinner playersSpinner; // Displaying number of players
+	private SpinnerNumberModel roundsModel;
+	private SpinnerNumberModel playersModel;
 	
-	JSpinner roundsSpinner; // Displaying number of rounds
-	// JSpinner playersSpinner; // Displaying number of players
-	SpinnerNumberModel roundsModel;
-	SpinnerNumberModel playersModel;
-	
-	Map<String, JToggleButton> buttonMap; // Associate buttons with their names for easy locating
+	private Map<String, JToggleButton> buttonMap; // Associate buttons with their names for easy locating
 	
 	// JPanel playerPanel;
-	JPanel scoringPanel;
-	JPanel roundPanel;
-	JPanel typePanel;
-	JPanel diffPanel;
+	private JPanel scoringPanel;
+	private JPanel roundPanel;
+	private JPanel typePanel;
+	private JPanel diffPanel;
 	
-	JLabel playersLabel;
-	JLabel scoringLabel;
-	JLabel typeLabel;
-	JLabel roundLabel;
-	JLabel diffLabel;
+	// private JLabel playersLabel;
+	private JLabel scoringLabel;
+	private JLabel typeLabel;
+	private JLabel roundLabel;
+	private JLabel diffLabel;
 	
-	JButton cancel;
-	JButton finish;
+	private GameButton cancel;
+	private GameButton finish;
 	
-	GridBagConstraints gbc;
+	private GridBagConstraints gbc;
+	
+	public static Thread waitForPlayer;
 
-	public HostMenu(MathGame mg) {
+	public HostMenu() {
 		
 		this.setLayout(new GridBagLayout());
-		mathGame = mg;
-		multiMenu = (MultiMenu)(mathGame.getMenu(MathGame.Menu.MULTIMENU));
+		multiMenu = (MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU));
 		//TODO Use typemanager?
 		
 		// Set size
 		Dimension size = getPreferredSize();
-		size.width = mathGame.getWidth();
-		size.height = mathGame.getHeight();
+		size.width = MathGame.getAppWidth();
+		size.height = MathGame.getAppHeight();
 		setPreferredSize(size);
 		
 		gbc = new GridBagConstraints();
 		
-		playersLabel = new JLabel("# Players:");
+		// playersLabel = new JLabel("# Players:");
 		scoringLabel = new JLabel("Scoring:");
 		typeLabel = new JLabel("Number Type:");
 		roundLabel = new JLabel("# Rounds:");
 		diffLabel = new JLabel("Difficulty:");
 		
-		finish = new JButton("Finish");
-		finish.setFont(eurostile24);
-	    finish.setHorizontalTextPosition(JButton.CENTER);
-	    finish.setVerticalTextPosition(JButton.CENTER);
-	    finish.setBorderPainted(false);
-	    finish.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		finish = new GameButton("Finish");
 		finish.addActionListener(this);
-		cancel = new JButton("Cancel");
-		cancel.setFont(eurostile24);
-	    cancel.setHorizontalTextPosition(JButton.CENTER);
-	    cancel.setVerticalTextPosition(JButton.CENTER);
-	    cancel.setBorderPainted(false);
-	    cancel.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		
+		cancel = new GameButton("Cancel");
 		cancel.addActionListener(this);
-
-		try {
-		    finish.setIcon(buttonImage);
-		    finish.setRolloverIcon(buttonRollOverImage);
-		    finish.setPressedIcon(buttonPressedImage);
-		    cancel.setIcon(buttonImage);
-		    cancel.setRolloverIcon(buttonRollOverImage);
-		    cancel.setPressedIcon(buttonPressedImage);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 		
 		// Button creation
 		buttonMap = new HashMap<String, JToggleButton>();
@@ -151,23 +115,24 @@ public class HostMenu extends JPanel implements ActionListener {
 		initRoundPanel();
 		initScoringPanel();
 		
-		gbc.gridx = 0;
-		gbc.gridy = 0;
+		// gbc.gridx = 0;
+		// gbc.gridy = 0;
 		// add(playerPanel, gbc);
+		gbc.insets = new Insets(5, 5, 5, 5);
 		gbc.gridx = 0;
-		gbc.gridy = 1;
+		gbc.gridy = 0;
 		add(typePanel, gbc);
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		add(diffPanel, gbc);
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		add(roundPanel, gbc);
+		add(diffPanel, gbc);
+		gbc.gridx = 2;
+		gbc.gridy = 0;
+		add(scoringPanel, gbc);
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		add(scoringPanel, gbc);
+		add(roundPanel, gbc);
 
-		gbc.gridx = 1;
+		gbc.gridx = 0;
 		gbc.gridy = 2;
 		add(finish, gbc);
 		gbc.gridx = 2;
@@ -185,9 +150,9 @@ public class HostMenu extends JPanel implements ActionListener {
 		playerPanel = new JPanel();
 		playersModel = new SpinnerNumberModel(2, 2, 6, 1); // 2 to 6 players, default 2
 		playersSpinner = new JSpinner(playersModel);
-		playersSpinner.setFont(eurostile24);
+		playersSpinner.setFont(MathGame.eurostile24);
 		playersLabel = new JLabel("# Players:");
-		playersLabel.setFont(eurostile24);
+		playersLabel.setFont(MathGame.eurostile24);
 		playerPanel.add(playersLabel);
 		playerPanel.add(playersSpinner);
 	}*/
@@ -197,19 +162,22 @@ public class HostMenu extends JPanel implements ActionListener {
 	 */
 	private void initTypePanel() {
 		types = new ArrayList<JCheckBox>();
-		for(String s : typeNames) {
-			types.add(new JCheckBox(s));
+		for(GameType s : TypeManager.GameType.values()) {
+			types.add(new JCheckBox(s.gameTypeString));
 		}
 		typePanel = new JPanel();
 		typeLabel = new JLabel("Number Type:");
-		typeLabel.setFont(eurostile24);
+		typeLabel.setFont(MathGame.eurostile36);
+		typeLabel.setForeground(MathGame.offWhite);
 		typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.PAGE_AXIS));
 		typePanel.add(typeLabel);
 		typePanel.setOpaque(false);
 		for(int i = 0; i < types.size(); i++) {
+			types.get(i).setFont(MathGame.eurostile24);
+			types.get(i).setForeground(MathGame.offWhite);
 			typePanel.add(types.get(i));
-			buttonMap.put(typeNames[i], types.get(i));
-			types.get(i).setActionCommand(typeNames[i]);
+			buttonMap.put(TypeManager.GameType.values()[i].gameTypeString, types.get(i));
+			types.get(i).setActionCommand(TypeManager.GameType.values()[i].gameTypeString);
 			types.get(i).setOpaque(false);
 			// types.get(i).addActionListener(this);
 		}
@@ -220,21 +188,24 @@ public class HostMenu extends JPanel implements ActionListener {
 	 */
 	private void initDiffPanel() {
 		diffs = new ArrayList<JRadioButton>();
-		for(String s : diffNames) {
-			diffs.add(new JRadioButton(s));
+		for(TypeManager.Difficulty s : TypeManager.Difficulty.values()) {
+			diffs.add(new JRadioButton(s.difficultyString));
 		}
 		diffPanel = new JPanel();
 		diffGroup = new ButtonGroup();
 		diffLabel = new JLabel("Difficulty:");
-		diffLabel.setFont(eurostile24);;
+		diffLabel.setFont(MathGame.eurostile36);
+		diffLabel.setForeground(MathGame.offWhite);
 		diffPanel.setLayout(new BoxLayout(diffPanel, BoxLayout.PAGE_AXIS));
 		diffPanel.add(diffLabel);
 		diffPanel.setOpaque(false);
 		for(int i = 0; i < diffs.size(); i++) {
+			diffs.get(i).setFont(MathGame.eurostile24);
+			diffs.get(i).setForeground(MathGame.offWhite);
 			diffGroup.add(diffs.get(i));
 			diffPanel.add(diffs.get(i));
-			buttonMap.put(diffNames[i], diffs.get(i));
-			diffs.get(i).setActionCommand(diffNames[i]);
+			buttonMap.put(TypeManager.Difficulty.values()[i].difficultyString, diffs.get(i));
+			diffs.get(i).setActionCommand(TypeManager.Difficulty.values()[i].difficultyString);
 			diffs.get(i).setOpaque(false);
 			// diffs.get(i).addActionListener(this);
 		}
@@ -248,9 +219,9 @@ public class HostMenu extends JPanel implements ActionListener {
 		// Choose from 1 to 5 rounds, with a default of 3 rounds
 		roundsModel = new SpinnerNumberModel(3, 1, 5, 1);
 		roundsSpinner = new JSpinner(roundsModel);
-		roundsSpinner.setFont(eurostile24);
+		roundsSpinner.setFont(MathGame.eurostile36);
 		roundLabel = new JLabel("# Rounds:");
-		roundLabel.setFont(eurostile24);
+		roundLabel.setFont(MathGame.eurostile36);
 		roundPanel.add(roundLabel);
 		roundPanel.add(roundsSpinner);
 	}
@@ -260,21 +231,24 @@ public class HostMenu extends JPanel implements ActionListener {
 	 */
 	private void initScoringPanel()	{
 		scorings = new ArrayList<JRadioButton>();
-		for(String s : scoringNames) {
+		for(String s : MathGame.scorings) {
 			scorings.add(new JRadioButton(s));
 		}
 		scoringPanel = new JPanel();
 		scoringGroup = new ButtonGroup();
 		scoringPanel.setLayout(new BoxLayout(scoringPanel, BoxLayout.PAGE_AXIS));
 		scoringLabel = new JLabel("Scoring:");
-		scoringLabel.setFont(eurostile24);
+		scoringLabel.setFont(MathGame.eurostile36);
+		scoringLabel.setForeground(MathGame.offWhite);
 		scoringPanel.add(scoringLabel);
 		scoringPanel.setOpaque(false);
 		for(int i = 0; i < scorings.size(); i++) {
+			scorings.get(i).setFont(MathGame.eurostile24);
+			scorings.get(i).setForeground(MathGame.offWhite);
 			scoringGroup.add(scorings.get(i));
 			scoringPanel.add(scorings.get(i));
-			buttonMap.put(scoringNames[i], scorings.get(i));
-			scorings.get(i).setActionCommand(scoringNames[i]);
+			buttonMap.put(MathGame.scorings[i], scorings.get(i));
+			scorings.get(i).setActionCommand(MathGame.scorings[i]);
 			scorings.get(i).setOpaque(false);
 			// scorings.get(i).addActionListener(this);
 		}
@@ -282,61 +256,133 @@ public class HostMenu extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == finish)	{
-			addGame();
-			mathGame.getCardPanel().hideCards(); // Hide cards until next player joins
-			mathGame.showMenu(MathGame.Menu.GAME); // Go to the game (but should it wait?)
-			Thread waitForPlayer = new Thread()	{
-					public void run() {
-						while(!mathGame.getGameManager().gameFilled()) {
-							System.out.println("waiting"); // Wait until the game is filled
-						}
-						mathGame.getCardPanel().showCards();
-						mathGame.getSidePanel().startTimer(type);
-						mathGame.getSidePanel().setUpMultiplayer();
-						mathGame.getGameManager();
-						
-						//Get the names of the other players
-						int numPlayers = mathGame.getGameManager().getGame().getNumberOfPlayers();
-						for(int i=1; i<=numPlayers; i++)
-						{							
-							mathGame.getGameManager().getGame().addPlayer(GameManager.getMatchesAccess().getPlayerName(mathGame.getGameManager().getGame().getID(), i));
-						}
+			//check to make sure at least 1 checkbox is selected for game type
+			boolean noSelected = true;
+			for(JCheckBox cb : types)	{
+				if(cb.isSelected())	{
+					noSelected = false;
+					break;
+				}
+			}
+			if(noSelected)	{
+				GameDialogFactory.showGameMessageDialog(this, "Error", "Please select a game type.", GameDialogFactory.OK);
+			} else	{
+				System.out.println("GAMESTATE: "+ MathGame.getGameState());
+				if(MathGame.getGameState() == MathGame.GameState.PRACTICE)
+					try {
+						startPractice();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-			};
-			waitForPlayer.start();
-			mathGame.getUser().setPlayerID(1);
+				else if(MathGame.getGameState() == MathGame.GameState.COMPETITIVE)
+					try {
+						startMultiplayer();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
 		}
 		else if(e.getSource() == cancel) {
-			mathGame.showMenu(MathGame.Menu.MULTIMENU); // Return to the multiplayer menu
+			MathGame.showMenu(MathGame.Menu.MULTIMENU); // Return to the multiplayer menu
 		}
 	}
 	
 	/**
-	 * Adds a new game
+	 * Changes layout for practice
 	 */
-	public void addGame() {
+	public void configurePractice()	{
+		roundPanel.setVisible(false);
+	}
+	
+	/**
+	 * Changes layout for multiplayer
+	 */
+	public void configureMultiplayer()	{
+		roundPanel.setVisible(true);
+	}
+	
+	/**
+	 * Sets the Type of game and difficulty chosen by user into typemanager
+	 */
+	private void setGameType()	{
+		/*type = TypeManager.GameType.INTEGERS.gameTypeString;
+		MathGame.getTypeManager().setType(GameType.INTEGERS);//default, otherwise change below
+		MathGame.getTypeManager().setDiff(Difficulty.EASY);//default, otherwise change below*/
+		MathGame.getTypeManager().clearType();
+		for(GameType g : GameType.values())	{
+			if(buttonMap.get(g.gameTypeString).isSelected())	{
+				MathGame.getTypeManager().addType(g);
+			}
+		}
+		diff = diffGroup.getSelection().getActionCommand();
+		scoring = scoringGroup.getSelection().getActionCommand();
+		MathGame.getTypeManager().setDiff(diff);
+	}
+	
+	/**
+	 * Starts a practice game (single player)
+	 * @throws Exception 
+	 */
+	private void startPractice() throws Exception	{
+		setGameType();
+		MathGame.getTypeManager().randomize();
+		System.out.println("ENTER GAME");
+		MathGame.showMenu(MathGame.Menu.GAME);
+		MathGame.getSidePanel().startTimer(scoring);
+	}
+	
+	/**
+	 * Starts a multiplayer game
+	 * @throws Exception 
+	 */
+	private void startMultiplayer() throws Exception	{
+		addGame();
+		MathGame.getCardPanel().hideCards(); // Hide cards until next player joins
+		System.out.println("ENTER GAME");
+		MathGame.showMenu(MathGame.Menu.GAME); // Go to the game (but should it wait?)
+		waitForPlayer = new Thread()	{
+				public void run() {
+					while(!MathGame.getGameManager().gameFilled()) {
+						System.out.println("waiting"); // Wait until the game is filled
+						System.out.println("Cnct?1 :" + MathGame.dbConnected);
+						if(MathGame.dbConnected == false)
+						{
+							this.interrupt();
+							break;
+						}
+					}
+					if(this.isInterrupted())
+						return;
+					MathGame.getCardPanel().showCards();
+					MathGame.getSidePanel().startTimer(scoring);
+					MathGame.getSidePanel().setUpMultiplayer();
+					
+					//Get the names of the other players
+					int numPlayers = MathGame.getGameManager().getGame().getNumberOfPlayers();
+					for(int i=1; i<=numPlayers; i++)
+					{							
+						MathGame.getGameManager().getGame().addPlayer(GameManager.getMatchesAccess().getPlayerName(MathGame.getGameManager().getGame().getID(), i));
+					}
+				}
+			
+		};
+		waitForPlayer.start();
+		MathGame.getUser().setPlayerID(1);
+	}
+	
+	/**
+	 * Adds a new game
+	 * @throws Exception 
+	 */
+	public void addGame() throws Exception {
 		this.setVisible(false);
 		// players = (Integer) playersSpinner.getModel().getValue();
 		players = 2;
 		rounds = (Integer) roundsSpinner.getModel().getValue();
-		diff = diffGroup.getSelection().getActionCommand();
-		scoring = scoringGroup.getSelection().getActionCommand();
-
-		//TODO Set capability for multiple (instead of first one picked)
-		if(buttonMap.get("Integer").isSelected()) {
-			multiMenu.chooseInteger();
-			type = "Integer";
-		} else if(buttonMap.get("Decimal").isSelected()) {
-			multiMenu.chooseDecimal();	
-			type = "Decimal";
-		} else if(buttonMap.get("Fraction").isSelected())	{
-			multiMenu.chooseFraction();
-			type = "Fraction";
-		} else {
-			// The default game type is "Integer" (for now)
-			multiMenu.chooseInteger();
-			type = "Integer";
-		}
+		
+		setGameType();
 		
 		// Etc.
 		System.out.println("MULTIPLAYER GAME SPECS: "								
@@ -344,15 +390,14 @@ public class HostMenu extends JPanel implements ActionListener {
 				+ "\n\tROUNDS: "+rounds
 				+ "\n\tDIFF: "+diff
 				+ "\n\tSCORING: "+scoring
-				+ "\n\tTYPE: "+type
+				+ "\n\tTYPE: "+MathGame.getTypeManager().getType().toString()
 				+ "\n\tNUMPLAYERS: "+players);
 		
-		multiMenu.addGame(new Game(-1, players, type, scoring, diff, rounds));
+		multiMenu.addGame(new Game(-1, players, MathGame.getTypeManager().getType().toString(), scoring, diff, rounds));
 		
-		mathGame.getTypeManager().setType(type);
-		mathGame.getTypeManager().randomize();
+		MathGame.getTypeManager().randomize();
 		// FOR DEBUGGING PURPOSES ONLY: 
-		mathGame.showMenu(MathGame.Menu.MULTIMENU);
+		//MathGame.showMenu(MathGame.Menu.MULTIMENU);
 		//TODO Go directly to game and make sure game waits for another player
 		System.out.println("CREATED NEW GAME");
 	}

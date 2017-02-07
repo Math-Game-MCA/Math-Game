@@ -6,27 +6,28 @@ import com.mathgame.database.MatchesAccess;
 import com.mathgame.math.MathGame;
 
 /**
- *  The GameManager class holds the details (specs) for multiplayer games
+ *  The GameManager class holds the specifications for multiplayer games
  */
 public class GameManager {	
 	private Game game;
 	
-	@SuppressWarnings("unused")
-	private int score; // Current running total score of player //TODO Use this variable
+	@SuppressWarnings("unused") //TODO Use this variable
+	private int score; // Current running total score of player
 	
 	static MatchesAccess matchesAccess;
-	static MathGame mathGame;
 	
 	private ArrayList<Integer> scores; // The scores of all players (in the order of what's in database (i.e. 1 is the host and not necessarily 'this' player)
 	
-	@SuppressWarnings("unused")
-	private int currentRound; //TODO Use this variable
+	@SuppressWarnings("unused") //TODO Use this variable
+	private int currentRound;
 
-	public GameManager(MathGame mathGame) {
-		GameManager.mathGame = mathGame;
-		matchesAccess = new MatchesAccess(mathGame, mathGame.getMySQLAccess().getConnection());
+	public GameManager() {
+		matchesAccess = new MatchesAccess(MathGame.getMySQLAccess().getConnection());
 		
-		scores = new ArrayList<Integer>(2); // game.getNumberOfPlayers()); // Game is not initialized yet
+		scores = new ArrayList<Integer>(2);
+		
+		// game.getNumberOfPlayers());
+		// But, game is not initialized yet
 	}
 	
 	/*
@@ -36,8 +37,8 @@ public class GameManager {
 	*/
 	
 	/**
-	 * Adds the round score(s) to the cumulative score, along with the latest player score
-	 * @param score - The (user) score to update
+	 * Adds the round score to the cumulative score, along with the latest player score
+	 * @param score - The round score to add
 	 */
 	public void updateScores(int score)	{
 		matchesAccess.updateScore(score);
@@ -87,7 +88,7 @@ public class GameManager {
 	}
 
 
-	/**
+	/**     
 	 * @return The current Game
 	 */
 	public Game getGame() {
@@ -101,19 +102,21 @@ public class GameManager {
 	public void setGame(Game game) {
 		this.game = game;
 		
-		// return matchesAccess.hostGame(); // Let the game begin! Er... well, when the other player gets here
+		// return matchesAccess.hostGame();
+		// Let the game begin! Er... well, when the other player gets here
 	}
 	
 	/**
 	 * Hosts a new game
-	 * @return The match number (ID?) of the new game (from the database)
+	 * @return The match number ID(?) of the new game (from the database)
 	 */
 	public int hostGame() {
 		return matchesAccess.hostGame();
 	}
 	
 	/**
-	 * Join a game (of the given gameID) that is being hosted
+	 * Join the specified game that is being hosted
+	 * @param gameID - The ID of the game to be joined
 	 */
 	public void joinGame(int gameID) {
 		matchesAccess.joinGame(gameID);
@@ -129,7 +132,7 @@ public class GameManager {
 	
 	/**
 	 * Checks whether the game is full (yet)
-	 * @return Whether the game is filled (true) or not
+	 * @return True if the game is filled
 	 */
 	public Boolean gameFilled()	{
 		return matchesAccess.checkForFullGame();

@@ -8,13 +8,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.lang.*;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import com.mathgame.guicomponents.GameButton;
 import com.mathgame.math.MathGame;
 import com.mathgame.math.SoundManager;
 
@@ -28,39 +30,31 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	
 	private static final long serialVersionUID = -3036828086937465893L;
 	
-	MathGame mathGame;
+	private static final String IMAGE_FILE = "/images/backb.png";
 	
-	static final String IMAGE_FILE = "/images/backa.png";
-	static final String BUTTON_IMAGE_FILE = "/images/MenuButtonImg1.png";
-	static final String BUTTON_ROLLOVER_IMAGE_FILE = "/images/MenuButtonImg2.png";
-	static final String BUTTON_PRESSED_IMAGE_FILE = "/images/MenuButtonImg3.png";
-	static final int BUTTON_WIDTH = 130;
-	static final int BUTTON_HEIGHT = 30;
-	ImageIcon background;
-	ImageIcon buttonImage;
-	ImageIcon buttonRollOverImage;
-	ImageIcon buttonPressedImage;
+	private ImageIcon background;
 	
 	// Mouse coordinates
-	int mx;
-	int my;
+	private int mx;
+	private int my;
 	
-	JButton enter; // Press to enter the game;
-	JButton help; // Press for game help
-	JButton about; // Press for "stuff"
-	JButton exit; // Press to leave game :(
+	private GameButton enter; // Press to enter the game;
+	private GameButton help; // Press for game help
+	private GameButton about; // Press for "stuff"
+	private GameButton exit; // Press to leave game :(
+	private JButton sound; // Press to mute/unmute
 	
 	// JLabel epsilon; // Self-explanatory
-	JPanel carda;
-	JPanel cardb;
-	JPanel cardc;
-	JPanel cardd;
-	JTextArea infoa;
-	JTextArea infob;
-	JTextArea infoc;
-	JTextArea infod;
+	private JPanel carda;
+	private JPanel cardb;
+	private JPanel cardc;
+	private JPanel cardd;
+	private JTextArea infoa;
+	private JTextArea infob;
+	private JTextArea infoc;
+	private JTextArea infod;
 
-	public void init(MathGame mg) {
+	public void init() {
 		
 		this.setLayout(null);
 		Dimension size = getPreferredSize();
@@ -68,67 +62,32 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		size.height = 620;
 		setPreferredSize(size);
 		
-		mathGame = mg;
-		
-		background = new ImageIcon(MainMenu.class.getResource(IMAGE_FILE));
-		buttonImage = new ImageIcon(MainMenu.class.getResource(BUTTON_IMAGE_FILE));
-		buttonRollOverImage = new ImageIcon(MainMenu.class.getResource(BUTTON_ROLLOVER_IMAGE_FILE));
-		buttonPressedImage = new ImageIcon(MainMenu.class.getResource(BUTTON_PRESSED_IMAGE_FILE));
 		background = new ImageIcon(MainMenu.class.getResource(IMAGE_FILE));
 		
-		
-		// Font titleFont = new Font("Arial", Font.BOLD, 36);
-		Font buttonFont = new Font("Arial", Font.PLAIN, 20);
 		Font infoFont = new Font("Arial", Font.BOLD, 12);
 		
-		// epsilon = new JLabel("Epsilon");
-		// epsilon.setFont(titleFont);
-		// epsilon.setBounds(185, 205, 130, 60);
-		
-		enter = new JButton("Enter");
-		enter.setFont(buttonFont);
-		enter.setBounds(105, 335, BUTTON_WIDTH, BUTTON_HEIGHT);
-	    enter.setHorizontalTextPosition(JButton.CENTER);
-	    enter.setVerticalTextPosition(JButton.CENTER);
-	    enter.setBorderPainted(false);
+		enter = new GameButton("Enter");
+		enter.setLocation(105, 335);
 	    
-		help = new JButton("Help");
-		help.setFont(buttonFont);
-		help.setBounds(295, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
-	    help.setHorizontalTextPosition(JButton.CENTER);
-	    help.setVerticalTextPosition(JButton.CENTER);
-	    help.setBorderPainted(false);
+		help = new GameButton("Help");
+		help.setLocation(295, 335);
 	    
-		about = new JButton("About");
-		about.setFont(buttonFont);
-		about.setBounds(490, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
-	    about.setHorizontalTextPosition(JButton.CENTER);
-	    about.setVerticalTextPosition(JButton.CENTER);
-	    about.setBorderPainted(false);
+		about = new GameButton("About");
+		about.setLocation(490, 335);
 	    
-		exit = new JButton("Exit");
-		exit.setFont(buttonFont);
-		exit.setBounds(672, 335,  BUTTON_WIDTH, BUTTON_HEIGHT);
-	    exit.setHorizontalTextPosition(JButton.CENTER);
-	    exit.setVerticalTextPosition(JButton.CENTER);
-	    exit.setBorderPainted(false);
-		
-		try {
-		    enter.setIcon(buttonImage);
-		    enter.setRolloverIcon(buttonRollOverImage);
-		    enter.setPressedIcon(buttonPressedImage);
-		    help.setIcon(buttonImage);
-		    help.setRolloverIcon(buttonRollOverImage);
-		    help.setPressedIcon(buttonRollOverImage);
-		    about.setIcon(buttonImage);
-		    about.setRolloverIcon(buttonRollOverImage);
-		    about.setPressedIcon(buttonRollOverImage);
-		    exit.setIcon(buttonImage);
-		    exit.setRolloverIcon(buttonRollOverImage);
-		    exit.setPressedIcon(buttonPressedImage);
+		exit = new GameButton("Exit");
+		exit.setLocation(672, 335);
+	    
+	    sound = new JButton();
+		sound.setBounds(15, 15, SoundManager.currentVolumeButtonImage().getIconWidth(), SoundManager.currentVolumeButtonImage().getIconHeight());
+	    sound.setBorderPainted(true);
+	    
+	    try	{
+		    sound.setIcon(SoundManager.currentVolumeButtonImage());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		
 		//TODO Get the text in the label to wrap if it is longer than the label width.
 		
 		// Info Box for Enter Box
@@ -189,6 +148,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		add(help);
 		add(about);
 		add(exit);
+		add(sound);
 
 		add(carda);
 		add(cardb);
@@ -209,37 +169,43 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 		exit.addActionListener(this);
 		exit.addMouseMotionListener(this);
 		exit.addMouseListener(this);
+		sound.addActionListener(this);
 		
 		// get username before playing
-		getUser();
+		//getUser();//superseded by login menu
 		
-		System.out.println("Menu Init Complete");
-	}
-	
-	/**
-	 * Prompts the user for their username
-	 */
-	public void getUser() {
-		String name = JOptionPane.showInputDialog(this, "User Name");
-		System.out.println("user name is " + name);
-		mathGame.getUser().setName(name);
+		System.out.println("MainMenu Init Complete");
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() instanceof JButton) {
+		if (e.getSource() instanceof GameButton) {
 			SoundManager.playSound(SoundManager.SoundType.BUTTON);
 		}
 		
-		if(e.getSource() == enter) {
+		if (e.getSource() == enter) {
+			
+			/*
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}*/
 			startGame();
+			SoundManager.playSound(SoundManager.SoundType.WAIT);
+			System.out.println("Looping wait music");		
 		}
 		// else if(e.getSource() == help)
 			// helpbox();
 		// else if(e.getSource() == about)
 			// aboutinfo();
 
-		else if(e.getSource() == exit) {
+		else if (e.getSource() == exit) {
 			exit();
+		}
+		
+		else if (e.getSource() == sound) {
+			sound.setIcon(SoundManager.volumeButtonPressed());
 		}
 	}
 	
@@ -269,8 +235,11 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 			mathGame.multimenu.addThisUser();
 		}
 		//mathGame.cl.show(mathGame.cardLayoutPanels, mathGame.SUBMENU);*/
-		
-		mathGame.showMenu(MathGame.Menu.OPTIONMENU);
+		if(!MathGame.getTypeManager().isOffline())	{
+			((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshDatabase();
+			((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshTimer.start();
+		}
+		MathGame.showMenu(MathGame.Menu.MULTIMENU);
 		System.out.println("ENTER GAME");
 	}
 	
@@ -335,7 +304,8 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 	 */
 	public void exit() {
 		//TODO Decide on exit implementation (perhaps show an html webpage "thanks for playing")?
-		JOptionPane.showMessageDialog(this, "Game cannot exit from this button yet. Please use the x button @ top right", null, JOptionPane.WARNING_MESSAGE, null);
+		//Perhaps turn this into a Log-off button?
+		//JOptionPane.showMessageDialog(this, "Game cannot exit from this button yet. Please use the x button @ top right", null, JOptionPane.WARNING_MESSAGE, null);
 	}
 	
 	@Override
@@ -381,7 +351,7 @@ public class MainMenu extends JPanel implements ActionListener, MouseMotionListe
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		System.out.println("Mouse Exited Button");
+		//System.out.println("Mouse Exited Button");
 		hideInfo();
 		if(e.getSource() == help)	{
 			// info.setText("Welcome to Epsilon, the mathematical card game!");

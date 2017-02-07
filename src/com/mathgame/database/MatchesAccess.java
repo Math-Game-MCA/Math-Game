@@ -7,8 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
+import com.mathgame.guicomponents.GameDialogFactory;
 import com.mathgame.math.MathGame;
+import com.mathgame.menus.HostMenu;
+import com.mathgame.menus.MultiMenu;
 import com.mathgame.network.Game;
+import com.mathgame.network.GameManager;
+import javax.swing.JOptionPane;
 
 /**
  * The MatchesAccess class handles interactions with the online matches table
@@ -18,7 +25,6 @@ public class MatchesAccess extends MySQLAccess {
 	
 	private int matchNum = -1;
 	
-	static MathGame mathGame;
 	private Connection connection;
 	private Statement statement = null;
 	
@@ -26,12 +32,10 @@ public class MatchesAccess extends MySQLAccess {
 	private PreparedStatement preparedStatement = null;
 	// private ResultSet resultSet = null;
 	
-	public MatchesAccess(MathGame game, Connection c){
-		mathGame = game;
-		mathGame.getAlignmentX(); //TODO Meaningless statement?
-		
+	public MatchesAccess(Connection c){
+
 		connection = c;
-		
+		System.out.println("GOING TO TRY CONNECTION STATEMENT");
 		try {
 			statement = connection.createStatement();
 		} catch (SQLException e) {
@@ -42,7 +46,7 @@ public class MatchesAccess extends MySQLAccess {
 	
 	public void reconnectStatement() {
 		try {
-			connection = mathGame.getMySQLAccess().getConnection();
+			connection = MathGame.getMySQLAccess().getConnection();
 			statement = connection.createStatement();
 			System.out.println("REDO STATEMENT SUCCESS");
 		} catch (SQLException e) {
@@ -52,18 +56,18 @@ public class MatchesAccess extends MySQLAccess {
 	
 	/**
 	 * Hosts a new game
-	 * @return The match number of the game (given by the database)
+	 * @return The match number ID(?) of the new game (from the database)
 	 */
 	public int hostGame() {
 		
 		try {
 			statement.executeUpdate("INSERT INTO sofiav_mathgame.matches "+ "(Player1, Type, Difficulty, Scoring, NumPlayers, Rounds)" + 
-					" VALUES ('" + mathGame.getUser().getName() + "', '" + mathGame.getGameManager().getGame().getType() + 
-					"', '" + mathGame.getGameManager().getGame().getDiff() + "', '" + mathGame.getGameManager().getGame().getScoring() + "', '" + 
-					mathGame.getGameManager().getGame().getNumberOfPlayers() + "', '"+ mathGame.getGameManager().getGame().getRounds() + "')" );
+					" VALUES ('" + MathGame.getUser().getName() + "', '" + MathGame.getGameManager().getGame().getType() + 
+					"', '" + MathGame.getGameManager().getGame().getDiff() + "', '" + MathGame.getGameManager().getGame().getScoring() + "', '" + 
+					MathGame.getGameManager().getGame().getNumberOfPlayers() + "', '"+ MathGame.getGameManager().getGame().getRounds() + "')" );
 			System.out.println("Created online game");
 			
-			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='" + mathGame.getUser().getName() + "'");
+			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where sofiav_mathgame.matches.Player1='" + MathGame.getUser().getName() + "'");
 
 			resultSet.next();
 			matchNum = resultSet.getInt("ID");	
@@ -93,16 +97,28 @@ public class MatchesAccess extends MySQLAccess {
 				gamesList.add(new Game(resultSet.getInt("ID"), numPlayers, playerNames, resultSet.getString("Type"), resultSet.getString("Scoring"), resultSet.getString("Difficulty"), resultSet.getInt("Rounds")));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			if(e.getSQLState().equals("08S01") || e.getSQLState().equals("08003"))
+			{
+				MathGame.dbConnected = false;
+				System.err.println("DB fail in getCurrentGames()");
+				if(MathGame.getMySQLAccess().displayUserConnectAgain() == true)
+				{			
+					GameManager.getMatchesAccess().reconnectStatement();
+				}
+				return null;
+			}
+			else
+				e.printStackTrace();
 		}
 		
 		return gamesList;
 	}
 	
 	/**
-	 * Joins a game (of the given gameID) that is being hosted
+	 * Join the specified game that is being hosted
+	 * @param gameID - The ID of the game to be joined
 	 */
-	public void joinGame (int gameID) {
+	public void joinGame(int gameID) {
 		try {
 			statement = connection.createStatement();
 		} catch (SQLException e) {
@@ -111,7 +127,7 @@ public class MatchesAccess extends MySQLAccess {
 		
 		try {
 			statement.executeUpdate("Update sofiav_mathgame.matches " + 
-					"set Player2=" + " '"+mathGame.getUser().getName() + "' " + 
+					"set Player2=" + " '"+MathGame.getUser().getName() + "' " + 
 					"where sofiav_mathgame.matches.ID=" + gameID);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -142,7 +158,14 @@ public class MatchesAccess extends MySQLAccess {
 				System.out.println("score"+i+ ":" + score);				
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			if(e.getSQLState().equals("08S01"))
+			{
+				MathGame.dbConnected = false;
+				MathGame.getMySQLAccess().displayUserConnectAgain();
+			}
+			else
+				e.printStackTrace();
+			
 		}
 		
 		return scores;
@@ -150,23 +173,34 @@ public class MatchesAccess extends MySQLAccess {
 	
 	/**
 	 * Update the score of the match
+	 * @param score - The round score to add 
 	 */
-	public void updateScore (int score) {
+	public void updateScore(int score) {
 		try {
 			statement = connection.createStatement();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("state: " + e.getSQLState());
+			
+			if(e.getSQLState().equals("08003"))
+			{
+				MathGame.dbConnected = false;
+				//If the reconnect doesn't work, exit the function
+				if(!MathGame.getMySQLAccess().displayUserConnectAgain())
+					return;
+			}
+			else
+				e.printStackTrace();
 		}
 		
 		try {
 			
-			System.out.println("this id " + mathGame.getUser().getPlayerID());
-			int currentScore = getScores().get(mathGame.getUser().getPlayerID()-1);
+			System.out.println("this id " + MathGame.getUser().getPlayerID());
+			int currentScore = getScores().get(MathGame.getUser().getPlayerID()-1);
 			System.out.println("Current score from db: " + currentScore);
 			int newScore = currentScore + score;
 			System.out.println("round score: " + score + "---New total score: " + newScore);			
 			statement.executeUpdate("Update sofiav_mathgame.matches " + 
-					"set Player"+mathGame.getUser().getPlayerID() + "Score=" + 
+					"set Player"+MathGame.getUser().getPlayerID() + "Score=" + 
 					" '"+ newScore + "' " + 
 					"where sofiav_mathgame.matches.ID=" + matchNum);		
 			
@@ -188,16 +222,18 @@ public class MatchesAccess extends MySQLAccess {
 	}
 	
 	/**
-	 * Checks whether the game is full (yet); if so, start the game
-	 * @return Whether the game is full (true) or not
+	 * Checks whether the game is full (yet) and should be started
+	 * @return True if the game is full
 	 */
 	public boolean checkForFullGame() {
 		try {
 			ResultSet resultSet = statement.executeQuery("select * from sofiav_mathgame.matches where ID=" + matchNum);
 			
 			resultSet.next();
+                      System.out.println(resultSet + " hello");
 			if(!resultSet.getString("Player2").equals("")) {
 				System.out.println("Game is now full and can start");
+                                JOptionPane.showMessageDialog(null, "Full");
 				return true;
 			}
 			/*
@@ -221,7 +257,23 @@ public class MatchesAccess extends MySQLAccess {
 	    	worker.start(); 
 			*/
 		} catch (SQLException e) {
-			e.printStackTrace();
+			if(e.getSQLState().equals("08S01") || e.getSQLState().equals("08003"))
+			{
+				System.out.println("Error in checking for full game");
+				MathGame.dbConnected = false;
+				//HostMenu.waitForPlayer.stop();
+				HostMenu.waitForPlayer.interrupt();
+				System.out.println("Cnct?2 :" + MathGame.dbConnected);
+				
+				System.out.println("Going to show multimenu");
+				MathGame.showMenu(MathGame.Menu.MULTIMENU);
+				System.out.println("Cnct?3 :" + MathGame.dbConnected);
+				
+				((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshDatabase();
+				((MultiMenu)(MathGame.getMenu(MathGame.Menu.MULTIMENU))).refreshTimer.start();
+			}
+			else
+				e.printStackTrace();
 		}
 		
 		return false;
@@ -229,7 +281,7 @@ public class MatchesAccess extends MySQLAccess {
 	
 	/**
 	 * Checks whether both players' scores have been updated
-	 * @return Whether the scores have been updated (true) or not
+	 * @return True if the scores have been updated
 	 */
 	public boolean checkForPlayersScoresUpdated(int currentScore1, int currentScore2) {		
 		try {
@@ -322,8 +374,8 @@ public class MatchesAccess extends MySQLAccess {
 	
 	/**
 	 * @param matchID - Match number
-	 * @param playerID - The id of the player you want (player1, player2....)
-	 * @return name of the player
+	 * @param playerID - The ID of the player you want (player1, player2....)
+	 * @return The name of the player (or "DB Fail" if an exception occurs)
 	 */
 	public String getPlayerName(int matchID, int playerID){
 		try {
@@ -332,7 +384,7 @@ public class MatchesAccess extends MySQLAccess {
 			return resultSet.getString("Player"+playerID);
 		} catch(SQLException e){
 			e.printStackTrace();
+			return "DB Fail";
 		}
-		return "DB Fail";
 	}
 }
