@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+   <meta charset="UTF-8">
+   <title>Math Game | Contact</title>
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
+  <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="CSS/style.css" type="text/css">
+  <link rel='stylesheet' media='screen and (min-width: 1230px) and (max-width: 1380px)' href='CSS/medium.css' />
+  <link rel='stylesheet' media='screen and (min-width: 0px) and (max-width: 1230px)' href='CSS/small.css' />
+  <!-- saved from url=(0014)about:internet -->
+   <!--[if lt IE 8]>
+   <link rel="stylesheet" href="CSS/ie7style.css" type="text/css">
+   <![endif]-->
+   <!--[if gte IE 8]>
+   <link rel="stylesheet" href="CSS/iestyle.css" type="text/css">
+   <link rel='stylesheet' media='screen and (min-width: 1230px) and (max-width: 1380px)' href='CSS/medium.css' />
+   <link rel='stylesheet' media='screen and (min-width: 0px) and (max-width: 1230px)' href='CSS/small.css' />
+   <![endif]-->
+   <script type="text/javascript" src="javascript/respond.src.js"></script>
+    <script src="javascript/jquery.js"></script>
+	<script src="javascript/jquery-ui.js"></script>
+	<script src="javascript/modernizr.js"></script>
+    <script>
+		if (!Modernizr.csstransitions) {
+			$(document).ready(function(){
+				$(".nav").hover(function () {
+					$(this).stop().animate({ backgroundColor: "#454545" },300)
+					}, function() {
+				$(this).stop().animate({ backgroundColor: "#FFFFFF" },300)}   
+				);
+			}); 
+		}	
+    </script>
+  </head>
+  <body>
+   <h1>Math Game</h1>
+   <hr>
+   <div id="nav">
+   <a href="index.html" class="nav">HOME</a>
+   <a href="about.html" class="nav">ABOUT</a>
+   <a href="contact.html" class="nav">CONTACT</a>
+   </div>
+   <hr>
+	<div id="aboutbox">
+	<div class="title">Contact</div>
+	<div class="subtitle">If you have any questions or inqueries, please contact us at:</div><br>
+	<br><p>Email: name@server.com
+	<br><p>Lorem: Ipsum Dolor
+	<br><p>Lorem: Ipsum Dolor
+	<br><p>Lorem: Ipsum Dolor
+	</div>
+  </body>
+ </html>

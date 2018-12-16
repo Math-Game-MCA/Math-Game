@@ -1,0 +1,83 @@
+body {
+	min-width: 800px;
+	max-width:1680px;
+	}
+	
+h1 {
+	text-align: left;
+	font-family: 'Carrois Gothic SC', sans-serif;
+	font-size:900%;
+	color: #454545;
+	margin-top: -5px;
+	margin-bottom: -5px;
+	}
+	
+hr {
+	color: #454545;
+	background-color: #454545;
+	margin-left: 0px;
+	margin-right:100px;
+	margin-top:-1px;
+	margin-bottom:-1px;
+	height: 1px;
+	border:none;
+	}
+	
+#nav {
+	list-style-type: none;
+	width: 330px;
+	margin-left:0px;
+	margin-right:auto;
+	overflow:hidden;
+	}
+	
+a.nav:link,a.nav:visited {	
+	width:100px;
+	text-decoration: none;
+	text-align: center;
+	color: #000000;
+	padding-right: 5px;
+	padding-left: 5px;
+	padding-top: 9px;
+	padding-bottom: 9px;
+	display:block;
+	float: left;
+	}
+	
+a.nav:hover,a.nav:active {
+	color: #ffffff;
+	background-color: #454545;
+	transition: background-color 0.3s, color;
+	-moz-transition: background-color 0.3s, color; 
+	-webkit-transition: background-color 0.3s, color; 
+	-o-transition: background-color 0.3s, color; 
+	transition-timing-function: linear;
+	}
+	
+#game {
+	margin-top:40px;
+	margin-left:0px;
+	position:relative;
+	}
+	
+#instructionsbox {
+	width: 0px;
+	height: 0px;
+	margin-left: 0px;
+	margin-top: 0px;
+	border-left: solid 0px #000000;
+
+	}
+	
+#instructions {
+	width:750px;
+	margin-top: 0px;
+	margin-left:20px;
+	text-align: center;
+	vertical-align:middle;
+	}
+	
+#aboutbox {
+	width:500px;
+	margin-left:0px;
+	}
