@@ -29,7 +29,5 @@ If it is an issue/bug, please supply me with the following information:
 
 ===================================================================
 
-Thank you for reading. I will try to keep Dropbox updated, but the latest version of the site
-will always be at: http://mathgames.egarcia.org/index.html
-
+Thank you for reading.
 ===================================================================
